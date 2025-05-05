@@ -13,10 +13,10 @@ export default function Header() {
           <Link href="/quiz" className="hover:text-accent transition-colors">
             Quizzes
           </Link>
-          {/* Link to future calculator page */}
+          {/* Link to main calculator dashboard page */}
            <Link href="/calculator" className="hover:text-accent transition-colors flex items-center gap-1">
             <Calculator size={16} />
-             Calculator (Soon)
+             Tools
           </Link>
         </div>
       </nav>

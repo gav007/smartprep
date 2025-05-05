@@ -210,12 +210,7 @@ export default function QuizPage() {
             </Card>
           ))}
         </div>
-         {/* Link to future calculator page */}
-         {/* <div className="mt-12 text-center">
-             <Link href="/calculator" className="text-primary hover:underline flex items-center justify-center gap-2">
-               <Calculator size={18} /> Explore Electronics Tools (Coming Soon)
-             </Link>
-           </div> */}
+         {/* Link to calculator dashboard removed as it's in the main header now */}
       </div>
     );
   }
