@@ -69,9 +69,4 @@ export interface ResistorResult {
  resistanceString: string; // Formatted string e.g., "4.7 kΩ"
 }
 
-// Waveform Types Removed as requested
-// export type WaveformType = 'sine' | 'square' | 'triangle';
-// export interface WaveformParams { ... }
-// export interface WaveformDataPoint { ... }
-
 // Centralized ResistorColorMap moved to calculator-utils.ts
