@@ -1,134 +1,1784 @@
 [
   {
-    "type": "MC",
-    "question": "Which protocol is used for secure web browsing?",
-    "options": {
-      "A": "HTTP",
-      "B": "FTP",
-      "C": "HTTPS",
-      "D": "SMTP"
-    },
-    "answer": "C",
-    "feedback": "HTTPS encrypts HTTP traffic using SSL/TLS, providing security."
+      "question": "Which of these signals has infinitely many intensity levels over a period of time?",
+      "options": {
+          "A": "Digital signal",
+          "B": "Analog signal",
+          "C": "Square wave",
+          "D": "Noise signal"
+      },
+      "answer": "B",
+      "feedback": "An analog signal has infinitely many intensity levels within a range."
   },
   {
-    "type": "MC",
-    "question": "What is the default port number for SSH?",
+      "question": "What unit is used to measure frequency?",
+      "options": {
+          "A": "Volt",
+          "B": "Watt",
+          "C": "Hertz",
+          "D": "Ampere"
+      },
+      "answer": "C",
+      "feedback": "Frequency is measured in Hertz (Hz), representing cycles per second."
+  },
+  {
+      "question": "Which signal consists of only two voltage levels alternating in time?",
+      "options": {
+          "A": "Sine wave",
+          "B": "Digital pulse",
+          "C": "Square wave",
+          "D": "Noise signal"
+      },
+      "answer": "C",
+      "feedback": "A square wave alternates between two fixed voltage levels in a regular pattern."
+  },
+  {
+      "question": "What is the primary purpose of Fourier Analysis in signal processing?",
+      "options": {
+          "A": "Amplify weak signals",
+          "B": "Convert digital to analog",
+          "C": "Decompose signals into sine wave components",
+          "D": "Filter out noise"
+      },
+      "answer": "C",
+      "feedback": "Fourier Analysis allows signals to be represented as a sum of sine waves."
+  },
+  {
+      "question": "Which filter type blocks high frequencies and allows low frequencies to pass?",
+      "options": {
+          "A": "Band-stop",
+          "B": "High-pass",
+          "C": "Low-pass",
+          "D": "Notch"
+      },
+      "answer": "C",
+      "feedback": "Low-pass filters allow low frequencies and block high frequencies."
+  },
+  {
+      "question": "How is wavelength related to frequency?",
+      "options": {
+          "A": "Directly proportional",
+          "B": "Unrelated",
+          "C": "Inversely proportional",
+          "D": "Always constant"
+      },
+      "answer": "C",
+      "feedback": "Wavelength decreases as frequency increases. They are inversely related."
+  },
+  {
+      "question": "Which device shows amplitude over time in signal analysis?",
+      "options": {
+          "A": "Spectrum analyser",
+          "B": "Function generator",
+          "C": "Oscilloscope",
+          "D": "Multimeter"
+      },
+      "answer": "C",
+      "feedback": "Oscilloscopes display voltage amplitude over time, useful for time-domain signals."
+  },
+  {
+      "question": "Which signal is typically used for testing analog systems due to its pure frequency?",
+      "options": {
+          "A": "Square wave",
+          "B": "Noise signal",
+          "C": "Pulse signal",
+          "D": "Sinusoidal signal"
+      },
+      "answer": "D",
+      "feedback": "A sinusoidal wave has a single frequency, making it ideal for testing analog circuits."
+  },
+  {
+      "question": "What does the phase of a wave describe?",
+      "options": {
+          "A": "Signal power",
+          "B": "Distance traveled",
+          "C": "Position in time relative to a reference",
+          "D": "Voltage level"
+      },
+      "answer": "C",
+      "feedback": "Phase indicates how much a waveform is shifted in time compared to another."
+  },
+  {
+      "question": "Which filter type would be best to isolate a specific frequency range?",
+      "options": {
+          "A": "Low-pass",
+          "B": "High-pass",
+          "C": "Band-pass",
+          "D": "All-pass"
+      },
+      "answer": "C",
+      "feedback": "A band-pass filter allows only a specific range of frequencies to pass through."
+  },
+  {
+      "question": "What happens to a square wave when passed through a cable with low cutoff frequency?",
+      "options": {
+          "A": "It amplifies",
+          "B": "It reflects",
+          "C": "It gets rounded or distorted",
+          "D": "It becomes faster"
+      },
+      "answer": "C",
+      "feedback": "The higher frequency components are filtered, causing the wave to lose its sharp edges."
+  },
+  {
+      "question": "Which of the following best describes a noise signal?",
+      "options": {
+          "A": "Repeating waveform",
+          "B": "Predictable spikes",
+          "C": "Random variations",
+          "D": "Sinusoidal waveform"
+      },
+      "answer": "C",
+      "feedback": "Noise signals are unpredictable and cause interference in communication systems."
+  },
+  {
+    "question": "What is the main purpose of modulation in communications?",
+    "options": {
+        "A": "Reduce signal noise",
+        "B": "Increase signal power",
+        "C": "Convert analog data to a transmissible signal",
+        "D": "Lower the transmission speed"
+    },
+    "answer": "C",
+    "feedback": "Modulation allows analog data to be converted to a high-frequency signal that can be transmitted."
+},
+{
+    "question": "Why is modulation necessary for radio stations?",
+    "options": {
+        "A": "To increase audio volume",
+        "B": "To prevent interference by separating frequencies",
+        "C": "To make antennas smaller",
+        "D": "To reduce bandwidth"
+    },
+    "answer": "B",
+    "feedback": "Modulation allows each station to transmit on a unique frequency band, avoiding overlap."
+},
+{
+    "question": "What effect does increasing the carrier frequency have on the required antenna size?",
+    "options": {
+        "A": "No effect",
+        "B": "Increases it",
+        "C": "Reduces it",
+        "D": "Doubles it"
+    },
+    "answer": "C",
+    "feedback": "Higher carrier frequencies result in shorter wavelengths, which require smaller antennas."
+},
+{
+    "question": "In AM modulation, what changes in the carrier wave?",
+    "options": {
+        "A": "Frequency",
+        "B": "Amplitude",
+        "C": "Phase",
+        "D": "Bandwidth"
+    },
+    "answer": "B",
+    "feedback": "Amplitude Modulation (AM) varies the amplitude of the carrier wave."
+},
+{
+    "question": "Why is FM modulation more resistant to noise compared to AM?",
+    "options": {
+        "A": "It uses a higher carrier frequency",
+        "B": "It keeps the amplitude constant",
+        "C": "It has wider bandwidth",
+        "D": "It uses digital signals"
+    },
+    "answer": "B",
+    "feedback": "FM receivers are not affected by amplitude changes caused by noise, unlike AM."
+},
+{
+    "question": "In ASK modulation, how is binary data represented?",
+    "options": {
+        "A": "By changing amplitude",
+        "B": "By changing frequency",
+        "C": "By changing phase",
+        "D": "By changing speed"
+    },
+    "answer": "A",
+    "feedback": "ASK (Amplitude Shift Keying) varies the amplitude of the carrier to represent data."
+},
+{
+    "question": "Which modulation technique changes frequency to represent binary data?",
+    "options": {
+        "A": "ASK",
+        "B": "PSK",
+        "C": "FSK",
+        "D": "QAM"
+    },
+    "answer": "C",
+    "feedback": "FSK (Frequency Shift Keying) uses different frequencies to represent binary 0 and 1."
+},
+{
+    "question": "Which digital modulation technique varies the phase of the signal?",
+    "options": {
+        "A": "ASK",
+        "B": "PSK",
+        "C": "FSK",
+        "D": "AM"
+    },
+    "answer": "B",
+    "feedback": "PSK (Phase Shift Keying) encodes information by changing the phase of the carrier wave."
+},
+{
+    "question": "What does QAM combine in one signal?",
+    "options": {
+        "A": "Amplitude and phase variations",
+        "B": "Amplitude and frequency",
+        "C": "Frequency and phase",
+        "D": "Voltage and current"
+    },
+    "answer": "A",
+    "feedback": "QAM (Quadrature Amplitude Modulation) combines amplitude and phase variations."
+},
+{
+    "question": "Which modulation type is used widely in WiFi transmissions?",
+    "options": {
+        "A": "AM",
+        "B": "FM",
+        "C": "QAM",
+        "D": "ASK"
+    },
+    "answer": "C",
+    "feedback": "QAM is commonly used in high-speed data transmission such as WiFi."
+},
+{
+        "question": "What is the purpose of twisting the pairs in twisted-pair cables?",
+        "options": {
+            "A": "To reduce voltage",
+            "B": "To increase data speed",
+            "C": "To cancel electromagnetic interference",
+            "D": "To improve flexibility"
+        },
+        "answer": "C",
+        "feedback": "Twisting helps cancel out electromagnetic interference by balancing the currents in the wires."
+    },
+    {
+        "question": "Which Ethernet cable category is considered obsolete and primarily used for phones?",
+        "options": {
+            "A": "Cat5e",
+            "B": "Cat3",
+            "C": "Cat6a",
+            "D": "Cat7"
+        },
+        "answer": "B",
+        "feedback": "Cat3 is obsolete and was originally used for telephone lines and 10BASE-T Ethernet."
+    },
+    {
+        "question": "What is the maximum speed supported by Cat5e cable?",
+        "options": {
+            "A": "100 Mbps",
+            "B": "1 Gbps",
+            "C": "10 Gbps",
+            "D": "40 Gbps"
+        },
+        "answer": "B",
+        "feedback": "Cat5e supports up to 1 Gbps (Gigabit Ethernet)."
+    },
+    {
+        "question": "Which cable type features individual shielding for each twisted pair and an overall shield?",
+        "options": {
+            "A": "F/UTP",
+            "B": "S/FTP",
+            "C": "U/UTP",
+            "D": "SF/UTP"
+        },
+        "answer": "B",
+        "feedback": "S/FTP cables have individual foil shields on each pair and an overall braid shield."
+    },
+    {
+        "question": "What does LSZH stand for?",
+        "options": {
+            "A": "Long Signal Zero Hum",
+            "B": "Low Shielded Zigzag Housing",
+            "C": "Low Smoke Zero Halogen",
+            "D": "Local Signal Zone Header"
+        },
+        "answer": "C",
+        "feedback": "LSZH cables emit very little smoke and no toxic halogens when burned, making them ideal for safety-critical environments."
+    },
+    {
+        "question": "Which cable category is recommended for new network builds balancing cost and performance?",
+        "options": {
+            "A": "Cat3",
+            "B": "Cat5",
+            "C": "Cat5e",
+            "D": "Cat7"
+        },
+        "answer": "C",
+        "feedback": "Cat5e offers good speed, cost-effectiveness, and low crosstalk, making it ideal for modern networks."
+    },
+    {
+        "question": "Which shielding type offers the highest protection from EMI and crosstalk?",
+        "options": {
+            "A": "U/UTP",
+            "B": "F/UTP",
+            "C": "SF/FTP",
+            "D": "U/FTP"
+        },
+        "answer": "C",
+        "feedback": "SF/FTP provides both braid and foil shielding on the cable and individual pairs."
+    },
+    {
+        "question": "What is the main difference between PVC and LSZH jackets?",
+        "options": {
+            "A": "PVC is more flexible and safer in fire",
+            "B": "LSZH emits less smoke and is non-toxic",
+            "C": "PVC offers better EMI shielding",
+            "D": "LSZH is cheaper"
+        },
+        "answer": "B",
+        "feedback": "LSZH jackets produce less smoke and toxic gas when burned compared to PVC."
+    },
+    {
+        "question": "At what distance does Cat6 support 10Gbps transmission reliably?",
+        "options": {
+            "A": "100 meters",
+            "B": "75 meters",
+            "C": "55 meters",
+            "D": "37-55 meters"
+        },
+        "answer": "D",
+        "feedback": "Cat6 supports 10Gbps at a reduced range of 37–55 meters depending on conditions like crosstalk."
+    },
+    {
+        "question": "Which cable category is ideal for short, high-speed data center connections?",
+        "options": {
+            "A": "Cat5e",
+            "B": "Cat6",
+            "C": "Cat7",
+            "D": "Cat8"
+        },
+        "answer": "D",
+        "feedback": "Cat8 supports 25–40 Gbps over distances up to 30 meters, making it suitable for data centers."
+    },{
+      "question": "What is the purpose of twisting the pairs in twisted-pair cables?",
+      "options": {
+          "A": "To reduce voltage",
+          "B": "To increase data speed",
+          "C": "To cancel electromagnetic interference",
+          "D": "To improve flexibility"
+      },
+      "answer": "C",
+      "feedback": "Twisting helps cancel out electromagnetic interference by balancing the currents in the wires."
+  },
+  {
+      "question": "Which Ethernet cable category is considered obsolete and primarily used for phones?",
+      "options": {
+          "A": "Cat5e",
+          "B": "Cat3",
+          "C": "Cat6a",
+          "D": "Cat7"
+      },
+      "answer": "B",
+      "feedback": "Cat3 is obsolete and was originally used for telephone lines and 10BASE-T Ethernet."
+  },
+  {
+      "question": "What is the maximum speed supported by Cat5e cable?",
+      "options": {
+          "A": "100 Mbps",
+          "B": "1 Gbps",
+          "C": "10 Gbps",
+          "D": "40 Gbps"
+      },
+      "answer": "B",
+      "feedback": "Cat5e supports up to 1 Gbps (Gigabit Ethernet)."
+  },
+  {
+      "question": "Which cable type features individual shielding for each twisted pair and an overall shield?",
+      "options": {
+          "A": "F/UTP",
+          "B": "S/FTP",
+          "C": "U/UTP",
+          "D": "SF/UTP"
+      },
+      "answer": "B",
+      "feedback": "S/FTP cables have individual foil shields on each pair and an overall braid shield."
+  },
+  {
+      "question": "What does LSZH stand for?",
+      "options": {
+          "A": "Long Signal Zero Hum",
+          "B": "Low Shielded Zigzag Housing",
+          "C": "Low Smoke Zero Halogen",
+          "D": "Local Signal Zone Header"
+      },
+      "answer": "C",
+      "feedback": "LSZH cables emit very little smoke and no toxic halogens when burned, making them ideal for safety-critical environments."
+  },
+  {
+      "question": "Which cable category is recommended for new network builds balancing cost and performance?",
+      "options": {
+          "A": "Cat3",
+          "B": "Cat5",
+          "C": "Cat5e",
+          "D": "Cat7"
+      },
+      "answer": "C",
+      "feedback": "Cat5e offers good speed, cost-effectiveness, and low crosstalk, making it ideal for modern networks."
+  },
+  {
+      "question": "Which shielding type offers the highest protection from EMI and crosstalk?",
+      "options": {
+          "A": "U/UTP",
+          "B": "F/UTP",
+          "C": "SF/FTP",
+          "D": "U/FTP"
+      },
+      "answer": "C",
+      "feedback": "SF/FTP provides both braid and foil shielding on the cable and individual pairs."
+  },
+  {
+      "question": "What is the main difference between PVC and LSZH jackets?",
+      "options": {
+          "A": "PVC is more flexible and safer in fire",
+          "B": "LSZH emits less smoke and is non-toxic",
+          "C": "PVC offers better EMI shielding",
+          "D": "LSZH is cheaper"
+      },
+      "answer": "B",
+      "feedback": "LSZH jackets produce less smoke and toxic gas when burned compared to PVC."
+  },
+  {
+      "question": "At what distance does Cat6 support 10Gbps transmission reliably?",
+      "options": {
+          "A": "100 meters",
+          "B": "75 meters",
+          "C": "55 meters",
+          "D": "37-55 meters"
+      },
+      "answer": "D",
+      "feedback": "Cat6 supports 10Gbps at a reduced range of 37–55 meters depending on conditions like crosstalk."
+  },
+  {
+      "question": "Which cable category is ideal for short, high-speed data center connections?",
+      "options": {
+          "A": "Cat5e",
+          "B": "Cat6",
+          "C": "Cat7",
+          "D": "Cat8"
+      },
+      "answer": "D",
+      "feedback": "Cat8 supports 25–40 Gbps over distances up to 30 meters, making it suitable for data centers."
+  },
+  {
+        "question": "Which characteristic of twisted pair cables helps reduce crosstalk?",
+        "options": {
+            "A": "Thicker insulation",
+            "B": "Use of PVC jackets",
+            "C": "Twisting of wire pairs",
+            "D": "Shielding with metal foil"
+        },
+        "answer": "C",
+        "feedback": "Twisting helps cancel out induced electromagnetic interference between adjacent pairs."
+    },
+    {
+        "question": "Which cable jacket type is preferred in public buildings due to safety in fires?",
+        "options": {
+            "A": "PVC",
+            "B": "Nylon",
+            "C": "LSZH",
+            "D": "Rubber"
+        },
+        "answer": "C",
+        "feedback": "LSZH emits low smoke and no halogens, making it safer in enclosed public environments."
+    },
+    {
+        "question": "What does the 'a' in Cat6a stand for?",
+        "options": {
+            "A": "Advanced",
+            "B": "Augmented",
+            "C": "Aligned",
+            "D": "Adapted"
+        },
+        "answer": "B",
+        "feedback": "'a' stands for 'augmented', indicating improved performance over standard Cat6."
+    },
+    {
+        "question": "Which shielding code represents a foil shield around the entire cable and no individual pair shielding?",
+        "options": {
+            "A": "U/UTP",
+            "B": "F/UTP",
+            "C": "U/FTP",
+            "D": "F/FTP"
+        },
+        "answer": "B",
+        "feedback": "F/UTP has a foil shield over unshielded twisted pairs inside."
+    },
+    {
+        "question": "Which Ethernet cable category requires special GG45 connectors?",
+        "options": {
+            "A": "Cat5e",
+            "B": "Cat6a",
+            "C": "Cat7",
+            "D": "Cat8"
+        },
+        "answer": "C",
+        "feedback": "Cat7 requires GG45 connectors to fully utilize its shielding and bandwidth features."
+    },
+    {
+        "question": "Which type of cable construction provides the maximum protection from interference?",
+        "options": {
+            "A": "F/UTP",
+            "B": "S/FTP",
+            "C": "SF/FTP",
+            "D": "U/FTP"
+        },
+        "answer": "C",
+        "feedback": "SF/FTP includes both braid and foil shielding around the cable and each twisted pair."
+    },
+    {
+        "question": "What is the main disadvantage of Cat7 cable?",
+        "options": {
+            "A": "High cost",
+            "B": "Low speed",
+            "C": "Lack of shielding",
+            "D": "Incompatible with Ethernet"
+        },
+        "answer": "A",
+        "feedback": "Cat7 is costly and rigid, making it less practical for many installations."
+    },
+    {
+        "question": "Which cable type includes foil shielding around each twisted pair but no overall shield?",
+        "options": {
+            "A": "F/UTP",
+            "B": "U/FTP",
+            "C": "S/UTP",
+            "D": "SF/UTP"
+        },
+        "answer": "B",
+        "feedback": "U/FTP has individually shielded pairs without a cable-wide shield."
+    },
+    {
+        "question": "Which cable characteristic improves with more twists per centimeter?",
+        "options": {
+            "A": "Cable flexibility",
+            "B": "Signal range",
+            "C": "Crosstalk resistance",
+            "D": "Cable strength"
+        },
+        "answer": "C",
+        "feedback": "More twists per unit length help reduce crosstalk between pairs."
+    },
+    {
+        "question": "Which type of cable jacket releases toxic halogens when burned?",
+        "options": {
+            "A": "LSZH",
+            "B": "Teflon",
+            "C": "PVC",
+            "D": "Rubber"
+        },
+        "answer": "C",
+        "feedback": "PVC releases toxic halogen gases like chlorine when it burns."
+    },
+    {
+      "question": "What is the main purpose of structured cabling?",
+      "options": {
+          "A": "To provide wireless access",
+          "B": "To create a standardized, organized cabling infrastructure",
+          "C": "To prevent power surges",
+          "D": "To install temporary networks"
+      },
+      "answer": "B",
+      "feedback": "Structured cabling organizes network cabling into standardized subsystems for consistency and scalability."
+  },
+  {
+      "question": "Which subsystem connects internal cabling to the outside service provider?",
+      "options": {
+          "A": "Horizontal cabling",
+          "B": "Work area components",
+          "C": "Entrance facilities",
+          "D": "Backbone cabling"
+      },
+      "answer": "C",
+      "feedback": "Entrance facilities are where the external provider connects to the building's internal cabling."
+  },
+  {
+      "question": "Which cabling subsystem connects floors or buildings?",
+      "options": {
+          "A": "Horizontal cabling",
+          "B": "Backbone cabling",
+          "C": "Equipment rooms",
+          "D": "Work areas"
+      },
+      "answer": "B",
+      "feedback": "Backbone cabling runs between floors and buildings, providing vertical or campus-wide connectivity."
+  },
+  {
+      "question": "What is the maximum distance allowed for horizontal cabling (excluding patch cords)?",
+      "options": {
+          "A": "100 meters",
+          "B": "90 meters",
+          "C": "120 meters",
+          "D": "80 meters"
+      },
+      "answer": "B",
+      "feedback": "Horizontal cabling must not exceed 90 meters, with an additional 10 meters allowed for patch cords."
+  },
+  {
+      "question": "Which subsystem houses the servers and network equipment in a building?",
+      "options": {
+          "A": "Equipment room",
+          "B": "Telecommunications room",
+          "C": "Entrance facility",
+          "D": "Work area"
+      },
+      "answer": "A",
+      "feedback": "The equipment room centrally houses servers, switches, and mechanical cable terminations."
+  },
+  {
+      "question": "Which standard governs structured cabling in commercial buildings in the U.S.?",
+      "options": {
+          "A": "ISO/IEC 11801",
+          "B": "EN 50173",
+          "C": "TIA/EIA-568",
+          "D": "IEEE 802.3"
+      },
+      "answer": "C",
+      "feedback": "The TIA/EIA-568 standard governs structured cabling in commercial buildings in the U.S."
+  },
+  {
+      "question": "What kind of topology is used for backbone cabling?",
+      "options": {
+          "A": "Bus",
+          "B": "Ring",
+          "C": "Hierarchical star",
+          "D": "Mesh"
+      },
+      "answer": "C",
+      "feedback": "Structured cabling uses a hierarchical star topology with a central main cross-connect."
+  },
+  {
+      "question": "What is the preferred cable type for backbone installations in modern networks?",
+      "options": {
+          "A": "Cat5e",
+          "B": "Cat6a",
+          "C": "Multimode fiber",
+          "D": "Coaxial"
+      },
+      "answer": "C",
+      "feedback": "Fiber optic cable is preferred for backbone cabling due to its high bandwidth and long-distance support."
+  },
+  {
+      "question": "Which structured cabling component links users’ computers to the network?",
+      "options": {
+          "A": "Backbone cabling",
+          "B": "Horizontal cabling",
+          "C": "Work area components",
+          "D": "Telecommunications enclosure"
+      },
+      "answer": "C",
+      "feedback": "Work area components include the cables and outlets that connect end-user devices to the network."
+  },
+  {
+      "question": "Which component joins horizontal and backbone cabling on each floor?",
+      "options": {
+          "A": "Main cross-connect",
+          "B": "Entrance facility",
+          "C": "Telecommunications room",
+          "D": "Patch panel"
+      },
+      "answer": "C",
+      "feedback": "The telecommunications room on each floor connects horizontal cabling to backbone infrastructure."
+  },
+  {
+    "question": "Which structured cabling subsystem typically contains the demarcation point?",
+    "options": {
+        "A": "Work area",
+        "B": "Equipment room",
+        "C": "Entrance facility",
+        "D": "Telecommunications room"
+    },
+    "answer": "C",
+    "feedback": "The entrance facility contains the demarcation point where the provider's network ends and the building's internal cabling begins."
+},
+{
+    "question": "Which structured cabling subsystem often includes patch panels and network switches?",
+    "options": {
+        "A": "Work area",
+        "B": "Horizontal cabling",
+        "C": "Telecommunications room",
+        "D": "Equipment room"
+    },
+    "answer": "C",
+    "feedback": "Telecommunications rooms typically include patch panels, switches, and cross-connects for managing cabling on each floor."
+},
+{
+    "question": "What standard ensures compatibility of cabling systems across different vendors?",
+    "options": {
+        "A": "ISO 9001",
+        "B": "TIA/EIA-568",
+        "C": "IEEE 802.11",
+        "D": "ISO/OSI"
+    },
+    "answer": "B",
+    "feedback": "TIA/EIA-568 ensures structured cabling systems can work across various vendors' hardware."
+},
+{
+    "question": "Which cable rating is required for backbone cabling in a plenum airspace?",
+    "options": {
+        "A": "CM",
+        "B": "OFNR",
+        "C": "OFNP",
+        "D": "CMR"
+    },
+    "answer": "C",
+    "feedback": "OFNP-rated (plenum) fiber is used in plenum spaces for fire safety compliance."
+},
+{
+    "question": "How much combined patch cord length is allowed in horizontal cabling?",
+    "options": {
+        "A": "5 meters",
+        "B": "10 meters",
+        "C": "15 meters",
+        "D": "20 meters"
+    },
+    "answer": "B",
+    "feedback": "Horizontal cabling allows up to 10 meters combined for patch cords—6m in the TR, 4m in the work area."
+},
+{
+    "question": "Which of the following is NOT considered a subsystem in structured cabling?",
+    "options": {
+        "A": "Backbone cabling",
+        "B": "Entrance facility",
+        "C": "Cable shielding",
+        "D": "Equipment room"
+    },
+    "answer": "C",
+    "feedback": "Cable shielding is a feature of the cable, not one of the six structured cabling subsystems."
+},
+{
+    "question": "Which standard is a European counterpart to TIA/EIA-568?",
+    "options": {
+        "A": "IEEE 802.3",
+        "B": "EN 50173",
+        "C": "ISO 9001",
+        "D": "UL 60950"
+    },
+    "answer": "B",
+    "feedback": "EN 50173 is the European structured cabling standard equivalent to TIA/EIA-568."
+},
+{
+    "question": "What is the most common wiring standard for RJ-45 data installations?",
+    "options": {
+        "A": "T568A",
+        "B": "T568B",
+        "C": "RJ11",
+        "D": "Cat3"
+    },
+    "answer": "B",
+    "feedback": "T568B is more commonly used for data installations in structured cabling systems."
+},
+{
+    "question": "What is the primary function of the equipment room in structured cabling?",
+    "options": {
+        "A": "Connect to user workstations",
+        "B": "Terminate external provider cabling",
+        "C": "House active network equipment like servers and switches",
+        "D": "Test and certify installed cable"
+    },
+    "answer": "C",
+    "feedback": "The equipment room houses active devices like servers and switches in a centralized and controlled location."
+},
+{
+    "question": "In structured cabling, which type of loss increases with higher frequencies?",
+    "options": {
+        "A": "Propagation delay",
+        "B": "Insertion loss",
+        "C": "Return loss",
+        "D": "Cable stretch"
+    },
+    "answer": "B",
+    "feedback": "Insertion loss increases with frequency and distance due to the resistance, capacitance, and inductance of the cable."
+},
+{
+  "question": "What does a Time Domain Reflectometer (TDR) primarily measure in a cable?",
+  "options": {
+      "A": "Signal attenuation over time",
+      "B": "Voltage and current",
+      "C": "Length and fault location",
+      "D": "Crosstalk between pairs"
+  },
+  "answer": "C",
+  "feedback": "A TDR measures reflections in a cable to calculate length and identify faults like opens and shorts."
+},
+{
+  "question": "What type of reflection does a TDR detect when there is an open in the cable?",
+  "options": {
+      "A": "No reflection",
+      "B": "Negative reflection",
+      "C": "Positive reflection",
+      "D": "Inverted signal"
+  },
+  "answer": "C",
+  "feedback": "A positive reflection indicates an open circuit or break in the cable."
+},
+{
+  "question": "Which value is most desirable for Near End Crosstalk (NEXT)?",
+  "options": {
+      "A": "Low value in dB",
+      "B": "High value in dB",
+      "C": "Zero",
+      "D": "Negative dB value"
+  },
+  "answer": "B",
+  "feedback": "Higher NEXT values indicate better rejection of crosstalk and less interference."
+},
+{
+  "question": "Which parameter measures the weakening of a signal over a length of cable?",
+  "options": {
+      "A": "Return Loss",
+      "B": "Delay Skew",
+      "C": "Attenuation (Insertion Loss)",
+      "D": "Power Sum FEXT"
+  },
+  "answer": "C",
+  "feedback": "Attenuation or Insertion Loss refers to signal strength loss over distance, measured in dB."
+},
+{
+  "question": "How is Power Sum NEXT (PSNEXT) calculated?",
+  "options": {
+      "A": "Using TDR delay values",
+      "B": "Summing NEXT from all disturbing pairs",
+      "C": "By testing skew across all cables",
+      "D": "Using average attenuation"
+  },
+  "answer": "B",
+  "feedback": "PSNEXT is a calculated value that sums the NEXT contributions from all disturbing pairs."
+},
+{
+  "question": "What cable fault causes a negative reflection in TDR analysis?",
+  "options": {
+      "A": "Open circuit",
+      "B": "Incorrect termination",
+      "C": "Short circuit",
+      "D": "Twist imbalance"
+  },
+  "answer": "C",
+  "feedback": "A negative reflection in TDR typically indicates a short circuit."
+},
+{
+  "question": "What is the purpose of a wiremap test?",
+  "options": {
+      "A": "Measure signal frequency range",
+      "B": "Identify wiring and continuity errors",
+      "C": "Detect attenuation loss",
+      "D": "Measure propagation delay"
+  },
+  "answer": "B",
+  "feedback": "Wiremap tests check pin-to-pin connectivity, continuity, shorts, reversals, and split pairs."
+},
+{
+  "question": "Which cable property is MOST affected by tightly twisting conductor pairs?",
+  "options": {
+      "A": "Attenuation",
+      "B": "Propagation delay",
+      "C": "NEXT",
+      "D": "Length"
+  },
+  "answer": "C",
+  "feedback": "Tighter twists reduce NEXT by improving electromagnetic noise cancellation."
+},
+{
+  "question": "Alien Crosstalk is caused by interference from:",
+  "options": {
+      "A": "Other pairs in the same cable",
+      "B": "External cables running in parallel",
+      "C": "Wireless signals",
+      "D": "Cable shielding faults"
+  },
+  "answer": "B",
+  "feedback": "Alien Crosstalk results from coupling between nearby cables, not within the same cable."
+},
+{
+  "question": "What is the maximum delay skew allowed on a 100 meter UTP link?",
+  "options": {
+      "A": "5 ns",
+      "B": "25 ns",
+      "C": "50 ns",
+      "D": "100 ns"
+  },
+  "answer": "C",
+  "feedback": "The delay skew between fastest and slowest pairs should not exceed 50 ns on 100m links."
+},
+{
+  "question": "What does a TDR (Time Domain Reflectometer) do?",
+  "options": {
+      "A": "Measures network speed",
+      "B": "Checks wireless signal range",
+      "C": "Sends test signals and measures reflections to detect faults",
+      "D": "Tests fiber connector cleanliness"
+  },
+  "answer": "C",
+  "feedback": "A TDR sends signals into the cable and analyzes reflections to determine cable faults and length."
+},
+{
+  "question": "What does a positive reflection on a TDR indicate?",
+  "options": {
+      "A": "Short circuit",
+      "B": "Impedance match",
+      "C": "Open circuit",
+      "D": "Signal loss"
+  },
+  "answer": "C",
+  "feedback": "Positive reflections are caused by open circuits or unterminated cables."
+},
+{
+  "question": "What is insertion loss?",
+  "options": {
+      "A": "Loss of power due to attenuation in a cable",
+      "B": "Loss caused by interference from nearby cables",
+      "C": "Power returned from a short",
+      "D": "Signal loss due to connector mismatch"
+  },
+  "answer": "A",
+  "feedback": "Insertion loss is the reduction of signal power as it travels through the cable."
+},
+{
+  "question": "Which tool verifies correct pin-to-pin wiring?",
+  "options": {
+      "A": "TDR",
+      "B": "NEXT tester",
+      "C": "Wiremap tester",
+      "D": "Spectrum analyzer"
+  },
+  "answer": "C",
+  "feedback": "A wiremap tester checks for open, short, reversed, split pair, or miswired conditions."
+},
+{
+  "question": "What does NEXT measure?",
+  "options": {
+      "A": "Signal loss at cable end",
+      "B": "Interference between pairs at the near end",
+      "C": "Propagation delay",
+      "D": "Cable twist rate"
+  },
+  "answer": "B",
+  "feedback": "NEXT (Near End Crosstalk) measures signal interference from one pair to another at the transmitter end."
+},
+{
+  "question": "What does delay skew represent in a cable?",
+  "options": {
+      "A": "The time it takes for a full signal to travel",
+      "B": "The difference in arrival times of signals across pairs",
+      "C": "Voltage fluctuation due to delay",
+      "D": "The sum of NEXT and FEXT values"
+  },
+  "answer": "B",
+  "feedback": "Delay skew is the time difference between the fastest and slowest pairs in a cable."
+},
+{
+  "question": "Which test checks for signal reflections due to impedance mismatch?",
+  "options": {
+      "A": "NEXT",
+      "B": "Wiremap",
+      "C": "Return loss",
+      "D": "Insertion loss"
+  },
+  "answer": "C",
+  "feedback": "Return loss measures how much signal is reflected back due to impedance mismatches."
+},
+{
+  "question": "Which condition will pass wiremap but fail NEXT?",
+  "options": {
+      "A": "Properly terminated pairs",
+      "B": "Reversed pairs",
+      "C": "Split pair",
+      "D": "Open pair"
+  },
+  "answer": "C",
+  "feedback": "Split pairs maintain continuity but disrupt signal balance, causing NEXT failure."
+},
+{
+  "question": "What is the IEEE standard that defines Wi-Fi technology?",
+  "options": {
+      "A": "IEEE 802.3",
+      "B": "IEEE 802.15",
+      "C": "IEEE 802.11",
+      "D": "IEEE 802.1Q"
+  },
+  "answer": "C",
+  "feedback": "IEEE 802.11 is the standard that defines Wi-Fi communication protocols."
+},
+{
+  "question": "What frequency bands are typically used for Wi-Fi communication?",
+  "options": {
+      "A": "1.8 GHz and 3.6 GHz",
+      "B": "2.4 GHz and 5 GHz",
+      "C": "3.5 GHz and 6 GHz",
+      "D": "5 GHz and 7 GHz"
+  },
+  "answer": "B",
+  "feedback": "Wi-Fi commonly operates in the 2.4 GHz and 5 GHz unlicensed ISM bands."
+},
+{
+  "question": "Which Wi-Fi standard introduced MU-MIMO and beamforming?",
+  "options": {
+      "A": "802.11g",
+      "B": "802.11n",
+      "C": "802.11ac",
+      "D": "802.11b"
+  },
+  "answer": "C",
+  "feedback": "802.11ac (Wi-Fi 5) introduced MU-MIMO and beamforming for better multi-device performance."
+},
+{
+  "question": "What is the purpose of WPA2 in a Wi-Fi network?",
+  "options": {
+      "A": "Increase signal range",
+      "B": "Boost speed",
+      "C": "Provide strong encryption and security",
+      "D": "Add additional channels"
+  },
+  "answer": "C",
+  "feedback": "WPA2 is a security protocol that provides strong encryption for Wi-Fi networks."
+},
+{
+  "question": "Which factor does NOT affect Wi-Fi signal propagation?",
+  "options": {
+      "A": "Wall material",
+      "B": "Number of access points",
+      "C": "Router's IP address",
+      "D": "Furniture and people"
+  },
+  "answer": "C",
+  "feedback": "A router's IP address does not influence signal strength or coverage."
+},
+{
+  "question": "Why is Wi-Fi 6E considered an improvement over Wi-Fi 6?",
+  "options": {
+      "A": "It supports MU-MIMO",
+      "B": "It uses the 6 GHz band",
+      "C": "It reduces 2.4 GHz interference",
+      "D": "It operates slower but more reliably"
+  },
+  "answer": "B",
+  "feedback": "Wi-Fi 6E extends Wi-Fi 6 into the 6 GHz band for additional bandwidth and less congestion."
+},
+{
+  "question": "What technology allows Wi-Fi 5 devices to handle multiple data streams at once?",
+  "options": {
+      "A": "Channel bonding",
+      "B": "Dual-band antennas",
+      "C": "MU-MIMO",
+      "D": "Beam steering"
+  },
+  "answer": "C",
+  "feedback": "MU-MIMO allows multiple devices to receive data simultaneously in Wi-Fi 5."
+},
+{
+  "question": "Which channel combination in the 2.4 GHz band avoids overlap?",
+  "options": {
+      "A": "Channels 1, 3, 6",
+      "B": "Channels 1, 6, 11",
+      "C": "Channels 2, 5, 10",
+      "D": "Channels 4, 8, 13"
+  },
+  "answer": "B",
+  "feedback": "Channels 1, 6, and 11 are non-overlapping in the 2.4 GHz band."
+},
+{
+  "question": "What is a major limitation of using 5 GHz for Wi-Fi?",
+  "options": {
+      "A": "Lower data rates",
+      "B": "Too much interference",
+      "C": "Reduced wall penetration",
+      "D": "No support for modern devices"
+  },
+  "answer": "C",
+  "feedback": "5 GHz signals have shorter range and are less effective at penetrating walls."
+},
+{
+  "question": "What is a Wi-Fi extender designed to do?",
+  "options": {
+      "A": "Increase modem speed",
+      "B": "Expand network bandwidth",
+      "C": "Repeat and expand Wi-Fi signal range",
+      "D": "Change network SSID"
+  },
+  "answer": "C",
+  "feedback": "Wi-Fi extenders retransmit a nearby Wi-Fi signal to improve coverage."
+},
+{
+  "question": "What is the main reason Fiber optic cables are preferred for long-distance communication?",
+  "options": {
+      "A": "Lower initial installation cost",
+      "B": "Immune to physical damage",
+      "C": "Low attenuation over distance",
+      "D": "Easier to terminate"
+  },
+  "answer": "C",
+  "feedback": "Fiber experiences much less signal loss (attenuation) over long distances compared to copper."
+},
+{
+  "question": "Which of the following is TRUE about electromagnetic interference in Fiber cables?",
+  "options": {
+      "A": "Only affects multimode fiber",
+      "B": "Caused by electric current in the glass core",
+      "C": "Does not occur because Fiber carries light, not electricity",
+      "D": "Affects both copper and fiber equally"
+  },
+  "answer": "C",
+  "feedback": "Fiber cables do not carry electrical signals, so they are immune to electromagnetic interference."
+},
+{
+  "question": "In terms of data security, how does Fiber optic cable compare to copper?",
+  "options": {
+      "A": "Less secure than copper",
+      "B": "More secure and difficult to tap",
+      "C": "Equally secure if shielded",
+      "D": "Requires encryption to be secure"
+  },
+  "answer": "B",
+  "feedback": "Fiber is highly secure; tapping causes light leakage and system failure, making intrusion easily detectable."
+},
+{
+  "question": "Which cabling type typically requires more skill for termination?",
+  "options": {
+      "A": "Fiber",
+      "B": "Copper",
+      "C": "Coaxial",
+      "D": "Twisted-pair"
+  },
+  "answer": "A",
+  "feedback": "Fiber terminations require precise alignment and polishing, demanding more expertise than copper."
+},
+{
+  "question": "What is one major reason copper cabling is still used in rural areas?",
+  "options": {
+      "A": "It is faster",
+      "B": "It is easier to encrypt",
+      "C": "Existing infrastructure is already in place",
+      "D": "It supports higher frequencies"
+  },
+  "answer": "C",
+  "feedback": "Copper is often used in rural areas because telephone lines already exist, reducing installation cost."
+},
+{
+  "question": "Which cable type is safer in terms of fire hazard?",
+  "options": {
+      "A": "Twisted pair copper",
+      "B": "Coaxial copper",
+      "C": "Shielded copper",
+      "D": "Fiber optic"
+  },
+  "answer": "D",
+  "feedback": "Fiber optic cables don't carry electrical current and are not a fire hazard."
+},
+{
+  "question": "What distance can single-mode Fiber typically support for 10 Gbps communication?",
+  "options": {
+      "A": "Up to 100 meters",
+      "B": "Up to 300 meters",
+      "C": "Up to 550 meters",
+      "D": "Up to 40 kilometers"
+  },
+  "answer": "D",
+  "feedback": "Single-mode fiber can support 10 Gbps communication up to 40 km depending on conditions."
+},
+{
+  "question": "What is the typical lifecycle of Fiber optic cabling?",
+  "options": {
+      "A": "3–5 years",
+      "B": "5–10 years",
+      "C": "10–20 years",
+      "D": "30–50 years"
+  },
+  "answer": "D",
+  "feedback": "Fiber cables can last between 30 and 50 years, far longer than copper."
+},
+{
+  "question": "Which of the following best describes copper cable's limitation for data rates?",
+  "options": {
+      "A": "Limited to 1 Gbps over 20 kilometers",
+      "B": "Limited by distance and higher attenuation",
+      "C": "Unaffected by environmental interference",
+      "D": "Better performance than Fiber"
+  },
+  "answer": "B",
+  "feedback": "Copper suffers from high attenuation and interference, limiting its performance over distance."
+},
+{
+  "question": "What is the approximate energy usage per user for Fiber compared to copper?",
+  "options": {
+      "A": "Fiber uses more power than copper",
+      "B": "Fiber uses about the same power as copper",
+      "C": "Fiber uses significantly less power",
+      "D": "Power usage depends on cable length"
+  },
+  "answer": "C",
+  "feedback": "Fiber consumes around 2W per user compared to over 10W for copper."
+},
+{
+  "question": "What are the three main components of a fiber optic communication system?",
+  "options": {
+      "A": "Transmitter, router, power supply",
+      "B": "Modem, splitter, receiver",
+      "C": "Optical transmitter, fiber cable, optical receiver",
+      "D": "Switch, transceiver, repeater"
+  },
+  "answer": "C",
+  "feedback": "A fiber optic system includes an optical transmitter, the fiber cable itself, and an optical receiver."
+},
+{
+  "question": "Which optical fiber type is commonly used for long-distance communication?",
+  "options": {
+      "A": "OM1",
+      "B": "OM4",
+      "C": "Multimode",
+      "D": "Single-mode"
+  },
+  "answer": "D",
+  "feedback": "Single-mode fiber supports higher bandwidth and longer distances due to minimal dispersion."
+},
+{
+  "question": "What causes attenuation in a fiber optic cable?",
+  "options": {
+      "A": "Electric interference and heating",
+      "B": "Absorption and scattering",
+      "C": "Light reflection and echo",
+      "D": "Voltage drops"
+  },
+  "answer": "B",
+  "feedback": "Attenuation in fiber is mainly caused by absorption and scattering of light."
+},
+{
+  "question": "Which phenomenon allows light to be guided down the fiber core?",
+  "options": {
+      "A": "Chromatic dispersion",
+      "B": "Total internal reflection",
+      "C": "Bending refraction",
+      "D": "Electrical resistance"
+  },
+  "answer": "B",
+  "feedback": "Total internal reflection keeps light signals bouncing within the core of the fiber."
+},
+{
+  "question": "What is the typical core diameter of a single-mode fiber?",
+  "options": {
+      "A": "125 μm",
+      "B": "62.5 μm",
+      "C": "50 μm",
+      "D": "8.3 μm"
+  },
+  "answer": "D",
+  "feedback": "Single-mode fiber cores are typically 8.3 μm in diameter."
+},
+{
+  "question": "Which light source is preferred for high-speed single-mode fiber transmission?",
+  "options": {
+      "A": "LED",
+      "B": "Fluorescent",
+      "C": "Laser diode",
+      "D": "Halogen bulb"
+  },
+  "answer": "C",
+  "feedback": "Laser diodes provide a narrow, high-speed beam ideal for single-mode applications."
+},
+{
+  "question": "What are OM3 and OM4 fiber types optimized for?",
+  "options": {
+      "A": "Analog signal filtering",
+      "B": "Short-range voice calls",
+      "C": "Laser-optimized 850 nm transmission",
+      "D": "Long-range 1550 nm transmission"
+  },
+  "answer": "C",
+  "feedback": "OM3 and OM4 are optimized for 850 nm lasers in high-speed short-range multimode networks."
+},
+{
+  "question": "What does WDM allow in fiber optic systems?",
+  "options": {
+      "A": "Compression of light pulses",
+      "B": "Extension of fiber length",
+      "C": "Multiple wavelengths to travel on a single fiber",
+      "D": "Use of cheaper transmitters"
+  },
+  "answer": "C",
+  "feedback": "Wavelength Division Multiplexing allows multiple light signals to travel simultaneously over one fiber."
+},
+{
+  "question": "Which type of dispersion occurs due to different wavelengths traveling at different speeds?",
+  "options": {
+      "A": "Modal dispersion",
+      "B": "Phase dispersion",
+      "C": "Chromatic dispersion",
+      "D": "Bending dispersion"
+  },
+  "answer": "C",
+  "feedback": "Chromatic dispersion is caused by the spectral width of the light source, resulting in different speeds."
+},
+{
+  "question": "What is a typical disadvantage of fiber installation?",
+  "options": {
+      "A": "Low bandwidth",
+      "B": "Excess weight",
+      "C": "Complex splicing and termination",
+      "D": "Electromagnetic interference"
+  },
+  "answer": "C",
+  "feedback": "Fiber requires precise handling and splicing, making installation more difficult than copper."
+},
+{
+    "question": "What is meant by Full-Duplex Data transmission?",
+    "options": {
+      "A": "Data can only be sent one direction at a time",
+      "B": "Data is compressed for faster transmission",
+      "C": "Data can be sent and received simultaneously",
+      "D": "Only analog signals can be used"
+    },
+    "answer": "C",
+    "feedback": "Full-duplex transmission allows data to flow in both directions simultaneously, increasing efficiency."
+  },
+  {
+    "question": "Which IEEE 802.11 wireless standards operate only in the 5 GHz range?",
+    "options": {
+      "A": "802.11b and 802.11g",
+      "B": "802.11a and 802.11ac",
+      "C": "802.11n and 802.11b",
+      "D": "802.11g and 802.11ac"
+    },
+    "answer": "B",
+    "feedback": "802.11a and 802.11ac are 5 GHz-only standards, ideal for high-speed, short-range communication."
+  },
+  {
+    "question": "What type of fiber optic cable is typically used for long-distance high-speed communication?",
+    "options": {
+      "A": "Cat5e twisted pair",
+      "B": "Single-mode fiber",
+      "C": "Coaxial cable",
+      "D": "Multimode fiber"
+    },
+    "answer": "B",
+    "feedback": "Single-mode fiber supports higher bandwidth over longer distances compared to multimode fiber."
+  },
+  {
+    "question": "Which light source is commonly used for short-distance optical communications?",
+    "options": {
+      "A": "Laser diode",
+      "B": "Sunlight",
+      "C": "LED",
+      "D": "Xenon bulb"
+    },
+    "answer": "C",
+    "feedback": "LEDs are low-cost, low-power sources suitable for short-distance multimode fiber transmission."
+  },
+  {
+    "question": "Which is an advantage of digital communication systems?",
+    "options": {
+      "A": "More noise-sensitive",
+      "B": "Requires larger bandwidth",
+      "C": "Easier signal regeneration",
+      "D": "Analog filtering compatibility"
+    },
+    "answer": "C",
+    "feedback": "Digital systems are more resilient to noise and can regenerate signals accurately, enabling longer transmission distances."
+  },
+  {
+    "question": "What is the SI unit of frequency?",
+    "options": {
+      "A": "Volt",
+      "B": "Hertz",
+      "C": "Joule",
+      "D": "Ohm"
+    },
+    "answer": "B",
+    "feedback": "Hertz (Hz) is the SI unit used to measure frequency."
+  },
+  {
+    "question": "What is 0.025V in millivolts (mV)?",
+    "options": {
+      "A": "0.25 mV",
+      "B": "2.5 mV",
+      "C": "25 mV",
+      "D": "250 mV"
+    },
+    "answer": "C",
+    "feedback": "0.025 volts is equal to 25 millivolts (1V = 1000 mV)."
+  },
+  {
+    "question": "What does attenuation of a signal mean?",
+    "options": {
+      "A": "Signal is amplified",
+      "B": "Signal is lost over distance",
+      "C": "Signal is delayed",
+      "D": "Signal is stored in a buffer"
+    },
+    "answer": "B",
+    "feedback": "Attenuation is the gradual loss of signal strength over distance."
+  },
+  {
+    "question": "Which wavelength is commonly used in fiber optic communications?",
+    "options": {
+      "A": "850 nm",
+      "B": "900 nm",
+      "C": "1500 nm",
+      "D": "1000 nm"
+    },
+    "answer": "A",
+    "feedback": "850 nm is a typical light source wavelength used in multimode fiber communications."
+  },
+  {
+    "question": "What type of modulation is QAM?",
+    "options": {
+      "A": "Frequency modulation",
+      "B": "Amplitude modulation",
+      "C": "Quadrature Amplitude Modulation",
+      "D": "Phase shift modulation"
+    },
+    "answer": "C",
+    "feedback": "QAM stands for Quadrature Amplitude Modulation, combining amplitude and phase modulation."
+  },
+  {
+    "question": "Which of the following does not cause attenuation in fibre optics?",
+    "options": {
+      "A": "Scattering",
+      "B": "Absorption",
+      "C": "Refraction",
+      "D": "Bending"
+    },
+    "answer": "C",
+    "feedback": "Refraction is a principle used in fiber optics, not a cause of attenuation."
+  },
+  {
+    "question": "Fibre optics use what region of the electromagnetic spectrum?",
+    "options": {
+      "A": "Ultraviolet",
+      "B": "Infrared",
+      "C": "Visible",
+      "D": "Microwave"
+    },
+    "answer": "B",
+    "feedback": "Most fiber optics operate in the infrared region of the spectrum."
+  },
+  {
+    "question": "What type of cable is typically recommended for horizontal cabling?",
+    "options": {
+      "A": "RG6 coaxial",
+      "B": "STP Cat 5e",
+      "C": "UTP Cat 6",
+      "D": "Fiber SMF"
+    },
+    "answer": "C",
+    "feedback": "UTP Cat 6 is commonly used for horizontal cabling due to its bandwidth and cost-effectiveness."
+  },
+  {
+    "question": "What is 0.025 volts equal to in millivolts (mV)?",
+    "options": {
+      "A": "2.5 mV",
+      "B": "25 mV",
+      "C": "250 mV",
+      "D": "0.25 mV"
+    },
+    "answer": "B",
+    "feedback": "0.025 V is equal to 25 millivolts."
+  },
+  {
+    "question": "Which property of light is crucial to the functioning of fiber optic cables?",
+    "options": {
+      "A": "Absorption",
+      "B": "Reflection",
+      "C": "Refraction",
+      "D": "Total Internal Reflection"
+    },
+    "answer": "D",
+    "feedback": "Fiber optics rely on total internal reflection to confine light within the core."
+  },
+  {
+    "question": "What is 761500000 written in engineering notation?",
+    "options": {
+      "A": "761.5 × 10^6",
+      "B": "7.615 × 10^8",
+      "C": "76.15 × 10^7",
+      "D": "0.7615 × 10^9"
+    },
+    "answer": "A",
+    "feedback": "Engineering notation expresses values in powers of three. 761500000 is written as 761.5 × 10^6."
+  },
+  {
+    "question": "Which of the following is a cable test measure value?",
+    "options": {
+      "A": "Cable weight",
+      "B": "Propagation velocity",
+      "C": "Signal-to-noise ratio",
+      "D": "Insertion loss"
+    },
+    "answer": "D",
+    "feedback": "Insertion loss is a measure of the signal power lost due to cable imperfections or length."
+  },
+  {
+    "question": "What does asynchronous mean in ADSL?",
+    "options": {
+      "A": "Upload and download speeds are equal",
+      "B": "Upload speed is higher than download",
+      "C": "Download speed is higher than upload",
+      "D": "No synchronization between devices"
+    },
+    "answer": "C",
+    "feedback": "ADSL provides higher download speeds than upload speeds, hence it is called asynchronous."
+  },
+  {
+    "question": "What is 0.025 volts equal to in millivolts (mV)?",
+    "options": {
+      "A": "2.5 mV",
+      "B": "25 mV",
+      "C": "250 mV",
+      "D": "0.25 mV"
+    },
+    "answer": "B",
+    "feedback": "To convert volts to millivolts, multiply by 1000. 0.025 V × 1000 = 25 mV."
+  },
+  {
+    "question": "What is the recommended maximum length of horizontal cabling?",
+    "options": {
+      "A": "50 meters",
+      "B": "75 meters",
+      "C": "90 meters",
+      "D": "100 meters"
+    },
+    "answer": "C",
+    "feedback": "The maximum recommended horizontal cabling length is 90 meters, excluding patch cords."
+  },
+  {
+    "question": "What is the main advantage of fiber optic cable over copper cable?",
+    "options": {
+      "A": "Lower installation cost",
+      "B": "Higher electromagnetic interference",
+      "C": "Higher bandwidth and longer distances",
+      "D": "Easier to splice"
+    },
+    "answer": "C",
+    "feedback": "Fiber optic cables offer higher bandwidth and longer transmission distances compared to copper."
+  },
+  {
+    "question": "Which of the following is NOT a cabling standard?",
+    "options": {
+      "A": "TIA/EIA-568",
+      "B": "ISO/IEC 11801",
+      "C": "IEEE 802.11",
+      "D": "ANSI/TIA-942"
+    },
+    "answer": "C",
+    "feedback": "IEEE 802.11 is a wireless networking standard, not a cabling standard."
+  },
+  {
+    "question": "What causes insertion loss in a cable?",
+    "options": {
+      "A": "Excessive signal reflection",
+      "B": "Interference from external devices",
+      "C": "Signal loss due to resistance and imperfections",
+      "D": "Backscattering of light in fiber"
+    },
+    "answer": "C",
+    "feedback": "Insertion loss is caused by resistance, poor connections, and imperfections in the cable that reduce signal strength."
+  },
+  {
+    "question": "What is the engineering notation for 761,500,000?",
+    "options": {
+      "A": "7.615 × 10^8",
+      "B": "76.15 × 10^6",
+      "C": "761.5 × 10^6",
+      "D": "0.7615 × 10^9"
+    },
+    "answer": "C",
+    "feedback": "Engineering notation expresses numbers in multiples of 10^3, so 761,500,000 becomes 761.5 × 10^6."
+  },
+  {
+    "question": "Which of the following is a value measured during cable testing?",
+    "options": {
+      "A": "Bandwidth",
+      "B": "Latency",
+      "C": "Attenuation",
+      "D": "Baud rate"
+    },
+    "answer": "C",
+    "feedback": "Attenuation is a key parameter measured during cable testing, indicating signal loss over distance."
+  },
+  {
+    "question": "Which 2.4 GHz Wi-Fi channels are non-overlapping?",
+    "options": {
+      "A": "1, 2, 3",
+      "B": "1, 6, 11",
+      "C": "5, 9, 13",
+      "D": "2, 6, 10"
+    },
+    "answer": "B",
+    "feedback": "Channels 1, 6, and 11 are non-overlapping in the 2.4 GHz band and are recommended for best performance."
+  },
+  {
+    "question": "What is 0.025 volts in millivolts?",
+    "options": {
+      "A": "2.5 mV",
+      "B": "25 mV",
+      "C": "250 mV",
+      "D": "0.25 mV"
+    },
+    "answer": "B",
+    "feedback": "0.025 volts is equal to 25 millivolts (multiply by 1000)."
+  },
+  {
+    "question": "Which EEE 802.11 wireless standards operate only in the 5 GHz range?",
+    "options": {
+      "A": "802.11b",
+      "B": "802.11g",
+      "C": "802.11a",
+      "D": "802.11n"
+    },
+    "answer": "C",
+    "feedback": "802.11a is the only listed standard that operates exclusively in the 5 GHz range."
+  },
+  {
+    "question": "What type of fiber optic cable is typically used for long-distance high-speed communications?",
+    "options": {
+      "A": "Multimode fiber",
+      "B": "Plastic optical fiber",
+      "C": "Single mode fiber",
+      "D": "OM4 fiber"
+    },
+    "answer": "C",
+    "feedback": "Single mode fiber supports higher bandwidth and longer distances due to minimal dispersion."
+  },
+  {
+    "question": "Why are wire pairs twisted in twisted-pair cables?",
+    "options": {
+      "A": "To reduce signal strength",
+      "B": "To increase current capacity",
+      "C": "To minimize electromagnetic interference",
+      "D": "To decrease attenuation"
+    },
+    "answer": "C",
+    "feedback": "Twisting wire pairs helps cancel out electromagnetic interference from external sources and neighboring pairs."
+  },
+  {
+    "question": "Which of the following does not cause signal loss in wireless communication?",
+    "options": {
+      "A": "Absorption",
+      "B": "Reflection",
+      "C": "Diffraction",
+      "D": "Protocol overhead"
+    },
+    "answer": "D",
+    "feedback": "Protocol overhead refers to data structure, not physical signal degradation like absorption or reflection."
+  },
+  {
+    "question": "What is the main difference between CAT 5e and CAT 7 cables?",
+    "options": {
+      "A": "CAT 5e is shielded; CAT 7 is not",
+      "B": "CAT 7 supports higher frequencies and shielding for reduced crosstalk",
+      "C": "CAT 5e is faster than CAT 7",
+      "D": "CAT 7 uses fiber optics"
+    },
+    "answer": "B",
+    "feedback": "CAT 7 cables are shielded and support higher frequencies, reducing crosstalk significantly."
+  },
+  {
+    "question": "Which technology enables voice, video, and data to share the same network infrastructure?",
+    "options": {
+      "A": "ISDN",
+      "B": "Ethernet",
+      "C": "VoIP",
+      "D": "DSL"
+    },
+    "answer": "C",
+    "feedback": "VoIP (Voice over IP) allows voice traffic to travel over data networks alongside other data types."
+  },
+  {
+    "question": "What is the primary purpose of a firewall in a network?",
+    "options": {
+      "A": "To assign IP addresses",
+      "B": "To provide high-speed switching",
+      "C": "To block unauthorized access while permitting legitimate communication",
+      "D": "To connect multiple networks"
+    },
+    "answer": "C",
+    "feedback": "Firewalls filter incoming and outgoing traffic to prevent unauthorized access while allowing trusted data through."
+  },
+  {
+    "question": "What is the binary equivalent of the decimal number 13?",
+    "options": {
+      "A": "1101",
+      "B": "1110",
+      "C": "1011",
+      "D": "1001"
+    },
+    "answer": "A",
+    "feedback": "13 in decimal is 1101 in binary."
+  },
+  {
+    "question": "Which command is used to test the reachability of a host on an IP network?",
+    "options": {
+      "A": "traceroute",
+      "B": "ipconfig",
+      "C": "ping",
+      "D": "netstat"
+    },
+    "answer": "C",
+    "feedback": "The `ping` command sends ICMP echo requests to test if a host is reachable."
+  },
+  {
+    "question": "What does NAT stand for in networking?",
+    "options": {
+      "A": "Network Address Translation",
+      "B": "Network Access Tool",
+      "C": "Node Authentication Transport",
+      "D": "Network Allocation Table"
+    },
+    "answer": "A",
+    "feedback": "NAT (Network Address Translation) allows multiple devices on a LAN to share a single public IP address."
+  },
+  {
+    "question": "What device connects multiple devices in a LAN and uses MAC addresses to forward data?",
+    "options": {
+      "A": "Router",
+      "B": "Switch",
+      "C": "Modem",
+      "D": "Hub"
+    },
+    "answer": "B",
+    "feedback": "Switches use MAC addresses to intelligently forward frames only to the intended recipient."
+  },
+  {
+    "question": "What is the purpose of the DNS protocol?",
+    "options": {
+      "A": "To assign IP addresses",
+      "B": "To encrypt web traffic",
+      "C": "To translate domain names to IP addresses",
+      "D": "To route packets between networks"
+    },
+    "answer": "C",
+    "feedback": "DNS translates human-readable domain names into machine-readable IP addresses."
+  },
+  {
+    "question": "Which protocol is responsible for delivering email between mail servers?",
+    "options": {
+      "A": "POP3",
+      "B": "IMAP",
+      "C": "SMTP",
+      "D": "HTTP"
+    },
+    "answer": "C",
+    "feedback": "SMTP (Simple Mail Transfer Protocol) is used to send email between servers."
+  },
+  {
+    "question": "What is the standard port number used by HTTPS?",
     "options": {
       "A": "80",
-      "B": "22",
+      "B": "20",
       "C": "443",
       "D": "21"
     },
-    "answer": "B",
-    "feedback": "SSH (Secure Shell) typically uses port 22 for secure remote connections."
-  },
-  {
-    "type": "MC",
-    "question": "Which layer of the OSI model is responsible for routing?",
-    "options": {
-      "A": "Physical Layer",
-      "B": "Data Link Layer",
-      "C": "Network Layer",
-      "D": "Transport Layer"
-    },
     "answer": "C",
-    "feedback": "The Network Layer (Layer 3) handles routing of packets across different networks."
+    "feedback": "HTTPS (secure HTTP) uses port 443 for encrypted communication over the web."
   },
   {
-    "type": "MC",
-    "question": "What does DHCP stand for?",
+    "question": "Which network topology connects all devices to a central device?",
     "options": {
-      "A": "Dynamic Host Configuration Protocol",
-      "B": "Domain Host Control Protocol",
-      "C": "Data Handling and Communication Protocol",
-      "D": "Dynamic Hyperlink Configuration Protocol"
+      "A": "Bus",
+      "B": "Ring",
+      "C": "Mesh",
+      "D": "Star"
     },
-    "answer": "A",
-    "feedback": "DHCP automatically assigns IP addresses and other network configuration parameters to devices."
-  },
-  {
-    "type": "MC",
-    "question": "Which network device operates at the Data Link Layer (Layer 2)?",
-    "options": {
-      "A": "Router",
-      "B": "Hub",
-      "C": "Switch",
-      "D": "Repeater"
-    },
-    "answer": "C",
-    "feedback": "Switches use MAC addresses to forward frames within a local network segment, operating at Layer 2."
-  },
-  {
-    "type": "MC",
-    "question": "What is the primary function of DNS?",
-    "options": {
-      "A": "Assign IP addresses",
-      "B": "Resolve domain names to IP addresses",
-      "C": "Route network traffic",
-      "D": "Encrypt data packets"
-    },
-    "answer": "B",
-    "feedback": "The Domain Name System (DNS) translates human-readable domain names into machine-readable IP addresses."
-  },
-  {
-    "type": "MC",
-    "question": "What type of cable is commonly used for Ethernet connections?",
-    "options": {
-      "A": "Coaxial",
-      "B": "Fiber Optic",
-      "C": "Twisted Pair",
-      "D": "Serial"
-    },
-    "answer": "C",
-    "feedback": "Twisted pair cables, such as Cat 5e or Cat 6, are the standard for most wired Ethernet networks."
-  },
-  {
-    "type": "MC",
-    "question": "Which of the following is a private IP address range?",
-    "options": {
-      "A": "8.8.8.8",
-      "B": "192.168.1.1",
-      "C": "172.32.0.1",
-      "D": "203.0.113.10"
-    },
-    "answer": "B",
-    "feedback": "The 192.168.0.0/16 block is one of the ranges reserved for private networks (RFC 1918)."
-  },
-  {
-    "type": "MC",
-    "question": "What does 'ping' command primarily test?",
-    "options": {
-      "A": "Network bandwidth",
-      "B": "Host reachability and latency",
-      "C": "Open ports on a server",
-      "D": "Domain name resolution"
-    },
-    "answer": "B",
-    "feedback": "Ping sends ICMP echo requests to a target host to check if it's reachable and measures the round-trip time."
-  },
-  {
-    "type": "MC",
-    "question": "What is a firewall used for?",
-    "options": {
-      "A": "Speeding up network connections",
-      "B": "Storing large amounts of data",
-      "C": "Filtering network traffic based on security rules",
-      "D": "Translating domain names"
-    },
-    "answer": "C",
-    "feedback": "Firewalls act as barriers between trusted and untrusted networks, controlling incoming and outgoing traffic."
-  },
-   {
-    "type": "MC",
-    "question": "What does VPN stand for?",
-    "options": {
-      "A": "Virtual Private Network",
-      "B": "Very Personal Network",
-      "C": "Verified Public Network",
-      "D": "Volatile Packet Network"
-    },
-    "answer": "A",
-    "feedback": "A VPN creates a secure, encrypted connection over a public network like the internet."
+    "answer": "D",
+    "feedback": "In a star topology, all devices connect to a central hub or switch."
   }
+
 ]

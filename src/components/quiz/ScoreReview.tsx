@@ -5,7 +5,7 @@ import type { Question, AnswerSelection } from '@/types/quiz';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { AlertCircle, CheckCircle, HelpCircle, RefreshCw, Home, Copy } from 'lucide-react'; // Removed AI related icons
+import { AlertCircle, CheckCircle, CircleAlert, RefreshCw, Home, Copy } from 'lucide-react'; // Use CircleAlert as HelpCircle equivalent was not imported before
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast"; // Import useToast
 
@@ -75,37 +75,45 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
             return (
               <AccordionItem key={questionId} value={`item-${index}`}>
                 <AccordionTrigger className={`flex justify-between items-center p-3 rounded-md transition-colors hover:bg-muted/50 ${isCorrect ? 'text-green-700 dark:text-green-400' : 'text-destructive'}`}>
-                  <div className="flex items-center text-left group"> {/* Added group class */}
+                  <div className="flex items-center text-left group flex-1 min-w-0"> {/* Added flex-1 and min-w-0 */}
                     {isCorrect ? (
                       <CheckCircle className="h-5 w-5 mr-2 shrink-0" />
                     ) : (
-                      <AlertCircle className="h-5 w-5 mr-2 shrink-0" />
+                      <CircleAlert className="h-5 w-5 mr-2 shrink-0" /> // Changed from AlertCircle to CircleAlert as it was imported
                     )}
-                    <span className="flex-1 text-base font-medium">{index + 1}. {question.question}</span>
+                    <span className="flex-1 text-base font-medium mr-2 truncate">{index + 1}. {question.question}</span> {/* Added truncate */}
+                     {/* Fix: Use asChild and wrap icon in a span */}
                      <Button
                         variant="ghost"
                         size="icon"
-                        className="ml-2 h-6 w-6 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="ml-auto h-6 w-6 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" // Added ml-auto and shrink-0
                         onClick={(e) => { e.stopPropagation(); copyToClipboard(question.question, index, 'Question'); }}
                         aria-label="Copy question text"
+                        asChild // Prevent rendering a button inside a button
                      >
-                        <Copy size={14} />
+                        <span> {/* Wrap the icon in a non-button element */}
+                           <Copy size={14} />
+                        </span>
                     </Button>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="pt-2 pb-4 px-3 space-y-3 bg-muted/20 rounded-b-md border-l-4 group" style={{ borderColor: isCorrect ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))' }}> {/* Added group class */}
                    <p><strong>Your Answer:</strong> {userAnswerLabel || (userAnswer?.selectedOption ? `"${userAnswer.selectedOption}" (Invalid)`: <span className="italic text-muted-foreground">Not answered</span>)} {isCorrect ? <span className="text-green-700 dark:text-green-400">(Correct)</span> : <span className="text-destructive">(Incorrect)</span>}</p>
                   {!isCorrect && <p><strong>Correct Answer:</strong> {correctAnswerLabel || `"${question.answer}" (Invalid)`}</p>}
-                   <div className="relative"> {/* Wrapper for positioning copy button */}
+                   <div className="relative group"> {/* Wrapper for positioning copy button, added group */}
                      <p className="text-muted-foreground italic pr-8"><strong>Feedback:</strong> {question.feedback}</p>
+                      {/* Fix: Use asChild and wrap icon in a span */}
                       <Button
                         variant="ghost"
                         size="icon"
                         className="absolute top-0 right-0 h-6 w-6 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => copyToClipboard(question.feedback, index, 'Feedback')}
+                        onClick={(e) => {e.stopPropagation(); copyToClipboard(question.feedback, index, 'Feedback'); }}
                         aria-label="Copy feedback text"
+                        asChild // Prevent rendering a button inside a button
                       >
-                        <Copy size={14} />
+                         <span> {/* Wrap the icon in a non-button element */}
+                           <Copy size={14} />
+                         </span>
                       </Button>
                    </div>
 

@@ -25,6 +25,7 @@ const AccordionTrigger = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Header className="flex">
+    {/* Ensure it renders as a button */}
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
@@ -32,6 +33,8 @@ const AccordionTrigger = React.forwardRef<
         className
       )}
       {...props}
+      // Explicitly render as button, although default, ensures consistency
+      // asChild={false}
     >
       {children}
       <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
