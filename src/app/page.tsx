@@ -86,14 +86,13 @@ export default function HomePage() {
             </div>
             <div className="flex justify-center items-center">
                 {/* Updated hero image placeholder and hints */}
-                {/* Suggestion: Store images locally in /public/static/images/ */}
                 <Image
-                  src="https://picsum.photos/id/211/600/400" // Placeholder - Server rack / data center / network hardware
-                  alt="Modern data center rack with glowing network hardware and server equipment" // Updated alt text
+                  src="https://picsum.photos/id/17/600/400" // New relevant placeholder ID (e.g., server room, cables)
+                  alt="Networking Equipment in a server rack with ethernet cables" // Updated alt text
                   width={600}
                   height={400}
                   className="rounded-xl shadow-2xl object-cover aspect-[4/3]" // Consistent styling: aspect-[4/3], rounded-xl
-                  data-ai-hint="data center server rack network hardware technology servers ethernet cables" // Updated hint
+                  data-ai-hint="network server rack data center ethernet cables switch" // Updated hint
                   priority // Load hero image faster
                 />
             </div>
@@ -134,7 +133,6 @@ export default function HomePage() {
           <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
             <div className="flex justify-center items-center md:order-2">
                  {/* Updated about image placeholder and hints */}
-                 {/* Suggestion: Store images locally in /public/static/images/ */}
                  <Image
                   src="https://picsum.photos/id/2/500/350" // Placeholder - Desk with computer, PCB, oscilloscope waveform
                   alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform"
