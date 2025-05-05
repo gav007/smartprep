@@ -1,51 +1,22 @@
-
+// src/components/calculators/ResistorToleranceCalculator.tsx
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import React, { useState, useMemo, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, Sigma, RotateCcw } from 'lucide-react'; // Sigma icon for Tolerance
+import { AlertCircle, Sigma, RotateCcw } from 'lucide-react';
+import CalculatorCard from './CalculatorCard';
+import CalculatorInput from './CalculatorInput';
+import type { Unit } from '@/lib/units';
+import { resistanceUnitOptions, unitMultipliers, defaultUnits, formatResultValue } from '@/lib/units';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-type ResistanceUnit = 'Ω' | 'kΩ' | 'MΩ';
-type ToleranceUnit = '%' | 'ppm'; // Allow PPM for tempco later if needed
-
-const resUnitMultipliers: Record<ResistanceUnit, number> = { 'Ω': 1, 'kΩ': 1e3, 'MΩ': 1e6 };
-
-const formatResistanceResult = (value: number | null, baseUnit: ResistanceUnit = 'Ω'): string => {
-    if (value === null || !isFinite(value)) return 'N/A';
-
-    let displayValue = value;
-    let unit = baseUnit; // Start with the input's unit or base Ω
-
-    // Convert value to base ohms first for consistent comparison
-    const valueInOhms = value; // Assume value is already in Ohms for range calculation
-
-    if (Math.abs(valueInOhms) >= 1e6) {
-        displayValue = valueInOhms / 1e6; unit = 'MΩ';
-    } else if (Math.abs(valueInOhms) >= 1000) {
-        displayValue = valueInOhms / 1000; unit = 'kΩ';
-    } else {
-         displayValue = valueInOhms; unit = 'Ω'; // Already in Ohms or less than 1k
-    }
-
-    const precision = Math.abs(displayValue) < 10 ? 3 : (Math.abs(displayValue) < 100 ? 4 : 5);
-    const displayString = displayValue.toPrecision(precision);
-
-    return `${parseFloat(displayString)} ${unit}`;
-};
-
-const initialResistanceUnit: ResistanceUnit = 'kΩ';
-const initialToleranceStr: string = '5';
+const initialResistanceUnit: Unit = defaultUnits.resistance; // Using Ω
+const initialToleranceStr: string = '5'; // Default 5%
 
 export default function ResistorToleranceCalculator() {
   const [nominalResistanceStr, setNominalResistanceStr] = useState<string>('');
-  const [resistanceUnit, setResistanceUnit] = useState<ResistanceUnit>(initialResistanceUnit);
-  const [toleranceStr, setToleranceStr] = useState<string>(initialToleranceStr); // Default to 5%
-  // const [toleranceUnit, setToleranceUnit] = useState<ToleranceUnit>('%'); // Currently only %
-
+  const [resistanceUnit, setResistanceUnit] = useState<Unit>(initialResistanceUnit);
+  const [toleranceStr, setToleranceStr] = useState<string>(initialToleranceStr);
   const [error, setError] = useState<string | null>(null);
 
   const toleranceRange = useMemo(() => {
@@ -54,114 +25,91 @@ export default function ResistorToleranceCalculator() {
     const tolerancePercent = parseFloat(toleranceStr);
 
     if (isNaN(nominalR) || isNaN(tolerancePercent)) {
-      if (nominalResistanceStr || toleranceStr) {
-         // setError('Please enter valid numbers for resistance and tolerance.'); // Hide initial error
-      }
+      if (nominalResistanceStr || toleranceStr) setError('Enter valid numbers for resistance and tolerance.');
       return { min: null, max: null };
     }
-
     if (nominalR < 0 || tolerancePercent < 0) {
       setError('Resistance and tolerance percentage must be non-negative.');
       return { min: null, max: null };
     }
 
-    const nominalRInOhms = nominalR * resUnitMultipliers[resistanceUnit];
+    const nominalRInOhms = nominalR * unitMultipliers[resistanceUnit];
     const toleranceValue = nominalRInOhms * (tolerancePercent / 100);
-
     const minResistance = nominalRInOhms - toleranceValue;
     const maxResistance = nominalRInOhms + toleranceValue;
-
-    // Handle case where minResistance might be negative (e.g., low R, high tolerance)
-    const effectiveMin = Math.max(0, minResistance);
+    const effectiveMin = Math.max(0, minResistance); // Ensure min is not negative
 
     return { min: effectiveMin, max: maxResistance };
   }, [nominalResistanceStr, resistanceUnit, toleranceStr]);
 
-  const handleReset = () => {
-      setNominalResistanceStr('');
-      setResistanceUnit(initialResistanceUnit);
-      setToleranceStr(initialToleranceStr);
-      setError(null);
-  };
+  const handleReset = useCallback(() => {
+    setNominalResistanceStr('');
+    setResistanceUnit(initialResistanceUnit);
+    setToleranceStr(initialToleranceStr);
+    setError(null);
+  }, []);
+
+  const { displayValue: minDisplay, unit: minUnit } = formatResultValue(toleranceRange.min, 'resistance');
+  const { displayValue: maxDisplay, unit: maxUnit } = formatResultValue(toleranceRange.max, 'resistance');
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2"><Sigma size={20}/> Resistor Tolerance Range</CardTitle>
-        <CardDescription>Calculate the minimum and maximum resistance based on tolerance.</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Nominal Resistance Input */}
-        <div className="flex items-end gap-2">
-          <div className="flex-1 space-y-1">
-            <Label htmlFor="nominalResistance">Nominal Resistance</Label>
-            <Input
-              id="nominalResistance"
-              type="number"
-              step="any"
-              min="0"
-              value={nominalResistanceStr}
-              onChange={(e) => setNominalResistanceStr(e.target.value)}
-              placeholder="e.g., 4.7"
-            />
+    <CalculatorCard
+      title="Resistor Tolerance Range"
+      description="Calculate the minimum and maximum resistance based on tolerance."
+      icon={Sigma}
+    >
+      <div className="space-y-3">
+        <CalculatorInput
+          id="nominalResistance"
+          label="Nominal Resistance"
+          value={nominalResistanceStr}
+          onChange={setNominalResistanceStr}
+          unit={resistanceUnit}
+          unitOptions={resistanceUnitOptions}
+          onUnitChange={setResistanceUnit}
+          placeholder="e.g., 4.7"
+          tooltip="The stated resistance value of the component"
+          min="0"
+          error={!!error && isNaN(parseFloat(nominalResistanceStr))}
+        />
+        <CalculatorInput
+          id="tolerance"
+          label="Tolerance"
+          value={toleranceStr}
+          onChange={setToleranceStr}
+          unit="%" // Tolerance is always % in this calculator
+          // No unitOptions needed if unit is fixed
+          placeholder="e.g., 5"
+          tooltip="The allowable deviation from the nominal value, in percent"
+          min="0"
+          error={!!error && isNaN(parseFloat(toleranceStr))}
+        />
+      </div>
+
+      {/* Error Display */}
+      {error && (
+        <Alert variant="destructive" className="mt-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {/* Result Display */}
+      {(toleranceRange.min !== null && toleranceRange.max !== null && !error) && (
+        <div className="pt-4 mt-4 border-t">
+          <h4 className="font-semibold mb-2">Resistance Range:</h4>
+          <div className="grid grid-cols-2 gap-2 text-sm">
+             <p><strong>Min:</strong> {minDisplay} {minUnit}</p>
+             <p><strong>Max:</strong> {maxDisplay} {maxUnit}</p>
           </div>
-           <Select value={resistanceUnit} onValueChange={(v) => setResistanceUnit(v as ResistanceUnit)}>
-            <SelectTrigger className="w-[80px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.keys(resUnitMultipliers).map(u => (
-                <SelectItem key={u} value={u}>{u}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
         </div>
+      )}
 
-        {/* Tolerance Input */}
-        <div className="flex items-end gap-2">
-          <div className="flex-1 space-y-1">
-            <Label htmlFor="tolerance">Tolerance (%)</Label>
-            <Input
-              id="tolerance"
-              type="number"
-              step="any"
-              min="0"
-              value={toleranceStr}
-              onChange={(e) => setToleranceStr(e.target.value)}
-              placeholder="e.g., 5"
-            />
-          </div>
-           <span className="pb-2 text-muted-foreground">%</span> {/* Indicate unit */}
-           {/* Select for % or ppm if needed later
-           <Select value={toleranceUnit} onValueChange={(v) => setToleranceUnit(v as ToleranceUnit)}>
-             <SelectTrigger className="w-[80px]"> <SelectValue /> </SelectTrigger>
-             <SelectContent>
-               <SelectItem value="%">%</SelectItem>
-               <SelectItem value="ppm">ppm</SelectItem>
-             </SelectContent>
-           </Select> */}
-           <div className="w-[80px] flex-shrink-0"></div> {/* Placeholder for alignment */}
-        </div>
-
-        {error && (
-          <p className="text-sm text-destructive flex items-center gap-1">
-            <AlertCircle size={16} /> {error}
-          </p>
-        )}
-
-        {(toleranceRange.min !== null && toleranceRange.max !== null && !error) && (
-           <div className="pt-4 mt-4 border-t">
-             <h4 className="font-semibold mb-2">Resistance Range:</h4>
-             <p><strong>Min:</strong> {formatResistanceResult(toleranceRange.min)}</p>
-             <p><strong>Max:</strong> {formatResistanceResult(toleranceRange.max)}</p>
-           </div>
-        )}
-
-         {/* Reset Button */}
-        <Button variant="outline" onClick={handleReset} className="w-full md:w-auto mt-2">
-             <RotateCcw className="mr-2 h-4 w-4" /> Reset
-         </Button>
-      </CardContent>
-    </Card>
+      {/* Reset Button */}
+      <Button variant="outline" onClick={handleReset} className="w-full md:w-auto mt-4">
+        <RotateCcw className="mr-2 h-4 w-4" /> Reset
+      </Button>
+    </CalculatorCard>
   );
 }

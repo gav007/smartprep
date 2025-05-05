@@ -1,3 +1,6 @@
+// src/types/calculator.ts
+import type { Unit } from '@/lib/units'; // Import central Unit type
+
 /**
  * Represents an IPv4 address.
  */
@@ -23,9 +26,9 @@ export interface SubnetResult {
   usableHosts: number;
   wildcardMask: string;
   binarySubnetMask: string;
-  binaryIpAddress?: string; // Optional: Binary representation of the input IP
-  binaryNetworkAddress?: string; // Optional: Binary representation of the network address
-  binaryBroadcastAddress?: string; // Optional: Binary representation of the broadcast address
+  binaryIpAddress?: string;
+  binaryNetworkAddress?: string;
+  binaryBroadcastAddress?: string;
   ipClass?: string; // Optional: A, B, C, D, E
   isPrivate?: boolean; // Optional: If the IP is in a private range
 }
@@ -42,26 +45,6 @@ export interface ConversionResult {
 }
 
 /**
- * Types for Waveform Generator
- */
-export type WaveformType = 'sine' | 'square' | 'triangle';
-
-export interface WaveformParams {
-  type: WaveformType;
-  frequency: number; // Hz
-  amplitude: number; // Volts Peak
-  phase?: number; // Degrees (optional)
-  duration?: number; // Seconds (optional, for generating data points)
-  samples?: number; // Number of data points (optional)
-}
-
-export interface WaveformDataPoint {
-  time: number;
-  voltage: number;
-}
-
-
-/**
  * Types for Resistor Calculator
  */
  export type ResistorBandColor =
@@ -69,13 +52,14 @@ export interface WaveformDataPoint {
  | 'green' | 'blue' | 'violet' | 'gray' | 'white'
  | 'gold' | 'silver' | 'none';
 
+// ResistorBands uses optional fields, allowing calculation logic to handle missing bands based on numBands.
 export interface ResistorBands {
  band1?: ResistorBandColor;
  band2?: ResistorBandColor;
- band3?: ResistorBandColor; // Digit or Multiplier (4-band)
- multiplier?: ResistorBandColor; // Band 4 (5/6-band) or Band 3 (4-band)
- tolerance?: ResistorBandColor; // Band 5 (5/6-band) or Band 4 (4-band)
- tempCoefficient?: ResistorBandColor; // Band 6 (6-band)
+ band3?: ResistorBandColor; // Digit (5/6) OR Multiplier (4)
+ multiplier?: ResistorBandColor; // Multiplier (5/6) OR Tolerance (4)
+ tolerance?: ResistorBandColor; // Tolerance (5/6)
+ tempCoefficient?: ResistorBandColor; // TempCo (6)
 }
 
 export interface ResistorResult {
@@ -85,21 +69,9 @@ export interface ResistorResult {
  resistanceString: string; // Formatted string e.g., "4.7 kΩ"
 }
 
-export const ResistorColorMap: Record<
-  ResistorBandColor,
-  { digit?: number; multiplier?: number; tolerance?: number; tempCoefficient?: number }
-> = {
-  black: { digit: 0, multiplier: 1 },
-  brown: { digit: 1, multiplier: 10, tolerance: 1, tempCoefficient: 100 },
-  red: { digit: 2, multiplier: 100, tolerance: 2, tempCoefficient: 50 },
-  orange: { digit: 3, multiplier: 1000, tempCoefficient: 15 },
-  yellow: { digit: 4, multiplier: 10000, tempCoefficient: 25 },
-  green: { digit: 5, multiplier: 100000, tolerance: 0.5 },
-  blue: { digit: 6, multiplier: 1000000, tolerance: 0.25, tempCoefficient: 10 },
-  violet: { digit: 7, multiplier: 10000000, tolerance: 0.1, tempCoefficient: 5 },
-  gray: { digit: 8, multiplier: 100000000, tolerance: 0.05, tempCoefficient: 1 },
-  white: { digit: 9, multiplier: 1000000000 },
-  gold: { multiplier: 0.1, tolerance: 5 },
-  silver: { multiplier: 0.01, tolerance: 10 },
-  none: { tolerance: 20 },
-};
+// Waveform Types Removed as requested
+// export type WaveformType = 'sine' | 'square' | 'triangle';
+// export interface WaveformParams { ... }
+// export interface WaveformDataPoint { ... }
+
+// Centralized ResistorColorMap moved to calculator-utils.ts
