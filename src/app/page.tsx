@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Code, Cpu, GitBranch, Network, Palette, Sigma, TableIcon, Settings, Zap, CircuitBoard } from 'lucide-react'; // Removed BrainCircuit
+import { ArrowRight, Calculator, Code, Cpu, GitBranch, Network, Palette, Sigma, TableIcon, Settings, Zap, CircuitBoard, Binary } from 'lucide-react'; // Removed BrainCircuit, Added Binary
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -43,19 +43,17 @@ const featuredTools = [
     link: "/calculator", // Links to main calculator page where BJT solver resides
     aiHint: "bjt transistor circuit diagram"
   },
-  // Removed AI Quiz Explainer
-  // {
-  //   title: "AI Quiz Explainer",
-  //   description: "Get AI-powered, step-by-step explanations for quiz answers to deepen understanding.",
-  //   icon: BrainCircuit,
-  //   link: "/quiz", // Link to quiz section
-  //   aiHint: "artificial intelligence learning brain"
-  // },
+   {
+    title: "Base Converter", // Added Base Converter
+    description: "Convert numbers between Binary, Decimal, and Hexadecimal representations.",
+    icon: Binary,
+    link: "/tools/base-converter",
+    aiHint: "binary decimal hexadecimal number system"
+   },
 ];
 
 // Placeholder for Recent Updates/Changelog data
 const recentUpdates = [
-    // Removed "Launched AI Explanations" update
     { id: 2, date: "2024-07-25", title: "Added BJT Solver", description: "Analyze basic BJT fixed-bias circuits." },
     { id: 3, date: "2024-07-20", title: "Improved UI Responsiveness", description: "Enhanced experience on mobile devices." },
 ];
@@ -95,12 +93,7 @@ export default function HomePage() {
                   className="rounded-xl shadow-2xl object-cover aspect-[4/3]" // Consistent styling: aspect-[4/3], rounded-xl
                   data-ai-hint="network server rack data center ethernet cables switch" // Updated hint
                   priority // Load hero image faster
-                  // Fallback handling can be added with onError if needed
-                  onError={(e) => {
-                    // Handle error, e.g., show a default icon or message
-                    // For simplicity, we'll rely on alt text for now.
-                    console.error("Hero image failed to load:", e);
-                  }}
+                  // Removed onError handler
                 />
             </div>
           </div>
@@ -148,7 +141,7 @@ export default function HomePage() {
                   className="rounded-xl shadow-xl object-cover aspect-[4/3]" // Consistent styling: rounded-xl
                   data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter" // Updated hint
                   loading="lazy" // Add lazy loading
-                   onError={(e) => { console.error("About image failed to load:", e); }}
+                  // Removed onError handler
                 />
             </div>
              <div className="space-y-5 md:order-1 text-center md:text-left">

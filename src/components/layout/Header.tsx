@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette } from 'lucide-react'; // Added more icons
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary } from 'lucide-react'; // Added Binary icon
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from '@/lib/utils';
@@ -20,7 +20,8 @@ const navItems = [
     items: [
       { href: "/tools/subnet", label: "Subnet", icon: Network },
       { href: "/tools/truth-table", label: "Truth Table", icon: TableIcon },
-      { href: "/tools/resistor", label: "Resistor", icon: Palette }, // Changed icon to Palette
+      { href: "/tools/resistor", label: "Resistor", icon: Palette },
+      { href: "/tools/base-converter", label: "Base Converter", icon: Binary }, // Added Base Converter
       // Add other tools here if needed
       // { href: "/tools/waveform", label: "Waveform", icon: Activity },
     ],
@@ -153,5 +154,3 @@ export default function Header() {
     </header>
   );
 }
-
-    
