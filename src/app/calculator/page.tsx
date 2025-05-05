@@ -8,6 +8,7 @@ import PowerCalculator from "@/components/calculators/PowerCalculator";
 import ResistorToleranceCalculator from "@/components/calculators/ResistorToleranceCalculator";
 import OpAmpGainCalculator from "@/components/calculators/OpAmpGainCalculator";
 import BJTSolver from "@/components/calculators/BJTSolver";
+import ResistorCalculatorPage from "@/app/tools/resistor/page"; // Import the Resistor Calculator Page component
 import { Calculator } from "lucide-react";
 
 // Remove the old 'tools' array and link-based dashboard approach
@@ -31,6 +32,8 @@ export default function CalculatorPage() {
         <PowerCalculator /> {/* Added Power Calculator */}
         <SeriesParallelResistanceCalculator />
         <ResistorToleranceCalculator /> {/* Added Tolerance Calculator */}
+        {/* ResistorColorCodeCalculator is now part of ResistorCalculatorPage */}
+        {/* <ResistorCalculatorPage /> Include the Resistor Calc Page directly? Or link? Better to link via header */}
         <ACVoltageCalculator />
         <RippleVoltageCalculator />
         <OpAmpGainCalculator />
