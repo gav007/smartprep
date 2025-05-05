@@ -1,11 +1,10 @@
 
-import TruthTableGenerator from '@/components/tools/TruthTableGenerator';
+'use client';
+
+import React from 'react';
+import TruthTableGenerator from '@/components/tools/TruthTableGenerator'; // Assuming component path
 
 export default function TruthTablePage() {
-  return (
-    <div className="container mx-auto px-4 py-8"> {/* Standard container padding */}
-       <TruthTableGenerator />
-    </div>
-  );
+  // Container and padding handled by the layout
+  return <TruthTableGenerator />;
 }
-
