@@ -1,0 +1,34 @@
+# Git files
+.git
+.gitignore
+
+# Node modules
+node_modules
+
+# Next.js build output and cache
+.next
+
+# Docker files
+Dockerfile
+.dockerignore
+docker-compose.yml
+nginx.conf
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files (secrets should not be in the image)
+.env*
+!.env.example
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor config
+.vscode
+*.code-workspace

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  smartprep:
+    # Build the image using the Dockerfile in the current directory
+    build: .
+    # Name the container
+    container_name: smartprep_app
+    # Map port 3000 on the host to port 3000 in the container
+    ports:
+      - "3000:3000"
+    # Set restart policy
+    restart: unless-stopped
+    # Optional: Mount environment file if needed
+    # env_file:
+    #   - .env.production
+    # Optional: Set environment variables directly
+    # environment:
+    #   - NODE_ENV=production
+    #   - PORT=3000
+    #   - NEXT_PUBLIC_API_BASE=/api # Example
+    networks:
+      - smartprep_network
+
+networks:
+  smartprep_network:
+    driver: bridge
