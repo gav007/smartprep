@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import type { PacketLayerData } from '@/types/packet';
-import { Layer7, Layers, Network, Smartphone, Cable, Router, Server } from 'lucide-react'; // Example icons
+import { AppWindow, Layers, Network, Smartphone, Cable, Router, Server } from 'lucide-react'; // Replaced Layer7 with AppWindow
 
 interface OSILayerCardProps {
   layerName: string;
@@ -17,7 +17,7 @@ interface OSILayerCardProps {
 }
 
 const layerIcons: Record<string, React.ElementType> = {
-    Application: Layer7,
+    Application: AppWindow, // Changed from Layer7 to AppWindow
     Presentation: Layers,
     Session: Layers, // Consider a different icon if available
     Transport: Smartphone, // Represents end-to-end connection
