@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Network, AlertTriangle } from 'lucide-react';
-import { isValidIPv4, calculateSubnetDetails } from '@/lib/calculator-utils';
+import { isValidIPv4, calculateSubnetDetails, cidrToSubnetMask } from '@/lib/calculator-utils'; // Import cidrToSubnetMask
 import type { SubnetResult } from '@/types/calculator';
 import { Button } from '@/components/ui/button';
 import { BrainCircuit } from 'lucide-react'; // Assuming explainAnswer is adapted or a new flow is created
