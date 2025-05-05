@@ -1,6 +1,7 @@
+
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -13,6 +14,13 @@ interface FlowPathProps {
 }
 
 const FlowPath: React.FC<FlowPathProps> = ({ direction, isActive, isVertical = false, style, className }) => {
+  const [markerId, setMarkerId] = useState<string | null>(null);
+
+  // Generate the marker ID only on the client side after hydration
+  useEffect(() => {
+    setMarkerId(`arrowhead-${direction}-${Math.random().toString(16).slice(2)}`);
+  }, [direction]); // Regenerate if direction changes (though likely stable)
+
   const pathVariants = {
     inactive: { pathLength: 0, opacity: 0.3 },
     active: {
@@ -31,7 +39,28 @@ const FlowPath: React.FC<FlowPathProps> = ({ direction, isActive, isVertical = f
     return "M 0 0 L 10 10"; // Default fallback
   };
 
-   const markerId = `arrowhead-${direction}-${Math.random().toString(16).slice(2)}`;
+
+  // Don't render until the marker ID is generated on the client
+  if (!markerId) {
+    // Render a placeholder or null during server render and initial client render before useEffect runs
+    return (
+        <svg
+            width="100%"
+            height={isVertical ? "50" : "50"}
+            viewBox={isVertical ? "0 0 10 50" : "0 0 100 50"}
+            className={cn("overflow-visible opacity-30", className)} // Show placeholder state
+            style={style}
+        >
+             <path
+                d={getPathD()}
+                fill="transparent"
+                stroke={'hsl(var(--muted-foreground))'}
+                strokeWidth="2"
+                strokeDasharray="4 4" // Make it dashed
+            />
+        </svg>
+    );
+  }
 
   return (
     <svg
@@ -63,7 +92,7 @@ const FlowPath: React.FC<FlowPathProps> = ({ direction, isActive, isVertical = f
         variants={pathVariants}
         initial="inactive"
         animate={isActive ? "active" : "inactive"}
-        markerEnd={`url(#${markerId})`} // Add arrowhead
+        markerEnd={`url(#${markerId})`} // Add arrowhead using the client-generated ID
       />
     </svg>
   );
