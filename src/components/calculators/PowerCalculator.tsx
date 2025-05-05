@@ -1,255 +1,206 @@
 
-'use client';
+"use client";
+import React, { useState, useEffect } from "react";
 
-import React, { useState, useMemo } from 'react';
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, Zap } from 'lucide-react'; // Zap icon for Power
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group" // Import RadioGroup components
-
-
-// Define types for units to ensure consistency
+// Define types for units to ensure consistency - Keeping these for potential future integration
 type VoltageUnit = 'V' | 'mV' | 'kV';
 type CurrentUnit = 'A' | 'mA' | 'µA';
 type ResistanceUnit = 'Ω' | 'kΩ' | 'MΩ';
-type PowerUnit = 'W' | 'mW' | 'kW'; // Added Power units
+type PowerUnit = 'W' | 'mW' | 'kW';
 
-// Define multipliers for unit conversions
+// Define multipliers for unit conversions - Keeping these
 const voltageMultipliers: Record<VoltageUnit, number> = { V: 1, mV: 1e-3, kV: 1e3 };
 const currentMultipliers: Record<CurrentUnit, number> = { A: 1, mA: 1e-3, µA: 1e-6 };
 const resistanceMultipliers: Record<ResistanceUnit, number> = { Ω: 1, kΩ: 1e3, MΩ: 1e6 };
-const powerMultipliers: Record<PowerUnit, number> = { W: 1, mW: 1e-3, kW: 1e3 }; // Added Power multipliers
+const powerMultipliers: Record<PowerUnit, number> = { W: 1, mW: 1e-3, kW: 1e3 };
 
-
-// Helper function to format the power result with appropriate units
-const formatPowerResult = (value: number | null): string => {
-  if (value === null || !isFinite(value)) return 'N/A';
-
-  let unit: PowerUnit = 'W';
-  let displayValue = value;
-
-  if (Math.abs(value) >= 1000) { displayValue = value / 1000; unit = 'kW'; }
-  else if (Math.abs(value) < 1 && Math.abs(value) !== 0) { displayValue = value * 1000; unit = 'mW'; }
-
-  const precision = Math.abs(displayValue) < 10 ? 3 : 2;
-  return `${displayValue.toFixed(precision).replace(/\.?0+$/, '')} ${unit}`;
-};
-
-// Helper function to format basic electrical units (V, A, R)
-const formatVarResult = (value: number | null, variable: 'voltage' | 'current' | 'resistance'): string => {
-    if (value === null || !isFinite(value)) return 'N/A';
-
-    let displayValue = value;
-    let unit: string = '';
-
-    switch (variable) {
-        case 'voltage':
-            unit = 'V';
-            if (Math.abs(value) >= 1000) { displayValue = value / 1000; unit = 'kV'; }
-            else if (Math.abs(value) < 1 && value !== 0) { displayValue = value * 1000; unit = 'mV'; }
-            break;
-        case 'current':
-            unit = 'A';
-            if (Math.abs(value) < 1 && value !== 0) { displayValue = value * 1000; unit = 'mA'; }
-            if (Math.abs(value) < 1e-3 && value !== 0) { displayValue = value * 1e6; unit = 'µA'; }
-            break;
-        case 'resistance':
-            unit = 'Ω';
-            if (Math.abs(value) >= 1e6) { displayValue = value / 1e6; unit = 'MΩ'; }
-            else if (Math.abs(value) >= 1000) { displayValue = value / 1000; unit = 'kΩ'; }
-            break;
-    }
-     const precision = Math.abs(displayValue) < 10 ? 3 : 2;
-     return `${displayValue.toFixed(precision).replace(/\.?0+$/, '')} ${unit}`;
+// Formatting helpers (simplified for now)
+const formatResult = (value: string | number | null, unit: string): string => {
+    if (value === null || value === "" || isNaN(Number(value))) return 'N/A';
+    // Basic formatting, could be enhanced like before
+    const num = Number(value);
+    const precision = Math.abs(num) < 10 ? 3 : 2;
+    return `${num.toFixed(precision).replace(/\.?0+$/, '')} ${unit}`;
 }
 
 export default function PowerCalculator() {
-  const [voltageStr, setVoltageStr] = useState<string>('');
-  const [currentStr, setCurrentStr] = useState<string>('');
-  const [resistanceStr, setResistanceStr] = useState<string>('');
-  const [powerStr, setPowerStr] = useState<string>(''); // Added Power state
+  const [voltage, setVoltage] = useState("");
+  const [current, setCurrent] = useState("");
+  const [resistance, setResistance] = useState("");
+  const [power, setPower] = useState("");
 
-  const [voltageUnit, setVoltageUnit] = useState<VoltageUnit>('V');
-  const [currentUnit, setCurrentUnit] = useState<CurrentUnit>('A');
-  const [resistanceUnit, setResistanceUnit] = useState<ResistanceUnit>('Ω');
-  const [powerUnit, setPowerUnit] = useState<PowerUnit>('W'); // Added Power unit state
+  // Track the last edited field
+  const [lastChanged, setLastChanged] = useState<"V" | "I" | "R" | "P" | null>(null);
+  const [calculating, setCalculating] = useState(false); // Prevent infinite loops
 
-  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    // If currently calculating, skip this effect run
+    if (calculating) return;
 
-  // Central calculation logic
-  const results = useMemo(() => {
-    const inputsProvided = [voltageStr, currentStr, resistanceStr, powerStr].filter(s => s !== '').length;
-     // Reset error at the start of each calculation attempt
-     setError(null);
+    const v = parseFloat(voltage);
+    const i = parseFloat(current);
+    const r = parseFloat(resistance);
+    const p = parseFloat(power);
 
-    if (inputsProvided !== 2) {
-       if (inputsProvided > 0) { // Only show error if user has started typing
-           setError('Please enter exactly two values.');
-       }
-      return { voltage: null, current: null, resistance: null, power: null };
+    const inputs = [voltage, current, resistance, power].filter(s => s !== '').length;
+
+    if (inputs !== 2 || !lastChanged) {
+      // Reset calculated fields if not exactly 2 inputs or no recent change
+      // This allows users to clear fields and start over
+      if (inputs < 2 && lastChanged) {
+          if (lastChanged !== 'V') setVoltage(val => lastChanged === 'V' ? val : '');
+          if (lastChanged !== 'I') setCurrent(val => lastChanged === 'I' ? val : '');
+          if (lastChanged !== 'R') setResistance(val => lastChanged === 'R' ? val : '');
+          if (lastChanged !== 'P') setPower(val => lastChanged === 'P' ? val : '');
+      }
+      return;
     }
 
-    // Parse inputs to base units (V, A, Ω, W)
-    const V = voltageStr ? parseFloat(voltageStr) * voltageMultipliers[voltageUnit] : NaN;
-    const I = currentStr ? parseFloat(currentStr) * currentMultipliers[currentUnit] : NaN;
-    const R = resistanceStr ? parseFloat(resistanceStr) * resistanceMultipliers[resistanceUnit] : NaN;
-    const P = powerStr ? parseFloat(powerStr) * powerMultipliers[powerUnit] : NaN;
+    setCalculating(true); // Set flag before potentially updating state
 
-    let finalV: number | null = !isNaN(V) ? V : null;
-    let finalI: number | null = !isNaN(I) ? I : null;
-    let finalR: number | null = !isNaN(R) ? R : null;
-    let finalP: number | null = !isNaN(P) ? P : null;
-
-     // Check for invalid number parsing (e.g., empty string parsed)
-     if ((voltageStr && isNaN(V)) || (currentStr && isNaN(I)) || (resistanceStr && isNaN(R)) || (powerStr && isNaN(P))) {
-         setError("Invalid number format entered.");
-         return { voltage: null, current: null, resistance: null, power: null };
-     }
-
-
-    // Calculate missing values based on pairs
     try {
-        if (!isNaN(V) && !isNaN(I)) { // V, I given
-            finalR = V / I; if (I === 0) throw new Error("Current cannot be zero.");
-            finalP = V * I;
-        } else if (!isNaN(V) && !isNaN(R)) { // V, R given
-            if (R === 0) throw new Error("Resistance cannot be zero.");
-            finalI = V / R;
-            finalP = (V * V) / R;
-        } else if (!isNaN(V) && !isNaN(P)) { // V, P given
-            finalI = P / V; if (V === 0) throw new Error("Voltage cannot be zero.");
-            finalR = (V * V) / P; if (P === 0 && V !== 0) finalR = Infinity; else if (P === 0 && V === 0) throw new Error("Cannot determine resistance if P and V are zero.");
-        } else if (!isNaN(I) && !isNaN(R)) { // I, R given
-            finalV = I * R;
-            finalP = (I * I) * R;
-        } else if (!isNaN(I) && !isNaN(P)) { // I, P given
-             if (I === 0 && P !== 0) throw new Error("Inconsistent input: Non-zero power with zero current.");
-             if (I === 0 && P === 0) { // Undefined R, V = 0
-                 finalV = 0;
-                 finalR = null; // Cannot determine R
+        // Logic based on which two fields are KNOWN (not necessarily the last changed)
+        if (!isNaN(v) && !isNaN(i) && lastChanged !== 'R' && lastChanged !== 'P') {
+            if (i !== 0) setResistance((v / i).toPrecision(4)); else setResistance(''); // Avoid div by zero
+            setPower((v * i).toPrecision(4));
+        } else if (!isNaN(v) && !isNaN(r) && lastChanged !== 'I' && lastChanged !== 'P') {
+             if (r !== 0) setCurrent((v / r).toPrecision(4)); else setCurrent('');
+             if (r !== 0) setPower(((v * v) / r).toPrecision(4)); else setPower('');
+        } else if (!isNaN(i) && !isNaN(r) && lastChanged !== 'V' && lastChanged !== 'P') {
+            setVoltage((i * r).toPrecision(4));
+            setPower(((i * i) * r).toPrecision(4));
+        } else if (!isNaN(v) && !isNaN(p) && lastChanged !== 'I' && lastChanged !== 'R') {
+             if (v !== 0) setCurrent((p / v).toPrecision(4)); else setCurrent('');
+             if (p !== 0) setResistance(((v * v) / p).toPrecision(4)); else setResistance('');
+        } else if (!isNaN(i) && !isNaN(p) && lastChanged !== 'V' && lastChanged !== 'R') {
+            if (i !== 0) setVoltage((p / i).toPrecision(4)); else setVoltage('');
+            if (i !== 0) setResistance((p / (i * i)).toPrecision(4)); else setResistance('');
+        } else if (!isNaN(r) && !isNaN(p) && lastChanged !== 'V' && lastChanged !== 'I') {
+             if (r !== 0) {
+                const calcI = Math.sqrt(Math.abs(p) / r); // Calculate magnitude
+                setCurrent(calcI.toPrecision(4));
+                setVoltage(Math.sqrt(Math.abs(p) * r).toPrecision(4)); // Calculate magnitude
              } else {
-                 finalR = P / (I * I);
-                 finalV = P / I;
+                 setCurrent('');
+                 setVoltage('');
              }
-        } else if (!isNaN(R) && !isNaN(P)) { // R, P given
-            if (P < 0 && R > 0) throw new Error("Power cannot be negative for positive resistance.");
-             if (R === 0 && P !== 0) throw new Error("Inconsistent input: Non-zero power with zero resistance.");
-             if (R === 0 && P === 0) { // V=0, I undefined
-                 finalV = 0;
-                 finalI = null; // Cannot determine I
-             } else if (R > 0) {
-                finalI = Math.sqrt(Math.abs(P) / R); // Current could be +/- if P>0
-                finalV = Math.sqrt(Math.abs(P) * R); // Voltage could be +/- if P>0
-                // Note: We calculate magnitude here. Sign depends on convention.
-             } else { // Negative resistance (theoretical)
-                 // Handle complex cases or forbid negative R? For simplicity, let's assume R >= 0
-                 if (R < 0) throw new Error("Negative resistance is not physically typical.");
-             }
-
         }
-    } catch (e: any) {
-        setError(e.message || "Calculation error.");
-        return { voltage: null, current: null, resistance: null, power: null };
+    } catch (error) {
+        console.error("Calculation error:", error);
+        // Optionally set an error state to display to the user
+    } finally {
+        // Crucially, unset the calculating flag AFTER state updates might have occurred
+        // Use a microtask delay to ensure state updates are processed before the next effect run
+        queueMicrotask(() => setCalculating(false));
     }
 
-     // Final validation for NaN or Infinity results where they are errors
-     if (finalR !== null && (!isFinite(finalR) && Math.abs(finalP ?? 0) > 0)) { // Allow infinite R if P=0
-          setError("Resulting resistance is infinite or invalid.");
-          finalR = null;
-     }
-      if (finalI !== null && !isFinite(finalI)) {
-          setError("Resulting current is infinite or invalid.");
-          finalI = null;
-     }
-       if (finalV !== null && !isFinite(finalV)) {
-          setError("Resulting voltage is infinite or invalid.");
-          finalV = null;
-     }
-        if (finalP !== null && !isFinite(finalP)) {
-          setError("Resulting power is infinite or invalid.");
-          finalP = null;
-     }
+  }, [voltage, current, resistance, power, lastChanged, calculating]); // Add calculating to dependency array
 
+  // Update handleInput to clear other fields ONLY when a new field gets focus/input
+  // And only if we already have 2+ fields filled? No, just clear calculated fields.
+  const handleInput = (setter: React.Dispatch<React.SetStateAction<string>>, value: string, field: "V" | "I" | "R" | "P") => {
+    setter(value);
+    setLastChanged(field); // Set this field as the last one changed
 
-    return { voltage: finalV, current: finalI, resistance: finalR, power: finalP };
+     // If the user starts typing in a field, clear the ones that would be calculated *from* it
+     // This prevents lock-in and allows correction.
+     // Example: If user types in V, and previously I, R, P were calculated, clear R and P.
+     // Keep I because V and I calculate R and P.
+     // Keep R because V and R calculate I and P.
+     // Keep P because V and P calculate I and R.
 
-  }, [voltageStr, currentStr, resistanceStr, powerStr, voltageUnit, currentUnit, resistanceUnit, powerUnit]);
+     // Simpler approach: When a user types in a field, clear ONE field that is normally calculated from it,
+     // letting the useEffect calculate the remaining one.
+     // Or even simpler: just set the lastChanged and let useEffect handle the rest, including potential overwrites.
+     // Let's stick to just setting lastChanged and letting useEffect manage consistency.
+  };
 
-  // Helper to render input fields
-  const renderInputField = (
-    label: string,
-    variable: 'voltage' | 'current' | 'resistance' | 'power',
-    value: string,
-    setValue: (val: string) => void,
-    unit: VoltageUnit | CurrentUnit | ResistanceUnit | PowerUnit,
-    setUnit: (unit: any) => void, // Corrected type definition
-    unitOptions: Record<string, number>,
-    calculatedValue: number | null
-  ) => {
-    const isDisabled = calculatedValue !== null && [voltageStr, currentStr, resistanceStr, powerStr].filter(s => s !== '').length === 2;
-    return (
-      <div className="flex items-end gap-2">
-        <div className="flex-1 space-y-1">
-          <Label htmlFor={variable}>{label}</Label>
-          <Input
-            id={variable}
-            type="number"
-            step="any"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            placeholder={`Enter ${variable}`}
-            disabled={isDisabled}
-            className={isDisabled ? 'bg-muted/50 font-semibold border-dashed' : ''}
-          />
-        </div>
-        <Select value={unit} onValueChange={(newUnit) => setUnit(newUnit)} disabled={isDisabled}>
-          <SelectTrigger className="w-[80px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.keys(unitOptions).map(u => (
-              <SelectItem key={u} value={u}>{u}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-    );
+  // Function to clear all fields
+  const handleClear = () => {
+      setVoltage("");
+      setCurrent("");
+      setResistance("");
+      setPower("");
+      setLastChanged(null);
+      setCalculating(false); // Ensure flag is reset
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2"><Zap size={20} /> Electrical Power Calculator</CardTitle>
-        <CardDescription>Calculate Power (P), Voltage (V), Current (I), or Resistance (R). Enter any two values.</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {renderInputField('Voltage (V)', 'voltage', voltageStr, setVoltageStr, voltageUnit, setVoltageUnit, voltageMultipliers, results.voltage)}
-        {renderInputField('Current (I)', 'current', currentStr, setCurrentStr, currentUnit, setCurrentUnit, currentMultipliers, results.current)}
-        {renderInputField('Resistance (R)', 'resistance', resistanceStr, setResistanceStr, resistanceUnit, setResistanceUnit, resistanceMultipliers, results.resistance)}
-        {renderInputField('Power (P)', 'power', powerStr, setPowerStr, powerUnit, setPowerUnit, powerMultipliers, results.power)}
+    // Applying basic Tailwind for layout matching the project style
+    <div className="p-6 bg-card text-card-foreground rounded-lg shadow-sm border max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-zap"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg> Electrical Power Calculator</h2>
+      <p className="text-sm text-muted-foreground mb-4">Enter any two values to calculate the others.</p>
+      <div className="space-y-3">
+         {/* Using basic input with Tailwind classes */}
+        <div className="space-y-1">
+            <label htmlFor="voltage" className="text-sm font-medium text-muted-foreground">Voltage (V)</label>
+            <input
+            id="voltage"
+            type="number"
+            step="any"
+            placeholder="Enter Voltage"
+            value={voltage}
+            onChange={(e) => handleInput(setVoltage, e.target.value, "V")}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+            />
+        </div>
+         <div className="space-y-1">
+             <label htmlFor="current" className="text-sm font-medium text-muted-foreground">Current (A)</label>
+            <input
+                id="current"
+                type="number"
+                step="any"
+                placeholder="Enter Current"
+                value={current}
+                onChange={(e) => handleInput(setCurrent, e.target.value, "I")}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+            />
+        </div>
+         <div className="space-y-1">
+            <label htmlFor="resistance" className="text-sm font-medium text-muted-foreground">Resistance (Ω)</label>
+            <input
+                id="resistance"
+                type="number"
+                step="any"
+                placeholder="Enter Resistance"
+                value={resistance}
+                onChange={(e) => handleInput(setResistance, e.target.value, "R")}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+            />
+        </div>
+        <div className="space-y-1">
+             <label htmlFor="power" className="text-sm font-medium text-muted-foreground">Power (W)</label>
+            <input
+                id="power"
+                type="number"
+                step="any"
+                placeholder="Enter Power"
+                value={power}
+                onChange={(e) => handleInput(setPower, e.target.value, "P")}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+            />
+        </div>
+      </div>
 
-        {error && (
-          <p className="text-sm text-destructive flex items-center gap-1">
-            <AlertCircle size={16} /> {error}
-          </p>
-        )}
+       <button
+         onClick={handleClear}
+         className="mt-4 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3"
+       >
+         Clear All
+       </button>
 
-        {/* Display Calculated Results */}
-         {([results.voltage, results.current, results.resistance, results.power].filter(v => v !== null).length >= 1 && !error) && (
-             <div className="pt-4 mt-4 border-t">
-                 <h4 className="font-semibold mb-2">Results:</h4>
-                 <div className="grid grid-cols-2 gap-2 text-sm">
-                     <p><strong>Voltage:</strong> {formatVarResult(results.voltage, 'voltage')}</p>
-                     <p><strong>Current:</strong> {formatVarResult(results.current, 'current')}</p>
-                     <p><strong>Resistance:</strong> {formatVarResult(results.resistance, 'resistance')}</p>
-                     <p><strong>Power:</strong> {formatPowerResult(results.power)}</p>
-                 </div>
-             </div>
-         )}
-      </CardContent>
-    </Card>
+
+      {/* Display results simply for now */}
+      <div className="mt-6 pt-4 border-t">
+        <h3 className="font-semibold mb-2">Results:</h3>
+        <div className="grid grid-cols-2 gap-2 text-sm">
+            <p><strong>Voltage:</strong> {formatResult(voltage, 'V')}</p>
+            <p><strong>Current:</strong> {formatResult(current, 'A')}</p>
+            <p><strong>Resistance:</strong> {formatResult(resistance, 'Ω')}</p>
+            <p><strong>Power:</strong> {formatResult(power, 'W')}</p>
+        </div>
+      </div>
+    </div>
   );
 }
+
