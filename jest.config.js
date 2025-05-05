@@ -19,6 +19,12 @@ const customJestConfig = {
    transform: {
      '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
    },
+   // Ignore specific paths if needed (e.g., utility files not meant for testing directly)
+   // testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
+   // transformIgnorePatterns: [
+   //   '/node_modules/',
+   //   '^.+\\.module\\.(css|sass|scss)$',
+   // ],
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

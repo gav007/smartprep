@@ -14,14 +14,14 @@ import {
     powerUnitOptions,
     defaultUnits,
     formatResultValue,
-    unitMultipliers,
+    unitMultipliers, // Import unitMultipliers
 } from '@/lib/units';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type PowerVariable = 'voltage' | 'current' | 'resistance' | 'power';
 
-const initialValues = { voltage: "", current: "", resistance: "", power: "" };
-const initialUnits = {
+const initialValues: Record<PowerVariable, string> = { voltage: "", current: "", resistance: "", power: "" };
+const initialUnits: Record<PowerVariable, Unit> = {
     voltage: defaultUnits.voltage,
     current: defaultUnits.current,
     resistance: defaultUnits.resistance,
@@ -39,13 +39,10 @@ const calculatePowerValues = (
     const results: Partial<Record<PowerVariable, number | null>> = {};
     let error: string | null = null;
 
-     // Only proceed if exactly the required number of fields are locked (inputs provided)
+     // Calculation logic remains the same as before, but the hook handles *when* it's called
      if (lockedFields.size !== requiredInputs) {
-         // This check might be redundant if the hook already handles it, but good for safety
-         // error = `Enter exactly ${requiredInputs} values.`; // This error is now handled by the hook based on touched state
-         return { results, error: null }; // Return empty results, let hook handle hint error
+         return { results, error: null }; // Let hook handle hint error
      }
-
 
     try {
         // Calculate missing values based on which fields are locked
@@ -72,7 +69,6 @@ const calculatePowerValues = (
                 } else {
                     results.current = p / v;
                     results.resistance = (v * v) / p;
-                     // Check if power is negative while voltage is non-zero -> requires negative resistance
                      if (p < 0 && v !== 0 && !error) {
                          error = "Negative power with non-zero voltage implies negative resistance.";
                      }
@@ -101,27 +97,22 @@ const calculatePowerValues = (
                 if (r <= 0) { error = "Resistance must be positive."; results.voltage = null; results.current = null; }
                 else if (p < 0) { error = "Power cannot be negative if resistance is positive."; results.voltage = null; results.current = null; }
                 else {
-                    // Voltage can be positive or negative, current depends on voltage sign
-                    results.voltage = Math.sqrt(p * r); // Calculate magnitude
-                    results.current = Math.sqrt(p / r); // Calculate magnitude
-                    // Note: We display magnitude, signs are implicit or context-dependent
+                    results.voltage = Math.sqrt(p * r);
+                    results.current = Math.sqrt(p / r);
                 }
             }
         }
 
         // --- Final Checks ---
-        // Check for derived negative resistance more broadly
         if (results.resistance !== undefined && results.resistance !== null && results.resistance < 0 && !error) {
              error = "Calculation resulted in negative resistance. Check inputs.";
-             // Invalidate other dependent calculated results
              if (!lockedFields.has('voltage')) results.voltage = null;
              if (!lockedFields.has('current')) results.current = null;
              if (!lockedFields.has('power')) results.power = null;
         }
-        // Handle Infinity resistance explicitly for display formatting
          if (results.resistance === Infinity) {
              results.resistance = null; // Don't display infinity in the input
-             if (!error || !error.includes("infinite")) { // Append if not already mentioned
+             if (!error || !error.includes("infinite")) {
                  error = error ? `${error} Resistance is infinite.` : "Resistance is infinite.";
              }
          }
@@ -159,6 +150,7 @@ export default function PowerCalculator() {
        // Avoid converting if value is empty or invalid
        if (numValueStr === null || numValueStr.trim() === '' || isNaN(parseFloat(numValueStr))) return 'N/A';
        // Convert based on the *current* unit for consistent display
+        // Use the imported unitMultipliers here
        const numValue = parseFloat(numValueStr) * (unitMultipliers[unit] ?? 1);
        if (isNaN(numValue) || !isFinite(numValue)) return 'N/A';
        const { displayValue, unit: displayUnit } = formatResultValue(numValue, variable, units[variable]);
@@ -184,8 +176,6 @@ export default function PowerCalculator() {
           placeholder="Enter Voltage"
           tooltip="Voltage (V or E)"
           isCalculated={values.voltage !== '' && !lockedFields.has('voltage')}
-          // Error visual state can be driven by the hook's error state if desired
-          // error={!!error && !lockedFields.has('voltage')}
         />
         <CalculatorInput
           id="current"
@@ -199,7 +189,6 @@ export default function PowerCalculator() {
           placeholder="Enter Current"
           tooltip="Current (I or A)"
           isCalculated={values.current !== '' && !lockedFields.has('current')}
-           // error={!!error && !lockedFields.has('current')}
         />
         <CalculatorInput
           id="resistance"
@@ -212,9 +201,8 @@ export default function PowerCalculator() {
           onUnitChange={(u) => handleUnitChange('resistance', u)}
           placeholder="Enter Resistance"
           tooltip="Resistance (R or Ω)"
-          min="0" // Resistance cannot be negative - input level constraint
+          min="0"
           isCalculated={values.resistance !== '' && !lockedFields.has('resistance')}
-           // error={!!error && !lockedFields.has('resistance')}
         />
         <CalculatorInput
           id="power"
@@ -227,8 +215,8 @@ export default function PowerCalculator() {
           onUnitChange={(u) => handleUnitChange('power', u)}
           placeholder="Enter Power"
           tooltip="Power (P or W)"
+          min="0" // Typically power is positive unless dealing with sources/sinks explicitly
           isCalculated={values.power !== '' && !lockedFields.has('power')}
-          // error={!!error && !lockedFields.has('power')}
         />
       </div>
 
@@ -260,7 +248,7 @@ export default function PowerCalculator() {
         ) : (
           // Don't show "Enter values" here if the error message already says it
           !error?.startsWith("Enter") && (
-             <p className="text-sm text-muted-foreground italic">Enter {requiredInputs} valid values to see results.</p>
+             <p className="text-sm text-muted-foreground italic">Enter {requiredInputs} valid values above to see results.</p>
           )
         )}
       </div>

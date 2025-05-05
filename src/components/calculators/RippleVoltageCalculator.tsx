@@ -1,7 +1,7 @@
 // src/components/calculators/RippleVoltageCalculator.tsx
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react'; // Import useCallback
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Waves, RotateCcw } from 'lucide-react'; // Using Waves icon
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -87,7 +87,7 @@ export default function RippleVoltageCalculator() {
        else { setError('Invalid load resistance.'); return null; } // Handle division by zero for R
     }
 
-    if (loadCurrent === null) return null;
+    if (loadCurrent === null) return null; // Should not happen if validation above is correct
 
     // Formula: Vr = I_load / (f_ripple * C) (approximation for small ripple)
     if (rippleFrequency === 0 || capacitance === 0) {
@@ -99,11 +99,16 @@ export default function RippleVoltageCalculator() {
 
      // Add a warning if ripple is large (e.g., > 1V or > 10% of Vpeak)
      const vPeakNum = parseFloat(peakVoltageStr) * unitMultipliers[peakVoltageUnit];
+     let warning = null;
      if (!isNaN(vPeakNum) && vPeakNum > 0 && (vr > 1 || vr / vPeakNum > 0.1) && calculationMethod === 'resistance') {
-         setError(prev => prev ? `${prev} Warning: Ripple voltage is high, approximation may be less accurate.` : "Warning: Ripple voltage is high, approximation may be less accurate.");
+         warning = "Warning: Ripple voltage is high, approximation may be less accurate.";
      } else if (vr > 1 && calculationMethod === 'current') {
-          setError(prev => prev ? `${prev} Warning: Ripple voltage is high (>1V), approximation may be less accurate.` : "Warning: Ripple voltage is high (>1V), approximation may be less accurate.");
+         warning = "Warning: Ripple voltage is high (>1V), approximation may be less accurate.";
      }
+
+      // Combine error and warning if needed
+      if (error && warning) setError(`${error} ${warning}`);
+      else if (warning) setError(warning);
 
 
     return vr;
@@ -113,7 +118,7 @@ export default function RippleVoltageCalculator() {
     capacitanceStr, capacitanceUnit, frequencyStr, frequencyUnit, calculationMethod
   ]);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setRectifierType(initialRectifierType);
     setLoadCurrentStr('');
     setLoadCurrentUnit(initialLoadCurrentUnit);
@@ -127,7 +132,7 @@ export default function RippleVoltageCalculator() {
     setFrequencyUnit(initialFrequencyUnit);
     setCalculationMethod(initialCalculationMethod);
     setError(null);
-  };
+  }, []); // Empty dependency array for useCallback
 
   const { displayValue: rippleDisplayValue, unit: rippleUnit } = formatResultValue(rippleVoltage, 'voltage');
 
@@ -242,9 +247,9 @@ export default function RippleVoltageCalculator() {
          )}
        </div>
 
-      {/* Error Display */}
+      {/* Error/Warning Display */}
       {error && (
-        <Alert variant="destructive" className="mt-4">
+        <Alert variant={error.includes("Warning") ? "default" : "destructive"} className="mt-4">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>{error.includes("Warning") ? "Warning" : "Error"}</AlertTitle>
           <AlertDescription>{error.replace("Warning: ", "")}</AlertDescription>
@@ -252,11 +257,11 @@ export default function RippleVoltageCalculator() {
       )}
 
       {/* Result Display */}
-      {(rippleVoltage !== null && !error) && (
+      {(rippleVoltage !== null && (!error || error.includes("Warning"))) && ( // Show result even with warnings
         <div className="pt-4 mt-4 border-t">
           <h4 className="font-semibold mb-2">Estimated Ripple Voltage (V<sub>r(pp)</sub>):</h4>
           <p className="text-xl font-bold">{rippleDisplayValue} {rippleUnit}</p>
-           {/* Show warning here too if ripple is high */}
+           {/* Show warning note here too if ripple is high */}
             {error && error.includes("Warning") && (
                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">Note: Approximation less accurate for high ripple.</p>
             )}

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus } from 'lucide-react'; // Added Binary icon, GitBranchPlus
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info } from 'lucide-react'; // Added Info icon
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from '@/lib/utils';
@@ -21,11 +21,11 @@ const navItems = [
       { href: "/tools/truth-table", label: "Truth Table", icon: TableIcon },
       { href: "/tools/resistor", label: "Resistor", icon: Palette },
       { href: "/tools/base-converter", label: "Base Converter", icon: Binary },
-      { href: "/tools/packet-flow", label: "Packet Flow", icon: GitBranchPlus }, // Added Packet Flow
-      // Add other tools here if needed
-      // { href: "/tools/waveform", label: "Waveform", icon: Activity },
+      { href: "/tools/packet-flow", label: "Packet Flow", icon: GitBranchPlus },
     ],
   },
+   // Add Diagnostics link - consider conditional rendering based on environment
+   ...(process.env.NODE_ENV === 'development' ? [{ href: "/diagnostics", label: "Diagnostics", icon: Info }] : []),
 ];
 
 // Function to render navigation links, handling groups
@@ -120,7 +120,7 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex flex-wrap items-center space-x-6"> {/* Added flex-wrap */}
              {renderNavLinks(navItems, undefined, false)}
         </nav>
 

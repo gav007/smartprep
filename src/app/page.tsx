@@ -81,7 +81,7 @@ export default function HomePage() {
             <div className="flex justify-center items-center">
                 {/* Updated hero image placeholder and hints */}
                 <Image
-                  src="/assets/images/hero-network.jpg" // Updated relevant hero image path
+                  src="/images/network.jpg" // Updated relevant hero image path
                   alt="Networking equipment including servers and ethernet cables in a data rack" // Updated alt text
                   width={600}
                   height={400}
@@ -128,7 +128,7 @@ export default function HomePage() {
             <div className="flex justify-center items-center md:order-2">
                  {/* Updated about image placeholder and hints */}
                  <Image
-                  src="/assets/images/hero-electronics.jpg" // Replaced with picsum placeholder
+                  src="/images/networking_2.jpg" // Replaced with picsum placeholder
                   alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform" // Updated alt text
                   width={500}
                   height={350}

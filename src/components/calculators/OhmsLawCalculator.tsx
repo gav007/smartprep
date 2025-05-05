@@ -19,8 +19,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type OhmsLawVariable = 'voltage' | 'current' | 'resistance';
 
-const initialValues = { voltage: "", current: "", resistance: "" };
-const initialUnits = {
+const initialValues: Record<OhmsLawVariable, string> = { voltage: "", current: "", resistance: "" };
+const initialUnits: Record<OhmsLawVariable, Unit> = {
     voltage: defaultUnits.voltage,
     current: defaultUnits.current,
     resistance: defaultUnits.resistance,
@@ -37,9 +37,9 @@ const calculateOhmsLawValues = (
     const results: Partial<Record<OhmsLawVariable, number | null>> = {};
     let error: string | null = null;
 
-     // Only proceed if exactly 2 fields are locked
+     // Calculation logic remains the same, hook handles *when* it's called
      if (lockedFields.size !== requiredInputs) {
-        return { results, error: null }; // Let hook handle "Enter value" hint
+        return { results, error: null }; // Let hook handle hint error
      }
 
     try {
@@ -64,7 +64,6 @@ const calculateOhmsLawValues = (
                     else { error = "Current cannot be zero for resistance calculation (implies infinite resistance)."; results.resistance = Infinity; } // Treat as infinite resistance
                 } else {
                     results.resistance = v / i;
-                     // Check for negative resistance result
                     if (results.resistance < 0 && !error) {
                         error = "Calculation resulted in negative resistance. Check inputs.";
                         results.resistance = null; // Invalidate result
@@ -72,9 +71,8 @@ const calculateOhmsLawValues = (
                 }
             }
         }
-         // Handle Infinity resistance explicitly for display
          if (results.resistance === Infinity) {
-             results.resistance = null; // Don't display infinity in the input
+             results.resistance = null;
               if (!error || !error.includes("infinite")) {
                   error = error ? `${error} Resistance is infinite.` : "Resistance is infinite.";
               }
@@ -134,7 +132,6 @@ export default function OhmsLawCalculator() {
           placeholder="Enter Voltage"
           tooltip="Voltage (V or E)"
           isCalculated={values.voltage !== '' && !lockedFields.has('voltage')}
-           // error={!!error && values.voltage === '' && lockedFields.size === 2}
         />
         <CalculatorInput
           id="current"
@@ -148,7 +145,6 @@ export default function OhmsLawCalculator() {
           placeholder="Enter Current"
           tooltip="Current (I or A)"
           isCalculated={values.current !== '' && !lockedFields.has('current')}
-          // error={!!error && values.current === '' && lockedFields.size === 2}
         />
         <CalculatorInput
           id="resistance"
@@ -161,9 +157,8 @@ export default function OhmsLawCalculator() {
           onUnitChange={(u) => handleUnitChange('resistance', u)}
           placeholder="Enter Resistance"
           tooltip="Resistance (R or Ω)"
-          min="0" // Resistance cannot be negative
+          min="0"
           isCalculated={values.resistance !== '' && !lockedFields.has('resistance')}
-          // error={!!error && values.resistance === '' && lockedFields.size === 2}
         />
       </div>
 
@@ -193,7 +188,7 @@ export default function OhmsLawCalculator() {
                 </div>
             ) : (
                  !error?.startsWith("Enter") && (
-                     <p className="text-sm text-muted-foreground italic">Enter {requiredInputs} valid values to see results.</p>
+                     <p className="text-sm text-muted-foreground italic">Enter {requiredInputs} valid values above to see results.</p>
                  )
             )}
         </div>

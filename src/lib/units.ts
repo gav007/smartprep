@@ -114,14 +114,20 @@ export const defaultUnits = {
 
 /**
  * Formats a numeric result into a string with appropriate units and precision.
+ * Handles null, undefined, NaN, and Infinity gracefully.
  */
 export function formatResultValue(
     value: number | null | undefined,
     variableType: 'voltage' | 'current' | 'resistance' | 'power' | 'capacitance' | 'frequency' | 'time' | 'gain' | 'tolerance' | 'other',
     inputUnit?: Unit // Optional: Base unit preference
 ): { displayValue: string, unit: Unit | string } {
-    if (value === null || value === undefined || !isFinite(value) || isNaN(value)) {
+    // Handle edge cases first
+    if (value === null || value === undefined || isNaN(value)) {
         return { displayValue: '', unit: inputUnit || '' };
+    }
+    if (!isFinite(value)) {
+         // Display Infinity or -Infinity symbolically or as text
+         return { displayValue: value === Infinity ? '∞' : '-∞', unit: inputUnit || '' };
     }
 
     let baseValue = value;
@@ -137,73 +143,80 @@ export function formatResultValue(
         case 'capacitance': options = capacitanceUnitOptions; baseUnit = 'F'; break;
         case 'frequency': options = frequencyUnitOptions; baseUnit = 'Hz'; break;
         case 'time': options = timeUnitOptions; baseUnit = 's'; break;
-        case 'gain': return { displayValue: value.toLocaleString(undefined, { maximumFractionDigits: 3 }), unit: '(Unitless)' }; // Special case
+        case 'gain': return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: 4 }), unit: '(Unitless)' }; // Use significant digits
         case 'tolerance': return { displayValue: value.toString(), unit: '%' }; // Assuming % for now
-        default: return { displayValue: value.toLocaleString(undefined, { maximumFractionDigits: 3 }), unit: '' }; // Generic fallback
+        default: return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: 4 }), unit: '' }; // Generic fallback
     }
 
     if (options.length === 0) {
-         return { displayValue: value.toLocaleString(undefined, { maximumFractionDigits: 3 }), unit: baseUnit };
+         return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: 4 }), unit: baseUnit };
     }
 
     let bestUnit: Unit = (inputUnit && options.includes(inputUnit)) ? inputUnit : options[0];
-    let displayNum = baseValue / unitMultipliers[bestUnit]; // Start with preferred or base unit
+    let bestFitValue = baseValue / (unitMultipliers[bestUnit] || 1); // Handle potential missing multiplier
 
-    // Find best unit where scaled value is >= 1 or smallest unit otherwise
-    let bestFitValue = displayNum;
-    let currentBestUnit = bestUnit;
+    // Find the best unit: prefer values >= 1, otherwise choose the one closest to 1
+     for (const u of options) {
+         const multiplier = unitMultipliers[u];
+         if (!multiplier) continue; // Skip if unit multiplier is not defined
+         const scaledValue = baseValue / multiplier;
 
-    for (const u of options) {
-        const multiplier = unitMultipliers[u];
-        const scaledValue = baseValue / multiplier;
-
-         // Prefer units that result in a value >= 1
          if (Math.abs(scaledValue) >= 1) {
-             // If this is the first suitable unit, or if it makes the number smaller (closer to 1), choose it
+             // Prefer smaller numbers >= 1
              if (Math.abs(bestFitValue) < 1 || Math.abs(scaledValue) < Math.abs(bestFitValue)) {
                  bestFitValue = scaledValue;
-                 currentBestUnit = u;
+                 bestUnit = u;
              }
          } else {
-             // If all values are < 1, prefer the unit that makes the number largest (closest to 1)
+             // If all are < 1, prefer the largest magnitude (closest to 1)
              if (Math.abs(bestFitValue) < 1 && Math.abs(scaledValue) > Math.abs(bestFitValue)) {
                  bestFitValue = scaledValue;
-                 currentBestUnit = u;
+                 bestUnit = u;
              }
          }
+     }
+
+     // If after optimization, the value is still extremely small (e.g., < 1e-9 for current),
+     // consider reverting to base unit with exponential notation or the smallest available unit.
+     if (Math.abs(bestFitValue) < 1e-12 && bestFitValue !== 0) { // Extremely small
+        bestFitValue = baseValue / (unitMultipliers[options[options.length-1]] || 1); // Use smallest unit
+        bestUnit = options[options.length-1];
+     }
+     // Or handle cases like exactly zero
+     if (baseValue === 0) {
+         bestFitValue = 0;
+         // Keep input unit if provided, otherwise use base unit
+         bestUnit = (inputUnit && options.includes(inputUnit)) ? inputUnit : options[0];
+     }
+
+
+    // Determine precision using toLocaleString for better handling of significant digits/decimals
+    let displayString: string;
+    try {
+        displayString = bestFitValue.toLocaleString(undefined, {
+            maximumSignificantDigits: 4, // Adjust significant digits as needed
+            useGrouping: false // Avoid commas for easier parsing if needed elsewhere
+        });
+         // Further cleanup might be needed if toLocaleString introduces issues
+         // e.g., ensuring it doesn't use scientific notation unexpectedly for reasonable numbers
+         if (Math.abs(bestFitValue) > 1e-4 && Math.abs(bestFitValue) < 1e6 && displayString.includes('e')) {
+            // Fallback to fixed precision if scientific notation appears unexpectedly
+            displayString = bestFitValue.toFixed(3);
+         }
+
+    } catch {
+        // Fallback if toLocaleString fails (e.g., very large/small numbers in some environments)
+        displayString = bestFitValue.toPrecision(4);
     }
 
-    // Override if the base unit keeps the value very small (e.g. 0.000001 A should be 1 µA)
-     if (Math.abs(baseValue) < 1e-6 && variableType === 'current') { currentBestUnit = 'µA'; bestFitValue = baseValue * 1e6; }
-     if (Math.abs(baseValue) < 1e-9 && variableType === 'current') { currentBestUnit = 'nA'; bestFitValue = baseValue * 1e9; }
-     // Add similar overrides for other types like capacitance (pF, nF)
-
-    // Determine precision
-    const absDisplayNum = Math.abs(bestFitValue);
-    let precision = 3; // Default significant figures
-    if (absDisplayNum === 0) precision = 1;
-    else if (absDisplayNum < 10) precision = 3;
-    else if (absDisplayNum < 1000) precision = 4;
-    else precision = 5; // More precision for larger numbers
-
-
-    // Format using toPrecision and clean up
-    let displayString = bestFitValue.toPrecision(precision);
-    // Remove trailing zeros after decimal point, but keep integer zeros
+    // Final cleanup for display: remove trailing zeros after decimal, remove trailing decimal point
     if (displayString.includes('.')) {
-        displayString = displayString.replace(/(\.\d*?[1-9])0+$/, '$1'); // Remove trailing zeros
-        displayString = displayString.replace(/\.$/, ''); // Remove trailing decimal point
-    }
-
-    // Handle very small numbers that might become "0" after precision
-    if (parseFloat(displayString) === 0 && baseValue !== 0) {
-        // If the original value wasn't zero, try exponential notation
-         displayString = baseValue.toExponential(2);
-         return { displayValue: displayString, unit: baseUnit }; // Revert to base unit for exponential
+        displayString = displayString.replace(/(\.\d*?[1-9])0+$/, '$1');
+        displayString = displayString.replace(/\.$/, '');
     }
 
     return {
         displayValue: displayString,
-        unit: currentBestUnit
+        unit: bestUnit
     };
 }

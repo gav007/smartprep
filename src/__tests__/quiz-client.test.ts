@@ -1,6 +1,6 @@
 
 import { shuffleArray, normalizeQuestion } from '../lib/quiz-client';
-import type { RawQuestion } from '../types/quiz';
+import type { RawQuestion, Question, Option } from '../types/quiz';
 
 describe('shuffleArray', () => {
   test('should return an array of the same length', () => {
@@ -66,32 +66,51 @@ describe('normalizeQuestion', () => {
 
   test('should return null for missing question text', () => {
     const invalidQuestion = { ...validRawQuestion, question: undefined } as any;
+    // Mock console.warn to suppress output during test
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     expect(normalizeQuestion(invalidQuestion, 1)).toBeNull();
+    expect(consoleWarnSpy).toHaveBeenCalled();
+    consoleWarnSpy.mockRestore();
   });
 
    test('should return null for missing options object', () => {
      const invalidQuestion = { ...validRawQuestion, options: undefined } as any;
+     const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
      expect(normalizeQuestion(invalidQuestion, 1)).toBeNull();
+     expect(consoleWarnSpy).toHaveBeenCalled();
+     consoleWarnSpy.mockRestore();
    });
 
    test('should return null for empty options object', () => {
       const invalidQuestion = { ...validRawQuestion, options: {} } as RawQuestion;
+      const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
       expect(normalizeQuestion(invalidQuestion, 2)).toBeNull();
+      expect(consoleWarnSpy).toHaveBeenCalled();
+      consoleWarnSpy.mockRestore();
    });
 
   test('should return null for missing answer', () => {
     const invalidQuestion = { ...validRawQuestion, answer: undefined } as any;
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     expect(normalizeQuestion(invalidQuestion, 3)).toBeNull();
+    expect(consoleWarnSpy).toHaveBeenCalled();
+    consoleWarnSpy.mockRestore();
   });
 
    test('should return null for missing feedback', () => {
       const invalidQuestion = { ...validRawQuestion, feedback: undefined } as any;
+      const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
       expect(normalizeQuestion(invalidQuestion, 4)).toBeNull();
+      expect(consoleWarnSpy).toHaveBeenCalled();
+      consoleWarnSpy.mockRestore();
    });
 
    test('should return null if answer key does not exist in options', () => {
       const invalidQuestion = { ...validRawQuestion, answer: 'E' } as RawQuestion;
+      const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
       expect(normalizeQuestion(invalidQuestion, 5)).toBeNull();
+      expect(consoleWarnSpy).toHaveBeenCalled();
+      consoleWarnSpy.mockRestore();
    });
 
     test('should handle optional "type" field gracefully', () => {
@@ -103,6 +122,12 @@ describe('normalizeQuestion', () => {
       expect(normalized).not.toBeNull();
       // Ensure 'type' field is not part of the normalized Question interface
       expect(normalized).not.toHaveProperty('type');
+    });
+
+    test('should generate unique IDs for different questions', () => {
+        const q1 = normalizeQuestion(validRawQuestion, 0);
+        const q2 = normalizeQuestion(validRawQuestion, 1); // Same data, different index
+        expect(q1?.id).not.toEqual(q2?.id);
     });
 });
 

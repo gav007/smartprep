@@ -85,7 +85,7 @@ export default function ResistorColorCodeCalculator() {
     const { toast } = useToast();
 
     // --- Determine band roles based on numBands ---
-    const showBand3Digit = numBands >= 5;
+    const showBand3Digit = numBands === 5 || numBands === 6;
     const showTempCo = numBands === 6;
     const multiplierBandKey: keyof ResistorBands = numBands === 4 ? 'band3' : 'multiplier'; // In 4-band, band3 IS the multiplier
     const toleranceBandKey: keyof ResistorBands = numBands === 4 ? 'multiplier' : 'tolerance'; // In 4-band, multiplier field holds tolerance color
@@ -93,46 +93,53 @@ export default function ResistorColorCodeCalculator() {
     // --- Band to Value Calculation ---
     const bandToValueResult = useMemo<ResistorResult & { error?: string }>(() => {
         let currentError: string | null = null;
-        const hasSomeInput = Object.values(bands).some(val => val !== undefined);
-        let missingBands: string[] = [];
+        let result: ResistorResult = { resistance: null, tolerance: null, tempCoefficient: null, resistanceString: 'N/A' };
 
-        if (hasSomeInput) {
-            if (!bands.band1) missingBands.push("Digit 1");
-            if (!bands.band2) missingBands.push("Digit 2");
-            if (numBands >= 5 && !bands.band3) missingBands.push("Digit 3");
-            if (!bands[multiplierBandKey]) missingBands.push("Multiplier");
-            if (!bands[toleranceBandKey]) missingBands.push("Tolerance"); // Tolerance always required visually
+        // Validation: Check if all *required* bands for the selected numBands are set
+        const requiredBandsSet =
+            bands.band1 &&
+            bands.band2 &&
+            (numBands === 4 ? bands.band3 && bands.multiplier : false) || // Band 3 is multiplier, Multiplier field is tolerance for 4-band
+            (numBands >= 5 ? bands.band3 && bands.multiplier && bands.tolerance : false); // Digit 3, Multiplier, Tolerance for 5/6-band
 
-            if (missingBands.length > 0) {
-                 currentError = `Select colors for required bands: ${missingBands.join(', ')}.`;
-            }
-        }
-
-        let calculationResult: ResistorResult = { resistance: null, tolerance: null, tempCoefficient: null, resistanceString: 'N/A' };
-
-        if (!currentError && hasSomeInput) {
-             calculationResult = calculateResistorFromBands(bands, numBands);
-             if (calculationResult.resistance === null && missingBands.length === 0) {
-                currentError = "Calculation failed. Check band selections.";
+        if (requiredBandsSet) {
+             result = calculateResistorFromBands(bands, numBands);
+             if (result.resistance === null) {
+                currentError = "Calculation failed. Check band values.";
+             } else if (Math.abs(result.resistance) > 1e9) { // Example: Check for unrealistic high value with low multiplier
+                  const multColor = numBands === 4 ? bands.band3 : bands.multiplier;
+                  if (multColor === 'gold' || multColor === 'silver') {
+                      currentError = "Warning: High resistance with Gold/Silver multiplier.";
+                  }
              }
-        } else if (!hasSomeInput) {
-             currentError = null;
+        } else {
+             // Don't show error if no bands are selected yet, only if some are selected but required ones are missing
+             const someBandsSelected = Object.values(bands).some(b => b !== undefined);
+             if (someBandsSelected) {
+                 currentError = "Please select colors for all required bands.";
+             }
+             result = { resistance: null, tolerance: null, tempCoefficient: null, resistanceString: 'N/A' };
         }
 
-        setBandError(currentError);
-        return { ...calculationResult, error: currentError };
-    }, [bands, numBands, multiplierBandKey, toleranceBandKey]);
+        setBandError(currentError); // Update stateful error
+        return { ...result, error: currentError };
+
+    }, [bands, numBands]);
 
     const handleBandChange = (bandName: keyof ResistorBands, color: ResistorBandColor | 'select') => {
          const newColor = (color === 'select') ? undefined : color;
          setBands(prev => ({ ...prev, [bandName]: newColor }));
+         // Error is handled by useMemo
     };
 
+    // Reset bands when numBands changes in Band->Value mode
     useEffect(() => {
-        const newDefaultBands = getDefaultBands(numBands);
-        setBands(newDefaultBands);
-        setBandError(null);
-    }, [numBands]);
+        if (mode === 'bandToValue') {
+             const newDefaultBands = getDefaultBands(numBands);
+             setBands(newDefaultBands);
+             setBandError(null); // Clear errors on reset
+        }
+    }, [numBands, mode]);
 
     // --- Value to Band Calculation ---
      const handleValueToBandCalculation = useCallback(() => {
@@ -146,32 +153,47 @@ export default function ResistorColorCodeCalculator() {
             setValueToBandError(result.error);
         } else if (result.bands) {
             setCalculatedBands(result.bands);
-            if (result.numBands && result.numBands !== valueToBandNumBands) {
-                setValueToBandNumBands(result.numBands);
-            }
+            // Auto-switch number of bands if calculation requires it (e.g., 4.7k needs 4 bands)
+             if (result.numBands && result.numBands !== valueToBandNumBands) {
+                 setValueToBandNumBands(result.numBands);
+             }
         }
     }, [resistanceInput, toleranceInput, valueToBandNumBands]);
 
-    useEffect(() => {
-        if (mode === 'valueToBand') {
-            const handler = setTimeout(handleValueToBandCalculation, 300);
-            return () => clearTimeout(handler);
-        }
-    }, [resistanceInput, toleranceInput, valueToBandNumBands, mode, handleValueToBandCalculation]);
+    // Trigger calculation when inputs change in Value -> Band mode (debounced)
+     useEffect(() => {
+         if (mode === 'valueToBand') {
+             const handler = setTimeout(handleValueToBandCalculation, 300);
+             return () => clearTimeout(handler);
+         }
+     }, [resistanceInput, toleranceInput, valueToBandNumBands, mode, handleValueToBandCalculation]);
 
      // --- Reset Handlers ---
-    const resetBandToValue = () => {
-         setNumBands(initialNumBands); // Triggers useEffect to reset bands
+    const resetBandToValue = useCallback(() => {
+         // setNumBands(initialNumBands); // This will trigger the useEffect below
+         setBands(getDefaultBands(numBands)); // Reset to defaults for current band number
          setBandError(null);
-     };
+     }, [numBands]); // Depend on numBands to reset correctly for the current setting
 
-     const resetValueToBand = () => {
+     const resetValueToBand = useCallback(() => {
          setResistanceInput(initialResistanceInput);
          setToleranceInput(initialToleranceInput);
          setValueToBandNumBands(initialValueToBandNumBands);
          setCalculatedBands(null);
          setValueToBandError(null);
-     };
+     }, []);
+
+     // Combined Reset for Tab Change
+      const handleTabChange = (newMode: string) => {
+          setMode(newMode as 'bandToValue' | 'valueToBand');
+          if (newMode === 'bandToValue') {
+              resetValueToBand(); // Clear value->band state
+              resetBandToValue(); // Reset band->value state to defaults
+          } else {
+              resetBandToValue(); // Clear band->value state
+              resetValueToBand(); // Reset value->band state to defaults
+          }
+      };
 
     // --- Helper Functions ---
     const copyToClipboard = useCallback((text: string | number | null | undefined, label: string) => {
@@ -227,21 +249,33 @@ export default function ResistorColorCodeCalculator() {
                                     id={bandKey}
                                     className={cn(
                                         "h-9 w-full", // Standardized height
-                                        !bands[bandKey] && required && bandError ? "border-destructive focus:ring-destructive" : "",
+                                        !bands[bandKey] && required && bandError && bandError.includes('required bands') ? "border-destructive focus:ring-destructive" : "",
                                         bands[bandKey] ? 'font-medium' : 'text-muted-foreground'
                                     )}
                                 >
                                     <SelectValue placeholder="Select Color" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {!required && <SelectItem value="select">-- Optional --</SelectItem>}
+                                    {(!required || bandKey === 'tempCoefficient') && <SelectItem value="select">-- Optional --</SelectItem>}
                                     {availableColors.map(color => {
-                                        const colorData = colorMap[color];
+                                        // Corrected logic to get display value based on actual role
                                         let displayValue = '';
-                                        if (bandKey === 'band1' || bandKey === 'band2' || (bandKey === 'band3' && numBands >= 5)) displayValue = String(ResistorColorMap[color]?.digit ?? '');
-                                        else if (bandKey === multiplierBandKey) displayValue = formatDisplayMultiplier(multiplierColorsMap[color]);
-                                        else if (bandKey === toleranceBandKey) displayValue = `±${toleranceColorsMap[color]}%`;
-                                        else if (bandKey === 'tempCoefficient') displayValue = `${tempCoColorsMap[color]}ppm`;
+                                        if (bandKey === 'band1' || bandKey === 'band2' || (bandKey === 'band3' && showBand3Digit)) {
+                                            displayValue = String(ResistorColorMap[color]?.digit ?? '');
+                                        } else if (
+                                            (bandKey === 'band3' && band3IsMultiplier) ||
+                                            (bandKey === 'multiplier' && band4IsMultiplier)
+                                        ) {
+                                            displayValue = formatDisplayMultiplier(multiplierColorsMap[color]);
+                                        } else if (
+                                            (bandKey === 'multiplier' && band4IsTolerance) ||
+                                            (bandKey === 'tolerance' && band5IsTolerance)
+                                        ) {
+                                            displayValue = `±${toleranceColorsMap[color]}%`;
+                                        } else if (bandKey === 'tempCoefficient' && showTempCo) {
+                                            displayValue = `${tempCoColorsMap[color]}ppm`;
+                                        }
+
 
                                         return (
                                             <SelectItem key={color} value={color}>
@@ -255,9 +289,6 @@ export default function ResistorColorCodeCalculator() {
                                     })}
                                 </SelectContent>
                             </Select>
-                            {!bands[bandKey] && required && bandError && bandError.includes(label.split(' (')[0]) && (
-                                <p className="text-xs text-destructive mt-1">{label.split(' (')[0]} is required.</p>
-                            )}
                         </div>
                     </TooltipTrigger>
                     <TooltipContent><p>{tooltipText}</p></TooltipContent>
@@ -269,16 +300,16 @@ export default function ResistorColorCodeCalculator() {
     // --- Resistor Visualization Band Colors ---
     const visBand1Color = bands.band1;
     const visBand2Color = bands.band2;
-    const visBand3Color = showBand3Digit ? bands.band3 : bands[multiplierBandKey]; // Digit 3 or Multiplier
-    const visBand4Color = numBands === 4 ? bands[toleranceBandKey] : bands[multiplierBandKey]; // Tolerance or Multiplier
-    const visBand5Color = numBands >= 5 ? bands[toleranceBandKey] : undefined; // Tolerance
+    const visBand3Color = showBand3Digit ? bands.band3 : (band3IsMultiplier ? bands.band3 : undefined); // Digit 3 or Multiplier(4)
+    const visBand4Color = band4IsMultiplier ? bands.multiplier : (band4IsTolerance ? bands.multiplier : undefined); // Multiplier(5/6) or Tolerance(4)
+    const visBand5Color = band5IsTolerance ? bands.tolerance : undefined; // Tolerance(5/6)
     const visTempCoColor = showTempCo ? bands.tempCoefficient : undefined;
 
     // --- Value to Band Visualization Colors ---
     const calcVisBand1Color = calculatedBands?.band1;
     const calcVisBand2Color = calculatedBands?.band2;
-    const calcVisBand3Color = valueToBandNumBands >= 5 ? calculatedBands?.band3 : calculatedBands?.band3; // Band 3 is Digit or Multiplier(4)
-    const calcVisBand4Color = valueToBandNumBands === 4 ? calculatedBands?.multiplier : calculatedBands?.multiplier; // Band 4 is Tolerance or Multiplier(5/6)
+    const calcVisBand3Color = valueToBandNumBands >= 5 ? calculatedBands?.band3 : (valueToBandNumBands === 4 ? calculatedBands?.band3 : undefined); // Band 3 is Digit (5/6) or Multiplier(4)
+    const calcVisBand4Color = valueToBandNumBands >= 5 ? calculatedBands?.multiplier : (valueToBandNumBands === 4 ? calculatedBands?.multiplier : undefined); // Band 4 is Multiplier(5/6) or Tolerance(4)
     const calcVisBand5Color = valueToBandNumBands >= 5 ? calculatedBands?.tolerance : undefined; // Band 5 is Tolerance
     const calcVisBand6Color = valueToBandNumBands === 6 ? calculatedBands?.tempCoefficient : undefined; // Band 6 is TempCo
 
@@ -287,9 +318,9 @@ export default function ResistorColorCodeCalculator() {
           title="Resistor Color Code"
           description="Calculate resistance from color bands or find bands for a value."
           icon={Palette}
-          className="w-full max-w-xl mx-auto" // Ensure card width
+          className="w-full max-w-xl mx-auto"
         >
-            <Tabs value={mode} onValueChange={(value) => setMode(value as 'bandToValue' | 'valueToBand')}>
+            <Tabs value={mode} onValueChange={handleTabChange}>
                 <TabsList className="grid w-full grid-cols-2 mb-6">
                     <TabsTrigger value="bandToValue">Color Bands → Value</TabsTrigger>
                     <TabsTrigger value="valueToBand">Value → Color Bands</TabsTrigger>
@@ -315,30 +346,29 @@ export default function ResistorColorCodeCalculator() {
                         <div className="bg-yellow-100/70 dark:bg-yellow-900/30 rounded-md p-4 flex items-center justify-center space-x-1 h-16 relative shadow-inner">
                             <div className="h-full w-4 bg-gray-300 dark:bg-gray-600 rounded-l-sm"></div> {/* Left Lead */}
                             <div className="h-full flex-1 bg-yellow-200/80 dark:bg-yellow-800/50 relative flex items-center px-2 space-x-1 md:space-x-2">
-                                {/* Band 1 */}
                                 <div className="absolute left-2 w-1.5 h-full rounded-sm shadow-md" style={getBandStyle(visBand1Color)}></div>
-                                {/* Band 2 */}
                                 <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", "left-5 md:left-6")} style={getBandStyle(visBand2Color)}></div>
-                                {/* Band 3 (Digit or Multiplier) */}
                                 <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", "left-8 md:left-10")} style={getBandStyle(visBand3Color)}></div>
-                                {/* Band 4 (Multiplier or Tolerance) */}
                                 {numBands >= 4 && <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", numBands === 4 ? "right-7 md:right-8" : "left-11 md:left-14")} style={getBandStyle(visBand4Color)}></div>}
-                                {/* Band 5 (Tolerance) */}
                                 {numBands >= 5 && <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", "right-7 md:right-8")} style={getBandStyle(visBand5Color)}></div>}
-                                {/* Band 6 (TempCo) */}
                                 {numBands === 6 && <div className="absolute right-4 md:right-5 w-1.5 h-full rounded-sm shadow-md" style={getBandStyle(visTempCoColor)}></div>}
                             </div>
                             <div className="h-full w-4 bg-gray-300 dark:bg-gray-600 rounded-r-sm"></div> {/* Right Lead */}
                         </div>
 
-                        {/* Band Selectors Grid - Adjusted grid columns */}
-                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                        {/* Band Selectors Grid */}
+                         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                             {renderBandSelect('band1', 'Digit 1', 'First significant digit.', digitColors, true)}
                             {renderBandSelect('band2', 'Digit 2', 'Second significant digit.', digitColors, true)}
+                             {/* Band 3: Digit or Multiplier */}
                             {showBand3Digit && renderBandSelect('band3', 'Digit 3', 'Third significant digit (5/6 band).', digitColors, true)}
-                            {renderBandSelect(multiplierBandKey, `Multiplier (Band ${numBands === 4 ? 3 : 4})`, 'Multiplier value.', multiplierColors, true)}
-                            {renderBandSelect(toleranceBandKey, `Tolerance (Band ${numBands === 4 ? 4 : 5})`, 'Tolerance percentage.', toleranceColors, true)}
-                            {showTempCo && renderBandSelect('tempCoefficient', 'Temp. Coeff. (Band 6)', 'Temperature Coefficient (ppm/°C).', tempCoColors, false)}
+                            {band3IsMultiplier && renderBandSelect('band3', 'Multiplier', 'Multiplier value (4-band).', multiplierColors, true)}
+                             {/* Band 4: Multiplier or Tolerance */}
+                             {band4IsMultiplier && renderBandSelect('multiplier', 'Multiplier', 'Multiplier value (5/6 band).', multiplierColors, true)}
+                             {band4IsTolerance && renderBandSelect('multiplier', 'Tolerance', 'Tolerance percentage (4-band).', toleranceColors, true)}
+                             {/* Band 5: Tolerance */}
+                             {band5IsTolerance && renderBandSelect('tolerance', 'Tolerance', 'Tolerance percentage (5/6 band).', toleranceColors, true)}
+                            {showTempCo && renderBandSelect('tempCoefficient', 'Temp. Coeff.', 'Temperature Coefficient (ppm/°C).', tempCoColors, false)}
                         </div>
 
                         {/* Reset Button */}
@@ -350,26 +380,35 @@ export default function ResistorColorCodeCalculator() {
                         <div className="pt-6 border-t space-y-2">
                             <h4 className="font-semibold text-lg flex justify-between items-center">
                                 <span>Calculated Value:</span>
-                                 {/* Copy Result Button */}
                                  {bandToValueResult.resistance !== null && !bandError && (
                                      <Button
-                                        variant="ghost"
-                                        size="sm"
+                                        variant="ghost" size="sm"
                                         onClick={() => copyToClipboard(bandToValueResult.resistanceString, "Resistance Value")}
-                                        className="text-muted-foreground hover:text-primary"
-                                        aria-label="Copy resistance value"
-                                    >
-                                        <Copy size={14} className="mr-1"/> Copy
-                                    </Button>
+                                        className="text-muted-foreground hover:text-primary" aria-label="Copy resistance value"
+                                    ><Copy size={14} className="mr-1"/> Copy</Button>
                                 )}
                             </h4>
-                            {bandError && (
+                            {bandError && bandError.includes('required bands') && ( // Show specific error for missing bands
+                                <Alert variant="destructive">
+                                    <AlertCircle className="h-4 w-4" />
+                                    <AlertTitle>Input Needed</AlertTitle>
+                                    <AlertDescription>{bandError}</AlertDescription>
+                                </Alert>
+                            )}
+                             {bandError && !bandError.includes('required bands') && !bandError.startsWith("Warning:") && ( // Show other calculation errors
                                 <Alert variant="destructive">
                                     <AlertCircle className="h-4 w-4" />
                                     <AlertTitle>Error</AlertTitle>
                                     <AlertDescription>{bandError}</AlertDescription>
                                 </Alert>
                             )}
+                             {bandError && bandError.startsWith("Warning:") && ( // Show warnings
+                                <Alert variant="default" className="border-amber-500/50 text-amber-700 dark:text-amber-400 dark:border-amber-500/50 [&>svg]:text-amber-600 dark:[&>svg]:text-amber-400">
+                                     <AlertCircle className="h-4 w-4" />
+                                     <AlertTitle>Warning</AlertTitle>
+                                     <AlertDescription>{bandError.replace("Warning: ", "")}</AlertDescription>
+                                </Alert>
+                             )}
                             {bandToValueResult.resistance !== null && !bandError ? (
                                 <>
                                     <p className="text-2xl font-bold">{bandToValueResult.resistanceString}</p>
@@ -392,42 +431,35 @@ export default function ResistorColorCodeCalculator() {
                 {/* --- Value to Band Tab --- */}
                 <TabsContent value="valueToBand">
                     <div className="space-y-6">
-                        {/* Input Grid */}
+                         {/* Input Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                            <CalculatorInput
-                               id="resistanceValue"
-                               label="Resistance Value"
-                               value={resistanceInput}
-                               onChange={setResistanceInput}
+                               id="resistanceValue" label="Resistance Value" value={resistanceInput} onChange={setResistanceInput}
                                placeholder="e.g., 4.7k, 220, 1M"
-                               tooltip="Enter resistance value. Use k, M, G (e.g., 4k7, 1.5M). Case insensitive."
-                               type="text" // Allow text input for prefixes
-                            />
-                            <div className="space-y-1">
+                               tooltip="Enter resistance. Use k, M, G (e.g., 4k7, 1.5M). Case insensitive."
+                               type="text"
+                           />
+                           {/* Tolerance Selector */}
+                           <div className="space-y-1">
                                 <Label htmlFor="toleranceValue">Tolerance (%)</Label>
-                                <Select
-                                    value={toleranceInput !== null ? String(toleranceInput) : 'select'}
-                                    onValueChange={(v) => setToleranceInput(v === 'select' ? null : parseFloat(v))}
-                                >
+                                <Select value={toleranceInput !== null ? String(toleranceInput) : 'select'} onValueChange={(v) => setToleranceInput(v === 'select' ? null : parseFloat(v))}>
                                     <SelectTrigger id="toleranceValue"><SelectValue placeholder="Select Tolerance"/></SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="select">-- Optional (Defaults) --</SelectItem>
-                                        {toleranceColors.filter(c => c !== 'none').map(color => {
+                                        <SelectItem value="select">-- Optional --</SelectItem>
+                                        {toleranceColors.map(color => {
                                             const tolValue = toleranceColorsMap[color];
                                             return tolValue !== undefined ? (
                                                 <SelectItem key={color} value={String(tolValue)}>±{tolValue}% ({color})</SelectItem>
                                             ) : null;
                                         })}
-                                        <SelectItem value="20">±20% (None)</SelectItem>
                                     </SelectContent>
                                 </Select>
-                                <p className="text-xs text-muted-foreground">Default: 5% (4-band), 1% (5/6-band)</p>
-                            </div>
+                           </div>
                         </div>
 
                         {/* Number of Bands Selector */}
                         <div className="space-y-1">
-                            <Label htmlFor="numBandsValue">Desired Number of Bands</Label>
+                            <Label htmlFor="numBandsValue">Desired Bands</Label>
                             <Select value={String(valueToBandNumBands)} onValueChange={(v) => setValueToBandNumBands(parseInt(v) as 4 | 5 | 6)}>
                                 <SelectTrigger id="numBandsValue" className="w-full"><SelectValue /></SelectTrigger>
                                 <SelectContent>
@@ -481,6 +513,12 @@ export default function ResistorColorCodeCalculator() {
                                 <p className="text-xs text-muted-foreground">Note: Colors derived from standard E-series values; closest match shown.</p>
                             </div>
                         )}
+                         {!calculatedBands && !valueToBandError && resistanceInput && (
+                             <p className="text-center text-muted-foreground pt-4 border-t italic">Calculating bands...</p>
+                         )}
+                         {!resistanceInput && !valueToBandError && (
+                              <p className="text-center text-muted-foreground pt-4 border-t italic">Enter resistance value above.</p>
+                         )}
                     </div>
                 </TabsContent>
             </Tabs>
