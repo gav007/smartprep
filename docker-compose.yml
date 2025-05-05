@@ -11,14 +11,16 @@ services:
       - "3000:3000"
     # Set restart policy
     restart: unless-stopped
-    # Optional: Mount environment file if needed
-    # env_file:
-    #   - .env.production
-    # Optional: Set environment variables directly
+    # Optional: Mount environment file for secrets like API keys
+    # Create a file (e.g., .env.production) with GOOGLE_GENAI_API_KEY=...
+    # and uncomment the line below. Ensure the file is in .dockerignore if needed.
+    env_file:
+      - .env.production
+    # Optional: Set environment variables directly (less secure for secrets)
     # environment:
     #   - NODE_ENV=production
     #   - PORT=3000
-    #   - NEXT_PUBLIC_API_BASE=/api # Example
+    #   - GOOGLE_GENAI_API_KEY=your_key_here # Example, prefer env_file for secrets
     networks:
       - smartprep_network
 

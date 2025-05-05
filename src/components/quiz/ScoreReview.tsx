@@ -59,11 +59,18 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
     }
 
     // Don't fetch if already successfully fetched (allow retry on error)
-    if (explanations[questionId] && !errorExplanations[questionId]) return;
+    // Clear error before retrying
+    if (errorExplanations[questionId]) {
+        setErrorExplanations(prev => ({ ...prev, [questionId]: null }));
+    } else if (explanations[questionId]) {
+        // If explanation exists and no error, don't refetch
+        return;
+    }
     if (loadingExplanations[questionId]) return; // Already loading
 
+
     setLoadingExplanations(prev => ({ ...prev, [questionId]: true }));
-    setErrorExplanations(prev => ({ ...prev, [questionId]: null })); // Clear previous error on new attempt
+    // setErrorExplanations(prev => ({ ...prev, [questionId]: null })); // Clear error on new attempt - already done above for retry case
     explanationRequestTimestamps[questionId] = now; // Update timestamp
 
     // --- Input Validation ---
@@ -71,7 +78,12 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
     const userAnswerLabel = userAnswer?.selectedOption ? question.options.find(opt => opt.key === userAnswer.selectedOption)?.label : "No answer provided";
 
      if (!question.question || !correctAnswerLabel || !question.feedback) {
-         setErrorExplanations(prev => ({ ...prev, [questionId]: "Missing necessary information to generate explanation." }));
+         const missingInfo = [
+             !question.question && "Question text",
+             !correctAnswerLabel && "Correct answer label",
+             !question.feedback && "Feedback text"
+         ].filter(Boolean).join(", ");
+         setErrorExplanations(prev => ({ ...prev, [questionId]: `Cannot generate explanation: Missing ${missingInfo}.` }));
          setLoadingExplanations(prev => ({ ...prev, [questionId]: false }));
          return;
      }
@@ -93,15 +105,25 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
       const result = await explainAnswer(input); // Call the Genkit flow
 
        if (!result || !result.explanation) {
-          throw new Error("Received an empty explanation from the AI.");
+          throw new Error("Received an empty or invalid explanation from the AI service.");
        }
 
       setExplanations(prev => ({ ...prev, [questionId]: result.explanation }));
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching explanation:", error);
-       let errorMessage = "Sorry, couldn't generate an explanation right now.";
+       let errorMessage = "Sorry, couldn't generate an explanation right now. Please try again later.";
        if (error instanceof Error) {
-           errorMessage = `Error: ${error.message}`; // Show more specific error
+           // Be more specific about potential API key issues
+           if (error.message.includes('API key') || error.message.includes('authentication')) {
+               errorMessage = "AI explanation service is unavailable. Please check API key configuration or contact support.";
+           } else if (error.message.includes('quota') || error.message.includes('limit')) {
+                errorMessage = "AI explanation service quota exceeded. Please try again later.";
+           } else if (error.message.includes('invalid explanation')) {
+               errorMessage = "The AI service returned an unexpected response.";
+           }
+            else {
+                errorMessage = `Error: ${error.message}`; // General error message
+           }
        }
        setErrorExplanations(prev => ({ ...prev, [questionId]: errorMessage }));
        setExplanations(prev => ({ ...prev, [questionId]: '' })); // Clear any potentially stale explanation on error
@@ -146,6 +168,10 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
             const correctAnswerLabel = question.options.find(opt => opt.key === question.answer)?.label;
             const questionId = question.id;
 
+            const hasExplanation = !!explanations[questionId];
+            const isLoading = loadingExplanations[questionId];
+            const hasError = !!errorExplanations[questionId];
+
             return (
               <AccordionItem key={questionId} value={`item-${index}`}>
                 <AccordionTrigger className={`flex justify-between items-center p-3 rounded-md transition-colors hover:bg-muted/50 ${isCorrect ? 'text-green-700 dark:text-green-400' : 'text-destructive'}`}>
@@ -169,14 +195,14 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
                         variant="outline"
                         size="sm"
                         onClick={() => getExplanation(question, userAnswer)}
-                        disabled={loadingExplanations[questionId] || (!!explanations[questionId] && !errorExplanations[questionId])} // Disable if loading or already succeeded
+                        disabled={isLoading || (hasExplanation && !hasError)} // Disable if loading or already succeeded without error
                         className="text-accent-foreground border-accent hover:bg-accent/10 disabled:opacity-70"
                       >
-                        {loadingExplanations[questionId] ? (
-                            <> <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Thinking... </>
-                        ) : errorExplanations[questionId] ? (
+                        {isLoading ? (
+                            <> <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Generating... </>
+                        ) : hasError ? (
                             <> <RefreshCw className="mr-2 h-4 w-4" /> Retry Explanation </>
-                        ) : explanations[questionId] ? (
+                        ) : hasExplanation ? (
                            <> <BrainCircuit className="mr-2 h-4 w-4" /> Explanation Loaded </>
                         ) : (
                             <> <BrainCircuit className="mr-2 h-4 w-4" /> Explain This Answer </>
@@ -184,7 +210,7 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
                       </Button>
 
                     {/* Loading Skeleton */}
-                    {loadingExplanations[questionId] && (
+                    {isLoading && (
                         <div className="mt-2 space-y-2">
                             <Skeleton className="h-4 w-full" />
                             <Skeleton className="h-4 w-3/4" />
@@ -192,19 +218,18 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
                     )}
 
                     {/* Error Display */}
-                    {errorExplanations[questionId] && !loadingExplanations[questionId] && (
+                    {hasError && !isLoading && (
                         <Alert variant="destructive" className="mt-2">
                             <AlertCircle className="h-4 w-4" />
                             <AlertTitle>Explanation Error</AlertTitle>
                             <AlertDescription>
-                            {errorExplanations[questionId]}
-                            {/* Retry button integrated into the main button now */}
+                                {errorExplanations[questionId]}
                             </AlertDescription>
                         </Alert>
                     )}
 
                     {/* Explanation Display */}
-                    {explanations[questionId] && !loadingExplanations[questionId] && !errorExplanations[questionId] && (
+                    {hasExplanation && !isLoading && !hasError && (
                         <Alert className="mt-2 border-primary bg-primary/5 relative group">
                            <HelpCircle className="h-4 w-4 text-primary" />
                            <AlertTitle className="text-primary font-semibold">AI Explanation</AlertTitle>
@@ -241,5 +266,3 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
     </Card>
   );
 }
-
-    

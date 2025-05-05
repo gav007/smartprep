@@ -86,13 +86,14 @@ export default function HomePage() {
             </div>
             <div className="flex justify-center items-center">
                 {/* Updated hero image placeholder and hints */}
+                {/* Suggestion: Store images locally in /public/static/images/ */}
                 <Image
-                  src="https://picsum.photos/id/42/600/400" // Placeholder - server rack / data center / network hardware
-                  alt="Modern data center rack with glowing network hardware"
+                  src="https://picsum.photos/id/211/600/400" // Placeholder - Server rack / data center / network hardware
+                  alt="Modern data center rack with glowing network hardware and server equipment" // Updated alt text
                   width={600}
                   height={400}
-                  className="rounded-lg shadow-2xl object-cover aspect-video" // aspect-video ensures ratio
-                  data-ai-hint="data center server rack network hardware technology" // Updated hint
+                  className="rounded-xl shadow-2xl object-cover aspect-[4/3]" // Consistent styling: aspect-[4/3], rounded-xl
+                  data-ai-hint="data center server rack network hardware technology servers ethernet cables" // Updated hint
                   priority // Load hero image faster
                 />
             </div>
@@ -133,13 +134,14 @@ export default function HomePage() {
           <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
             <div className="flex justify-center items-center md:order-2">
                  {/* Updated about image placeholder and hints */}
+                 {/* Suggestion: Store images locally in /public/static/images/ */}
                  <Image
-                  src="https://picsum.photos/id/1/500/350" // Placeholder - Desk with computer, PCB, oscilloscope waveform
+                  src="https://picsum.photos/id/2/500/350" // Placeholder - Desk with computer, PCB, oscilloscope waveform
                   alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform"
                   width={500}
                   height={350}
-                  className="rounded-lg shadow-xl object-cover aspect-[4/3]"
-                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform computer" // Updated hint
+                  className="rounded-xl shadow-xl object-cover aspect-[4/3]" // Consistent styling: rounded-xl
+                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter" // Updated hint
                   loading="lazy" // Add lazy loading
                 />
             </div>
