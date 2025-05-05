@@ -1,0 +1,123 @@
+[
+  {
+    "question": "What is a signal with infinite levels?",
+    "options": {
+      "A": "Digital",
+      "B": "Analog",
+      "C": "Noise",
+      "D": "Pulse"
+    },
+    "answer": "B",
+    "feedback": "Analog signals have infinite possible values within a range."
+  },
+  {
+    "question": "Which topology connects all devices to a central hub or switch?",
+    "options": {
+      "A": "Bus",
+      "B": "Ring",
+      "C": "Star",
+      "D": "Mesh"
+    },
+    "answer": "C",
+    "feedback": "In a star topology, each device has a dedicated point-to-point link to a central controller."
+  },
+  {
+    "question": "What does MAC address stand for?",
+    "options": {
+      "A": "Media Access Control",
+      "B": "Machine Address Code",
+      "C": "Master Access Coordinate",
+      "D": "Memory Allocation Controller"
+    },
+    "answer": "A",
+    "feedback": "A MAC address is a unique identifier assigned to network interfaces for communications at the data link layer."
+  },
+  {
+    "question": "Which protocol ensures reliable data delivery using acknowledgments?",
+    "options": {
+      "A": "UDP",
+      "B": "IP",
+      "C": "TCP",
+      "D": "ICMP"
+    },
+    "answer": "C",
+    "feedback": "TCP (Transmission Control Protocol) provides reliable, ordered, and error-checked delivery of data."
+  },
+  {
+    "question": "What is the purpose of a subnet mask?",
+    "options": {
+      "A": "To identify the device's MAC address",
+      "B": "To distinguish the network portion from the host portion of an IP address",
+      "C": "To encrypt network traffic",
+      "D": "To assign domain names"
+    },
+    "answer": "B",
+    "feedback": "A subnet mask is used by devices to determine if a destination IP address is on the local network or a remote network."
+  },
+  {
+    "question": "Which layer of the TCP/IP model corresponds to the OSI Transport Layer?",
+    "options": {
+      "A": "Application Layer",
+      "B": "Internet Layer",
+      "C": "Transport Layer",
+      "D": "Network Interface Layer"
+    },
+    "answer": "C",
+    "feedback": "Both the TCP/IP Transport Layer and OSI Transport Layer handle end-to-end communication and reliability (e.g., TCP, UDP)."
+  },
+  {
+    "question": "What type of network covers a large geographical area, like a city or country?",
+    "options": {
+      "A": "LAN (Local Area Network)",
+      "B": "PAN (Personal Area Network)",
+      "C": "MAN (Metropolitan Area Network)",
+      "D": "WAN (Wide Area Network)"
+    },
+    "answer": "D",
+    "feedback": "WANs connect networks over long distances, often using leased lines or public infrastructure."
+  },
+  {
+    "question": "Which command is used to view the IP configuration of a Windows machine?",
+    "options": {
+      "A": "ifconfig",
+      "B": "ip addr",
+      "C": "ipconfig",
+      "D": "netstat"
+    },
+    "answer": "C",
+    "feedback": "`ipconfig` is the standard command-line utility in Windows for displaying network configuration details."
+  },
+  {
+    "question": "What is the function of ARP?",
+    "options": {
+      "A": "To resolve IP addresses to MAC addresses",
+      "B": "To assign IP addresses dynamically",
+      "C": "To route packets between networks",
+      "D": "To translate domain names"
+    },
+    "answer": "A",
+    "feedback": "Address Resolution Protocol (ARP) is used to map a known IP address to its corresponding physical MAC address on a local network."
+  },
+  {
+    "question": "Which wireless security protocol is considered the most secure currently?",
+    "options": {
+      "A": "WEP",
+      "B": "WPA",
+      "C": "WPA2",
+      "D": "WPA3"
+    },
+    "answer": "D",
+    "feedback": "WPA3 offers the latest and strongest security enhancements for Wi-Fi networks compared to older protocols like WEP, WPA, and WPA2."
+  },
+   {
+    "question": "What is 'latency' in networking?",
+    "options": {
+      "A": "The maximum data transfer rate",
+      "B": "The delay in data communication",
+      "C": "The number of connected devices",
+      "D": "The physical distance between nodes"
+    },
+    "answer": "B",
+    "feedback": "Latency refers to the time it takes for a data packet to travel from its source to its destination."
+  }
+]

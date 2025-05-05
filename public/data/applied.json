@@ -1,0 +1,134 @@
+[
+  {
+    "type": "MC",
+    "question": "Which protocol is used for secure web browsing?",
+    "options": {
+      "A": "HTTP",
+      "B": "FTP",
+      "C": "HTTPS",
+      "D": "SMTP"
+    },
+    "answer": "C",
+    "feedback": "HTTPS encrypts HTTP traffic using SSL/TLS, providing security."
+  },
+  {
+    "type": "MC",
+    "question": "What is the default port number for SSH?",
+    "options": {
+      "A": "80",
+      "B": "22",
+      "C": "443",
+      "D": "21"
+    },
+    "answer": "B",
+    "feedback": "SSH (Secure Shell) typically uses port 22 for secure remote connections."
+  },
+  {
+    "type": "MC",
+    "question": "Which layer of the OSI model is responsible for routing?",
+    "options": {
+      "A": "Physical Layer",
+      "B": "Data Link Layer",
+      "C": "Network Layer",
+      "D": "Transport Layer"
+    },
+    "answer": "C",
+    "feedback": "The Network Layer (Layer 3) handles routing of packets across different networks."
+  },
+  {
+    "type": "MC",
+    "question": "What does DHCP stand for?",
+    "options": {
+      "A": "Dynamic Host Configuration Protocol",
+      "B": "Domain Host Control Protocol",
+      "C": "Data Handling and Communication Protocol",
+      "D": "Dynamic Hyperlink Configuration Protocol"
+    },
+    "answer": "A",
+    "feedback": "DHCP automatically assigns IP addresses and other network configuration parameters to devices."
+  },
+  {
+    "type": "MC",
+    "question": "Which network device operates at the Data Link Layer (Layer 2)?",
+    "options": {
+      "A": "Router",
+      "B": "Hub",
+      "C": "Switch",
+      "D": "Repeater"
+    },
+    "answer": "C",
+    "feedback": "Switches use MAC addresses to forward frames within a local network segment, operating at Layer 2."
+  },
+  {
+    "type": "MC",
+    "question": "What is the primary function of DNS?",
+    "options": {
+      "A": "Assign IP addresses",
+      "B": "Resolve domain names to IP addresses",
+      "C": "Route network traffic",
+      "D": "Encrypt data packets"
+    },
+    "answer": "B",
+    "feedback": "The Domain Name System (DNS) translates human-readable domain names into machine-readable IP addresses."
+  },
+  {
+    "type": "MC",
+    "question": "What type of cable is commonly used for Ethernet connections?",
+    "options": {
+      "A": "Coaxial",
+      "B": "Fiber Optic",
+      "C": "Twisted Pair",
+      "D": "Serial"
+    },
+    "answer": "C",
+    "feedback": "Twisted pair cables, such as Cat 5e or Cat 6, are the standard for most wired Ethernet networks."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is a private IP address range?",
+    "options": {
+      "A": "8.8.8.8",
+      "B": "192.168.1.1",
+      "C": "172.32.0.1",
+      "D": "203.0.113.10"
+    },
+    "answer": "B",
+    "feedback": "The 192.168.0.0/16 block is one of the ranges reserved for private networks (RFC 1918)."
+  },
+  {
+    "type": "MC",
+    "question": "What does 'ping' command primarily test?",
+    "options": {
+      "A": "Network bandwidth",
+      "B": "Host reachability and latency",
+      "C": "Open ports on a server",
+      "D": "Domain name resolution"
+    },
+    "answer": "B",
+    "feedback": "Ping sends ICMP echo requests to a target host to check if it's reachable and measures the round-trip time."
+  },
+  {
+    "type": "MC",
+    "question": "What is a firewall used for?",
+    "options": {
+      "A": "Speeding up network connections",
+      "B": "Storing large amounts of data",
+      "C": "Filtering network traffic based on security rules",
+      "D": "Translating domain names"
+    },
+    "answer": "C",
+    "feedback": "Firewalls act as barriers between trusted and untrusted networks, controlling incoming and outgoing traffic."
+  },
+   {
+    "type": "MC",
+    "question": "What does VPN stand for?",
+    "options": {
+      "A": "Virtual Private Network",
+      "B": "Very Personal Network",
+      "C": "Verified Public Network",
+      "D": "Volatile Packet Network"
+    },
+    "answer": "A",
+    "feedback": "A VPN creates a secure, encrypted connection over a public network like the internet."
+  }
+]
