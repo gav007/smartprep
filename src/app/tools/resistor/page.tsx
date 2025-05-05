@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
@@ -197,7 +198,7 @@ export default function ResistorCalculatorPage() {
 
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8"> {/* Add container and padding */}
             <Tabs value={mode} onValueChange={(value) => setMode(value as 'bandToValue' | 'valueToBand')}>
                 <Card className="w-full max-w-xl mx-auto">
                     <CardHeader>

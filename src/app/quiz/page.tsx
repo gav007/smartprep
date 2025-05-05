@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -162,7 +163,7 @@ export default function QuizPage() {
   // Render based on state
   if (quizState === 'loading') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+       <div className="container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-[60vh] text-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
         <p className="text-lg text-muted-foreground">Loading Quiz...</p>
       </div>
@@ -171,7 +172,7 @@ export default function QuizPage() {
 
   if (quizState === 'error') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+      <div className="container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-[60vh] text-center">
          <Alert variant="destructive" className="max-w-lg mx-auto">
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Error Loading Quiz</AlertTitle>
@@ -188,7 +189,7 @@ export default function QuizPage() {
 
   if (quizState === 'selecting') {
     return (
-      <div className="flex flex-col items-center justify-center pt-10">
+       <div className="container mx-auto px-4 py-8 flex flex-col items-center justify-center pt-10">
         <h1 className="text-3xl font-bold mb-8 text-center">Select a Quiz</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
           {quizOptions.map((quiz) => (
@@ -217,18 +218,20 @@ export default function QuizPage() {
 
   if (quizState === 'review') {
     return (
-      <ScoreReview
-        questions={questions}
-        userAnswers={userAnswers}
-        onRestart={handleRestart}
-        onGoHome={handleGoHome}
-      />
+      <div className="container mx-auto px-4 py-8">
+        <ScoreReview
+            questions={questions}
+            userAnswers={userAnswers}
+            onRestart={handleRestart}
+            onGoHome={handleGoHome}
+        />
+      </div>
     );
   }
 
   // Active quiz state
   return (
-    <div className="w-full max-w-3xl mx-auto flex flex-col items-center">
+    <div className="container mx-auto px-4 py-8 w-full max-w-3xl flex flex-col items-center">
       {currentQuestion ? (
         <>
           <QuizCard

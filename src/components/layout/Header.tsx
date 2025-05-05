@@ -1,44 +1,87 @@
 
+'use client';
+
 import Link from 'next/link';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon } from 'lucide-react'; // Added TableIcon
+import { useState } from 'react';
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { cn } from '@/lib/utils';
+
+const navItems = [
+  { href: "/", label: "Home", icon: HomeIcon },
+  { href: "/quiz", label: "Quizzes", icon: BookOpen },
+  { href: "/calculator", label: "Calculators", icon: Calculator },
+  { href: "/tools/subnet", label: "Subnet", icon: Network },
+  { href: "/tools/truth-table", label: "Truth Table", icon: TableIcon },
+  { href: "/tools/resistor", label: "Resistor", icon: Cpu }, // Using Cpu as proxy for Resistor
+];
 
 export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <header className="bg-primary text-primary-foreground shadow-md">
-      <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold tracking-tight flex items-center gap-2">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
+      <nav className="container mx-auto px-4 h-16 flex justify-between items-center">
+        {/* Logo/Brand Name */}
+        <Link href="/" className="text-xl md:text-2xl font-bold tracking-tight flex items-center gap-2 text-primary hover:opacity-80 transition-opacity">
            <Network size={28} />
            SmartPrep
         </Link>
-        <div className="space-x-4 md:space-x-6 flex items-center text-sm">
-           <Link href="/" className="hover:text-accent transition-colors flex items-center gap-1">
-            <HomeIcon size={16} />
-             Home
-          </Link>
-          <Link href="/quiz" className="hover:text-accent transition-colors flex items-center gap-1">
-             <BookOpen size={16} />
-            Quizzes
-          </Link>
-           <Link href="/calculator" className="hover:text-accent transition-colors flex items-center gap-1">
-            <Calculator size={16} />
-             Calculators
-          </Link>
-           <Link href="/tools/subnet" className="hover:text-accent transition-colors flex items-center gap-1">
-              <Network size={16} /> {/* Reusing Network icon for subnet */}
-             Subnet Calc
-           </Link>
-           <Link href="/tools/truth-table" className="hover:text-accent transition-colors flex items-center gap-1">
-              <TableIcon size={16} />
-              Truth Table
-           </Link>
-             <Link href="/tools/resistor" className="hover:text-accent transition-colors flex items-center gap-1">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-circuit-board"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M11 9h4a2 2 0 0 0 2-2V3"/><path d="M11 15h4a2 2 0 0 1 2 2v4"/><path d="M14 15V9h-4"/><path d="M7 9v6"/><path d="M7 9H3"/><path d="M7 15H3"/><path d="M17 9v6"/><path d="M17 15h4"/><path d="M17 9h4"/></svg> {/* Inline SVG for resistor-like icon */}
-               Resistor Calc
-           </Link>
-           {/* Removed Op-Amp and Wave Rectifier specific links */}
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-6 items-center text-sm font-medium">
+          {navItems.map((item) => (
+             <Link
+              key={item.href}
+              href={item.href}
+              className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5"
+             >
+              <item.icon size={16} />
+              {item.label}
+            </Link>
+          ))}
         </div>
-         {/* Placeholder for mobile menu toggle if needed */}
-         {/* <button className="md:hidden"> <Menu size={24} /> </button> */}
+
+        {/* Mobile Navigation Trigger */}
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger asChild className="md:hidden">
+             <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open menu</span>
+             </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-full max-w-xs bg-background p-6">
+             <div className="flex justify-between items-center mb-8">
+                 <Link href="/" className="text-xl font-bold tracking-tight flex items-center gap-2 text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                   <Network size={24} />
+                   SmartPrep
+                 </Link>
+                <SheetClose asChild>
+                     <Button variant="ghost" size="icon">
+                        <X className="h-6 w-6" />
+                         <span className="sr-only">Close menu</span>
+                    </Button>
+                 </SheetClose>
+             </div>
+             <nav className="flex flex-col space-y-4">
+                 {navItems.map((item) => (
+                    <SheetClose key={item.href} asChild>
+                         <Link
+                            href={item.href}
+                            className={cn(
+                                "text-lg font-medium text-foreground hover:text-primary transition-colors flex items-center gap-2 p-2 rounded-md hover:bg-muted"
+                                // Add active link styling if needed using usePathname hook
+                            )}
+                         >
+                            <item.icon size={20} />
+                            {item.label}
+                         </Link>
+                    </SheetClose>
+                 ))}
+             </nav>
+          </SheetContent>
+        </Sheet>
       </nav>
     </header>
   );

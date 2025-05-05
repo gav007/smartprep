@@ -1,8 +1,10 @@
+
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import Header from '@/components/layout/Header'; // Import the Header component
+import Footer from '@/components/layout/Footer'; // Import the Footer component
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -26,11 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-secondary text-foreground min-h-screen flex flex-col`}>
-        <Header /> {/* Add the Header component */}
-        <main className="flex-grow container mx-auto px-4 py-8">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen flex flex-col`}>
+        <Header /> {/* Header is now sticky */}
+         {/* Apply container and padding only to non-full-width pages within their own layouts/components */}
+        <main className="flex-grow">
           {children}
         </main>
+        {/* Footer is rendered conditionally or on specific pages */}
+        {/* <Footer /> Footer moved inside HomePage or other page layouts if needed globally */}
         <Toaster />
       </body>
     </html>

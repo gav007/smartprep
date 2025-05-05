@@ -15,7 +15,7 @@ import { Calculator } from "lucide-react";
 
 export default function CalculatorPage() {
   return (
-    <div className="flex flex-col items-center pt-10">
+    <div className="container mx-auto px-4 py-8"> {/* Add container and padding */}
       <div className="text-center mb-12">
         <h1 className="text-3xl font-bold mb-2 flex items-center justify-center gap-2">
           <Calculator className="h-8 w-8 text-primary" />
@@ -27,7 +27,7 @@ export default function CalculatorPage() {
       </div>
 
       {/* Grid Layout for Calculators */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto"> {/* Added mx-auto */}
         <OhmsLawCalculator />
         <PowerCalculator /> {/* Added Power Calculator */}
         <SeriesParallelResistanceCalculator />
