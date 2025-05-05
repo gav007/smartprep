@@ -6,7 +6,6 @@ This is a Next.js application providing interactive quizzes and tools for networ
 
 - Interactive Quizzes (Networking Fundamentals, Applied Networking)
 - Question Review with Correct/Incorrect Highlighting
-- AI-Powered Answer Explanations (using Genkit with Google Gemini)
 - Electronics & Networking Calculator Tools
   - Subnet Calculator
   - Base Converter (Binary/Decimal/Hex)
@@ -22,7 +21,6 @@ This is a Next.js application providing interactive quizzes and tools for networ
 - React
 - TypeScript
 - Tailwind CSS + ShadCN UI
-- Genkit (for AI features - requires Google AI/Gemini API Key)
 - Lucide React (Icons)
 - Recharts (for Waveform Generator - placeholder)
 
@@ -39,30 +37,12 @@ This is a Next.js application providing interactive quizzes and tools for networ
     npm install
     ```
 
-3.  **Set up Environment Variables:**
-    - Copy `.env.example` to `.env` or create a `.env.local` file (preferred for local secrets, ignored by git).
-    - Add your Google Generative AI API Key (required for the AI explanation feature) to the `.env` or `.env.local` file:
-      ```dotenv
-      # .env or .env.local
-      GOOGLE_GENAI_API_KEY=your_google_gemini_api_key_here
-      ```
-      *Note: You can obtain an API key from Google AI Studio or Google Cloud.*
-
-4.  **Run the development server:**
+3.  **Run the development server:**
     ```bash
     npm run dev
     ```
     The app will be available at http://localhost:9002 (or the port specified in `package.json`).
 
-5.  **Run Genkit Dev Server (for AI features):**
-    The AI explanation feature uses Genkit flows. To test or develop these flows locally, run the Genkit development server in a separate terminal:
-    ```bash
-    npm run genkit:dev
-    ```
-    Or for watching changes:
-    ```bash
-    npm run genkit:watch
-    ```
 
 ## Docker Deployment
 
@@ -89,41 +69,41 @@ This will build the production-ready Docker image named `smartprep`.
 
 ```bash
 docker run -d -p 3000:3000 \
-  -e GOOGLE_GENAI_API_KEY="your_google_gemini_api_key_here" \
   --name smartprep_container smartprep
 ```
 
 - `-d`: Run in detached mode (background).
 - `-p 3000:3000`: Map port 3000 on your host machine to port 3000 inside the container.
-- `-e GOOGLE_GENAI_API_KEY="your_google_gemini_api_key_here"`: **Crucially, provide the API key as an environment variable.**
 - `--name smartprep_container`: Assign a name to the container for easier management.
 - `smartprep`: The name of the image to run.
 
 The application will be accessible at `http://<your-server-ip>:3000` or `http://localhost:3000` if running locally.
 
-**Note on Environment Variables:** You MUST provide the `GOOGLE_GENAI_API_KEY` for the AI explanation feature to work. You can also use an environment file with `docker run`:
+**Note on Environment Variables:** If your application requires other environment variables (e.g., for external APIs, database connections), pass them using `-e` flags or an environment file.
 
 ```bash
-# Create a .env.production file (ensure it's not committed if it contains secrets)
-echo "GOOGLE_GENAI_API_KEY=your_google_gemini_api_key_here" > .env.production
+# Example using an env file (.env.production)
+echo "DATABASE_URL=your_db_connection_string" > .env.production
 
 # Run using the env file
 docker run -d -p 3000:3000 \
   --env-file ./.env.production \
   --name smartprep_container smartprep
 ```
+Ensure any sensitive environment files are listed in `.dockerignore`.
+
 
 #### Option 2: Using `docker-compose` (for local testing)
 
-The provided `docker-compose.yml` file simplifies running the container locally and includes a placeholder for the environment variable.
+The provided `docker-compose.yml` file simplifies running the container locally.
 
-1.  **Create a `.env.production` file** (or similar) in the project root and add your API key:
+1.  **Create a `.env.production` file** (or similar) in the project root if you need to pass environment variables.
     ```dotenv
     # .env.production
-    GOOGLE_GENAI_API_KEY=your_google_gemini_api_key_here
+    DATABASE_URL=your_db_connection_string
     ```
 
-2.  **Uncomment the `env_file` section** in `docker-compose.yml` if using an env file:
+2.  **Ensure `env_file` section in `docker-compose.yml` is uncommented and points to your file** if using an env file:
     ```yaml
     services:
       smartprep:
@@ -136,7 +116,7 @@ The provided `docker-compose.yml` file simplifies running the container locally 
     ```bash
     docker-compose up -d
     ```
-    This command will build the image (if not already built) and start the container defined in `docker-compose.yml`, loading the environment variables from the specified file.
+    This command will build the image (if not already built) and start the container defined in `docker-compose.yml`, loading environment variables if configured.
 
 To stop the container:
 ```bash
@@ -155,10 +135,10 @@ docker-compose down
 
         # On the EC2 instance
         docker pull your-registry/smartprep:latest
-        docker run -d -p 3000:3000 -e GOOGLE_GENAI_API_KEY="YOUR_KEY" ... your-registry/smartprep:latest
+        docker run -d -p 3000:3000 ... your-registry/smartprep:latest # Add -e flags or --env-file if needed
         ```
     *   **Option B (Copy Files & Build):** Copy the entire project folder (excluding ignored files) to the EC2 instance and build the image directly there using `docker build -t smartprep .`.
-3.  **Run the Container:** Use the `docker run` command described above on the EC2 instance, ensuring the `GOOGLE_GENAI_API_KEY` environment variable is set correctly.
+3.  **Run the Container:** Use the `docker run` command described above on the EC2 instance, ensuring any necessary environment variables are set.
 4.  **Configure Security Group:** Ensure the EC2 instance's security group allows incoming traffic on port 3000 (or port 80/443 if using a reverse proxy).
 5.  **Set up Reverse Proxy (Recommended):**
     *   Install Nginx on the EC2 instance.
@@ -183,5 +163,3 @@ docker-compose down
 -   `npm run start`: Starts the production server (expects a build to exist).
 -   `npm run lint`: Runs ESLint.
 -   `npm run typecheck`: Runs TypeScript type checking.
--   `npm run genkit:dev`: Starts the Genkit development flow server.
--   `npm run genkit:watch`: Starts the Genkit development flow server with file watching.

@@ -1,53 +1,44 @@
-# Stage 1: Build the application
+# Stage 1: Build the Next.js application
 FROM node:20-alpine AS builder
 
 # Set working directory
 WORKDIR /app
 
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
 # Install dependencies
-# Use --frozen-lockfile for reproducible installs
-COPY package.json package-lock.json ./
-RUN npm ci --frozen-lockfile
+RUN npm install
 
-# Copy application code
-# Note: .dockerignore should prevent node_modules, .next, etc. from being copied
+# Copy the rest of the application code
 COPY . .
-
-# Set build-time environment variables
-ENV NODE_ENV=production
-# Uncomment the next line if you need to specify a base path for assets
-# ENV NEXT_PUBLIC_API_BASE=/api
 
 # Build the Next.js application
 RUN npm run build
 
-# Stage 2: Production image
+# Stage 2: Create the production image
 FROM node:20-alpine AS runner
 
-# Set working directory
 WORKDIR /app
 
-# Set production environment
+# Set environment to production
 ENV NODE_ENV=production
-ENV PORT=3000
-# Uncomment the next line if you need to specify a base path for assets
-# ENV NEXT_PUBLIC_API_BASE=/api
+# Optionally, expose the port the app runs on (Next.js default is 3000)
+# ENV PORT=3000
+# EXPOSE ${PORT} # Port exposure is better handled by `docker run -p` or docker-compose
 
 # Copy built assets from the builder stage
-# Copy the standalone Next.js server output
-COPY --from=builder /app/.next/standalone ./
-# Copy the public directory
 COPY --from=builder /app/public ./public
-# Copy the static assets
+COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-# Expose the port the app runs on
-EXPOSE 3000
+# User for running the app (optional but recommended)
+# Create a non-root user and group
+# RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+# USER appuser
 
-# Healthcheck (Optional but recommended)
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:3000/ || exit 1
-
-# Start the application
-# The standalone output includes a server.js file
+# Command to run the application
 CMD ["node", "server.js"]
+
+# Optional Healthcheck
+# HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 CMD curl --fail http://localhost:3000 || exit 1

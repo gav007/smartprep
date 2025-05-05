@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, BrainCircuit, Calculator, Code, Cpu, GitBranch, Network, Palette, Sigma, TableIcon, Settings, Zap, CircuitBoard } from 'lucide-react'; // Added more icons
+import { ArrowRight, Calculator, Code, Cpu, GitBranch, Network, Palette, Sigma, TableIcon, Settings, Zap, CircuitBoard } from 'lucide-react'; // Removed BrainCircuit
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -43,18 +43,19 @@ const featuredTools = [
     link: "/calculator", // Links to main calculator page where BJT solver resides
     aiHint: "bjt transistor circuit diagram"
   },
-  {
-    title: "AI Quiz Explainer",
-    description: "Get AI-powered, step-by-step explanations for quiz answers to deepen understanding.",
-    icon: BrainCircuit,
-    link: "/quiz", // Link to quiz section
-    aiHint: "artificial intelligence learning brain"
-  },
+  // Removed AI Quiz Explainer
+  // {
+  //   title: "AI Quiz Explainer",
+  //   description: "Get AI-powered, step-by-step explanations for quiz answers to deepen understanding.",
+  //   icon: BrainCircuit,
+  //   link: "/quiz", // Link to quiz section
+  //   aiHint: "artificial intelligence learning brain"
+  // },
 ];
 
 // Placeholder for Recent Updates/Changelog data
 const recentUpdates = [
-    { id: 1, date: "2024-07-30", title: "Launched AI Explanations", description: "Get detailed insights into quiz answers." },
+    // Removed "Launched AI Explanations" update
     { id: 2, date: "2024-07-25", title: "Added BJT Solver", description: "Analyze basic BJT fixed-bias circuits." },
     { id: 3, date: "2024-07-20", title: "Improved UI Responsiveness", description: "Enhanced experience on mobile devices." },
 ];
@@ -87,13 +88,19 @@ export default function HomePage() {
             <div className="flex justify-center items-center">
                 {/* Updated hero image placeholder and hints */}
                 <Image
-                  src="https://picsum.photos/id/17/600/400" // New relevant placeholder ID (e.g., server room, cables)
-                  alt="Networking Equipment in a server rack with ethernet cables" // Updated alt text
+                  src="/assets/images/hero-network.jpg" // Updated relevant hero image path
+                  alt="Networking equipment including servers and ethernet cables in a data rack" // Updated alt text
                   width={600}
                   height={400}
                   className="rounded-xl shadow-2xl object-cover aspect-[4/3]" // Consistent styling: aspect-[4/3], rounded-xl
                   data-ai-hint="network server rack data center ethernet cables switch" // Updated hint
                   priority // Load hero image faster
+                  // Fallback handling can be added with onError if needed
+                  onError={(e) => {
+                    // Handle error, e.g., show a default icon or message
+                    // For simplicity, we'll rely on alt text for now.
+                    console.error("Hero image failed to load:", e);
+                  }}
                 />
             </div>
           </div>
@@ -134,19 +141,20 @@ export default function HomePage() {
             <div className="flex justify-center items-center md:order-2">
                  {/* Updated about image placeholder and hints */}
                  <Image
-                  src="https://picsum.photos/id/2/500/350" // Placeholder - Desk with computer, PCB, oscilloscope waveform
+                  src="/assets/images/hero-electronics.jpg" // Placeholder - Desk with computer, PCB, oscilloscope waveform
                   alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform"
                   width={500}
                   height={350}
                   className="rounded-xl shadow-xl object-cover aspect-[4/3]" // Consistent styling: rounded-xl
                   data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter" // Updated hint
                   loading="lazy" // Add lazy loading
+                   onError={(e) => { console.error("About image failed to load:", e); }}
                 />
             </div>
              <div className="space-y-5 md:order-1 text-center md:text-left">
               <h2 className="text-3xl md:text-4xl font-bold">What is SmartPrep?</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                SmartPrep is your dedicated platform for mastering core networking and electronics concepts. We bridge theory and practice with interactive quizzes featuring AI explanations and a suite of essential calculation tools.
+                SmartPrep is your dedicated platform for mastering core networking and electronics concepts. We bridge theory and practice with interactive quizzes and a suite of essential calculation tools.
               </p>
                <p className="text-lg text-muted-foreground leading-relaxed">
                  Designed for clarity and ease-of-use, SmartPrep helps students and professionals build confidence and tackle real-world challenges.
