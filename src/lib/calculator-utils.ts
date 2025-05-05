@@ -334,42 +334,48 @@ export function calculateResistorFromBands(bands: ResistorBands, numBands: 4 | 5
 
     const d1 = getBandValue(bands.band1, 'digit');
     const d2 = getBandValue(bands.band2, 'digit');
-    const d3 = (numBands === 5 || numBands === 6) ? getBandValue(bands.band3, 'digit') : null; // Band 3 is a digit only for 5/6 band
+    const d3 = (numBands === 5 || numBands === 6) ? getBandValue(bands.band3, 'digit') : null;
+
+    let multiplierColor: ResistorBandColor | undefined;
+    let toleranceColor: ResistorBandColor | undefined;
+    let tempCoColor: ResistorBandColor | undefined;
+
 
     switch (numBands) {
         case 6:
-            // Band 3 is digit, Band 4 is multiplier, Band 5 is tolerance, Band 6 is temp coeff
-            if (d1 !== null && d2 !== null && d3 !== null) {
-                significantDigits = `${d1}${d2}${d3}`;
-                multiplierValue = getBandValue(bands.multiplier, 'multiplier'); // UI 'multiplier' is Band 4
-                tolerance = getBandValue(bands.tolerance, 'tolerance');         // UI 'tolerance' is Band 5
-                tempCoefficient = getBandValue(bands.tempCoefficient, 'tempCoefficient'); // UI 'tempCoefficient' is Band 6
-            }
+            // Band 3=Digit, Band 4=Multiplier, Band 5=Tolerance, Band 6=TempCo
+            if (d1 === null || d2 === null || d3 === null) break;
+            significantDigits = `${d1}${d2}${d3}`;
+            multiplierColor = bands.multiplier;
+            toleranceColor = bands.tolerance;
+            tempCoColor = bands.tempCoefficient;
+            multiplierValue = getBandValue(multiplierColor, 'multiplier');
+            tolerance = getBandValue(toleranceColor, 'tolerance');
+            tempCoefficient = getBandValue(tempCoColor, 'tempCoefficient');
             break;
         case 5:
-            // Band 3 is digit, Band 4 is multiplier, Band 5 is tolerance
-             if (d1 !== null && d2 !== null && d3 !== null) {
-                 significantDigits = `${d1}${d2}${d3}`;
-                 multiplierValue = getBandValue(bands.multiplier, 'multiplier'); // UI 'multiplier' is Band 4
-                 tolerance = getBandValue(bands.tolerance, 'tolerance');         // UI 'tolerance' is Band 5
-             }
+            // Band 3=Digit, Band 4=Multiplier, Band 5=Tolerance
+            if (d1 === null || d2 === null || d3 === null) break;
+            significantDigits = `${d1}${d2}${d3}`;
+            multiplierColor = bands.multiplier;
+            toleranceColor = bands.tolerance;
+            multiplierValue = getBandValue(multiplierColor, 'multiplier');
+            tolerance = getBandValue(toleranceColor, 'tolerance');
             break;
         case 4:
-             // Band 3 is multiplier, Band 4 is tolerance
-            if (d1 !== null && d2 !== null) {
-                significantDigits = `${d1}${d2}`;
-                // UI state fields might need careful mapping here. Assuming state matches bands for 5/6 and needs remapping for 4.
-                // If UI 'multiplier' field *always* means multiplier band, and 'tolerance' *always* means tolerance band:
-                multiplierValue = getBandValue(bands.band3, 'multiplier'); // Band 3 is multiplier
-                tolerance = getBandValue(bands.multiplier, 'tolerance'); // Band 4 is tolerance (assuming UI state 'multiplier' holds band 4 color)
-                 // **** Correction based on typical 4-band UI state ****
-                 // Usually, the state might be band1, band2, band3 (multiplier), band4 (tolerance)
-                 // Let's assume the state 'bands.multiplier' holds the color for the multiplier band (Band 3 for 4-band)
-                 // and 'bands.tolerance' holds the color for the tolerance band (Band 4 for 4-band)
-                 multiplierValue = getBandValue(bands.multiplier, 'multiplier'); // Assuming bands.multiplier is band 3 color
-                 tolerance = getBandValue(bands.tolerance, 'tolerance');         // Assuming bands.tolerance is band 4 color
-
-            }
+            // Band 3=Multiplier, Band 4=Tolerance
+            if (d1 === null || d2 === null) break;
+            significantDigits = `${d1}${d2}`;
+            // NOTE: The band meaning shifts for 4-band based on standard layout.
+            // Assuming the UI state `bands` maps roles like:
+            // bands.band1 -> Band 1 (Digit)
+            // bands.band2 -> Band 2 (Digit)
+            // bands.band3 -> Band 3 (Multiplier) // Corrected role for 4-band
+            // bands.multiplier -> Band 4 (Tolerance) // Corrected role for 4-band
+            multiplierColor = bands.band3;
+            toleranceColor = bands.multiplier; // Reuse 'multiplier' state field for Band 4 color
+            multiplierValue = getBandValue(multiplierColor, 'multiplier');
+            tolerance = getBandValue(toleranceColor, 'tolerance');
             break;
     }
 
@@ -377,20 +383,10 @@ export function calculateResistorFromBands(bands: ResistorBands, numBands: 4 | 5
         resistance = parseInt(significantDigits, 10) * multiplierValue;
     }
 
-     // Ensure tolerance is correctly assigned (handles 'none' case via getBandValue)
-     if (tolerance === null && bands.tolerance) {
-         tolerance = getBandValue(bands.tolerance, 'tolerance');
-     }
-     // Special case for 4-band where tolerance might be in the 'multiplier' field if UI state is structured differently
-      if (numBands === 4 && tolerance === null && bands.multiplier) {
-         // This depends heavily on how the state is managed in the component.
-         // If the state fields are band1, band2, multiplier_color, tolerance_color, the first calculation is correct.
-         // If the state fields are band1, band2, band3_color, band4_color, then:
-         // multiplierValue = getBandValue(bands.band3, 'multiplier');
-         // tolerance = getBandValue(bands.multiplier, 'tolerance'); // Assuming bands.multiplier holds band4 color
-         // Sticking with the assumption that state fields match the semantic role for 5/6 band.
-     }
-
+    // Final check for tolerance if not derived correctly above (especially for 'none')
+    if (tolerance === null && toleranceColor) {
+         tolerance = getBandValue(toleranceColor, 'tolerance');
+    }
 
     return {
         resistance: resistance,
@@ -423,7 +419,9 @@ function parseResistanceValue(valueStr: string): number | null {
     if (!foundPrefix) {
         for (const prefix in prefixes) {
              const index = numPart.indexOf(prefix);
-             if (index > 0 && index === numPart.length - 1 - (prefix.length -1) ) { // Basic check if prefix is used as decimal separator
+             // Check if prefix is used like a decimal point (e.g., 4k7 -> 4.7k)
+             // Ensure it's not just part of a number like '1k2k'
+             if (index > 0 && index === numPart.length - prefix.length && !/\d$/.test(numPart.substring(0,index)) ) {
                  multiplier = prefixes[prefix];
                  numPart = numPart.replace(prefix, '.');
                   foundPrefix = true;
@@ -475,6 +473,7 @@ function findColorForValue(
     // Consider prioritizing standard E-series colors if needed
     // For digits, black is usually not the first digit unless value is 0.
     if (type === 'digit' && matches.includes('black') && value !== 0) {
+         // Return a non-black digit if available, otherwise black is fine (e.g., for 10 ohms)
          return matches.find(c => c !== 'black') || matches[0];
     }
 
@@ -512,9 +511,6 @@ export function valueToResistorBands(
          }
          actualToleranceColor = tolerancePercent === 20 ? 'none' : toleranceColor;
     } else {
-         // Default to 'none' (20%) if tolerance is null or not provided? Or require it?
-         // Let's default to 20% ('none') for 4-band if not specified, but maybe require for 5/6?
-         // For now, let's allow finding bands without explicit tolerance, defaulting later if needed.
          actualToleranceColor = undefined; // Indicate tolerance wasn't specified yet
     }
 
@@ -523,133 +519,129 @@ export function valueToResistorBands(
         let band1: ResistorBandColor | undefined;
         let band2: ResistorBandColor | undefined;
         let band3: ResistorBandColor | undefined; // Digit (5/6) or Multiplier (4)
-        let multiplier: ResistorBandColor | undefined; // Multiplier (5/6) or Tolerance (4)
-        let tolerance: ResistorBandColor | undefined = actualToleranceColor; // Use parsed tolerance
-        let tempCoefficient: ResistorBandColor | undefined; // Only for 6-band
+        let band4_multiplier: ResistorBandColor | undefined; // Multiplier (5/6)
+        let band5_tolerance: ResistorBandColor | undefined = actualToleranceColor; // Tolerance (5/6)
+        let band6_tempCoefficient: ResistorBandColor | undefined; // Only for 6-band
 
+        // Logic specific to finding bands from value
         let significantDigitsStr = '';
         let powerOfTen = 0;
-        let targetMultiplier: number | null = null;
+        let targetMultiplierValue: number | null = null;
 
         if (resistanceOhms === 0) {
-            // Zero Ohm Resistor: Black, Black, Black (sometimes single black band)
-            significantDigitsStr = '0';
-            targetMultiplier = 1; // Needs 1 * 10^0
-             powerOfTen = 0;
+            // Zero Ohm Resistor: Black band(s)
+            band1 = 'black';
+            band2 = 'black'; // Often just a single black band, but represent with 00*1
+            band3 = (numBands >= 5) ? 'black' : undefined; // Digit 3 for 5/6
+            targetMultiplierValue = 1; // Represents x1
         } else {
-            // Determine significant digits and multiplier power
             const numSigDigits = (numBands === 4) ? 2 : 3;
-            powerOfTen = Math.floor(Math.log10(resistanceOhms));
-            let baseValue = resistanceOhms / Math.pow(10, powerOfTen); // Value between 1 and 10 (approx)
+            let exponent = Math.floor(Math.log10(resistanceOhms));
+            let significand = resistanceOhms / Math.pow(10, exponent);
 
-             // Adjust baseValue and powerOfTen to fit numSigDigits
-             while (baseValue < Math.pow(10, numSigDigits - 1) && powerOfTen > -3) { // Check lower bound powerOfTen
-                 baseValue *= 10;
-                 powerOfTen--;
-             }
-             while (baseValue >= Math.pow(10, numSigDigits) && powerOfTen < 10) { // Check upper bound
-                  baseValue /= 10;
-                  powerOfTen++;
+            // Adjust significand and exponent to match E-series style if possible
+            // Example: 47000 -> significand=4.7, exponent=4. Target: significand=47, exponent=3 (47 * 10^3)
+            // Example: 100 -> significand=1, exponent=2. Target: significand=10, exponent=1 (10 * 10^1)
+
+            // Round significand to required digits
+             let roundedSignificand = parseFloat(significand.toPrecision(numSigDigits));
+
+             // Adjust exponent based on rounding (if rounding caused overflow, e.g., 9.99 -> 10.0)
+             if (roundedSignificand >= Math.pow(10, numSigDigits)) {
+                roundedSignificand /= 10;
+                exponent++;
              }
 
-            significantDigitsStr = baseValue.toFixed(0); // Initial digits guess
-             // Ensure correct number of digits
-            significantDigitsStr = significantDigitsStr.padStart(numSigDigits, '0');
-             if (significantDigitsStr.length > numSigDigits) {
-                 // This might happen due to floating point; try rounding differently or adjusting power
-                 // Let's try rounding baseValue first
-                  significantDigitsStr = Math.round(baseValue).toString().padStart(numSigDigits, '0');
-                  // If still too long, adjust power of ten again
-                  if (significantDigitsStr.length > numSigDigits) {
-                       powerOfTen += (significantDigitsStr.length - numSigDigits);
-                       significantDigitsStr = significantDigitsStr.substring(0, numSigDigits);
+            // Ensure significand has the correct number of digits *before* the implicit decimal
+            // This logic needs refinement to correctly represent E-series values like 4.7k vs 4700
+             let significandStr = roundedSignificand.toString();
+             let decimalPointIndex = significandStr.indexOf('.');
+
+             if (decimalPointIndex === -1) { // Integer
+                 while (significandStr.length < numSigDigits && exponent > -2) {
+                     significandStr += '0';
+                     exponent--; // Adjust exponent because we added a 'virtual' decimal place
+                 }
+                  while (significandStr.length > numSigDigits && exponent < 10) {
+                      significandStr = significandStr.slice(0,-1);
+                      exponent++; // Adjust exponent
                   }
+
+             } else { // Has decimal
+                 let requiredIntegerDigits = numSigDigits; // How many digits needed total
+                 let currentIntegerDigits = decimalPointIndex;
+                 let currentFractionalDigits = significandStr.length - 1 - decimalPointIndex;
+
+                 // Simplify representation, e.g., 4.70 -> 47 * 10^-1 adjustment
+                  let adjustedSignificand = roundedSignificand * Math.pow(10, currentFractionalDigits);
+                  exponent -= currentFractionalDigits; // Adjust exponent
+
+                  significandStr = Math.round(adjustedSignificand).toString(); // Round after adjustment
+
+                 // Pad/truncate integer part if needed after adjustment
+                  while (significandStr.length < numSigDigits && exponent > -2) {
+                     significandStr += '0';
+                     exponent--;
+                 }
+                 while (significandStr.length > numSigDigits && exponent < 10) {
+                      significandStr = significandStr.slice(0,-1); // Trim from right
+                      exponent++;
+                 }
+
              }
 
-
-            targetMultiplier = Math.pow(10, powerOfTen);
-
-            // Check if the representation is accurate enough
-            const calculatedResistance = parseInt(significantDigitsStr, 10) * targetMultiplier;
-            if (Math.abs(calculatedResistance - resistanceOhms) / resistanceOhms > 0.001 && resistanceOhms !==0) { // Allow small tolerance
-                 // Try slightly different power of ten?
-                 powerOfTen = Math.round(Math.log10(resistanceOhms / parseInt(significantDigitsStr.substring(0, numSigDigits-1)+'0'))); // Re-estimate power based on leading digits
-                 targetMultiplier = Math.pow(10, powerOfTen);
-                 // Re-calculate digits based on new multiplier? This can get complex.
-                 // Let's accept the approximation for now, user might need to adjust input value slightly for perfect match.
-                // console.warn(`Approximation used for ${resistanceOhms}: ${significantDigitsStr} * ${targetMultiplier}`);
-            }
+            significantDigitsStr = significandStr.substring(0, numBands === 4 ? 2 : 3); // Take required digits
+            powerOfTen = exponent;
+            targetMultiplierValue = Math.pow(10, powerOfTen);
         }
 
-        if (targetMultiplier === null) continue; // Cannot determine multiplier
-
-        multiplier = findColorForValue(targetMultiplier, 'multiplier', ['black','brown', 'red', 'orange', 'yellow', 'green', 'blue', 'violet', 'gold', 'silver']);
-        if (!multiplier) continue; // Cannot find multiplier color
-
+        // Find colors for digits
         const digits = significantDigitsStr.split('').map(d => parseInt(d, 10));
+        band1 = findColorForValue(digits[0], 'digit');
+        band2 = findColorForValue(digits[1], 'digit');
+        if (numBands >= 5 && digits.length > 2) {
+            band3 = findColorForValue(digits[2], 'digit');
+        }
 
-        // --- Assign bands based on numBands ---
-        if (numBands === 4 && digits.length >= 2) {
-            band1 = findColorForValue(digits[0], 'digit');
-            band2 = findColorForValue(digits[1], 'digit');
-            band3 = multiplier; // Band 3 is multiplier
+        // Find color for multiplier
+        const multiplierColor = findColorForValue(targetMultiplierValue, 'multiplier', ['black', 'brown', 'red', 'orange', 'yellow', 'green', 'blue', 'violet', 'gold', 'silver']);
+
+        // Assign based on band count
+        if (numBands === 4) {
+            if (!band1 || !band2 || !multiplierColor) continue; // Needs Digit1, Digit2, Multiplier
             // If tolerance wasn't specified, default to 'none' (20%) for 4-band
-             if (tolerance === undefined) tolerance = 'none';
-            multiplier = tolerance; // Band 4 is tolerance - variable name reuse is confusing, fix below
+            if (band5_tolerance === undefined) band5_tolerance = 'none';
+            // For 4-band: Band3 = Multiplier, Band4 = Tolerance
+            return {
+                bands: { band1, band2, band3: multiplierColor, multiplier: band5_tolerance }, // band3 is multiplier, multiplier field holds tolerance color
+                numBands: 4
+            };
+        } else if (numBands === 5) {
+            if (!band1 || !band2 || !band3 || !multiplierColor) continue; // Needs Digit1, Digit2, Digit3, Multiplier
+            // If tolerance wasn't specified, default to 'gold' (5%) for 5-band
+            if (band5_tolerance === undefined) band5_tolerance = 'gold';
+            // For 5-band: Band3 = Digit3, Band4 = Multiplier, Band5 = Tolerance
+            return {
+                bands: { band1, band2, band3, multiplier: multiplierColor, tolerance: band5_tolerance },
+                numBands: 5
+            };
+        } else if (numBands === 6) {
+             if (!band1 || !band2 || !band3 || !multiplierColor) continue; // Needs Digits + Multiplier
+             // If tolerance wasn't specified, default to 'brown' (1%) for 6-band
+             if (band5_tolerance === undefined) band5_tolerance = 'brown';
+             // TempCo needs to be specified or defaulted
+             band6_tempCoefficient = findColorForValue(100, 'tempCoefficient'); // Defaulting to 100ppm (Brown)
+             if (!band6_tempCoefficient) band6_tempCoefficient = 'brown'; // Ensure default
 
-            if (band1 && band2 && band3) { // band3 holds multiplier color here
-                 // Create the result, mapping correctly
-                return {
-                    bands: { band1, band2, band3: band3, multiplier: multiplier }, // Map to structure: band3=multiplier, multiplier=tolerance
-                     numBands: 4
-                };
-                 // **** Corrected Mapping for 4-Band return ****
-                  return {
-                      bands: {
-                          band1,
-                          band2,
-                          multiplier: band3, // Band 3 color is the multiplier
-                          tolerance: multiplier // Band 4 color is the tolerance
-                      },
-                      numBands: 4
-                  };
-            }
-        } else if (numBands === 5 && digits.length >= 3) {
-            band1 = findColorForValue(digits[0], 'digit');
-            band2 = findColorForValue(digits[1], 'digit');
-            band3 = findColorForValue(digits[2], 'digit'); // Band 3 is digit
-            // Band 4 is multiplier (already found in 'multiplier' variable)
-             // If tolerance wasn't specified, default to 'gold' (5%) for 5-band? Or require it? Let's try gold.
-             if (tolerance === undefined) tolerance = 'gold'; // Default 5% for 5-band if unspecified
-            // Band 5 is tolerance
-
-            if (band1 && band2 && band3 && multiplier && tolerance) {
-                return {
-                    bands: { band1, band2, band3, multiplier, tolerance },
-                     numBands: 5
-                };
-            }
-        } else if (numBands === 6 && digits.length >= 3) {
-             band1 = findColorForValue(digits[0], 'digit');
-             band2 = findColorForValue(digits[1], 'digit');
-             band3 = findColorForValue(digits[2], 'digit'); // Band 3 is digit
-             // Band 4 is multiplier
-              // If tolerance wasn't specified, default to 'brown' (1%) for 6-band? Let's try brown.
-              if (tolerance === undefined) tolerance = 'brown'; // Default 1% for 6-band if unspecified
-             // Band 5 is tolerance
-             tempCoefficient = findColorForValue(undefined, 'tempCoefficient'); // How to determine tempCo? Needs input or default. Defaulting to brown (100ppm).
-             tempCoefficient = 'brown'; // Let's just default for now
-
-             if (band1 && band2 && band3 && multiplier && tolerance && tempCoefficient) {
-                 return {
-                     bands: { band1, band2, band3, multiplier, tolerance, tempCoefficient },
-                      numBands: 6
-                 };
-             }
+             // For 6-band: Band3 = Digit3, Band4 = Multiplier, Band5 = Tolerance, Band6 = TempCo
+             return {
+                 bands: { band1, band2, band3, multiplier: multiplierColor, tolerance: band5_tolerance, tempCoefficient: band6_tempCoefficient },
+                 numBands: 6
+             };
         }
     }
 
-    return { error: "Could not determine standard bands for this value. Try a different precision or tolerance." };
+    return { error: "Could not determine standard bands for this value. Try adjusting the input value or desired band count." };
 }
 
 
@@ -703,7 +695,9 @@ export function generateWaveformData(params: WaveformParams): WaveformDataPoint[
           // Effective time for cycle calculation = angularFrequency * time + phaseShift
           // We need to map this to a 0 to 2*PI range (or 0 to period)
          const cyclePosSquare = (angularFrequency * time + phaseShift) / (2 * Math.PI); // Position within cycle (0 to 1 range, approx)
-         const timeInCycleSquare = (cyclePosSquare % 1) * period; // Time within the 0 to period range
+         let timeInCycleSquare = (cyclePosSquare % 1) * period; // Time within the 0 to period range
+         // Ensure timeInCycle is positive for modulo results
+         if (timeInCycleSquare < 0) timeInCycleSquare += period;
          voltage = timeInCycleSquare < period / 2 ? amplitude : -amplitude;
         break;
       case 'triangle':
