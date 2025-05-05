@@ -13,6 +13,7 @@ interface CalculatorInputProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  onBlur?: () => void; // Added onBlur prop
   unit?: Unit; // Make unit optional
   unitOptions?: Unit[];
   onUnitChange?: (unit: Unit) => void;
@@ -31,6 +32,7 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
   label,
   value,
   onChange,
+  onBlur, // Destructure onBlur
   unit,
   unitOptions,
   onUnitChange,
@@ -49,6 +51,7 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
       type={type}
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      onBlur={onBlur} // Pass onBlur to the Input component
       placeholder={placeholder}
       className={cn(
         isCalculated ? 'bg-muted/50 border-input font-medium' : '',
