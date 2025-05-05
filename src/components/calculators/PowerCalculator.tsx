@@ -1,12 +1,14 @@
+
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, Zap, RotateCcw } from 'lucide-react'; // Added Zap and RotateCcw icons
+import { AlertCircle, Zap, RotateCcw } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useDebounceCallback } from 'usehooks-ts'; // Using an external debounce hook
 
 // --- Types and Constants ---
 type Variable = 'voltage' | 'current' | 'resistance' | 'power';
@@ -46,51 +48,71 @@ interface State {
   currentUnit: Unit;
   resistanceUnit: Unit;
   powerUnit: Unit;
-  lastChanged: Variable | null;
   error: string | null;
+  // Track the two fields actively used as input for calculation
+  sourceFields: [Variable, Variable] | null;
 }
+
+const initialState: State = {
+    voltageStr: "", currentStr: "", resistanceStr: "", powerStr: "",
+    voltageUnit: defaultUnits.voltage, currentUnit: defaultUnits.current,
+    resistanceUnit: defaultUnits.resistance, powerUnit: defaultUnits.power,
+    error: null,
+    sourceFields: null,
+};
 
 // --- Formatting Helper ---
 const formatResult = (value: number | null, variable: Variable): { displayValue: string, unit: Unit } => {
-  if (value === null || !isFinite(value)) return { displayValue: '', unit: defaultUnits[variable] };
+  if (value === null || !isFinite(value) || isNaN(value)) {
+      return { displayValue: '', unit: defaultUnits[variable] };
+  }
 
   let baseValue = value;
   let bestUnit: Unit = defaultUnits[variable];
   let displayNum = baseValue;
 
   const availableUnits = units[variable];
+  let minDiff = Infinity; // Used for finding the best unit
 
-  // Find the best unit to represent the value
-  let minDiff = Infinity;
+  // Prioritize units where the value is >= 1
+  let bestFitUnit: Unit | null = null;
+  let smallestMultiplier = Infinity;
+
   for (const u of availableUnits) {
-      const multiplier = multipliers[u];
-      const scaledValue = baseValue / multiplier;
-      // Prefer units where the value is >= 1, find the smallest such unit or the largest if all < 1
-      if (Math.abs(scaledValue) >= 1) {
-          if (multiplier < minDiff) { // Find smallest multiplier >= 1
-              minDiff = multiplier;
+    const multiplier = multipliers[u];
+    const scaledValue = baseValue / multiplier;
+    if (Math.abs(scaledValue) >= 1) {
+      if (multiplier < smallestMultiplier) {
+        smallestMultiplier = multiplier;
+        bestFitUnit = u;
+        displayNum = scaledValue;
+      }
+    }
+  }
+
+  if (bestFitUnit) {
+      bestUnit = bestFitUnit;
+  } else {
+      // If all scaled values are < 1, find the unit with the largest multiplier (smallest unit like mV, µA, mW)
+      let largestMultiplier = 0;
+      for (const u of availableUnits) {
+          const multiplier = multipliers[u];
+          if (multiplier > largestMultiplier) {
+              largestMultiplier = multiplier;
               bestUnit = u;
-              displayNum = scaledValue;
-          }
-      } else if (minDiff === Infinity) { // If all are < 1, track the largest multiplier (smallest unit)
-          if (multiplier > minDiff) { // Find largest multiplier < 1
-             minDiff = multiplier;
-             bestUnit = u;
-             displayNum = scaledValue;
+              displayNum = baseValue / multiplier;
           }
       }
   }
-   // Fallback if something goes wrong
-  if (bestUnit === undefined) bestUnit = defaultUnits[variable];
-  if (displayNum === undefined) displayNum = baseValue / multipliers[bestUnit];
 
+  // Limit precision based on magnitude
+   const precision = Math.abs(displayNum) < 10 ? 3 : 4; // More precision for smaller numbers
 
-  const precision = Math.abs(displayNum) < 10 && Math.abs(displayNum) !== 0 ? 3 : 2;
-  // Use toPrecision for better handling of very small/large numbers vs toFixed
-  const displayString = parseFloat(displayNum.toPrecision(precision + 2)).toPrecision(precision); // Adjust precision slightly for toPrecision
+   // Use toPrecision for better handling of very small/large numbers and avoid excessive trailing zeros
+   const displayString = displayNum.toPrecision(precision);
 
   return {
-    // Format to fixed, remove trailing zeros/decimal point if possible
+    // Ensure the result doesn't have unnecessary trailing zeros or decimal points
     displayValue: parseFloat(displayString).toString(), // Converts "5.00" to "5"
     unit: bestUnit
   };
@@ -98,154 +120,186 @@ const formatResult = (value: number | null, variable: Variable): { displayValue:
 
 
 export default function PowerCalculator() {
-  const [state, setState] = useState<State>({
-    voltageStr: "", currentStr: "", resistanceStr: "", powerStr: "",
-    voltageUnit: defaultUnits.voltage, currentUnit: defaultUnits.current,
-    resistanceUnit: defaultUnits.resistance, powerUnit: defaultUnits.power,
-    lastChanged: null, error: null,
-  });
-  const [calculating, setCalculating] = useState(false); // Prevent infinite loops
+  const [state, setState] = useState<State>(initialState);
+  const calculatingRef = useRef(false); // Ref to prevent re-entry during calculation
 
-  // --- Calculation Logic ---
-  useEffect(() => {
-     if (calculating) return; // Skip if calculation is already in progress
+   // --- Calculation Logic ---
+  const calculateAndUpdate = useCallback(() => {
+     if (calculatingRef.current) return; // Prevent re-entry
 
-    const { voltageStr, currentStr, resistanceStr, powerStr,
-            voltageUnit, currentUnit, resistanceUnit, powerUnit,
-            lastChanged } = state;
-
-    const values = {
-      voltage: parseFloat(voltageStr) * (multipliers[voltageUnit] || 1),
-      current: parseFloat(currentStr) * (multipliers[currentUnit] || 1),
-      resistance: parseFloat(resistanceStr) * (multipliers[resistanceUnit] || 1),
-      power: parseFloat(powerStr) * (multipliers[powerUnit] || 1),
-    };
-
-    const knownValues = (Object.keys(values) as Variable[]).filter(key => !isNaN(values[key]));
-
-    // Only proceed if exactly two values are known and valid
-    if (knownValues.length !== 2) {
-      // Clear only the *calculated* fields if less than 2 inputs
-      if (knownValues.length < 2 && lastChanged) {
-           const newState: Partial<State> = {};
-           (Object.keys(state) as (keyof State)[])
-             .filter(k => k.endsWith('Str') && k !== `${lastChanged}Str`)
-             .forEach(k => newState[k] = '');
-            setState(prev => ({ ...prev, ...newState, error: null }));
-      } else if (knownValues.length > 2 && state.error?.includes('Enter exactly two')) {
-           // Clear general error if user provides enough input
-           setState(prev => ({ ...prev, error: null }));
-      }
-      return; // Exit if not exactly 2 known values
-    }
-
-     // --- Start Calculation ---
-     setCalculating(true);
+     calculatingRef.current = true;
      let errorMsg: string | null = null;
-     let calculated: Partial<State> = {};
+     let calculated: Partial<State> = {}; // Store updates temporarily
 
-     try {
-        const v = values.voltage;
-        const i = values.current;
-        const r = values.resistance;
-        const p = values.power;
+     // Get current values based on state strings and units
+     const parseValue = (variable: Variable): number => {
+         const strVal = state[`${variable}Str` as keyof State] as string;
+         const unit = state[`${variable}Unit` as keyof State] as Unit;
+         return parseFloat(strVal) * (multipliers[unit] || 1);
+     };
 
-        let newV: number | null = null, newI: number | null = null, newR: number | null = null, newP: number | null = null;
+     const values = {
+        voltage: parseValue('voltage'),
+        current: parseValue('current'),
+        resistance: parseValue('resistance'),
+        power: parseValue('power'),
+     };
 
-        if (knownValues.includes('voltage') && knownValues.includes('current')) {
-             if (i === 0) { errorMsg = "Current cannot be zero for resistance calculation."; }
-             else { newR = v / i; }
-             newP = v * i;
-        } else if (knownValues.includes('voltage') && knownValues.includes('resistance')) {
-            if (r <= 0) { errorMsg = "Resistance must be positive for current/power calculation."; }
-             else { newI = v / r; newP = (v * v) / r; }
-        } else if (knownValues.includes('current') && knownValues.includes('resistance')) {
-            if (r < 0) { errorMsg = "Resistance cannot be negative."; }
-            else { newV = i * r; newP = (i * i) * r; }
-        } else if (knownValues.includes('voltage') && knownValues.includes('power')) {
-             if (v === 0 && p !== 0) { errorMsg = "Voltage cannot be zero if power is non-zero."; }
-             else if (v === 0 && p === 0) { newI = NaN; newR = NaN; } // Indeterminate
-             else { newI = p / v; newR = (v * v) / p; }
-        } else if (knownValues.includes('current') && knownValues.includes('power')) {
-             if (i === 0 && p !== 0) { errorMsg = "Current cannot be zero if power is non-zero."; }
-             else if (i === 0 && p === 0) { newV = NaN; newR = NaN; } // Indeterminate
-             else { newV = p / i; newR = p / (i * i); }
-        } else if (knownValues.includes('resistance') && knownValues.includes('power')) {
-            if (r <= 0) { errorMsg = "Resistance must be positive."; }
-             else if (p < 0) { errorMsg = "Power cannot be negative with only resistance known."; } // P = I^2 * R
-             else { newI = Math.sqrt(p / r); newV = Math.sqrt(p * r); }
-        }
+     const sources = state.sourceFields;
 
-        // Update state for calculated values
-        if (newV !== null) {
-            const formatted = formatResult(newV, 'voltage');
-            calculated.voltageStr = formatted.displayValue;
-            calculated.voltageUnit = formatted.unit;
-        }
-        if (newI !== null) {
-            const formatted = formatResult(newI, 'current');
-            calculated.currentStr = formatted.displayValue;
-            calculated.currentUnit = formatted.unit;
-        }
-        if (newR !== null) {
-             const formatted = formatResult(newR, 'resistance');
-             calculated.resistanceStr = formatted.displayValue;
-             calculated.resistanceUnit = formatted.unit;
-        }
-        if (newP !== null) {
-             const formatted = formatResult(newP, 'power');
-             calculated.powerStr = formatted.displayValue;
-             calculated.powerUnit = formatted.unit;
-        }
-
-         // Apply updates
-         setState(prev => ({ ...prev, ...calculated, error: errorMsg }));
-
-     } catch (e: any) {
-         console.error("Calculation error:", e);
-         setState(prev => ({ ...prev, error: "Calculation failed." }));
-     } finally {
-         // Ensure calculating flag is unset after state updates
-         queueMicrotask(() => setCalculating(false));
+     // Proceed only if we have exactly two source fields defined
+     if (!sources || sources.length !== 2) {
+         calculatingRef.current = false;
+         return; // Not enough info to calculate
      }
 
-  }, [ state.voltageStr, state.currentStr, state.resistanceStr, state.powerStr,
-       state.voltageUnit, state.currentUnit, state.resistanceUnit, state.powerUnit,
-       state.lastChanged, calculating ]); // Include calculating in deps
+     const [source1, source2] = sources;
+     const val1 = values[source1];
+     const val2 = values[source2];
+
+     // Check if source values are valid numbers
+     if (isNaN(val1) || isNaN(val2)) {
+         errorMsg = "Invalid input values.";
+         // Clear calculated fields but keep source fields
+         Object.keys(defaultUnits).forEach(key => {
+             if (!sources.includes(key as Variable)) {
+                 calculated[`${key}Str` as keyof State] = '';
+             }
+         });
+     } else {
+         // Determine which pair of sources we have and calculate others
+         let newV: number | null = null, newI: number | null = null, newR: number | null = null, newP: number | null = null;
+
+         try {
+             const knownSet = new Set(sources);
+
+             if (knownSet.has('voltage') && knownSet.has('current')) {
+                 newP = val1 * val2; // P = V * I
+                 if (val2 === 0) { errorMsg = "Current cannot be zero for resistance calculation."; newR = Infinity; }
+                 else { newR = val1 / val2; } // R = V / I
+             } else if (knownSet.has('voltage') && knownSet.has('resistance')) {
+                 if (val2 <= 0) { errorMsg = "Resistance must be positive."; newI = NaN; newP = NaN; }
+                 else { newI = val1 / val2; newP = (val1 * val1) / val2; } // I = V / R, P = V^2 / R
+             } else if (knownSet.has('voltage') && knownSet.has('power')) {
+                 if (val1 === 0 && val2 !== 0) { errorMsg = "Voltage cannot be zero if power is non-zero."; newI = NaN; newR = NaN; }
+                 else if (val1 === 0 && val2 === 0) { newI = NaN; newR = NaN; } // Indeterminate
+                 else { newI = val2 / val1; newR = (val1 * val1) / val2; } // I = P / V, R = V^2 / P
+             } else if (knownSet.has('current') && knownSet.has('resistance')) {
+                 if (val2 < 0) { errorMsg = "Resistance cannot be negative."; newV = NaN; newP = NaN; }
+                 else { newV = val1 * val2; newP = (val1 * val1) * val2; } // V = I * R, P = I^2 * R
+             } else if (knownSet.has('current') && knownSet.has('power')) {
+                 if (val1 === 0 && val2 !== 0) { errorMsg = "Current cannot be zero if power is non-zero."; newV = NaN; newR = NaN; }
+                 else if (val1 === 0 && val2 === 0) { newV = NaN; newR = NaN; } // Indeterminate
+                 else { newV = val2 / val1; newR = val2 / (val1 * val1); } // V = P / I, R = P / I^2
+             } else if (knownSet.has('resistance') && knownSet.has('power')) {
+                 if (val1 <= 0) { errorMsg = "Resistance must be positive."; newV = NaN; newI = NaN; }
+                 else if (val2 < 0) { errorMsg = "Power cannot be negative with only resistance known."; newV = NaN; newI = NaN; }
+                 else { newI = Math.sqrt(val2 / val1); newV = Math.sqrt(val2 * val1); } // I = sqrt(P/R), V = sqrt(P*R)
+             }
+
+             // Format and stage updates for calculated fields
+             if (newV !== null && !knownSet.has('voltage')) {
+                 const formatted = formatResult(newV, 'voltage');
+                 calculated.voltageStr = formatted.displayValue;
+                 calculated.voltageUnit = formatted.unit;
+             }
+             if (newI !== null && !knownSet.has('current')) {
+                 const formatted = formatResult(newI, 'current');
+                 calculated.currentStr = formatted.displayValue;
+                 calculated.currentUnit = formatted.unit;
+             }
+             if (newR !== null && !knownSet.has('resistance')) {
+                 const formatted = formatResult(newR, 'resistance');
+                 calculated.resistanceStr = formatted.displayValue;
+                 calculated.resistanceUnit = formatted.unit;
+             }
+             if (newP !== null && !knownSet.has('power')) {
+                 const formatted = formatResult(newP, 'power');
+                 calculated.powerStr = formatted.displayValue;
+                 calculated.powerUnit = formatted.unit;
+             }
+
+         } catch (e: any) {
+             console.error("Calculation error:", e);
+             errorMsg = "Calculation failed.";
+             // Clear calculated fields on error
+             Object.keys(defaultUnits).forEach(key => {
+                 if (!sources.includes(key as Variable)) {
+                     calculated[`${key}Str` as keyof State] = '';
+                 }
+             });
+         }
+     }
+
+      // Apply staged updates and error message
+     setState(prev => ({ ...prev, ...calculated, error: errorMsg }));
+
+     // Use queueMicrotask to ensure state update happens before resetting the flag
+     queueMicrotask(() => {
+         calculatingRef.current = false;
+     });
+
+  }, [state.sourceFields, state.voltageStr, state.currentStr, state.resistanceStr, state.powerStr, state.voltageUnit, state.currentUnit, state.resistanceUnit, state.powerUnit]); // Dependencies
+
+   // Debounce the calculation function
+   const debouncedCalculateAndUpdate = useDebounceCallback(calculateAndUpdate, 300);
+
+   // Trigger calculation whenever relevant state changes
+   useEffect(() => {
+       debouncedCalculateAndUpdate();
+   }, [debouncedCalculateAndUpdate]); // Only depends on the debounced function itself
 
 
   // --- Input Handlers ---
   const handleValueChange = (variable: Variable, value: string) => {
-    // When user types, clear the OTHER fields to allow recalculation
-     const newState: Partial<State> = { [`${variable}Str`]: value, lastChanged: variable };
-     // Clear other value strings, keep units
-    (Object.keys(defaultUnits) as Variable[])
-        .filter(v => v !== variable)
-        .forEach(v => newState[`${v}Str`] = '');
+    setState(prev => {
+      let newSourceFields = prev.sourceFields;
+      const currentSources = prev.sourceFields || [];
 
-    setState(prev => ({ ...prev, ...newState, error: null })); // Also clear error on new input
+      if (!currentSources.includes(variable)) {
+          // If this variable is not a source, make it one.
+          if (currentSources.length < 2) {
+              // If less than 2 sources, just add it.
+              newSourceFields = [...currentSources, variable] as [Variable, Variable];
+          } else {
+              // If 2 sources already exist, replace the 'older' one (first in the array).
+              newSourceFields = [currentSources[1], variable] as [Variable, Variable];
+          }
+      }
+      // If it already is a source, the sources remain the same.
+
+      // Clear the calculated fields when a source value changes significantly
+      // (or always clear them when source changes to be safe?)
+      const updates: Partial<State> = {
+          [`${variable}Str`]: value,
+          sourceFields: newSourceFields,
+          error: null // Clear error on new input
+      };
+
+      // Clear values of fields that are NOT the current variable and NOT the other source
+       Object.keys(defaultUnits).forEach(key => {
+           if (key !== variable && !newSourceFields?.includes(key as Variable)) {
+                updates[`${key}Str` as keyof State] = '';
+           }
+       });
+
+
+      return { ...prev, ...updates };
+    });
   };
 
   const handleUnitChange = (variable: Variable, unit: Unit) => {
-     // Changing a unit should also trigger recalculation
     setState(prev => ({
       ...prev,
       [`${variable}Unit`]: unit,
-      lastChanged: variable, // Treat unit change like value change for recalc trigger
-      // Decide if changing unit should clear other fields?
-      // Let's keep them for now and let useEffect recalculate.
+      // Keep sourceFields the same, changing unit should trigger recalc via useEffect
     }));
   };
 
   // --- Clear Handler ---
   const handleClear = () => {
-      setState({
-        voltageStr: "", currentStr: "", resistanceStr: "", powerStr: "",
-        voltageUnit: defaultUnits.voltage, currentUnit: defaultUnits.current,
-        resistanceUnit: defaultUnits.resistance, powerUnit: defaultUnits.power,
-        lastChanged: null, error: null,
-      });
-      setCalculating(false); // Ensure flag is reset
+      setState(initialState);
+      calculatingRef.current = false; // Reset calculation flag
   };
 
   // --- Render Input Field Helper ---
@@ -253,48 +307,50 @@ export default function PowerCalculator() {
       label: string,
       variable: Variable,
       valueStr: string,
-      unit: Unit,
-      isCalculated: boolean // Check if this field was just calculated
-  ) => (
-    <div className="flex items-end gap-2">
-      <div className="flex-1 space-y-1">
-        <Label htmlFor={variable}>{label}</Label>
-        <Input
-          id={variable}
-          type="number"
-          step="any"
-          value={valueStr}
-          onChange={(e) => handleValueChange(variable, e.target.value)}
-          placeholder={`Enter ${label.split(' ')[0]}`}
-          // Use readOnly instead of disabled to allow focus/selection but prevent typing
-          // readOnly={isCalculated && state.lastChanged !== variable}
-          // Or style differently if calculated
-          className={cn(isCalculated && state.lastChanged !== variable ? 'bg-muted/50 font-semibold border-primary/30' : '')}
-        />
-      </div>
-      <Select
-          value={unit}
-          onValueChange={(newUnit) => handleUnitChange(variable, newUnit as Unit)}
-          // Disable unit change for calculated fields? Maybe not, let user change target unit?
-          // disabled={isCalculated && state.lastChanged !== variable}
-          >
-        <SelectTrigger className="w-[80px]">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {units[variable].map(u => (
-            <SelectItem key={u} value={u}>{u}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  );
+      unit: Unit
+  ) => {
+     // Determine if this field is one of the active calculation sources
+     const isSource = state.sourceFields?.includes(variable) ?? false;
+     // Determine if this field was calculated (i.e., has a value but is not a source)
+     const isCalculated = valueStr !== '' && !isSource;
 
-  // Determine which fields were calculated in the last step
-   const calculatedFields = (Object.keys(defaultUnits) as Variable[])
-       .filter(v => state[`${v}Str`] !== '' && v !== state.lastChanged && // Has a value
-                   (Object.keys(values) as Variable[]).filter(key => !isNaN(values[key])).length === 2 // And exactly 2 were input initially
-       );
+      return (
+        <div className="flex items-end gap-2">
+          <div className="flex-1 space-y-1">
+            <Label htmlFor={variable}>{label}</Label>
+            <Input
+              id={variable}
+              type="number"
+              step="any"
+              value={valueStr}
+              onChange={(e) => handleValueChange(variable, e.target.value)}
+              placeholder={`Enter ${label.split(' ')[0]}`}
+              className={cn(
+                  // Style calculated fields differently
+                  isCalculated ? 'bg-muted/30 font-medium border-primary/30' : '',
+                  // Indicate source fields subtly? Optional.
+                  // isSource ? 'border-blue-300' : ''
+              )}
+               // Inputs are always editable
+               readOnly={false}
+            />
+          </div>
+          <Select
+              value={unit}
+              onValueChange={(newUnit) => handleUnitChange(variable, newUnit as Unit)}
+              >
+            <SelectTrigger className="w-[80px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {units[variable].map(u => (
+                <SelectItem key={u} value={u}>{u}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      );
+  }
 
 
   return (
@@ -304,10 +360,10 @@ export default function PowerCalculator() {
         <CardDescription>Enter any two values (V, I, R, P) to calculate the others.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {renderInputField('Voltage', 'voltage', state.voltageStr, state.voltageUnit, calculatedFields.includes('voltage'))}
-        {renderInputField('Current', 'current', state.currentStr, state.currentUnit, calculatedFields.includes('current'))}
-        {renderInputField('Resistance', 'resistance', state.resistanceStr, state.resistanceUnit, calculatedFields.includes('resistance'))}
-        {renderInputField('Power', 'power', state.powerStr, state.powerUnit, calculatedFields.includes('power'))}
+        {renderInputField('Voltage (V)', 'voltage', state.voltageStr, state.voltageUnit)}
+        {renderInputField('Current (I)', 'current', state.currentStr, state.currentUnit)}
+        {renderInputField('Resistance (R)', 'resistance', state.resistanceStr, state.resistanceUnit)}
+        {renderInputField('Power (P)', 'power', state.powerStr, state.powerUnit)}
 
         {state.error && (
           <p className="text-sm text-destructive flex items-center gap-1 pt-2">
@@ -319,10 +375,10 @@ export default function PowerCalculator() {
             <RotateCcw className="mr-2 h-4 w-4" /> Clear All
         </Button>
 
-        {/* Display Results - Already shown in input fields */}
+        {/* Display Results - Integrated into input fields */}
          <div className="mt-6 pt-4 border-t">
             <h3 className="font-semibold mb-2">Summary:</h3>
-             {(state.voltageStr || state.currentStr || state.resistanceStr || state.powerStr) ? (
+             {(state.voltageStr || state.currentStr || state.resistanceStr || state.powerStr) && !state.error ? (
                  <div className="grid grid-cols-2 gap-2 text-sm">
                     <p><strong>Voltage:</strong> {state.voltageStr || 'N/A'} {state.voltageUnit}</p>
                     <p><strong>Current:</strong> {state.currentStr || 'N/A'} {state.currentUnit}</p>
@@ -330,7 +386,7 @@ export default function PowerCalculator() {
                     <p><strong>Power:</strong> {state.powerStr || 'N/A'} {state.powerUnit}</p>
                  </div>
              ) : (
-                <p className="text-sm text-muted-foreground italic">Enter two values above to see results.</p>
+                <p className="text-sm text-muted-foreground italic">Enter two valid values above to see results.</p>
              )}
          </div>
 
