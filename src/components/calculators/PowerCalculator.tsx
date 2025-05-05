@@ -14,6 +14,7 @@ import {
     powerUnitOptions,
     defaultUnits,
     formatResultValue,
+    unitMultipliers, // Import unitMultipliers
 } from '@/lib/units';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"; // Import Alert components
 
