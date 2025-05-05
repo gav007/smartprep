@@ -13,14 +13,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { ScrollArea } from '@/components/ui/scroll-area';
 import OSILayerCard from './OSILayerCard';
 import FlowPath from './FlowPath';
-import { osiLayers, generateSimulationSteps, generateMAC, generateIP, generatePort } from '@/lib/osi-model'; // Import helpers
-import type { SimulationStep } from '@/types/packet';
+// Corrected import: generateMAC, generateIP, generatePort are now exported from osi-model.ts
+import { osiLayers, generateSimulationSteps, generateMAC, generateIP, generatePort } from '@/lib/osi-model';
+import type { SimulationStep, PacketLayerData } from '@/types/packet'; // Assuming SimulationConfig is defined here or in osi-model
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 
 // --- Configuration State ---
+// Keep this internal or move to types/packet.ts if needed globally
 interface SimulationConfig {
     initialData: string;
     protocol: 'TCP' | 'UDP' | 'ICMP'; // Added ICMP
@@ -34,10 +36,11 @@ interface SimulationConfig {
     routerIPExternal: string;
     hostAPort: number;
     hostBPort: number;
-    isValid: boolean; // Track overall config validity
+    isValid?: boolean; // Make validity optional initially
 }
 
 // --- Initial/Default Configuration ---
+// Now uses the imported helper functions
 const createDefaultConfig = (): SimulationConfig => ({
     initialData: "Hello",
     protocol: 'TCP',
@@ -69,8 +72,9 @@ const validateConfig = (config: SimulationConfig): { isValid: boolean; errors: R
     if (!macRegex.test(config.routerMACInternal)) errors.routerMACInternal = "Invalid Router Internal MAC";
     if (!macRegex.test(config.routerMACExternal)) errors.routerMACExternal = "Invalid Router External MAC";
 
-    if (isNaN(config.hostAPort) || config.hostAPort < 0 || config.hostAPort > 65535) errors.hostAPort = "Invalid Host A Port";
-    if (isNaN(config.hostBPort) || config.hostBPort < 0 || config.hostBPort > 65535) errors.hostBPort = "Invalid Host B Port";
+    // Ports can be 0
+    if (isNaN(config.hostAPort) || config.hostAPort < 0 || config.hostAPort > 65535) errors.hostAPort = "Invalid Host A Port (0-65535)";
+    if (isNaN(config.hostBPort) || config.hostBPort < 0 || config.hostBPort > 65535) errors.hostBPort = "Invalid Host B Port (0-65535)";
 
     return { isValid: Object.keys(errors).length === 0, errors };
 };
@@ -89,20 +93,25 @@ const HostPacketFlow: React.FC = () => {
   useEffect(() => {
     const { isValid, errors } = validateConfig(config);
     setConfigErrors(errors);
+    setConfig(c => ({ ...c, isValid })); // Update validity state
+
     if (isValid) {
-        setSimulationSteps(generateSimulationSteps(config)); // Pass entire config
+        // Pass only necessary fields to generateSimulationSteps if it expects SimulationConfig type
+        setSimulationSteps(generateSimulationSteps(config));
         setCurrentStepIndex(0);
+        // Keep playing state if it was playing? Or always reset? Resetting is safer.
         setIsPlaying(false);
         if (intervalRef.current) clearInterval(intervalRef.current);
     } else {
-         // If config becomes invalid, stop simulation and clear steps?
-         setSimulationSteps([]); // Clear steps if config is bad
+         // If config becomes invalid, stop simulation and clear steps
+         setSimulationSteps([]);
          setIsPlaying(false);
          if (intervalRef.current) clearInterval(intervalRef.current);
     }
-  }, [config]); // Depend on the whole config object
+  }, [config.initialData, config.protocol, config.hostAMAC, config.hostBMAC, config.routerMACInternal, config.routerMACExternal, config.hostAIP, config.hostBIP, config.routerIPInternal, config.routerIPExternal, config.hostAPort, config.hostBPort]); // Depend on individual config fields
 
   const currentStep = simulationSteps[currentStepIndex];
+  const configIsValid = config.isValid ?? true; // Default to true if not set yet
 
   // --- Simulation Controls ---
   const nextStep = useCallback(() => {
@@ -115,7 +124,7 @@ const HostPacketFlow: React.FC = () => {
   const restart = () => { setCurrentStepIndex(0); setIsPlaying(false); if (intervalRef.current) clearInterval(intervalRef.current); };
 
   const togglePlayPause = () => {
-    if (!config.isValid) {
+    if (!configIsValid) {
         toast({ title: "Invalid Configuration", description: "Cannot start simulation. Please fix configuration errors.", variant: "destructive"});
         return;
     }
@@ -123,22 +132,25 @@ const HostPacketFlow: React.FC = () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
       setIsPlaying(false);
     } else {
+      // Start from beginning if at the end
       if (currentStepIndex === simulationSteps.length - 1) setCurrentStepIndex(0);
+
       setIsPlaying(true);
       intervalRef.current = setInterval(() => {
         setCurrentStepIndex((prev) => {
           const nextIndex = prev + 1;
           if (nextIndex >= simulationSteps.length) {
-            clearInterval(intervalRef.current!);
+            if(intervalRef.current) clearInterval(intervalRef.current);
             setIsPlaying(false);
-            return prev;
+            return prev; // Stay at the last step
           }
           return nextIndex;
         });
-      }, 1500);
+      }, 1500); // Animation interval
     }
   };
 
+  // Cleanup interval on component unmount
   useEffect(() => { return () => { if (intervalRef.current) clearInterval(intervalRef.current); }; }, []);
 
   // --- Helper Functions ---
@@ -154,25 +166,37 @@ const HostPacketFlow: React.FC = () => {
    const getPayloadPreview = (packetState: SimulationStep['packetState'] | undefined, layerIndex: number): string | undefined => {
         if (!packetState) return undefined;
         let currentPayload: any = packetState;
-        for (let i = 0; i <= layerIndex; i++) {
-            const layerName = osiLayers[i].toLowerCase().replace(' ', '');
-            const layerData = currentPayload?.[layerName as keyof typeof currentPayload];
-            if (layerData && typeof layerData === 'object' && 'payload' in layerData) {
+        // Traverse down the layers to find the relevant payload for the *current* layer
+        for (let i = 0; i < layerIndex; i++) {
+            const lowerLayerName = osiLayers[i].toLowerCase().replace(' ', '');
+            const layerData = currentPayload?.[lowerLayerName as keyof typeof currentPayload];
+             if (layerData && typeof layerData === 'object' && 'payload' in layerData) {
                 currentPayload = layerData.payload;
-            } else if (layerName === 'application' && currentPayload?.application) {
-                 return typeof currentPayload.application.payload === 'string' ? currentPayload.application.payload : JSON.stringify(currentPayload.application.payload);
             } else {
-                 // If layer data exists but no 'payload' key, it means THIS is the payload for the layer above
-                 // Stop here for preview purposes for layers below Application
-                 if (i < layerIndex) return "..."; // Indicate nested structure exists but don't dive deeper for preview
-                 break; // Stop traversal if payload structure isn't as expected
+                 // If structure is unexpected, stop early for preview
+                 return "...";
             }
         }
-        if (typeof currentPayload === 'string') return currentPayload.substring(0, 30) + (currentPayload.length > 30 ? '...' : '');
-        if (typeof currentPayload === 'object' && currentPayload !== null) {
-            return JSON.stringify(currentPayload).substring(0, 30) + '...';
+
+        // Now, currentPayload should be the data relevant *to* this layer (layerIndex)
+        const layerName = osiLayers[layerIndex].toLowerCase().replace(' ', '');
+        const specificLayerData = currentPayload?.[layerName as keyof typeof currentPayload];
+
+        if (specificLayerData && typeof specificLayerData === 'object' && 'payload' in specificLayerData) {
+             const payloadData = specificLayerData.payload;
+            if (typeof payloadData === 'string') {
+                return payloadData.substring(0, 30) + (payloadData.length > 30 ? '...' : '');
+            } else if (typeof payloadData === 'object' && payloadData !== null) {
+                 // If payload is an object (e.g., headers of next layer), show keys or simplified view
+                 return `{ ${Object.keys(payloadData).slice(0,2).join(', ')} ... }`;
+            }
+        } else if (layerName === 'application' && currentPayload?.application?.payload) {
+             // Special case for Application layer's direct payload
+              const appPayload = currentPayload.application.payload;
+              return typeof appPayload === 'string' ? appPayload.substring(0, 30) + (appPayload.length > 30 ? '...' : '') : JSON.stringify(appPayload);
         }
-        return undefined;
+
+        return undefined; // No payload to preview at this level
     };
 
     const getHeaderInfoForLayer = (packetState: SimulationStep['packetState'] | undefined, layerName: string): Record<string, any> | undefined => {
@@ -181,7 +205,7 @@ const HostPacketFlow: React.FC = () => {
          const data = packetState[key as keyof typeof packetState];
          if (data && typeof data === 'object') {
              // Exclude 'payload' for cleaner header display
-             const { payload, ...headers } = data as any;
+             const { payload, data: _, ...headers } = data as any; // Also exclude 'data' if it exists (like in presentation/session)
              // Convert flags object to string for display
              if ('flags' in headers && typeof headers.flags === 'object') {
                 headers.flags = Object.entries(headers.flags).filter(([_, v]) => v).map(([k]) => k.toUpperCase()).join(', ') || 'None';
@@ -324,7 +348,7 @@ const HostPacketFlow: React.FC = () => {
             <OSILayerCard
               key={`A-${layer}`}
               layerName={layer}
-              protocol={currentStep?.location === 'Host A' ? currentStep.packetState?.[layer.toLowerCase().replace(' ', '') as keyof SimulationStep['packetState']]?.protocol : undefined}
+              protocol={currentStep?.location === 'Host A' ? getHeaderInfoForLayer(currentStep?.packetState, layer)?.protocol : undefined}
               headerInfo={currentStep?.location === 'Host A' ? getHeaderInfoForLayer(currentStep?.packetState, layer) : undefined}
               payloadPreview={currentStep?.location === 'Host A' ? getPayloadPreview(currentStep?.packetState, index) : undefined}
               isActive={currentStep?.location === 'Host A' && currentStep.activeLayerName === layer}
@@ -348,7 +372,7 @@ const HostPacketFlow: React.FC = () => {
                 <OSILayerCard
                   key={`R-${layer}`}
                   layerName={layer}
-                  protocol={currentStep?.location === 'Router' ? currentStep.packetState?.[layer.toLowerCase().replace(' ', '') as keyof SimulationStep['packetState']]?.protocol : undefined}
+                   protocol={currentStep?.location === 'Router' ? getHeaderInfoForLayer(currentStep?.packetState, layer)?.protocol : undefined}
                   headerInfo={currentStep?.location === 'Router' ? getHeaderInfoForLayer(currentStep?.packetState, layer) : undefined}
                   payloadPreview={currentStep?.location === 'Router' ? getPayloadPreview(currentStep?.packetState, index) : undefined}
                   isActive={currentStep?.location === 'Router' && currentStep.activeLayerName === layer}
@@ -372,7 +396,7 @@ const HostPacketFlow: React.FC = () => {
             <OSILayerCard
               key={`B-${layer}`}
               layerName={layer}
-              protocol={currentStep?.location === 'Host B' ? currentStep.packetState?.[layer.toLowerCase().replace(' ', '') as keyof SimulationStep['packetState']]?.protocol : undefined}
+              protocol={currentStep?.location === 'Host B' ? getHeaderInfoForLayer(currentStep?.packetState, layer)?.protocol : undefined}
               headerInfo={currentStep?.location === 'Host B' ? getHeaderInfoForLayer(currentStep?.packetState, layer) : undefined}
               payloadPreview={currentStep?.location === 'Host B' ? getPayloadPreview(currentStep?.packetState, index) : undefined}
               isActive={currentStep?.location === 'Host B' && currentStep.activeLayerName === layer}
@@ -405,7 +429,7 @@ const HostPacketFlow: React.FC = () => {
                      )}
                 </>
             ) : (
-                 <p className="text-muted-foreground italic">{config.isValid ? "Configure simulation or press Play." : "Fix configuration errors to start."}</p>
+                 <p className="text-muted-foreground italic">{configIsValid ? "Configure simulation or press Play." : "Fix configuration errors to start."}</p>
              )}
           </motion.div>
         </AnimatePresence>
@@ -414,7 +438,7 @@ const HostPacketFlow: React.FC = () => {
       <div className="flex items-center justify-center gap-2 mt-6 flex-wrap">
         <Button variant="outline" size="icon" onClick={goToFirstStep} disabled={currentStepIndex === 0 || simulationSteps.length === 0} aria-label="Go to first step"><ChevronsLeft /></Button>
         <Button variant="outline" size="icon" onClick={prevStep} disabled={currentStepIndex === 0 || simulationSteps.length === 0} aria-label="Previous step"><ChevronLeft /></Button>
-        <Button variant="default" size="icon" onClick={togglePlayPause} disabled={simulationSteps.length === 0} aria-label={isPlaying ? "Pause" : "Play"}>{isPlaying ? <Pause /> : <Play />}</Button>
+        <Button variant="default" size="icon" onClick={togglePlayPause} disabled={simulationSteps.length === 0 || !configIsValid} aria-label={isPlaying ? "Pause" : "Play"}>{isPlaying ? <Pause /> : <Play />}</Button>
         <Button variant="outline" size="icon" onClick={nextStep} disabled={currentStepIndex === simulationSteps.length - 1 || simulationSteps.length === 0} aria-label="Next step"><ChevronRight /></Button>
         <Button variant="outline" size="icon" onClick={goToLastStep} disabled={currentStepIndex === simulationSteps.length - 1 || simulationSteps.length === 0} aria-label="Go to last step"><ChevronsRight /></Button>
         <Button variant="secondary" size="icon" onClick={restart} disabled={simulationSteps.length === 0} aria-label="Restart simulation"><RotateCcw /></Button>
