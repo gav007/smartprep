@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, RotateCcw } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"; // Import RadioGroup components
 
 
@@ -33,26 +33,38 @@ const formatVoltageResult = (value: number | null): string => {
   if (Math.abs(value) < 1 && Math.abs(value) !== 0) { displayValue = value * 1000; unit = 'mV'; }
 
   const precision = Math.abs(displayValue) < 10 ? 3 : 2;
-  return `${displayValue.toFixed(precision).replace(/\.?0+$/, '')} ${unit}`;
+   // Use toPrecision for better small value handling
+   const displayString = displayValue.toPrecision(precision);
+   return `${parseFloat(displayString)} ${unit}`;
 };
 
+// Initial state values
+const initialRectifierType: RectifierType = 'full-wave';
+const initialLoadCurrentUnit: CurrentUnit = 'mA';
+const initialLoadResistanceUnit: ResistanceUnit = 'kΩ';
+const initialPeakVoltageUnit: VoltageUnit = 'V';
+const initialCapacitanceUnit: CapacitanceUnit = 'µF';
+const initialFrequencyUnit: FrequencyUnit = 'Hz';
+const initialCalculationMethod: 'current' | 'resistance' = 'current';
+
+
 export default function RippleVoltageCalculator() {
-  const [rectifierType, setRectifierType] = useState<RectifierType>('full-wave');
+  const [rectifierType, setRectifierType] = useState<RectifierType>(initialRectifierType);
   // Option 1: Load Current
   const [loadCurrentStr, setLoadCurrentStr] = useState<string>('');
-  const [loadCurrentUnit, setLoadCurrentUnit] = useState<CurrentUnit>('mA');
+  const [loadCurrentUnit, setLoadCurrentUnit] = useState<CurrentUnit>(initialLoadCurrentUnit);
   // Option 2: Load Resistance
   const [loadResistanceStr, setLoadResistanceStr] = useState<string>('');
-  const [loadResistanceUnit, setLoadResistanceUnit] = useState<ResistanceUnit>('kΩ');
+  const [loadResistanceUnit, setLoadResistanceUnit] = useState<ResistanceUnit>(initialLoadResistanceUnit);
   const [peakVoltageStr, setPeakVoltageStr] = useState<string>(''); // Needed for resistance method
-  const [peakVoltageUnit, setPeakVoltageUnit] = useState<VoltageUnit>('V'); // Needed for resistance method
+  const [peakVoltageUnit, setPeakVoltageUnit] = useState<VoltageUnit>(initialPeakVoltageUnit); // Needed for resistance method
 
   const [capacitanceStr, setCapacitanceStr] = useState<string>('');
-  const [capacitanceUnit, setCapacitanceUnit] = useState<CapacitanceUnit>('µF');
+  const [capacitanceUnit, setCapacitanceUnit] = useState<CapacitanceUnit>(initialCapacitanceUnit);
   const [frequencyStr, setFrequencyStr] = useState<string>('');
-  const [frequencyUnit, setFrequencyUnit] = useState<FrequencyUnit>('Hz');
+  const [frequencyUnit, setFrequencyUnit] = useState<FrequencyUnit>(initialFrequencyUnit);
 
-  const [calculationMethod, setCalculationMethod] = useState<'current' | 'resistance'>('current');
+  const [calculationMethod, setCalculationMethod] = useState<'current' | 'resistance'>(initialCalculationMethod);
   const [error, setError] = useState<string | null>(null);
 
 
@@ -62,7 +74,9 @@ export default function RippleVoltageCalculator() {
     const inputFrequency = parseFloat(frequencyStr) * freqUnitMultipliers[frequencyUnit];
 
     if (isNaN(capacitance) || isNaN(inputFrequency)) {
-       if (capacitanceStr || frequencyStr) setError('Enter valid capacitance and input frequency.');
+       if (capacitanceStr || frequencyStr) {
+         // setError('Enter valid capacitance and input frequency.'); // Hide initial error
+       }
       return null;
     }
      if (capacitance <= 0 || inputFrequency <= 0) {
@@ -92,26 +106,21 @@ export default function RippleVoltageCalculator() {
           return null;
        }
        if (vPeak === 0) {
-            // Handle zero voltage case - ripple is technically 0
            loadCurrent = 0;
        } else if (rLoad > 0) {
-          // Approximate using peak voltage. More accurate would use average DC, but this is common.
           loadCurrent = vPeak / rLoad;
        } else {
-          // Should be caught by rLoad <= 0, but belt and suspenders
           setError('Invalid load resistance.');
           return null;
        }
     }
 
     if (loadCurrent === null) {
-       // Error set previously or default state
        return null;
     }
 
     // Formula: Vr = I_load / (f_ripple * C) (approximation for small ripple)
     if (rippleFrequency === 0 || capacitance === 0) {
-       // Avoid division by zero, though checked above
        setError('Frequency and capacitance must be non-zero.');
        return null;
     }
@@ -124,6 +133,22 @@ export default function RippleVoltageCalculator() {
     loadResistanceStr, loadResistanceUnit, peakVoltageStr, peakVoltageUnit,
     capacitanceStr, capacitanceUnit, frequencyStr, frequencyUnit, calculationMethod
   ]);
+
+   const handleReset = () => {
+     setRectifierType(initialRectifierType);
+     setLoadCurrentStr('');
+     setLoadCurrentUnit(initialLoadCurrentUnit);
+     setLoadResistanceStr('');
+     setLoadResistanceUnit(initialLoadResistanceUnit);
+     setPeakVoltageStr('');
+     setPeakVoltageUnit(initialPeakVoltageUnit);
+     setCapacitanceStr('');
+     setCapacitanceUnit(initialCapacitanceUnit);
+     setFrequencyStr('');
+     setFrequencyUnit(initialFrequencyUnit);
+     setCalculationMethod(initialCalculationMethod);
+     setError(null);
+   };
 
 
   return (
@@ -307,6 +332,11 @@ export default function RippleVoltageCalculator() {
              <p className="text-xs text-muted-foreground mt-1">Note: This is an approximation, especially for larger ripple percentages.</p>
            </div>
         )}
+
+         {/* Reset Button */}
+         <Button variant="outline" onClick={handleReset} className="w-full md:w-auto mt-2">
+             <RotateCcw className="mr-2 h-4 w-4" /> Reset
+         </Button>
       </CardContent>
     </Card>
   );

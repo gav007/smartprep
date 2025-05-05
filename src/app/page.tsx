@@ -33,14 +33,14 @@ const featuredTools = [
     title: "Ohm's & Power Calc",
     description: "Solve for Voltage (V), Current (I), Resistance (R), or Power (P) using Ohm's Law.",
     icon: Zap, // Power icon
-    link: "/calculator", // Links to the main calculator page
+    link: "/calculator#power", // Link to the main calculator page, section Power
     aiHint: "ohms law power triangle formula"
   },
    {
     title: "BJT Solver",
     description: "Analyze fixed-bias common-emitter BJT circuits: find IB, IC, VCE, and saturation points.",
     icon: CircuitBoard, // More specific BJT icon
-    link: "/calculator", // Links to main calculator page where BJT solver resides
+    link: "/calculator#bjt", // Link to main calculator page, section BJT
     aiHint: "bjt transistor circuit diagram"
   },
    {
@@ -128,12 +128,12 @@ export default function HomePage() {
             <div className="flex justify-center items-center md:order-2">
                  {/* Updated about image placeholder and hints */}
                  <Image
-                  src="https://picsum.photos/500/350" // Replaced with picsum placeholder
-                  alt="Electronics workbench with components, multimeter, and breadboard" // Updated alt text
+                  src="/assets/images/hero-electronics.jpg" // Replaced with picsum placeholder
+                  alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform" // Updated alt text
                   width={500}
                   height={350}
                   className="rounded-xl shadow-xl object-cover aspect-[4/3]" // Consistent styling: rounded-xl
-                  data-ai-hint="electronics workbench circuit breadboard multimeter components soldering" // Updated hint
+                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter" // Updated hint
                   loading="lazy" // Add lazy loading
                 />
             </div>
@@ -151,8 +151,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
-        {/* Recent Updates Section - Removed */}
 
       </main>
 

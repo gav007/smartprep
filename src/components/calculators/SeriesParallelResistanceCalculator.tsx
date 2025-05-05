@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Plus, Trash2, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, AlertCircle, RotateCcw } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type ResistanceUnit = 'Ω' | 'kΩ' | 'MΩ';
@@ -31,49 +31,75 @@ const formatResistanceResult = (value: number | null): string => {
   if (Math.abs(value) >= 1e6) { displayValue = value / 1e6; unit = 'MΩ'; }
   else if (Math.abs(value) >= 1000) { displayValue = value / 1000; unit = 'kΩ'; }
 
-  const precision = Math.abs(displayValue) < 10 ? 3 : 2;
-  return `${displayValue.toFixed(precision).replace(/\.?0+$/, '')} ${unit}`;
+  const precision = Math.abs(displayValue) < 10 ? 3 : (Math.abs(displayValue) < 100 ? 4 : 5);
+  const displayString = displayValue.toPrecision(precision);
+
+  return `${parseFloat(displayString)} ${unit}`;
 };
 
+const initialMode = 'series';
+const initialResistors: ResistorValue[] = [
+    { id: Date.now(), valueStr: '', unit: 'kΩ' },
+    { id: Date.now() + 1, valueStr: '', unit: 'kΩ' } // Start with two empty resistors
+];
+
 export default function SeriesParallelResistanceCalculator() {
-  const [mode, setMode] = useState<'series' | 'parallel'>('series');
-  const [resistors, setResistors] = useState<ResistorValue[]>([{ id: Date.now(), valueStr: '', unit: 'Ω' }]);
+  const [mode, setMode] = useState<'series' | 'parallel'>(initialMode);
+  const [resistors, setResistors] = useState<ResistorValue[]>(initialResistors);
   const [error, setError] = useState<string | null>(null);
 
   const handleAddResistor = () => {
-    setResistors([...resistors, { id: Date.now(), valueStr: '', unit: 'Ω' }]);
+     // Add with default kΩ unit
+    setResistors([...resistors, { id: Date.now(), valueStr: '', unit: 'kΩ' }]);
   };
 
   const handleRemoveResistor = (id: number) => {
-    if (resistors.length <= 1) return; // Keep at least one resistor
+    if (resistors.length <= 2) return; // Keep at least two resistors
     setResistors(resistors.filter(r => r.id !== id));
   };
 
   const handleValueChange = (id: number, valueStr: string) => {
     setResistors(resistors.map(r => r.id === id ? { ...r, valueStr } : r));
+     setError(null); // Clear error on input change
   };
 
   const handleUnitChange = (id: number, unit: ResistanceUnit) => {
     setResistors(resistors.map(r => r.id === id ? { ...r, unit } : r));
+     setError(null); // Clear error on unit change
+  };
+
+  const handleReset = () => {
+      setMode(initialMode);
+      setResistors([ // Reset to two empty resistors with default unit
+          { id: Date.now(), valueStr: '', unit: 'kΩ' },
+          { id: Date.now() + 1, valueStr: '', unit: 'kΩ' }
+      ]);
+      setError(null);
   };
 
   const totalResistance = useMemo(() => {
-    setError(null);
+    setError(null); // Clear error before recalculation
     const valuesInOhms = resistors.map(r => {
       const val = parseFloat(r.valueStr);
-      return isNaN(val) ? null : val * unitMultipliers[r.unit];
+      return isNaN(val) || val < 0 ? null : val * unitMultipliers[r.unit]; // Ensure non-negative
     });
 
-    if (valuesInOhms.some(v => v === null || v < 0)) {
-      setError('Invalid resistance value(s) entered. Values must be non-negative numbers.');
-      return null;
-    }
-    // Filter out any null values that might have slipped through (though the check above should prevent it)
     const validValues = valuesInOhms.filter((v): v is number => v !== null);
 
+     if (validValues.length < resistors.length) {
+         // If there are fewer valid values than resistors, it means some inputs are invalid or empty
+         if (resistors.some(r => r.valueStr.trim() !== '')) { // Show error only if some input exists
+            setError('Enter valid non-negative numbers for all resistors.');
+         }
+        return null;
+     }
+
      if (validValues.length < 2) {
-       setError('Enter at least two valid resistance values.');
-       return null; // Need at least two resistors for calculation usually
+       // Don't show error if only one resistor exists, just no result
+       if (resistors.length >= 2) {
+          setError('Enter at least two valid resistance values.');
+       }
+       return null;
      }
 
 
@@ -86,8 +112,7 @@ export default function SeriesParallelResistanceCalculator() {
         }
         const sumOfInverses = validValues.reduce((sum, val) => sum + (1 / val), 0);
         if (sumOfInverses === 0) {
-             // This should only happen if all inputs were 0, caught above, or potentially Infinity
-             setError('Cannot calculate parallel resistance with these values.');
+            setError('Cannot calculate parallel resistance (division by zero).');
             return null;
         }
         return 1 / sumOfInverses;
@@ -104,16 +129,16 @@ export default function SeriesParallelResistanceCalculator() {
         <RadioGroup value={mode} onValueChange={(value) => setMode(value as 'series' | 'parallel')} className="flex space-x-4">
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="series" id="series" />
-            <Label htmlFor="series">Series</Label>
+            <Label htmlFor="series">Series (R<sub>T</sub> = R₁ + R₂ + ...)</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="parallel" id="parallel" />
-            <Label htmlFor="parallel">Parallel</Label>
+            <Label htmlFor="parallel">Parallel (1/R<sub>T</sub> = 1/R₁ + 1/R₂ + ...)</Label>
           </div>
         </RadioGroup>
 
-        <div className="space-y-2">
-          <Label>Resistor Values</Label>
+        <div className="space-y-2 border-t pt-4">
+          <Label className="font-medium">Resistor Values</Label>
           {resistors.map((resistor, index) => (
             <div key={resistor.id} className="flex items-center gap-2">
               <Input
@@ -139,18 +164,25 @@ export default function SeriesParallelResistanceCalculator() {
                 variant="ghost"
                 size="icon"
                 onClick={() => handleRemoveResistor(resistor.id)}
-                disabled={resistors.length <= 1}
+                disabled={resistors.length <= 2} // Keep minimum 2 inputs
                 aria-label="Remove Resistor"
+                className="text-muted-foreground hover:text-destructive disabled:text-muted-foreground/50"
               >
-                <Trash2 className="h-4 w-4 text-muted-foreground" />
+                <Trash2 className="h-4 w-4" />
               </Button>
             </div>
           ))}
         </div>
 
-        <Button variant="outline" size="sm" onClick={handleAddResistor}>
-          <Plus className="mr-2 h-4 w-4" /> Add Resistor
-        </Button>
+        <div className="flex flex-col md:flex-row gap-2">
+             <Button variant="outline" size="sm" onClick={handleAddResistor}>
+                 <Plus className="mr-2 h-4 w-4" /> Add Resistor
+             </Button>
+             <Button variant="outline" size="sm" onClick={handleReset}>
+                 <RotateCcw className="mr-2 h-4 w-4" /> Reset All
+             </Button>
+        </div>
+
 
         {error && (
           <p className="text-sm text-destructive flex items-center gap-1">

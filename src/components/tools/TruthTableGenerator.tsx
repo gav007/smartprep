@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertCircle, Check, X, Copy, TableIcon, HelpCircle, Download } from 'lucide-react';
+import { AlertCircle, Check, X, Copy, TableIcon, HelpCircle, Download, RotateCcw } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -76,10 +76,12 @@ const evaluateExpression = (expression: string, variables: string[], inputs: Rec
     }
 };
 
+const initialExpression = 'A + B';
+const initialVariables = ['A', 'B'];
 
 export default function TruthTableGenerator() {
-  const [expression, setExpression] = useState<string>('A + B');
-  const [variables, setVariables] = useState<string[]>(['A', 'B']);
+  const [expression, setExpression] = useState<string>(initialExpression);
+  const [variables, setVariables] = useState<string[]>(initialVariables);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -200,7 +202,7 @@ export default function TruthTableGenerator() {
     };
 
 
-    // --- CSV Export ---
+    // --- CSV Export & Reset ---
    const handleCopyToClipboard = useCallback((text: string, label: string) => {
         navigator.clipboard.writeText(text).then(() => {
         toast({
@@ -244,6 +246,12 @@ export default function TruthTableGenerator() {
         document.body.removeChild(link);
          toast({ title: "CSV Downloaded", description: "Truth table exported as CSV." });
     };
+
+     const handleReset = () => {
+         setExpression(initialExpression);
+         setVariables(initialVariables);
+         setError(null);
+     };
 
 
   return (
@@ -314,6 +322,11 @@ export default function TruthTableGenerator() {
                     </Button>
                  ))}
              </div>
+
+           {/* Reset Button */}
+            <Button variant="outline" onClick={handleReset} size="sm" className="mt-2">
+                <RotateCcw className="mr-2 h-4 w-4" /> Reset Expression
+            </Button>
 
 
            <p id="expression-vars" className="text-xs text-muted-foreground pt-1">
@@ -400,4 +413,3 @@ export default function TruthTableGenerator() {
     </Card>
   );
 }
-

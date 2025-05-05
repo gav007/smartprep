@@ -7,11 +7,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, CircuitBoard } from 'lucide-react'; // Use CircuitBoard icon
+import { AlertCircle, CircuitBoard, RotateCcw } from 'lucide-react'; // Use CircuitBoard icon
 
 type ResistanceUnit = 'Ω' | 'kΩ' | 'MΩ';
 type VoltageUnit = 'V' | 'mV' | 'kV';
-type CurrentUnit = 'A' | 'mA' | 'µA';
+type CurrentUnit = 'A' | 'mA' | 'µA' | 'nA'; // Added nA
 
 const resUnitMultipliers: Record<ResistanceUnit, number> = { 'Ω': 1, 'kΩ': 1e3, 'MΩ': 1e6 };
 
@@ -43,9 +43,13 @@ const formatCurrent = (i: number | null): string => {
     else if (Math.abs(i) < 1e-3 && i !== 0) { displayValue = i * 1e6; unit = 'µA'; }
     else if (Math.abs(i) < 1 && i !== 0) { displayValue = i * 1000; unit = 'mA'; }
 
-    const precision = Math.abs(displayValue) < 10 ? 3 : 2;
-    return `${displayValue.toPrecision(precision)} ${unit}`; // Use toPrecision for exponential handling
+    // Adjust precision based on magnitude
+    const precision = Math.abs(displayValue) < 10 ? 3 : (Math.abs(displayValue) < 100 ? 4 : 5);
+    // Use toPrecision for potentially very small/large numbers after scaling
+    return `${displayValue.toPrecision(precision)} ${unit}`;
 }
+
+const initialVBE = '0.7';
 
 export default function BJTSolver() {
   const [vbbStr, setVbbStr] = useState<string>('');
@@ -55,7 +59,7 @@ export default function BJTSolver() {
   const [rcStr, setRcStr] = useState<string>('');
   const [rcUnit, setRcUnit] = useState<ResistanceUnit>('kΩ');
   const [betaStr, setBetaStr] = useState<string>('');
-  const [vbeStr, setVbeStr] = useState<string>('0.7'); // Default VBE
+  const [vbeStr, setVbeStr] = useState<string>(initialVBE); // Default VBE
 
   const [result, setResult] = useState<BJTResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -69,10 +73,11 @@ export default function BJTSolver() {
     const VCC = parseFloat(vccStr);
     const RC = parseFloat(rcStr) * resUnitMultipliers[rcUnit];
     const beta = parseFloat(betaStr);
-    const VBE = parseFloat(vbeStr || '0.7'); // Use default if empty
+    const VBE = parseFloat(vbeStr || initialVBE); // Use default if empty
 
     // Basic Input Validation
-    if (isNaN(VBB) || isNaN(RB) || isNaN(VCC) || isNaN(RC) || isNaN(beta) || isNaN(VBE)) {
+    const inputs = [VBB, RB, VCC, RC, beta, VBE];
+    if (inputs.some(isNaN)) {
       setError('Please enter valid numbers for all fields.');
       return;
     }
@@ -81,14 +86,15 @@ export default function BJTSolver() {
       return;
     }
      if (VBE < 0) {
-         setError('VBE should typically be non-negative (around 0.7V for silicon).');
+         setError('VBE should typically be non-negative (e.g., 0.7V for silicon).');
          // Allow calculation but warn user
      }
       if (VBB <= VBE) {
-           setError('VBB must be greater than VBE for the base current to flow.');
-           // IB will be zero or negative, leading to cutoff or invalid active region assumption
+           setError('VBB must be greater than VBE for base current to flow (cutoff condition).');
            // Set results indicating cutoff
-            setResult({ VBE, IB: 0, IC: 0, VCE: VCC, ICSAT: VCC / RC, IBSAT: (VCC / RC) / (beta / 5) });
+            const ICSAT = VCC / RC;
+            const IBSAT = ICSAT / (beta / 5); // Or: IBSAT_min = ICSAT / beta
+            setResult({ VBE, IB: 0, IC: 0, VCE: VCC, ICSAT, IBSAT });
            return;
       }
 
@@ -111,15 +117,17 @@ export default function BJTSolver() {
              // Likely in saturation, recalculate IC based on saturation
              const IC_Sat_Actual = VCC / RC; // Collector current is limited by RC and VCC
              const VCE_Sat_Actual = 0.2; // Assume VCEsat ~ 0.2V
-             const IB_Needed_For_Sat = IC_Sat_Actual / beta;
+             // IB remains as calculated from VBB/RB
               calculatedResult.IC = IC_Sat_Actual; // Update IC to saturation value
               calculatedResult.VCE = VCE_Sat_Actual; // Update VCE to saturation value
-              setError("Transistor is likely in Saturation. IC is limited by VCC/RC. (VCE ≈ 0.2V)");
-        } else if (IB <= 0) {
+              // Keep the original IB calculation but add a warning
+              setError("Warning: Transistor likely in Saturation. IC is limited by VCC/RC. (VCE ≈ 0.2V)");
+        } else if (IB <= 0) { // Should be caught by VBB <= VBE check, but keep for robustness
              // Cutoff
              calculatedResult = { VBE, IB: 0, IC: 0, VCE: VCC, ICSAT, IBSAT };
              setError("Transistor is in Cutoff (IB ≈ 0).");
         }
+        // If VCE > 0.2 and IB > 0, assume active region
 
 
     } catch (e: any) {
@@ -129,6 +137,19 @@ export default function BJTSolver() {
 
 
     setResult(calculatedResult);
+  };
+
+  const handleReset = () => {
+      setVbbStr('');
+      setRbStr('');
+      setRbUnit('kΩ');
+      setVccStr('');
+      setRcStr('');
+      setRcUnit('kΩ');
+      setBetaStr('');
+      setVbeStr(initialVBE);
+      setResult(null);
+      setError(null);
   };
 
   const renderInput = (
@@ -167,7 +188,7 @@ export default function BJTSolver() {
                 </SelectContent>
             </Select>
         )}
-        {!unit && <div className="w-[80px]"></div>} {/* Placeholder for alignment */}
+        {!unit && <div className="w-[80px] flex-shrink-0"></div>} {/* Placeholder for alignment */}
     </div>
   );
 
@@ -189,11 +210,15 @@ export default function BJTSolver() {
              {renderInput('vbe', 'VBE (V)', vbeStr, (e) => setVbeStr(e.target.value), undefined, undefined, "Default: 0.7", 0, 0.01)}
          </div>
 
-
-        <Button onClick={handleCalculate} className="w-full md:w-auto">Calculate</Button>
+         <div className="flex flex-col md:flex-row gap-2 pt-2">
+             <Button onClick={handleCalculate} className="w-full md:w-auto">Calculate</Button>
+             <Button variant="outline" onClick={handleReset} className="w-full md:w-auto">
+                 <RotateCcw className="mr-2 h-4 w-4" /> Reset
+             </Button>
+         </div>
 
         {error && (
-          <p className="text-sm text-destructive flex items-center gap-1 mt-4">
+          <p className="text-sm text-destructive flex items-center gap-1 mt-2">
             <AlertCircle size={16} /> {error}
           </p>
         )}
@@ -216,5 +241,3 @@ export default function BJTSolver() {
     </Card>
   );
 }
- 
-    

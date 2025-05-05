@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, GitCommitHorizontal } from 'lucide-react'; // Using GitCommitHorizontal for OpAmp symbol
+import { AlertCircle, GitCommitHorizontal, RotateCcw } from 'lucide-react'; // Using GitCommitHorizontal for OpAmp symbol
 
 type OpAmpConfig = 'inverting' | 'non-inverting';
 type ResistanceUnit = 'Ω' | 'kΩ' | 'MΩ';
@@ -17,16 +17,20 @@ const resUnitMultipliers: Record<ResistanceUnit, number> = { 'Ω': 1, 'kΩ': 1e3
 
 // Simple image paths - adjust if needed based on your public folder structure
 const imagePaths = {
-    inverting: '/images/opamp_inverting.png', // Placeholder paths
-    nonInverting: '/images/opamp_non_inverting.png'
+    inverting: '/assets/images/opamp_inverting.png', // Assuming images are in public/assets/images
+    nonInverting: '/assets/images/opamp_non_inverting.png'
 };
 
+const initialConfig: OpAmpConfig = 'inverting';
+const initialR1Unit: ResistanceUnit = 'kΩ';
+const initialR2Unit: ResistanceUnit = 'kΩ';
+
 export default function OpAmpGainCalculator() {
-  const [configType, setConfigType] = useState<OpAmpConfig>('inverting');
+  const [configType, setConfigType] = useState<OpAmpConfig>(initialConfig);
   const [r1Str, setR1Str] = useState<string>('');
-  const [r1Unit, setR1Unit] = useState<ResistanceUnit>('kΩ');
+  const [r1Unit, setR1Unit] = useState<ResistanceUnit>(initialR1Unit);
   const [r2Str, setR2Str] = useState<string>(''); // R2 is Rf for inverting
-  const [r2Unit, setR2Unit] = useState<ResistanceUnit>('kΩ');
+  const [r2Unit, setR2Unit] = useState<ResistanceUnit>(initialR2Unit);
 
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +41,7 @@ export default function OpAmpGainCalculator() {
 
     if (isNaN(r1) || isNaN(r2)) {
       if (r1Str || r2Str) {
-        setError('Please enter valid numbers for both resistances.');
+        // setError('Please enter valid numbers for both resistances.'); // Hide error initially
       }
       return null;
     }
@@ -46,9 +50,11 @@ export default function OpAmpGainCalculator() {
        // Allow R1=0 for non-inverting (voltage follower), but R2 (Rf) must be > 0 if R1=0 for inverting?
        // Let's require positive resistances for simplicity in standard gain calcs.
        if (configType === 'inverting' && r1 === 0) {
-            setError('Input resistance (R1) cannot be zero for standard inverting configuration.');
+            setError('Input resistance (Rᵢ) cannot be zero for standard inverting configuration.');
             return null;
        }
+       // Allow R1=0 for non-inverting if intended (results in gain=1), but R2 must be > 0 if R1=0.
+        // Simplified: require positive for now
         if (r1 <=0 || r2 <=0) {
              setError('Resistances must be positive values.');
              return null;
@@ -69,6 +75,15 @@ export default function OpAmpGainCalculator() {
    const r1Label = configType === 'inverting' ? 'Input Resistor (Rᵢ)' : 'Resistor R₁';
    const r2Label = configType === 'inverting' ? 'Feedback Resistor (Rբ)' : 'Resistor R₂';
    const imageSrc = configType === 'inverting' ? imagePaths.inverting : imagePaths.nonInverting;
+
+   const handleReset = () => {
+       setConfigType(initialConfig);
+       setR1Str('');
+       setR1Unit(initialR1Unit);
+       setR2Str('');
+       setR2Unit(initialR2Unit);
+       setError(null);
+   };
 
   return (
     <Card>
@@ -92,7 +107,6 @@ export default function OpAmpGainCalculator() {
 
         {/* Display Diagram and Formula */}
         <div className="my-4 p-4 bg-muted/30 rounded border text-center">
-            {/* Placeholder for Image - Replace with actual Image component */}
              <Image
                 src={imageSrc}
                 alt={`${configType === 'inverting' ? 'Inverting' : 'Non-Inverting'} Op-Amp Configuration`}
@@ -103,7 +117,9 @@ export default function OpAmpGainCalculator() {
                 onError={(e) => (e.currentTarget.style.display = 'none')} // Hide on error
             />
              {/* Fallback text if image fails */}
-             {/* <p className="text-sm text-muted-foreground italic mb-2">(Diagram Placeholder)</p> */}
+             <noscript>
+                 <p className="text-sm text-muted-foreground italic mb-2">(Diagram for {configType} op-amp)</p>
+             </noscript>
              <p className="font-mono text-sm font-semibold">{formula}</p>
         </div>
 
@@ -175,6 +191,11 @@ export default function OpAmpGainCalculator() {
              </p>
            </div>
         )}
+
+         {/* Reset Button */}
+         <Button variant="outline" onClick={handleReset} className="w-full md:w-auto mt-2">
+             <RotateCcw className="mr-2 h-4 w-4" /> Reset
+         </Button>
       </CardContent>
     </Card>
   );

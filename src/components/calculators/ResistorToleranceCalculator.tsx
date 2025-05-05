@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, Sigma } from 'lucide-react'; // Sigma icon for Tolerance
+import { AlertCircle, Sigma, RotateCcw } from 'lucide-react'; // Sigma icon for Tolerance
 
 type ResistanceUnit = 'Ω' | 'kΩ' | 'MΩ';
 type ToleranceUnit = '%' | 'ppm'; // Allow PPM for tempco later if needed
@@ -31,15 +31,19 @@ const formatResistanceResult = (value: number | null, baseUnit: ResistanceUnit =
          displayValue = valueInOhms; unit = 'Ω'; // Already in Ohms or less than 1k
     }
 
-    const precision = Math.abs(displayValue) < 10 ? 3 : 2;
-    return `${displayValue.toFixed(precision).replace(/\.?0+$/, '')} ${unit}`;
+    const precision = Math.abs(displayValue) < 10 ? 3 : (Math.abs(displayValue) < 100 ? 4 : 5);
+    const displayString = displayValue.toPrecision(precision);
+
+    return `${parseFloat(displayString)} ${unit}`;
 };
 
+const initialResistanceUnit: ResistanceUnit = 'kΩ';
+const initialToleranceStr: string = '5';
 
 export default function ResistorToleranceCalculator() {
   const [nominalResistanceStr, setNominalResistanceStr] = useState<string>('');
-  const [resistanceUnit, setResistanceUnit] = useState<ResistanceUnit>('kΩ');
-  const [toleranceStr, setToleranceStr] = useState<string>('5'); // Default to 5%
+  const [resistanceUnit, setResistanceUnit] = useState<ResistanceUnit>(initialResistanceUnit);
+  const [toleranceStr, setToleranceStr] = useState<string>(initialToleranceStr); // Default to 5%
   // const [toleranceUnit, setToleranceUnit] = useState<ToleranceUnit>('%'); // Currently only %
 
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +55,7 @@ export default function ResistorToleranceCalculator() {
 
     if (isNaN(nominalR) || isNaN(tolerancePercent)) {
       if (nominalResistanceStr || toleranceStr) {
-         setError('Please enter valid numbers for resistance and tolerance.');
+         // setError('Please enter valid numbers for resistance and tolerance.'); // Hide initial error
       }
       return { min: null, max: null };
     }
@@ -67,8 +71,18 @@ export default function ResistorToleranceCalculator() {
     const minResistance = nominalRInOhms - toleranceValue;
     const maxResistance = nominalRInOhms + toleranceValue;
 
-    return { min: minResistance, max: maxResistance };
+    // Handle case where minResistance might be negative (e.g., low R, high tolerance)
+    const effectiveMin = Math.max(0, minResistance);
+
+    return { min: effectiveMin, max: maxResistance };
   }, [nominalResistanceStr, resistanceUnit, toleranceStr]);
+
+  const handleReset = () => {
+      setNominalResistanceStr('');
+      setResistanceUnit(initialResistanceUnit);
+      setToleranceStr(initialToleranceStr);
+      setError(null);
+  };
 
   return (
     <Card>
@@ -126,6 +140,7 @@ export default function ResistorToleranceCalculator() {
                <SelectItem value="ppm">ppm</SelectItem>
              </SelectContent>
            </Select> */}
+           <div className="w-[80px] flex-shrink-0"></div> {/* Placeholder for alignment */}
         </div>
 
         {error && (
@@ -141,8 +156,12 @@ export default function ResistorToleranceCalculator() {
              <p><strong>Max:</strong> {formatResistanceResult(toleranceRange.max)}</p>
            </div>
         )}
+
+         {/* Reset Button */}
+        <Button variant="outline" onClick={handleReset} className="w-full md:w-auto mt-2">
+             <RotateCcw className="mr-2 h-4 w-4" /> Reset
+         </Button>
       </CardContent>
     </Card>
   );
 }
-

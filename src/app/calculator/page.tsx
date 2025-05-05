@@ -8,14 +8,12 @@ import PowerCalculator from "@/components/calculators/PowerCalculator";
 import ResistorToleranceCalculator from "@/components/calculators/ResistorToleranceCalculator";
 import OpAmpGainCalculator from "@/components/calculators/OpAmpGainCalculator";
 import BJTSolver from "@/components/calculators/BJTSolver";
-import ResistorCalculatorPage from "@/app/tools/resistor/page"; // Import the Resistor Calculator Page component
+// Resistor Color Code tool is now under /tools/resistor
 import { Calculator } from "lucide-react";
-
-// Remove the old 'tools' array and link-based dashboard approach
 
 export default function CalculatorPage() {
   return (
-    <div className="container mx-auto px-4 py-8"> {/* Add container and padding */}
+    <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-12">
         <h1 className="text-3xl font-bold mb-2 flex items-center justify-center gap-2">
           <Calculator className="h-8 w-8 text-primary" />
@@ -27,21 +25,34 @@ export default function CalculatorPage() {
       </div>
 
       {/* Grid Layout for Calculators */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto"> {/* Added mx-auto */}
-        <OhmsLawCalculator />
-        <PowerCalculator /> {/* Added Power Calculator */}
-        <SeriesParallelResistanceCalculator />
-        <ResistorToleranceCalculator /> {/* Added Tolerance Calculator */}
-        {/* ResistorColorCodeCalculator is now part of ResistorCalculatorPage */}
-        {/* <ResistorCalculatorPage /> Include the Resistor Calc Page directly? Or link? Better to link via header */}
-        <ACVoltageCalculator />
-        <RippleVoltageCalculator />
-        <OpAmpGainCalculator />
-        <BJTSolver /> {/* Placeholder/Coming Soon Component */}
-        {/* Add more calculator components here as they are created */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto">
+        {/* Wrap each calculator in a div with an ID for linking */}
+        <div id="ohms">
+            <OhmsLawCalculator />
+        </div>
+        <div id="power">
+            <PowerCalculator />
+        </div>
+        <div id="series-parallel">
+            <SeriesParallelResistanceCalculator />
+        </div>
+        <div id="tolerance">
+            <ResistorToleranceCalculator />
+        </div>
+        <div id="ac-voltage">
+            <ACVoltageCalculator />
+        </div>
+        <div id="ripple-voltage">
+            <RippleVoltageCalculator />
+        </div>
+         <div id="op-amp">
+            <OpAmpGainCalculator />
+        </div>
+        <div id="bjt">
+            <BJTSolver />
+        </div>
       </div>
 
-        {/* Remove the old tool selection cards */}
     </div>
   );
 }

@@ -11,8 +11,10 @@ import ScoreReview from '@/components/quiz/ScoreReview';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, AlertTriangle, BookOpen, Network } from 'lucide-react';
+import { Loader2, AlertTriangle, BookOpen, Network, ListChecks } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
 type QuizState = 'selecting' | 'loading' | 'active' | 'review' | 'error';
@@ -21,6 +23,7 @@ interface QuizOption {
   key: string;
   label: string;
   filename: string;
+  totalQuestions?: number; // Add total questions count after loading meta
 }
 
 const quizOptions: QuizOption[] = [
@@ -28,6 +31,7 @@ const quizOptions: QuizOption[] = [
   { key: 'network', label: 'Networking Fundamentals Quiz', filename: 'network_quiz.json' },
 ];
 
+const questionCountOptions = [5, 10, 20]; // Define available question counts
 
 export default function QuizPage() {
   const [quizState, setQuizState] = useState<QuizState>('selecting');
@@ -36,12 +40,34 @@ export default function QuizPage() {
   const [userAnswers, setUserAnswers] = useState<AnswerSelection[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedQuiz, setSelectedQuiz] = useState<QuizOption | null>(null);
+  const [selectedQuestionCount, setSelectedQuestionCount] = useState<number>(10); // Default question count
+  const [availableQuizzes, setAvailableQuizzes] = useState<QuizOption[]>(quizOptions); // State for quizzes with total count
 
   const router = useRouter();
    const { toast } = useToast();
 
+   // Fetch quiz metadata (total question count) on initial load
+    useEffect(() => {
+        const fetchQuizMetadata = async () => {
+            const updatedQuizzes = await Promise.all(quizOptions.map(async (quiz) => {
+                try {
+                    const response = await fetch(`/data/${quiz.filename}`);
+                    if (!response.ok) return quiz; // Keep original if fetch fails
+                    const rawData: RawQuestion[] = await response.json();
+                    return { ...quiz, totalQuestions: rawData.length };
+                } catch {
+                    return quiz; // Keep original on error
+                }
+            }));
+            setAvailableQuizzes(updatedQuizzes);
+        };
+        if (quizState === 'selecting') {
+            fetchQuizMetadata();
+        }
+    }, [quizState]); // Re-fetch if returning to selection state
 
-   const startQuiz = useCallback(async (quiz: QuizOption, count: number = 10) => {
+
+   const startQuiz = useCallback(async (quiz: QuizOption, count: number) => {
       setSelectedQuiz(quiz);
       setQuizState('loading');
       setError(null);
@@ -68,7 +94,9 @@ export default function QuizPage() {
            throw new Error(`No valid questions were found in ${quiz.filename}. Please check the data file.`);
         }
 
-        const selectedQuestions = shuffleArray(normalizedQuestions).slice(0, count);
+        // Use the selected count, but don't exceed available questions
+        const actualCount = Math.min(count, normalizedQuestions.length);
+        const selectedQuestions = shuffleArray(normalizedQuestions).slice(0, actualCount);
 
         setQuestions(selectedQuestions);
         // Initialize user answers
@@ -134,19 +162,19 @@ export default function QuizPage() {
   };
 
   const handleRestart = () => {
-    if (selectedQuiz) {
-        startQuiz(selectedQuiz); // Restart the same quiz
-    } else {
-        setQuizState('selecting'); // Fallback to selection if something went wrong
-    }
-  };
-
-  const handleGoHome = () => {
+    // Restarting should take user back to selection screen
     setQuizState('selecting');
     setSelectedQuiz(null);
     setQuestions([]);
-    // Optionally navigate to root or clear state fully
-     // router.push('/'); // Or just reset state for SPA feel
+    // Keep the selected question count or reset? Let's keep it.
+  };
+
+  const handleGoHome = () => {
+    // Go Home also means back to selection screen in this context
+    setQuizState('selecting');
+    setSelectedQuiz(null);
+    setQuestions([]);
+     // router.push('/'); // Optionally navigate to actual home page if needed
   };
 
   // Derived state
@@ -188,30 +216,76 @@ export default function QuizPage() {
   }
 
   if (quizState === 'selecting') {
+     const currentSelectedQuizMeta = availableQuizzes.find(q => q.key === selectedQuiz?.key);
+     const maxQuestions = currentSelectedQuizMeta?.totalQuestions ?? 0;
+
     return (
        <div className="container mx-auto px-4 py-8 flex flex-col items-center justify-center pt-10">
         <h1 className="text-3xl font-bold mb-8 text-center">Select a Quiz</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
-          {quizOptions.map((quiz) => (
+
+        {/* Quiz Selection Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl mb-8">
+          {availableQuizzes.map((quiz) => (
             <Card
               key={quiz.key}
-              className="cursor-pointer hover:shadow-lg transition-shadow hover:border-primary"
-              onClick={() => startQuiz(quiz, 10)} // Pass count here
+              className={`cursor-pointer hover:shadow-lg transition-all duration-200 border-2 ${selectedQuiz?.key === quiz.key ? 'border-primary shadow-lg scale-[1.02]' : 'hover:border-primary/50'}`}
+              onClick={() => setSelectedQuiz(quiz)}
             >
               <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2">
                  {quiz.key === 'applied' ? <Network className="h-8 w-8 text-primary" /> : <BookOpen className="h-8 w-8 text-primary" />}
                 <CardTitle className="text-xl font-semibold">{quiz.label}</CardTitle>
               </CardHeader>
               <CardContent>
-                 <CardDescription>Test your knowledge on {quiz.label.toLowerCase().includes('applied') ? 'practical networking concepts' : 'fundamental networking principles'}.</CardDescription>
-                 {/* Add more description if needed */}
+                 <CardDescription>
+                    Test your knowledge on {quiz.label.toLowerCase().includes('applied') ? 'practical networking concepts' : 'fundamental networking principles'}.
+                    {quiz.totalQuestions && <span className="block mt-1 text-xs">({quiz.totalQuestions} questions available)</span>}
+                 </CardDescription>
               </CardContent>
-               {/* Optional Footer or action indication */}
-               {/* <CardFooter><p className="text-sm text-muted-foreground">Click to start</p></CardFooter> */}
             </Card>
           ))}
         </div>
-         {/* Link to calculator dashboard removed as it's in the main header now */}
+
+        {/* Question Count Selection - Only show if a quiz is selected */}
+        {selectedQuiz && maxQuestions > 0 && (
+            <Card className="w-full max-w-sm mb-8 border-primary/50">
+                 <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2"><ListChecks size={20}/> Select Number of Questions</CardTitle>
+                 </CardHeader>
+                 <CardContent>
+                    <Select
+                        value={String(Math.min(selectedQuestionCount, maxQuestions))} // Ensure selected value doesn't exceed max available
+                        onValueChange={(value) => setSelectedQuestionCount(parseInt(value))}
+                        >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Number of Questions" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {questionCountOptions.map((count) => (
+                                (count <= maxQuestions) && // Only show options <= max available questions
+                                <SelectItem key={count} value={String(count)}>
+                                    {count} Questions
+                                </SelectItem>
+                            ))}
+                             {maxQuestions > 0 && ( // Add option for "All" if maxQuestions is known
+                                <SelectItem key="all" value={String(maxQuestions)}>
+                                     All ({maxQuestions}) Questions
+                                </SelectItem>
+                             )}
+                        </SelectContent>
+                    </Select>
+                </CardContent>
+            </Card>
+        )}
+
+         {/* Start Button - Enabled only when quiz and count are selected */}
+         <Button
+           size="lg"
+           onClick={() => selectedQuiz && startQuiz(selectedQuiz, selectedQuestionCount)}
+           disabled={!selectedQuiz}
+         >
+           Start Quiz Now
+         </Button>
+
       </div>
     );
   }
@@ -222,8 +296,8 @@ export default function QuizPage() {
         <ScoreReview
             questions={questions}
             userAnswers={userAnswers}
-            onRestart={handleRestart}
-            onGoHome={handleGoHome}
+            onRestart={handleRestart} // Updated: Now goes back to selection
+            onGoHome={handleGoHome}   // Updated: Now goes back to selection
         />
       </div>
     );
@@ -262,3 +336,4 @@ export default function QuizPage() {
     </div>
   );
 }
+

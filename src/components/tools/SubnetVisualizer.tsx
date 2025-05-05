@@ -7,18 +7,19 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle, Copy, Network, Binary } from 'lucide-react';
-import { calculateSubnetDetails, isValidIPv4, ipToBinaryString, cidrToSubnetMask } from '@/lib/calculator-utils'; // Assuming functions are in this util
+import { AlertCircle, Copy, Network, Binary, RotateCcw } from 'lucide-react';
+import { calculateSubnetDetails, isValidIPv4, ipToBinaryString, cidrToSubnetMask, formatIpBinaryString } from '@/lib/calculator-utils'; // Ensure formatIpBinaryString is imported
 import type { SubnetResult } from '@/types/calculator';
 import { useToast } from "@/hooks/use-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 
 const cidrOptions = Array.from({ length: 33 - 0 }, (_, i) => i + 0); // /0 to /32
+const initialCidr = 24;
 
 export default function SubnetVisualizer() {
   const [ipAddress, setIpAddress] = useState<string>('');
-  const [cidr, setCidr] = useState<number>(24);
+  const [cidr, setCidr] = useState<number>(initialCidr);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -55,12 +56,14 @@ export default function SubnetVisualizer() {
     }
   };
 
-   const handleCopyToClipboard = useCallback((text: string, label: string) => {
-        if (!text || text === 'N/A') return;
-        navigator.clipboard.writeText(text).then(() => {
+   const handleCopyToClipboard = useCallback((text: string | number | undefined, label: string) => {
+       const textToCopy = String(text ?? '').replace(/,/g,''); // Convert to string, remove commas
+        if (!textToCopy || textToCopy === 'N/A') return;
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
         toast({
             title: "Copied to Clipboard",
-            description: `${label} (${text}) copied.`,
+            description: `${label} (${textToCopy}) copied.`,
         });
         }).catch(err => {
         console.error('Failed to copy:', err);
@@ -72,10 +75,11 @@ export default function SubnetVisualizer() {
         });
     }, [toast]);
 
-   const formatBinaryString = (binary?: string): string => {
-     if (!binary) return 'N/A';
-     return binary.match(/.{1,8}/g)?.join(' . ') || binary;
-   };
+    const handleReset = () => {
+        setIpAddress('');
+        setCidr(initialCidr);
+        setError(null);
+    };
 
 
   return (
@@ -117,11 +121,16 @@ export default function SubnetVisualizer() {
                 ))}
               </SelectContent>
             </Select>
-             {error && !(!isValidIPv4(ipAddress)) && ( // Show general errors here if IP is valid
+             {error && isValidIPv4(ipAddress) && ( // Show general calculation errors here if IP is valid but calculation failed
                   <p className="text-xs text-destructive mt-1">{error}</p>
              )}
           </div>
         </div>
+
+         {/* Reset Button */}
+         <Button variant="outline" onClick={handleReset} className="w-full md:w-auto mt-2">
+            <RotateCcw className="mr-2 h-4 w-4" /> Reset
+         </Button>
 
         {/* Results Section */}
         {subnetDetails && !error && (
@@ -135,17 +144,17 @@ export default function SubnetVisualizer() {
                 'Wildcard Mask': subnetDetails.wildcardMask,
                 'First Usable Host': subnetDetails.firstUsableHost,
                 'Last Usable Host': subnetDetails.lastUsableHost,
-                'Total Hosts': subnetDetails.totalHosts.toLocaleString(),
-                'Usable Hosts': subnetDetails.usableHosts.toLocaleString(),
+                'Total Hosts': subnetDetails.totalHosts, //.toLocaleString(),
+                'Usable Hosts': subnetDetails.usableHosts, //.toLocaleString(),
                 }).map(([label, value]) => (
                     <div key={label} className="flex justify-between items-center group">
-                        <span><strong>{label}:</strong> {value}</span>
-                        {value !== 'N/A' && (
+                        <span><strong>{label}:</strong> {typeof value === 'number' ? value.toLocaleString() : value}</span>
+                        {value !== 'N/A' && value !== undefined && (
                              <Button
                                 variant="ghost"
                                 size="icon"
                                 className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                                onClick={() => handleCopyToClipboard(String(value).replace(/,/g,''), label)} // Remove commas for copy
+                                onClick={() => handleCopyToClipboard(value, label)}
                                 aria-label={`Copy ${label}`}
                             >
                                 <Copy size={14} />
@@ -175,13 +184,13 @@ export default function SubnetVisualizer() {
                     ].map((item) => (
                         <TableRow key={item.label}>
                         <TableCell className="font-medium">{item.label}</TableCell>
-                        <TableCell className="font-mono text-xs tracking-tighter">{formatBinaryString(item.value)}</TableCell>
+                        <TableCell className="font-mono text-xs tracking-tight">{formatIpBinaryString(item.value)}</TableCell>
                          <TableCell className="text-right">
                              <Button
                                 variant="ghost"
                                 size="icon"
                                 className="h-7 w-7"
-                                onClick={() => handleCopyToClipboard(item.value?.replace(/\./g,'') ?? '', `${item.label} (Binary)`)}
+                                onClick={() => handleCopyToClipboard(formatIpBinaryString(item.value), `${item.label} (Binary)`)}
                                 disabled={!item.value}
                                 aria-label={`Copy Binary ${item.label}`}
                             >

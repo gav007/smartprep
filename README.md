@@ -1,19 +1,27 @@
 # SmartPrep
 
-This is a Next.js application providing interactive quizzes and tools for networking and electronics concepts.
+This is a Next.js application providing interactive quizzes and calculation tools for networking and electronics concepts.
 
 ## Features
 
-- Interactive Quizzes (Networking Fundamentals, Applied Networking)
-- Question Review with Correct/Incorrect Highlighting
-- Electronics & Networking Calculator Tools
-  - Subnet Calculator
-  - Base Converter (Binary/Decimal/Hex)
-  - Resistor Color Code Calculator
-  - Waveform Generator (Placeholder)
-  - Ohm's Law, Power, Series/Parallel Resistance, Tolerance Calculators
-  - Op-Amp Gain Calculator
+- Interactive Quizzes
+  - Applied Networking
+  - Networking Fundamentals
+- Quiz Question Review with Correct/Incorrect Highlighting
+- Electronics & Networking Calculator Tools:
+  - Ohm's Law Calculator
+  - Electrical Power Calculator (V, I, R, P)
+  - Series & Parallel Resistance Calculator
+  - Resistor Tolerance Range Calculator
+  - AC Instantaneous Voltage Calculator
+  - Ripple Voltage Calculator
+  - Op-Amp Gain Calculator (Inverting & Non-Inverting)
   - BJT Solver (Fixed Bias)
+- Other Tools:
+  - Subnet Visualizer (IPv4)
+  - Logic Truth Table Generator (Up to 4 variables)
+  - Base Converter (Binary/Decimal/Hexadecimal)
+  - Resistor Color Code Calculator (4, 5, 6 bands; Value-to-Bands & Bands-to-Value)
 
 ## Tech Stack
 
@@ -22,7 +30,8 @@ This is a Next.js application providing interactive quizzes and tools for networ
 - TypeScript
 - Tailwind CSS + ShadCN UI
 - Lucide React (Icons)
-- Recharts (for Waveform Generator - placeholder)
+- Recharts (for potential future waveform visualization)
+- Docker (for deployment)
 
 ## Getting Started (Local Development)
 
@@ -37,7 +46,10 @@ This is a Next.js application providing interactive quizzes and tools for networ
     npm install
     ```
 
-3.  **Run the development server:**
+3.  **Create Environment File:**
+    Create a `.env` file in the project root (copy from `.env.example` if provided). Currently, no specific keys are strictly required for core functionality after AI removal.
+
+4.  **Run the development server:**
     ```bash
     npm run dev
     ```
@@ -68,42 +80,34 @@ This will build the production-ready Docker image named `smartprep`.
 #### Option 1: Using `docker run`
 
 ```bash
-docker run -d -p 3000:3000 \
-  --name smartprep_container smartprep
+# Simple run
+docker run -d -p 3000:3000 --name smartprep_container smartprep
+
+# If you need to pass environment variables (e.g., for a database or external API)
+# Create an .env.production file:
+# echo "DATABASE_URL=your_db_connection_string" > .env.production
+#
+# Then run using the env file:
+# docker run -d -p 3000:3000 \
+#   --env-file ./.env.production \
+#   --name smartprep_container smartprep
 ```
 
 - `-d`: Run in detached mode (background).
 - `-p 3000:3000`: Map port 3000 on your host machine to port 3000 inside the container.
 - `--name smartprep_container`: Assign a name to the container for easier management.
 - `smartprep`: The name of the image to run.
+- `--env-file`: Load environment variables from a file. Ensure sensitive files are in `.dockerignore`.
 
 The application will be accessible at `http://<your-server-ip>:3000` or `http://localhost:3000` if running locally.
-
-**Note on Environment Variables:** If your application requires other environment variables (e.g., for external APIs, database connections), pass them using `-e` flags or an environment file.
-
-```bash
-# Example using an env file (.env.production)
-echo "DATABASE_URL=your_db_connection_string" > .env.production
-
-# Run using the env file
-docker run -d -p 3000:3000 \
-  --env-file ./.env.production \
-  --name smartprep_container smartprep
-```
-Ensure any sensitive environment files are listed in `.dockerignore`.
-
 
 #### Option 2: Using `docker-compose` (for local testing)
 
 The provided `docker-compose.yml` file simplifies running the container locally.
 
-1.  **Create a `.env.production` file** (or similar) in the project root if you need to pass environment variables.
-    ```dotenv
-    # .env.production
-    DATABASE_URL=your_db_connection_string
-    ```
+1.  **Create a `.env.production` file** (or similar) in the project root if you need environment variables.
 
-2.  **Ensure `env_file` section in `docker-compose.yml` is uncommented and points to your file** if using an env file:
+2.  **Ensure `env_file` section in `docker-compose.yml` points to your file:**
     ```yaml
     services:
       smartprep:
@@ -116,7 +120,7 @@ The provided `docker-compose.yml` file simplifies running the container locally.
     ```bash
     docker-compose up -d
     ```
-    This command will build the image (if not already built) and start the container defined in `docker-compose.yml`, loading environment variables if configured.
+    This command builds the image (if needed) and starts the container defined in `docker-compose.yml`, loading environment variables if configured.
 
 To stop the container:
 ```bash
@@ -135,14 +139,14 @@ docker-compose down
 
         # On the EC2 instance
         docker pull your-registry/smartprep:latest
-        docker run -d -p 3000:3000 ... your-registry/smartprep:latest # Add -e flags or --env-file if needed
+        docker run -d -p 3000:3000 ... your-registry/smartprep:latest # Add --env-file if needed
         ```
-    *   **Option B (Copy Files & Build):** Copy the entire project folder (excluding ignored files) to the EC2 instance and build the image directly there using `docker build -t smartprep .`.
-3.  **Run the Container:** Use the `docker run` command described above on the EC2 instance, ensuring any necessary environment variables are set.
+    *   **Option B (Copy Files & Build):** Copy the project folder (excluding ignored files) to the EC2 instance and build the image directly there using `docker build -t smartprep .`.
+3.  **Run the Container:** Use the `docker run` command described above on the EC2 instance.
 4.  **Configure Security Group:** Ensure the EC2 instance's security group allows incoming traffic on port 3000 (or port 80/443 if using a reverse proxy).
 5.  **Set up Reverse Proxy (Recommended):**
     *   Install Nginx on the EC2 instance.
-    *   Configure Nginx as a reverse proxy to forward requests from port 80 (and 443 for HTTPS) to the container's port 3000. Use the provided `nginx.conf` as a template (`/etc/nginx/sites-available/smartprep`). Adapt the `server_name`.
+    *   Configure Nginx as a reverse proxy using the provided `nginx.conf` as a template (`/etc/nginx/sites-available/smartprep`). Adapt the `server_name`.
     *   Link the config: `sudo ln -s /etc/nginx/sites-available/smartprep /etc/nginx/sites-enabled/`
     *   Test Nginx config: `sudo nginx -t`
     *   Restart Nginx: `sudo systemctl restart nginx`
@@ -160,6 +164,39 @@ docker-compose down
 
 -   `npm run dev`: Starts the development server.
 -   `npm run build`: Creates a production build of the application.
--   `npm run start`: Starts the production server (expects a build to exist).
+-   `npm run start`: Starts the production server (requires a build).
 -   `npm run lint`: Runs ESLint.
 -   `npm run typecheck`: Runs TypeScript type checking.
+
+## Quiz Data Format
+
+Quiz questions are stored in JSON files within the `/public/data/` directory. The expected format is an array of objects:
+
+```json
+[
+  {
+    "question": "Which device connects multiple devices in a LAN and uses MAC addresses to forward data?",
+    "options": {
+      "A": "Router",
+      "B": "Switch",
+      "C": "Modem",
+      "D": "Hub"
+    },
+    "answer": "B",
+    "feedback": "Switches use MAC addresses to intelligently forward frames only to the intended recipient."
+    // Optional "type": "MC" field (ignored by current logic but allowed)
+  },
+  // ... more questions
+]
+```
+
+## Folder Structure Overview
+
+-   `/src/app`: Contains Next.js App Router pages and layouts.
+-   `/src/components`: Holds reusable React components (UI elements, calculators, quiz parts).
+-   `/src/lib`: Utility functions (calculator logic, quiz helpers, general utils).
+-   `/src/hooks`: Custom React hooks (e.g., for toast notifications).
+-   `/src/types`: TypeScript type definitions.
+-   `/public/data`: Stores JSON files for quizzes.
+-   `/public/assets`: Stores static image assets.
+```

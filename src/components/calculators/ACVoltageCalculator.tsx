@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, RotateCcw } from 'lucide-react';
 
 type VoltageType = 'peak' | 'rms';
 type AngleUnit = 'degrees' | 'radians';
@@ -55,7 +55,7 @@ export default function ACVoltageCalculator() {
     if (isNaN(voltageInput) || isNaN(frequency) || isNaN(time) || isNaN(phaseInput)) {
       if (voltageStr || frequencyStr || timeStr || phaseStr !== '0') {
         // Only show error if some input has been entered
-         setError('Please enter valid numbers for all fields.');
+         // setError('Please enter valid numbers for all fields.'); // Hide error on initial load
       }
       return null;
     }
@@ -74,6 +74,18 @@ export default function ACVoltageCalculator() {
 
     return peakVoltage * Math.sin(angularFrequency * time + phaseRad);
   }, [voltageStr, voltageType, frequencyStr, frequencyUnit, timeStr, timeUnit, phaseStr, phaseUnit]);
+
+  const handleReset = () => {
+    setVoltageStr('');
+    setVoltageType('peak');
+    setFrequencyStr('');
+    setFrequencyUnit('Hz');
+    setTimeStr('');
+    setTimeUnit('ms');
+    setPhaseStr('0');
+    setPhaseUnit('degrees');
+    setError(null);
+  };
 
   return (
     <Card>
@@ -194,6 +206,11 @@ export default function ACVoltageCalculator() {
              <p className="text-xl font-bold">{formatVoltageResult(instantaneousVoltage)}</p>
            </div>
         )}
+
+         {/* Reset Button */}
+        <Button variant="outline" onClick={handleReset} className="w-full md:w-auto mt-2">
+             <RotateCcw className="mr-2 h-4 w-4" /> Reset
+        </Button>
       </CardContent>
     </Card>
   );

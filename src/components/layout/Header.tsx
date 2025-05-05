@@ -116,7 +116,7 @@ export default function Header() {
         {/* Logo/Brand Name */}
         <Link href="/" className="flex items-center gap-2 text-xl md:text-2xl font-bold tracking-tight text-primary transition-opacity hover:opacity-80" onClick={() => setIsMobileMenuOpen(false)}>
            <Network size={28} className="shrink-0"/>
-           <span className="font-semibold">SmartPrep</span>
+           <span className="font-semibold">SmartPrep TU 716</span>
         </Link>
 
         {/* Desktop Navigation */}
