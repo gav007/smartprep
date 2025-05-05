@@ -1,10 +1,11 @@
+
 'use client';
 
 import Link from 'next/link';
 import { useState } from 'react';
 import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info } from 'lucide-react'; // Added Info icon
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet"; // Import SheetHeader and SheetTitle
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation'; // Import usePathname for active link styling
 
@@ -133,9 +134,11 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
              {/* Mobile Menu Header */}
-             <div className="flex h-16 items-center justify-between border-b px-4">
+             <SheetHeader className="flex flex-row h-16 items-center justify-between border-b px-4"> {/* Use SheetHeader */}
                  <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
                    <Network size={24} />
+                    {/* Visually hidden title for accessibility */}
+                   <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
                    SmartPrep
                  </Link>
                 <SheetClose asChild>
@@ -143,7 +146,7 @@ export default function Header() {
                         <X className="h-6 w-6" />
                     </Button>
                  </SheetClose>
-             </div>
+             </SheetHeader>
              {/* Mobile Menu Links */}
              <nav className="flex flex-col space-y-1 p-4">
                  {renderNavLinks(navItems, () => setIsMobileMenuOpen(false), true)}
