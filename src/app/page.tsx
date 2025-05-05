@@ -85,14 +85,14 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex justify-center items-center">
-                {/* Replace with more thematic image */}
+                {/* Updated hero image placeholder and hints */}
                 <Image
-                  src="https://picsum.photos/id/10/600/400" // Placeholder - change ID for different image
-                  alt="Abstract technology background showing network connections and circuit elements"
+                  src="https://picsum.photos/id/42/600/400" // Placeholder - server rack / data center / network hardware
+                  alt="Modern data center rack with glowing network hardware"
                   width={600}
                   height={400}
                   className="rounded-lg shadow-2xl object-cover aspect-video" // aspect-video ensures ratio
-                  data-ai-hint="abstract technology network circuit board" // Updated hint
+                  data-ai-hint="data center server rack network hardware technology" // Updated hint
                   priority // Load hero image faster
                 />
             </div>
@@ -132,13 +132,15 @@ export default function HomePage() {
         <section className="py-16 md:py-24 bg-secondary/30">
           <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
             <div className="flex justify-center items-center md:order-2">
+                 {/* Updated about image placeholder and hints */}
                  <Image
-                  src="https://picsum.photos/id/24/500/350" // Placeholder - change ID
-                  alt="Student or engineer working with electronics components and schematics"
+                  src="https://picsum.photos/id/1/500/350" // Placeholder - Desk with computer, PCB, oscilloscope waveform
+                  alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform"
                   width={500}
                   height={350}
                   className="rounded-lg shadow-xl object-cover aspect-[4/3]"
-                  data-ai-hint="engineer student working electronics pcb schematic desk" // Updated hint
+                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform computer" // Updated hint
+                  loading="lazy" // Add lazy loading
                 />
             </div>
              <div className="space-y-5 md:order-1 text-center md:text-left">
@@ -188,5 +190,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    
