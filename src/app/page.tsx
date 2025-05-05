@@ -2,146 +2,191 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, BrainCircuit, Calculator, Code, Cpu, GitBranch, Network, Palette, Sigma, TableIcon } from 'lucide-react';
-import Footer from '@/components/layout/Footer'; // Import the new Footer component
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, BrainCircuit, Calculator, Code, Cpu, GitBranch, Network, Palette, Sigma, TableIcon, Settings, Zap, CircuitBoard } from 'lucide-react'; // Added more icons
+import Footer from '@/components/layout/Footer';
 
-// Define featured tools data
+// Define featured tools data with updated icons and descriptions
 const featuredTools = [
   {
     title: "Subnet Calculator",
-    description: "Visualize and calculate IPv4 subnet details, including network/broadcast addresses and host ranges.",
+    description: "Visualize IPv4 subnets, calculate ranges, masks, and binary representations.",
     icon: Network,
     link: "/tools/subnet",
-    aiHint: "network diagram subnetting"
+    aiHint: "network topology diagram routing"
+  },
+   {
+    title: "Resistor Color Code",
+    description: "Decode 4, 5, or 6 band resistor colors or find bands for a specific value.",
+    icon: Palette,
+    link: "/tools/resistor",
+    aiHint: "resistor color bands circuit"
   },
   {
-    title: "Ohm's Law Solver",
-    description: "Quickly calculate Voltage (V), Current (I), or Resistance (R) using Ohm's Law.",
-    icon: Sigma, // Represents Resistance/Math
-    link: "/calculator", // Links to the main calculator page where Ohm's law resides
-    aiHint: "resistor circuit diagram"
-  },
-  {
-    title: "Truth Table Generator",
-    description: "Generate truth tables for boolean logic expressions with up to 4 variables.",
+    title: "Logic Truth Table",
+    description: "Generate truth tables for boolean expressions with up to 4 variables (A, B, C, D).",
     icon: TableIcon,
     link: "/tools/truth-table",
-    aiHint: "logic gates circuit"
+    aiHint: "logic gates boolean algebra"
   },
-    {
-    title: "Resistor Color Code",
-    description: "Decode resistor color bands or find the bands for a specific resistance value.",
-    icon: Palette, // More appropriate for color codes
-    link: "/tools/resistor",
-    aiHint: "resistor color bands"
+   {
+    title: "Ohm's & Power Calc",
+    description: "Solve for Voltage (V), Current (I), Resistance (R), or Power (P) using Ohm's Law.",
+    icon: Zap, // Power icon
+    link: "/calculator", // Links to the main calculator page
+    aiHint: "ohms law power triangle formula"
   },
-  {
-    title: "Electronics Calculators",
-    description: "Access a suite of tools including Power, AC Voltage, Op-Amp Gain, and BJT analysis.",
-    icon: Calculator,
-    link: "/calculator",
-     aiHint: "calculator tools dashboard"
+   {
+    title: "BJT Solver",
+    description: "Analyze fixed-bias common-emitter BJT circuits: find IB, IC, VCE, and saturation points.",
+    icon: CircuitBoard, // More specific BJT icon
+    link: "/calculator", // Links to main calculator page where BJT solver resides
+    aiHint: "bjt transistor circuit diagram"
   },
   {
     title: "AI Quiz Explainer",
-    description: "Get AI-powered explanations for quiz answers to deepen your understanding.",
+    description: "Get AI-powered, step-by-step explanations for quiz answers to deepen understanding.",
     icon: BrainCircuit,
-    link: "/quiz", // Link to quiz section where explanation is available after quiz
-    aiHint: "artificial intelligence brain circuit"
+    link: "/quiz", // Link to quiz section
+    aiHint: "artificial intelligence learning brain"
   },
+];
+
+// Placeholder for Recent Updates/Changelog data
+const recentUpdates = [
+    { id: 1, date: "2024-07-30", title: "Launched AI Explanations", description: "Get detailed insights into quiz answers." },
+    { id: 2, date: "2024-07-25", title: "Added BJT Solver", description: "Analyze basic BJT fixed-bias circuits." },
+    { id: 3, date: "2024-07-20", title: "Improved UI Responsiveness", description: "Enhanced experience on mobile devices." },
 ];
 
 export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="py-16 md:py-24 bg-gradient-to-br from-background to-muted/30">
-          <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+        {/* Hero Section - Updated Design */}
+        <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-br from-primary/10 via-background to-background">
+           {/* Optional: Subtle background pattern or SVG */}
+           {/* <div className="absolute inset-0 opacity-5"> ... SVG pattern ... </div> */}
+          <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative z-10">
             <div className="space-y-6 text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-primary">
-                🧠 Build Your Networking & Electronics Skills
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight text-primary">
+                Master Networking & Electronics Concepts.
               </h1>
-              <p className="text-lg text-muted-foreground max-w-xl mx-auto md:mx-0">
-                SmartPrep provides interactive quizzes and essential tools designed for students and professionals in networking and electronics. Master concepts and calculations with ease.
+              <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto md:mx-0">
+                Your essential toolkit for learning, practice, and problem-solving. Interactive quizzes and powerful calculators at your fingertips.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <Button asChild size="lg">
-                  <Link href="/quiz">Start Quiz <ArrowRight className="ml-2 h-5 w-5" /></Link>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
+                <Button asChild size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
+                  <Link href="/quiz">🎯 Start Quiz <ArrowRight className="ml-2 h-5 w-5" /></Link>
                 </Button>
-                <Button asChild variant="outline" size="lg">
-                  <Link href="/calculator">Open Calculators <Calculator className="ml-2 h-5 w-5" /></Link>
+                <Button asChild variant="outline" size="lg" className="shadow hover:shadow-md transition-shadow">
+                  <Link href="/calculator">🧮 Open Calculators <Calculator className="ml-2 h-5 w-5" /></Link>
                 </Button>
               </div>
             </div>
-            <div className="flex justify-center">
-               {/* Placeholder using Lucide icon */}
-               {/* <Cpu size={200} className="text-primary opacity-10" /> */}
+            <div className="flex justify-center items-center">
+                {/* Replace with more thematic image */}
                 <Image
-                  src="https://picsum.photos/600/400" // Placeholder image
-                  alt="Networking and electronics concept"
+                  src="https://picsum.photos/id/10/600/400" // Placeholder - change ID for different image
+                  alt="Abstract technology background showing network connections and circuit elements"
                   width={600}
                   height={400}
-                  className="rounded-lg shadow-lg object-cover"
-                  data-ai-hint="abstract network circuit technology"
+                  className="rounded-lg shadow-2xl object-cover aspect-video" // aspect-video ensures ratio
+                  data-ai-hint="abstract technology network circuit board" // Updated hint
+                  priority // Load hero image faster
                 />
             </div>
           </div>
         </section>
 
-        {/* Featured Tools Section */}
-        <section className="py-16 md:py-20 bg-background">
+        {/* Featured Tools Section - Updated Design */}
+        <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">Your Digital Toolkit</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">Your Digital Toolkit</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredTools.map((tool) => (
-                <Card key={tool.title} className="flex flex-col transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-                  <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                    <tool.icon className="h-10 w-10 text-primary" />
-                    <CardTitle className="text-xl font-semibold">{tool.title}</CardTitle>
+                <Card key={tool.title} className="flex flex-col bg-card border border-border/50 rounded-xl overflow-hidden shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-[1.03] hover:border-primary/30 group">
+                  <CardHeader className="flex flex-row items-start gap-4 pb-3 pt-5 px-5">
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary">
+                       <tool.icon className="h-6 w-6" />
+                    </div>
+                    <div className="flex-1">
+                        <CardTitle className="text-lg font-semibold">{tool.title}</CardTitle>
+                    </div>
                   </CardHeader>
-                  <CardContent className="flex-grow">
-                    <CardDescription>{tool.description}</CardDescription>
+                  <CardContent className="flex-grow px-5 pb-4">
+                    <CardDescription className="text-muted-foreground">{tool.description}</CardDescription>
                   </CardContent>
-                   <div className="p-6 pt-0">
-                      <Button asChild variant="outline" className="w-full">
-                        <Link href={tool.link}>Open Tool</Link>
+                   <CardFooter className="p-5 pt-0 bg-muted/30 group-hover:bg-muted/50 transition-colors">
+                      <Button asChild variant="link" className="w-full justify-start p-0 h-auto text-primary font-semibold">
+                        <Link href={tool.link}>Open Tool <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
                       </Button>
-                   </div>
+                   </CardFooter>
                 </Card>
               ))}
             </div>
           </div>
         </section>
 
-        {/* About Section */}
-        <section className="py-16 md:py-20 bg-secondary/50">
-          <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-            <div className="flex justify-center">
+        {/* About Section - Updated Design */}
+        <section className="py-16 md:py-24 bg-secondary/30">
+          <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
+            <div className="flex justify-center items-center md:order-2">
                  <Image
-                  src="https://picsum.photos/500/350" // Placeholder image
-                  alt="Student learning electronics"
+                  src="https://picsum.photos/id/24/500/350" // Placeholder - change ID
+                  alt="Student or engineer working with electronics components and schematics"
                   width={500}
                   height={350}
-                  className="rounded-lg shadow-lg object-cover"
-                  data-ai-hint="student engineer working electronics desk"
+                  className="rounded-lg shadow-xl object-cover aspect-[4/3]"
+                  data-ai-hint="engineer student working electronics pcb schematic desk" // Updated hint
                 />
             </div>
-             <div className="space-y-4 text-center md:text-left">
-              <h2 className="text-3xl font-bold">What is SmartPrep?</h2>
-              <p className="text-muted-foreground text-lg">
-                SmartPrep is your go-to resource for reinforcing core networking and electronics knowledge. Whether you're studying for an exam, refreshing your skills, or tackling a practical problem, our interactive quizzes and handy calculators provide the support you need.
+             <div className="space-y-5 md:order-1 text-center md:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold">What is SmartPrep?</h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                SmartPrep is your dedicated platform for mastering core networking and electronics concepts. We bridge theory and practice with interactive quizzes featuring AI explanations and a suite of essential calculation tools.
               </p>
-               <p className="text-muted-foreground text-lg">
-                 Designed with clarity and ease-of-use in mind, SmartPrep helps bridge the gap between theory and application.
+               <p className="text-lg text-muted-foreground leading-relaxed">
+                 Designed for clarity and ease-of-use, SmartPrep helps students and professionals build confidence and tackle real-world challenges.
               </p>
+               <Button asChild variant="outline" className="mt-4">
+                 <Link href="/quiz">Explore Quizzes <ArrowRight className="ml-2 h-4 w-4" /></Link>
+               </Button>
             </div>
           </div>
         </section>
+
+        {/* Recent Updates Section - Added */}
+        <section className="py-16 md:py-20 bg-background">
+            <div className="container mx-auto px-4 max-w-3xl">
+                <h2 className="text-3xl font-bold text-center mb-10">Recent Updates</h2>
+                <div className="space-y-6">
+                    {recentUpdates.map(update => (
+                        <div key={update.id} className="p-4 border rounded-lg bg-card flex items-start gap-4 shadow-sm">
+                            <div className="text-primary pt-1"><Settings size={20} /></div>
+                            <div className="flex-1">
+                                <p className="text-xs text-muted-foreground">{update.date}</p>
+                                <h3 className="font-semibold">{update.title}</h3>
+                                <p className="text-sm text-muted-foreground mt-1">{update.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                     {/* Link to a full changelog page if needed */}
+                     {/* <div className="text-center mt-8">
+                         <Button variant="link" asChild>
+                             <Link href="/changelog">View Full Changelog</Link>
+                         </Button>
+                     </div> */}
+                </div>
+            </div>
+        </section>
+
+
       </main>
 
-      <Footer /> {/* Add the Footer component */}
+      <Footer /> {/* Use the existing Footer component */}
     </div>
   );
 }
+
+    
