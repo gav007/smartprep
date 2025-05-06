@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useCallback, useRef } from 'react';
@@ -5,7 +6,7 @@ import type { Question, AnswerSelection } from '@/types/quiz';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { AlertCircle, CheckCircle, CircleAlert, RefreshCw, Home, Copy } from 'lucide-react';
+import { CheckCircle, CircleAlert, RefreshCw, Home, Copy } from 'lucide-react'; // Changed CircleCheckBig to CheckCircle if that was a typo
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast"; // Import useToast
 import { cn } from "@/lib/utils"; // Import cn for conditional classes
@@ -75,39 +76,43 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
 
             return (
               <AccordionItem key={questionId} value={`item-${index}`} className={cn("border-b rounded-lg mb-2 overflow-hidden", isCorrect ? "border-green-200 dark:border-green-700/50" : "border-destructive/30 dark:border-destructive/50")}>
-                {/* Trigger retains icon and copy button */}
-                 <AccordionTrigger className={cn("flex justify-between items-center p-3 transition-colors hover:bg-muted/50", isCorrect ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-destructive')}>
-                    <div className="flex items-center text-left group flex-1 min-w-0"> {/* Added flex-1 and min-w-0 */}
+                {/* The AccordionTrigger now only wraps the main clickable text/icon area.
+                    The copy Button is a sibling within the flex container.
+                    The outer div manages the overall header appearance and hover group for the copy button.
+                */}
+                <div className={cn("flex justify-between items-center p-3 group", isCorrect ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-destructive')}>
+                    <AccordionTrigger className="flex-1 p-0 hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 text-left rounded-sm"> {/* AccordionTrigger is now more minimal */}
+                      <div className="flex items-center min-w-0">
                         {isCorrect ? (
                           <CheckCircle className="h-5 w-5 mr-2 shrink-0" />
                         ) : (
                           <CircleAlert className="h-5 w-5 mr-2 shrink-0" />
                         )}
-                        <span className="flex-1 text-base font-medium mr-2 truncate">{index + 1}. {question.question}</span> {/* Added truncate */}
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className={cn("ml-auto h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity shrink-0", isCorrect ? "text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300" : "text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300")}
-                            onClick={(e) => { e.stopPropagation(); copyToClipboard(question.question, index, 'Question'); }}
-                            aria-label="Copy question text"
-                        >
-                           <Copy size={14} />
-                        </Button>
-                    </div>
-                </AccordionTrigger>
-                {/* Content now uses the div with styling */}
-                <AccordionContent className="pt-0 pb-0 px-0"> {/* Remove default padding */}
-                    {/* Wrapper div for styling and overflow control */}
-                    <div className="bg-background p-4 border-t border-border space-y-3"> {/* Added border-t */}
+                        <span className="flex-1 text-base font-medium mr-2 truncate">{index + 1}. {question.question}</span>
+                      </div>
+                    </AccordionTrigger>
+                    {/* Copy button is now a sibling to AccordionTrigger, within the shared header div */}
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className={cn("ml-2 h-6 w-6 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity shrink-0", isCorrect ? "text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300" : "text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300")}
+                        onClick={(e) => { e.stopPropagation(); copyToClipboard(question.question, index, 'Question'); }}
+                        aria-label="Copy question text"
+                    >
+                       <Copy size={14} />
+                    </Button>
+                </div>
+                <AccordionContent className="pt-0 pb-0 px-0">
+                    <div className="bg-background p-4 border-t border-border space-y-3">
                          <p><strong>Your Answer:</strong> {userAnswerLabel || (userAnswer?.selectedOption ? `"${userAnswer.selectedOption}" (Invalid)`: <span className="italic text-muted-foreground">Not answered</span>)} {isCorrect ? <span className="text-green-700 dark:text-green-400">(Correct)</span> : <span className="text-destructive">(Incorrect)</span>}</p>
                         {!isCorrect && <p><strong>Correct Answer:</strong> {correctAnswerLabel || `"${question.answer}" (Invalid)`}</p>}
                         {question.feedback && (
-                            <div className="relative group/feedback"> {/* Wrapper for positioning copy button */}
+                            <div className="relative group/feedback">
                                 <p className="text-muted-foreground italic pr-8"><strong>Feedback:</strong> {question.feedback}</p>
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="absolute top-0 right-0 h-6 w-6 text-muted-foreground opacity-0 group-hover/feedback:opacity-100 transition-opacity"
+                                    className="absolute top-0 right-0 h-6 w-6 text-muted-foreground opacity-0 group-hover/feedback:opacity-100 focus-visible:opacity-100 transition-opacity"
                                     onClick={(e) => {e.stopPropagation(); copyToClipboard(question.feedback, index, 'Feedback'); }}
                                     aria-label="Copy feedback text"
                                 >
@@ -122,14 +127,15 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
           })}
         </Accordion>
       </CardContent>
-      <CardFooter className="flex justify-center space-x-4 p-6 bg-muted/30 rounded-b-lg">
-        <Button variant="outline" onClick={onRestart}>
+      <CardFooter className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 p-6 bg-muted/30 rounded-b-lg">
+        <Button variant="outline" onClick={onRestart} className="w-full sm:w-auto">
           <RefreshCw className="mr-2 h-4 w-4" /> Select New Quiz
         </Button>
-        <Button variant="default" onClick={onGoHome}>
+        <Button variant="default" onClick={onGoHome} className="w-full sm:w-auto">
           <Home className="mr-2 h-4 w-4" /> Go Home
         </Button>
       </CardFooter>
     </Card>
   );
 }
+
