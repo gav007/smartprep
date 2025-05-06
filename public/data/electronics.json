@@ -1,0 +1,1719 @@
+
+[
+    {
+    "question": "What is the peak output voltage of a full-wave bridge rectifier if the transformer's peak secondary voltage is 20 V and each diode has a 0.7 V drop?",
+    "options": {
+      "A": "20 V",
+      "B": "19.3 V",
+      "C": "18.6 V",
+      "D": "17.2 V"
+    },
+    "answer": "C",
+    "feedback": "Each conduction path in a full-wave bridge rectifier has two diodes, so the total drop is 2 × 0.7 V = 1.4 V. Therefore, Vout(PK) = 20 V - 1.4 V = 18.6 V."
+  },
+  {
+    "question": "In a voltage divider with R1 = 3.3 kΩ and R2 = 6.6 kΩ connected to 12 V, what is the voltage across R2?",
+    "options": {
+      "A": "4 V",
+      "B": "6 V",
+      "C": "8 V",
+      "D": "9 V"
+    },
+    "answer": "C",
+    "feedback": "Voltage across R2 = 12 V × R2 / (R1 + R2) = 12 × 6.6 / (3.3 + 6.6) = 8 V."
+  },
+  {
+    "question": "What is the angular frequency (ω) of a sinusoidal signal with frequency 5 kHz?",
+    "options": {
+      "A": "314 rad/s",
+      "B": "5000 rad/s",
+      "C": "31416 rad/s",
+      "D": "7850 rad/s"
+    },
+    "answer": "C",
+    "feedback": "Angular frequency ω = 2πf = 2 × π × 5000 ≈ 31416 rad/s."
+  },
+  {
+    "question": "In a non-inverting op-amp with Rf = 200 kΩ and R1 = 10 kΩ, what is the voltage gain?",
+    "options": {
+      "A": "20",
+      "B": "21",
+      "C": "200",
+      "D": "201"
+    },
+    "answer": "B",
+    "feedback": "Gain for a non-inverting amplifier is 1 + (Rf/R1) = 1 + (200k/10k) = 1 + 20 = 21."
+  },
+  {
+    "question": "What is the total resistance of two resistors in series: R1 = 2.2 kΩ and R2 = 3.3 kΩ?",
+    "options": {
+      "A": "1.1 kΩ",
+      "B": "5.5 kΩ",
+      "C": "7.2 kΩ",
+      "D": "0.55 kΩ"
+    },
+    "answer": "B",
+    "feedback": "Series resistance adds directly: Rtotal = R1 + R2 = 2.2 kΩ + 3.3 kΩ = 5.5 kΩ."
+  },
+  {
+    "question": "If a 12 V supply is connected across a 6 kΩ and 6 kΩ series combination, what is the voltage at the midpoint (node X)?",
+    "options": {
+      "A": "6 V",
+      "B": "4 V",
+      "C": "3 V",
+      "D": "8 V"
+    },
+    "answer": "A",
+    "feedback": "Both resistors are equal. Voltage divides equally: Vx = 12 V × (6 / 12) = 6 V."
+  },
+  {
+    "question": "A 24 V supply powers two resistors in series: R1 = 4.7 kΩ and R2 = 2.3 kΩ. What is the current through the circuit?",
+    "options": {
+      "A": "3.43 mA",
+      "B": "3.19 mA",
+      "C": "2.98 mA",
+      "D": "4.87 mA"
+    },
+    "answer": "A",
+    "feedback": "Total resistance = 4.7 kΩ + 2.3 kΩ = 7 kΩ. Current = V/R = 24 / 7000 ≈ 3.43 mA"
+  },
+  {
+    "question": "Given a voltage divider with R1 = 8.2 kΩ and R2 = 1.8 kΩ connected to 24 V, what is the voltage across R2?",
+    "options": {
+      "A": "4.32 V",
+      "B": "6.01 V",
+      "C": "12.00 V",
+      "D": "19.7 V"
+    },
+    "answer": "A",
+    "feedback": "Vout = Vin × R2 / (R1 + R2) = 24 × 1.8 / (8.2 + 1.8) = 24 × 0.18 = 4.32 V."
+  },
+  {
+    "question": "A resistor of 2.2 kΩ has 15 V across it. What power is dissipated?",
+    "options": {
+      "A": "0.10 W",
+      "B": "0.08 W",
+      "C": "0.12 W",
+      "D": "0.15 W"
+    },
+    "answer": "A",
+    "feedback": "P = V² / R = 15² / 2200 = 225 / 2200 ≈ 0.1023 W ≈ 0.102 W ≈ 0.10 W. So correct answer is A.)"
+  },
+  {
+    "question": "In a voltage divider, what happens to node voltage X if R1 increases and R2 stays the same?",
+    "options": {
+      "A": "Voltage at X increases",
+      "B": "Voltage at X decreases",
+      "C": "Voltage at X remains unchanged",
+      "D": "Voltage at X becomes negative"
+    },
+    "answer": "B",
+    "feedback": "As R1 increases, more voltage is dropped across R1, leaving less for R2 (node X). So voltage at X decreases."
+  },
+  {
+    "question": "You need 6 V from a 24 V supply using a voltage divider. R2 is 2 kΩ. What value should R1 be?",
+    "options": {
+      "A": "2 kΩ",
+      "B": "6 kΩ",
+      "C": "10 kΩ",
+      "D": "8 kΩ"
+    },
+    "answer": "B",
+    "feedback": "Using the voltage divider formula: Vout = Vin × R2 / (R1 + R2) ⇒ 6 = 24 × 2 / (R1 + 2) ⇒ R1 = 6 kΩ."
+  },
+  {
+    "question": "Two resistors, R1 = 4.7 kΩ and R2 = 2.2 kΩ, are in parallel across a 12 V supply. What is the total current drawn from the supply?",
+    "options": {
+      "A": "4.03 mA",
+      "B": "6.15 mA",
+      "C": "8.01 mA",
+      "D": "9.45 mA"
+    },
+    "answer": "C",
+    "feedback": "Calculate total resistance using 1/Rt = 1/4700 + 1/2200 ≈ 0.0006673 → Rt ≈ 1498.55 Ω. Then, current = 12 / 1498.5 ≈ 8.01 mA."
+  },
+  {
+    "question": "A voltage of 10 V is required at node X. If resistor R1 = 6.4 kΩ, what value of resistor R2 will give this voltage from a 24 V supply?",
+    "options": {
+      "A": "3.9 kΩ",
+      "B": "4.2 kΩ",
+      "C": "4.57 kΩ",
+      "D": "5.1 kΩ"
+    },
+    "answer": "C",
+    "feedback": "Using the voltage divider formula: Vout = Vin × R2 / (R1 + R2). Substituting values: 10 = 24 × R2 / (6400 + R2) leads to R2 ≈ 4571.43 Ω = 4.57 kΩ."
+  },
+  {
+    "question": "Two resistors, R1 = 6.4 kΩ and R2 = 1.6 kΩ, are in parallel across a 12 V supply. What is the total current drawn from the supply?",
+    "options": {
+      "A": "7.21 mA",
+      "B": "8.43 mA",
+      "C": "9.38 mA",
+      "D": "10.25 mA"
+    },
+    "answer": "C",
+    "feedback": "First calculate total resistance using parallel formula: Rt = 1 / (1/6400 + 1/1600) ≈ 1280 Ω. Then, total current = 12 / 1280 ≈ 9.375 mA."
+  },
+  {
+    "question": "Three resistors are connected in series: R1 = 1.2 kΩ, R2 = 2.7 kΩ, and R3 = 3.3 kΩ. What is the total resistance?",
+    "options": {
+      "A": "6.2 kΩ",
+      "B": "7.2 kΩ",
+      "C": "8.2 kΩ",
+      "D": "9.2 kΩ"
+    },
+    "answer": "B",
+    "feedback": "In series, resistances add: Rt = 1.2 kΩ + 2.7 kΩ + 3.3 kΩ = 7.2 kΩ."
+  },
+  {
+    "question": "What is the total resistance of this network: R1 = 1 kΩ in series with a parallel combination of R2 = 2 kΩ and R3 = 3 kΩ?",
+    "options": {
+      "A": "2.2 kΩ",
+      "B": "2.5 kΩ",
+      "C": "2.8 kΩ",
+      "D": "3.0 kΩ"
+    },
+    "answer": "A",
+    "feedback": "Parallel part: 1/Rp = 1/2000 + 1/3000 = 0.0005 + 0.000333 = 0.000833 → Rp ≈ 1200 Ω. Total R = R1 + Rp = 1000 + 1200 = 2200 Ω = 2.2 kΩ."
+  },
+  {
+    "question": "A 24 V supply is connected to three series resistors: R1 = 1.5 kΩ, R2 = 2.2 kΩ, and R3 = 1.3 kΩ. What is the current in the circuit?",
+    "options": {
+      "A": "3.6 mA",
+      "B": "4.2 mA",
+      "C": "4.8 mA",
+      "D": "5.4 mA"
+    },
+    "answer": "C",
+    "feedback": "Total resistance is 1500 + 2200 + 1300 = 5000 Ω. Then I = V / R = 24 / 5000 = 4.8 mA."
+  },
+  {
+    "question": "A 15 V supply is connected to two resistors in series: R1 = 1 kΩ, R2 = 2 kΩ. What is the voltage across R2?",
+    "options": {
+      "A": "5 V",
+      "B": "7.5 V",
+      "C": "10 V",
+      "D": "12.5 V"
+    },
+    "answer": "C",
+    "feedback": "Current is 15 V / (1 kΩ + 2 kΩ) = 5 mA. Then V_R2 = I × R2 = 0.005 × 2000 = 10 V."
+  },
+  {
+    "question": "A 12 V supply is connected across two resistors in series: R1 = 2 kΩ and R2 = 4 kΩ. What is the total power drawn from the supply?",
+    "options": {
+      "A": "12 mW",
+      "B": "18 mW",
+      "C": "24 mW",
+      "D": "30 mW"
+    },
+    "answer": "C",
+    "feedback": "Total resistance = 6 kΩ, so current = 12 / 6000 = 0.002 A. Power = V × I = 12 × 0.002 = 24 mW."
+  },
+  {
+    "question": "In a voltage divider circuit with a 12 V supply, R1 = 3.3 kΩ and R2 = 6.6 kΩ are connected in series. What is the voltage at the node between the two resistors?",
+    "options": {
+      "A": "4 V",
+      "B": "6 V",
+      "C": "8 V",
+      "D": "10 V"
+    },
+    "answer": "C",
+    "feedback": "Using voltage divider: Vx = 12 × (6.6 / (3.3 + 6.6)) = 12 × 2/3 = 8 V."
+  },
+  {
+    "question": "Resistors R1 = 3 kΩ and R2 = 2 kΩ are in series across 10 V. If R1 is +5% and R2 is −5%, what is the voltage at the node between them (between R1 and R2)?",
+    "options": {
+      "A": "3.76 V",
+      "B": "5.00 V",
+      "C": "5.56 V",
+      "D": "6.24 V"
+    },
+    "answer": "A",
+    "feedback": "Adjusted values: R1 = 3 kΩ + 5% = 3.15 kΩ, R2 = 2 kΩ - 5% = 1.9 kΩ. Total resistance = 3.15 kΩ + 1.9 kΩ = 5.05 kΩ. Voltage at the node (across R2) = V_supply × (R2_adjusted / R_total) = 10 V × (1.9 kΩ / 5.05 kΩ) ≈ 10 V × 0.3762 = 3.76 V."
+  },
+  {
+    "question": "A 15 V supply is applied to three resistors in series: R1 = 1 kΩ, R2 = 2 kΩ, and R3 = 3 kΩ. Which resistor has the greatest voltage drop?",
+    "options": {
+      "A": "R1",
+      "B": "R2",
+      "C": "R3",
+      "D": "All the same"
+    },
+    "answer": "C",
+    "feedback": "In a series circuit, the largest resistor drops the most voltage. R3 = 3 kΩ is the largest, so it has the greatest voltage drop."
+  },
+  {
+    "question": "A current of 0.007 A flows through a series circuit. What is this current in mA?",
+    "options": {
+      "A": "0.007 mA",
+      "B": "0.7 mA",
+      "C": "7 mA",
+      "D": "70 mA"
+    },
+    "answer": "C",
+    "feedback": "1 A = 1000 mA, so 0.007 A = 0.007 × 1000 = 7 mA."
+  },
+  {
+    "question": "What is the resistance of 4.7 kΩ in ohms (Ω)?",
+    "options": {
+      "A": "470 Ω",
+      "B": "4700 Ω",
+      "C": "47000 Ω",
+      "D": "4.7 Ω"
+    },
+    "answer": "B",
+    "feedback": "1 kΩ = 1000 Ω, so 4.7 kΩ = 4.7 × 1000 = 4700 Ω."
+  },
+  {
+    "question": "What is the resistance of 8200 Ω in kilohms (kΩ)?",
+    "options": {
+      "A": "8.2 kΩ",
+      "B": "0.82 kΩ",
+      "C": "82 kΩ",
+      "D": "0.0082 kΩ"
+    },
+    "answer": "A",
+    "feedback": "1 kΩ = 1000 Ω, so 8200 Ω = 8200 / 1000 = 8.2 kΩ."
+  },
+  {
+    "question": "Convert 250 µA (microamps) to milliamps (mA).",
+    "options": {
+      "A": "0.025 mA",
+      "B": "0.25 mA",
+      "C": "2.5 mA",
+      "D": "25 mA"
+    },
+    "answer": "B",
+    "feedback": "1 mA = 1000 µA, so 250 µA = 250 / 1000 = 0.25 mA."
+  },
+  {
+    "question": "Convert 0.12 V to millivolts (mV).",
+    "options": {
+      "A": "12 mV",
+      "B": "0.12 mV",
+      "C": "120 mV",
+      "D": "1200 mV"
+    },
+    "answer": "C",
+    "feedback": "1 V = 1000 mV, so 0.12 V = 0.12 × 1000 = 120 mV."
+  },
+  {
+    "question": "Convert 2500 mV to volts (V).",
+    "options": {
+      "A": "0.25 V",
+      "B": "2.5 V",
+      "C": "25 V",
+      "D": "250 V"
+    },
+    "answer": "B",
+    "feedback": "1000 mV = 1 V, so 2500 mV = 2500 / 1000 = 2.5 V."
+  },
+  {
+    "question": "A current of 0.002 A flows through a 1.5 kΩ resistor. What is the voltage across it in millivolts (mV)?",
+    "options": {
+      "A": "30 mV",
+      "B": "300 mV",
+      "C": "1500 mV",
+      "D": "3000 mV"
+    },
+    "answer": "D",
+    "feedback": "V = I × R = 0.002 A × 1500 Ω = 3 V = 3000 mV."
+  },
+  {
+    "question": "A 4.7 kΩ resistor has 1 V across it. What is the current in microamps (µA)?",
+    "options": {
+      "A": "21.3 µA",
+      "B": "47.0 µA",
+      "C": "212.8 µA",
+      "D": "470 µA"
+    },
+    "answer": "C",
+    "feedback": "I = V / R = 1 V / 4700 Ω = 0.0002128 A = 212.8 µA."
+  },
+  {
+    "question": "A voltage of 5 V causes a current of 1 mA to flow in a resistor. What is the resistance in kilohms (kΩ)?",
+    "options": {
+      "A": "0.2 kΩ",
+      "B": "2 kΩ",
+      "C": "5 kΩ",
+      "D": "50 kΩ"
+    },
+    "answer": "C",
+    "feedback": "R = V / I = 5 V / 0.001 A = 5000 Ω = 5 kΩ."
+  },
+  {
+    "question": "A 12 V battery is connected across a 3 kΩ resistor. What is the current in milliamps (mA)?",
+    "options": {
+      "A": "0.25 mA",
+      "B": "4 mA",
+      "C": "12 mA",
+      "D": "36 mA"
+    },
+    "answer": "B",
+    "feedback": "I = V / R = 12 V / 3000 Ω = 0.004 A = 4 mA."
+  },
+  {
+    "question": "A resistor has a voltage of 6 V across it and draws 0.01 A of current. What is the power dissipated in milliwatts (mW)?",
+    "options": {
+      "A": "6 mW",
+      "B": "60 mW",
+      "C": "600 mW",
+      "D": "0.6 mW"
+    },
+    "answer": "B",
+    "feedback": "P = V × I = 6 V × 0.01 A = 0.06 W = 60 mW."
+  },
+  {
+    "question": "A current of 0.000045 A flows through a resistor. What is the current in microamps (µA)?",
+    "options": {
+      "A": "0.45 µA",
+      "B": "4.5 µA",
+      "C": "45 µA",
+      "D": "450 µA"
+    },
+    "answer": "C",
+    "feedback": "1 A = 1,000,000 µA, so 0.000045 A = 0.000045 × 1,000,000 = 45 µA."
+  },
+  {
+    "question": "What is the resistance of 0.75 MΩ in kilohms (kΩ)?",
+    "options": {
+      "A": "7.5 kΩ",
+      "B": "75 kΩ",
+      "C": "750 kΩ",
+      "D": "7500 kΩ"
+    },
+    "answer": "C",
+    "feedback": "1 MΩ = 1000 kΩ, so 0.75 MΩ = 0.75 × 1000 = 750 kΩ."
+  },  
+  {
+    "question": "Convert 9000 µV to millivolts (mV).",
+    "options": {
+      "A": "0.009 mV",
+      "B": "0.9 mV",
+      "C": "9 mV",
+      "D": "90 mV"
+    },
+    "answer": "C",
+    "feedback": "1 mV = 1000 µV, so 9000 µV = 9000 ÷ 1000 = 9 mV."
+  },
+  {
+    "question": "A voltage of 2 V is applied across a 100 kΩ resistor. What is the current in microamps (µA)?",
+    "options": {
+      "A": "0.2 µA",
+      "B": "2 µA",
+      "C": "20 µA",
+      "D": "200 µA"
+    },
+    "answer": "C",
+    "feedback": "I = V / R = 2 V / 100000 Ω = 0.00002 A = 20 µA."
+  },
+  {
+    "question": "A power consumption of 0.015 W is measured. What is this power in milliwatts (mW)?",
+    "options": {
+      "A": "0.15 mW",
+      "B": "1.5 mW",
+      "C": "15 mW",
+      "D": "150 mW"
+    },
+    "answer": "C",
+    "feedback": "1 W = 1000 mW, so 0.015 W = 15 mW."
+  },
+  {
+    "question": "A 2 mA current flows through a 3.3 kΩ resistor in a series circuit. What is the voltage drop across the resistor in millivolts (mV)?",
+    "options": {
+      "A": "660 mV",
+      "B": "6.6 mV",
+      "C": "6600 mV",
+      "D": "13200 mV"
+    },
+    "answer": "C",
+    "feedback": "I = 2 mA = 0.002 A, R = 3.3 kΩ = 3300 Ω. V = IR = 0.002 × 3300 = 6.6 V = 6600 mV."
+  },
+  {
+    "question": "A 5 V supply is connected across a 100 kΩ resistor in a parallel branch. What is the current through that resistor in microamps (µA)?",
+    "options": {
+      "A": "0.5 µA",
+      "B": "5 µA",
+      "C": "50 µA",
+      "D": "500 µA"
+    },
+    "answer": "C",
+    "feedback": "I = V / R = 5 V / 100000 Ω = 0.00005 A = 50 µA."
+  },
+  {
+    "question": "A 4 V battery supplies current to a 2.2 kΩ resistor in series. What is the power dissipated by the resistor in milliwatts (mW)?",
+    "options": {
+      "A": "3.63 mW",
+      "B": "7.27 mW",
+      "C": "8.80 mW",
+      "D": "17.6 mW"
+    },
+    "answer": "B",
+    "feedback": "I = 4 V / 2200 Ω ≈ 0.001818 A. P = I²R ≈ (0.001818)² × 2200 ≈ 7.27 mW."
+  },
+  {
+    "question": "A device draws 25 mA of current from a 9 V supply. What is its resistance in ohms (Ω)?",
+    "options": {
+      "A": "225 Ω",
+      "B": "360 Ω",
+      "C": "400 Ω",
+      "D": "625 Ω"
+    },
+    "answer": "B",
+    "feedback": "I = 25 mA = 0.025 A. R = V / I = 9 / 0.025 = 360 Ω."
+  },
+  {
+    "question": "A 10 V source is connected across two series resistors: 1.2 kΩ and 2.8 kΩ. What is the total current in milliamps (mA)?",
+    "options": {
+      "A": "0.25 mA",
+      "B": "2.5 mA",
+      "C": "25 mA",
+      "D": "40 mA"
+    },
+    "answer": "B",
+    "feedback": "Total resistance = 4000 Ω. I = 10 / 4000 = 0.0025 A = 2.5 mA."
+  },
+  {
+    "question": "A 9 V battery is connected in series with a 2.2 kΩ resistor and a 330 Ω resistor. What is the total current flowing through the circuit in microamps (µA)?",
+    "options": {
+      "A": "356 µA",
+      "B": "1122 µA",
+      "C": "3556 µA",
+      "D": "3930 µA"
+    },
+    "answer": "C",
+    "feedback": "Total resistance = 2.2 kΩ + 330 Ω = 2530 Ω. Current = 9 V / 2530 Ω ≈ 0.003556 A = 3556 µA."
+  },
+  {
+    "question": "A 12 V source powers a series circuit with a resistor of 4.7 kΩ. What is the current in milliamps (mA)?",
+    "options": {
+      "A": "0.26 mA",
+      "B": "2.55 mA",
+      "C": "25.5 mA",
+      "D": "255 mA"
+    },
+    "answer": "B",
+    "feedback": "I = V / R = 12 / 4700 = 0.002553 A = 2.55 mA."
+  },
+  {
+    "question": "A 6 V source is connected across a 3 kΩ resistor. What is the power dissipated in milliwatts (mW)?",
+    "options": {
+      "A": "1.2 mW",
+      "B": "6 mW",
+      "C": "12 mW",
+      "D": "18 mW"
+    },
+    "answer": "C",
+    "feedback": "P = V² / R = 36 / 3000 = 0.012 W = 12 mW."
+  },
+  {
+    "question": "A current of 4.2 mA flows through a 470 Ω resistor. What is the voltage across the resistor in volts (V)?",
+    "options": {
+      "A": "0.197 V",
+      "B": "1.974 V",
+      "C": "19.74 V",
+      "D": "1974 V"
+    },
+    "answer": "B",
+    "feedback": "I = 4.2 mA = 0.0042 A. V = I × R = 0.0042 × 470 = 1.974 V."
+  },
+  {
+    "question": "Two resistors (1.2 kΩ and 2.4 kΩ) are connected in series across 12 V. What is the power dissipated by the 2.4 kΩ resistor, in milliwatts?",
+    "options": {
+      "A": "8.9 mW",
+      "B": "13.3 mW",
+      "C": "26.6 mW",
+      "D": "36.0 mW"
+    },
+    "answer": "C",
+    "feedback": "Total R = 1.2 kΩ + 2.4 kΩ = 3.6 kΩ. I = 12 / 3600 = 0.00333 A. P = I² × 2400 ≈ 26.6 mW."
+  },
+  {
+    "question": "What is the total resistance of two resistors, 6 Ω and 3 Ω, connected in parallel?",
+    "options": {
+      "A": "1.5 Ω",
+      "B": "2 Ω",
+      "C": "3 Ω",
+      "D": "4.5 Ω"
+    },
+    "answer": "B",
+    "feedback": "1/Rt = 1/6 + 1/3 = 1/2, so Rt = 2 Ω."
+  },
+  {
+    "question": "Two resistors of 10 Ω each are connected in parallel. What is the total resistance?",
+    "options": {
+      "A": "2 Ω",
+      "B": "5 Ω",
+      "C": "10 Ω",
+      "D": "20 Ω"
+    },
+    "answer": "B",
+    "feedback": "For equal resistors in parallel, Rt = R / number = 10 / 2 = 5 Ω."
+  },
+  {
+    "question": "What is the total resistance of 8 Ω and 1000 Ω connected in parallel?",
+    "options": {
+      "A": "10.5 Ω",
+      "B": "5.2 Ω",
+      "C": "7.94 Ω",
+      "D": "1008 Ω"
+    },
+    "answer": "C",
+    "feedback": "1/Rt = 1/8 + 1/1000 ≈ 0.126, so Rt ≈ 7.94 Ω."
+  },
+  {
+    "question": "What is the total resistance of 6 Ω, 3 Ω, and 2 Ω connected in parallel?",
+    "options": {
+      "A": "0.5 Ω",
+      "B": "1 Ω",
+      "C": "2 Ω",
+      "D": "3 Ω"
+    },
+    "answer": "B",
+    "feedback": "1/Rt = 1/6 + 1/3 + 1/2 = 1, so Rt = 1 Ω."
+  },
+  {
+    "question": "Two resistors of 1 Ω and 1 Ω are in parallel. What is the total resistance?",
+    "options": {
+      "A": "0.5 Ω",
+      "B": "1 Ω",
+      "C": "2 Ω",
+      "D": "0.25 Ω"
+    },
+    "answer": "A",
+    "feedback": "Two equal resistors in parallel: Rt = R / 2 = 1 / 2 = 0.5 Ω."
+  },
+  {
+    "question": "What is the total resistance of 12 Ω, 6 Ω, and 4 Ω connected in parallel?",
+    "options": {
+      "A": "1.5 Ω",
+      "B": "2 Ω",
+      "C": "3 Ω",
+      "D": "4 Ω"
+    },
+    "answer": "B",
+    "feedback": "1/Rt = 1/12 + 1/6 + 1/4 = 6/12 = 1/2, so Rt = 2 Ω."
+  },
+  {
+    "question": "A 12 V battery is connected to two resistors in parallel: 6 Ω and 3 Ω. What is the current through the 3 Ω resistor?",
+    "options": {
+      "A": "2 A",
+      "B": "3 A",
+      "C": "4 A",
+      "D": "6 A"
+    },
+    "answer": "C",
+    "feedback": "Current through the 3 Ω resistor = 12 / 3 = 4 A (Ohm’s Law)."
+  },
+  {
+    "question": "In a parallel circuit, a 10 V supply is across a 5 Ω resistor. How much power is dissipated in that resistor?",
+    "options": {
+      "A": "5 W",
+      "B": "10 W",
+      "C": "20 W",
+      "D": "50 W"
+    },
+    "answer": "C",
+    "feedback": "P = V² / R = 10² / 5 = 100 / 5 = 20 W."
+  },
+  {
+    "question": "Two resistors are in parallel. One is 4 Ω, and the total resistance is 2 Ω. What is the value of the second resistor?",
+    "options": {
+      "A": "2 Ω",
+      "B": "3 Ω",
+      "C": "4 Ω",
+      "D": "6 Ω"
+    },
+    "answer": "C",
+    "feedback": "1/Rt = 1/4 + 1/x = 1/2 → 1/x = 1/4 → x = 4 Ω. Both must be 4 Ω to halve to 2 Ω."
+  },
+  {
+    "question": "A 6 V battery is connected to two parallel resistors: 2 Ω and 3 Ω. What is the total current drawn from the supply?",
+    "options": {
+      "A": "1.5 A",
+      "B": "3 A",
+      "C": "5 A",
+      "D": "6 A"
+    },
+    "answer": "C",
+    "feedback": "Current in 2 Ω = 3 A, in 3 Ω = 2 A → total = 5 A."
+  },
+  {
+    "question": "A 12 V battery is connected to a circuit where two 6 Ω resistors are in parallel, and this pair is in series with a 3 Ω resistor. What is the total current drawn from the supply in milliamps (mA)?",
+    "options": {
+      "A": "1000 mA",
+      "B": "1500 mA",
+      "C": "2000 mA",
+      "D": "3000 mA"
+    },
+    "answer": "C",
+    "feedback": "Two 6 Ω in parallel = 3 Ω. Add 3 Ω in series = 6 Ω total. I = V / R = 12 / 6 = 2 A = 2000 mA."
+  },
+  {
+    "question": "A 9 V battery is in series with a 1 Ω resistor. After that, the circuit splits into two parallel resistors: 2 Ω and 3 Ω. What is the current through the 2 Ω branch in milliamps (mA)?",
+    "options": {
+      "A": "1636 mA",
+      "B": "2000 mA",
+      "C": "2460 mA",
+      "D": "3000 mA"
+    },
+    "answer": "C",
+    "feedback": "Total R ≈ 2.2 Ω. Total I ≈ 4.09 A. Drop across 1 Ω ≈ 4.09 V, so V_parallel ≈ 4.91 V. I = 4.91 / 2 = 2.46 A = 2460 mA."
+  },
+  {
+    "question": "A 10 V battery powers a circuit with a 2 Ω resistor in series with two 4 Ω resistors in parallel. What is the total power drawn in milliwatts (mW)?",
+    "options": {
+      "A": "5000 mW",
+      "B": "10000 mW",
+      "C": "25000 mW",
+      "D": "40000 mW"
+    },
+    "answer": "C",
+    "feedback": "Two 4 Ω in parallel = 2 Ω, plus 2 Ω in series = 4 Ω total. I = 10 / 4 = 2.5 A. Power = 10 × 2.5 = 25 W = 25000 mW."
+  },
+  {
+    "question": "A 1 Ω resistor is in series with two 2 Ω resistors in parallel. What is the total resistance?",
+    "options": {
+      "A": "1.5 Ω",
+      "B": "2 Ω",
+      "C": "2.5 Ω",
+      "D": "3 Ω"
+    },
+    "answer": "B",
+    "feedback": "Two 2 Ω resistors in parallel = 1 Ω. In series with 1 Ω = 2 Ω total."
+  },
+  {
+    "question": "A sinusoidal voltage has a frequency of 2 kHz. What is its angular frequency ω in rad/s?",
+    "options": {
+      "A": "6283 rad/s",
+      "B": "12566 rad/s",
+      "C": "3141 rad/s",
+      "D": "2000 rad/s"
+    },
+    "answer": "B",
+    "feedback": "ω = 2πf = 2π × 2000 ≈ 12566 rad/s."
+  },
+  {
+    "question": "A sinusoidal voltage has a frequency of 5 kHz. What is its period T in milliseconds?",
+    "options": {
+      "A": "0.02 ms",
+      "B": "0.2 ms",
+      "C": "2 ms",
+      "D": "5 ms"
+    },
+    "answer": "B",
+    "feedback": "T = 1 / f = 1 / 5000 = 0.0002 s = 0.2 ms."
+  },
+  {
+    "question": "A sinusoidal signal has a peak voltage of 14.14 V. What is its RMS voltage?",
+    "options": {
+      "A": "7.07 V",
+      "B": "10 V",
+      "C": "12 V",
+      "D": "20 V"
+    },
+    "answer": "B",
+    "feedback": "Vrms = Vpeak / √2 = 14.14 / 1.414 = 10 V."
+  },
+  {
+    "question": "Given v(t) = 10 sin(2000πt + π/4), what is the voltage at t = 0.25 ms?",
+    "options": {
+      "A": "0 V",
+      "B": "5.00 V",
+      "C": "7.07 V",
+      "D": "10.00 V"
+    },
+    "answer": "C",
+    "feedback": "v(t) = 10 sin(2000π × 0.00025 + π/4) = 10 sin(3π/4) = 10 × 0.7071 ≈ 7.07 V."
+  },
+  {
+    "question": "Given v(t) = 12 sin(6000πt + π/6), what is the voltage at t = 0.25 ms?",
+    "options": {
+      "A": "-12.00 V",
+      "B": "-10.39 V",
+      "C": "-6.00 V",
+      "D": "0.00 V"
+    },
+    "answer": "B",
+    "feedback": "θ = 6000π × 0.00025 + π/6 = 1.5π + π/6 = 5π/3. sin(5π/3) ≈ -0.866. v = 12 × -0.866 = -10.39 V."
+  },
+  {
+    "question": "Given v(t) = 5 sin(8000πt), what is the voltage at t = 0.125 ms?",
+    "options": {
+      "A": "0 V",
+      "B": "2.5 V",
+      "C": "5 V",
+      "D": "-5 V"
+    },
+    "answer": "A",
+    "feedback": "θ = 8000π × 0.000125 = π → sin(π) = 0 → v = 0 V."
+  },
+  {
+    "question": "Given v(t) = 8 sin(3000πt + π/3), what is the voltage at t = 0.5 ms?",
+    "options": {
+      "A": "-4 V",
+      "B": "0 V",
+      "C": "4 V",
+      "D": "-8 V"
+    },
+    "answer": "A",
+    "feedback": "θ = 3000π × 0.0005 + π/3 = 1.5π + π/3 = 11π/6 → sin(11π/6) ≈ -0.5 → v = 8 × -0.5 = -4 V."
+  },
+  {
+    "question": "A voltage waveform is defined as v(t) = 14.14 cos(3140t). What is the RMS voltage?",
+    "options": {
+      "A": "7.07 V",
+      "B": "10 V",
+      "C": "12 V",
+      "D": "14.14 V"
+    },
+    "answer": "B",
+    "feedback": "RMS = Vpeak / √2 = 14.14 / 1.414 = 10 V."
+  },
+  {
+    "question": "A full-wave rectified sine wave has a peak voltage of 20 V. What is its average voltage?",
+    "options": {
+      "A": "10 V",
+      "B": "11.34 V",
+      "C": "12.73 V",
+      "D": "14.14 V"
+    },
+    "answer": "C",
+    "feedback": "Average voltage of full-wave rectified sine = (2 × Vpeak) / π = 40 / π ≈ 12.73 V."
+  },
+  {
+    "question": "A full-wave rectified sine wave has a peak voltage of 10 V. What is its RMS voltage?",
+    "options": {
+      "A": "5 V",
+      "B": "6.36 V",
+      "C": "7.07 V",
+      "D": "10 V"
+    },
+    "answer": "C",
+    "feedback": "RMS value for both sine and full-wave rectified sine = Vpeak / √2 = 10 / 1.414 ≈ 7.07 V."
+  },
+  {
+    "question": "Convert 90° to radians.",
+    "options": {
+      "A": "π/3",
+      "B": "π/2",
+      "C": "π",
+      "D": "2π"
+    },
+    "answer": "B",
+    "feedback": "Radians = degrees × (π / 180). So 90° = 90 × π / 180 = π/2."
+  },
+  {
+    "question": "Convert (3π/4) radians to degrees.",
+    "options": {
+      "A": "90°",
+      "B": "120°",
+      "C": "135°",
+      "D": "150°"
+    },
+    "answer": "C",
+    "feedback": "Degrees = radians × (180 / π). So (3π/4) × 180 / π = 135°."
+  },
+  {
+    "question": "Convert π radians to degrees.",
+    "options": {
+      "A": "90°",
+      "B": "180°",
+      "C": "360°",
+      "D": "45°"
+    },
+    "answer": "B",
+    "feedback": "π radians = π × (180 / π) = 180°."
+  },
+  {
+    "question": "Convert 60° to radians.",
+    "options": {
+      "A": "π/6",
+      "B": "π/4",
+      "C": "π/3",
+      "D": "π/2"
+    },
+    "answer": "C",
+    "feedback": "Radians = 60 × π / 180 = π/3."
+  },
+  {
+    "question": "Convert 1.047 radians to degrees (nearest whole number).",
+    "options": {
+      "A": "45°",
+      "B": "60°",
+      "C": "75°",
+      "D": "90°"
+    },
+    "answer": "B",
+    "feedback": "Degrees = 1.047 × 180 / π ≈ 60°."
+  },
+  {
+    "question": "A zener diode maintains a constant voltage of 9.1 V across a load. What type of diode is being used?",
+    "options": {
+      "A": "Forward-biased silicon diode",
+      "B": "Zener diode in reverse breakdown",
+      "C": "Schottky diode",
+      "D": "LED"
+    },
+    "answer": "B",
+    "feedback": "Zener diodes are operated in reverse breakdown to regulate voltage — 9.1 V is a typical zener breakdown voltage."
+  },
+  {
+    "question": "A 15 V supply is used to power a 9.1 V zener diode with a maximum current of 100 mA. What is the minimum value of the series resistor?",
+    "options": {
+      "A": "15 Ω",
+      "B": "47 Ω",
+      "C": "59 Ω",
+      "D": "91 Ω"
+    },
+    "answer": "C",
+    "feedback": "Rmin = (Vin − Vz) / Imax = (15 − 9.1) / 0.1 = 59 Ω."
+  },
+  {
+    "question": "A 9.1 V zener diode conducts 50 mA. What is the power dissipated by the diode?",
+    "options": {
+      "A": "0.091 W",
+      "B": "0.45 W",
+      "C": "0.91 W",
+      "D": "1.2 W"
+    },
+    "answer": "B",
+    "feedback": "P = V × I = 9.1 V × 0.05 A = 0.455 W."
+  },
+  {
+    "question": "A zener diode (Vz = 18 V, Imax = 61 mA) regulates an input voltage that peaks at 21 V. What is the minimum value of the series resistor?",
+    "options": {
+      "A": "33.02 Ω",
+      "B": "47.78 Ω",
+      "C": "49.18 Ω",
+      "D": "100.88 Ω"
+    },
+    "answer": "C",
+    "feedback": "R = (21 V − 18 V) / 0.061 A ≈ 49.18 Ω → minimum safe value is 49 Ω."
+  },
+  {
+    "question": "A zener diode with breakdown voltage 5.6 V is used in a regulator circuit with sufficient series resistance and supply voltage. What is the expected output voltage?",
+    "options": {
+      "A": "0.7 V",
+      "B": "5.6 V",
+      "C": "6.3 V",
+      "D": "12 V"
+    },
+    "answer": "B",
+    "feedback": "In regulation mode, the output voltage across the zener is equal to its breakdown voltage — 5.6 V."
+  },
+  {
+    "question": "A transformer provides 15 V peak to a bridge rectifier. Each diode drops 0.7 V. What is the peak output voltage?",
+    "options": {
+      "A": "14.3 V",
+      "B": "13.6 V",
+      "C": "15.0 V",
+      "D": "12.9 V"
+    },
+    "answer": "B",
+    "feedback": "Two diodes conduct in a bridge: Vout = 15 V − 1.4 V = 13.6 V."
+  },
+  {
+    "question": "A 50 Hz AC supply is connected to a full-wave bridge rectifier. What is the frequency of the output waveform?",
+    "options": {
+      "A": "25 Hz",
+      "B": "50 Hz",
+      "C": "100 Hz",
+      "D": "200 Hz"
+    },
+    "answer": "C",
+    "feedback": "Full-wave rectification doubles the frequency: 50 Hz input becomes 100 Hz output."
+  },
+  {
+    "question": "A full-wave rectifier has a peak output of 18 V. A filter capacitor is added. What is the approximate DC output voltage?",
+    "options": {
+      "A": "0 V",
+      "B": "9 V",
+      "C": "12.7 V",
+      "D": "18 V"
+    },
+    "answer": "D",
+    "feedback": "With a large capacitor, the output approximates the peak voltage: Vout ≈ 18 V DC."
+  },
+  {
+    "question": "An NPN transistor has VBB = 5 V, VBE = 0.7 V, and a base resistor RB = 47 kΩ. What is the base current IB?",
+    "options": {
+      "A": "7.0 µA",
+      "B": "50.0 µA",
+      "C": "91.5 µA",
+      "D": "107.0 µA"
+    },
+    "answer": "C",
+    "feedback": "IB = (VBB − VBE) / RB = (5 − 0.7) / 47000 = 4.3 / 47000 ≈ 91.5 µA."
+  },
+  {
+    "question": "A transistor has a base current IB = 80 µA and hFE = 100. What is the collector current IC?",
+    "options": {
+      "A": "0.8 mA",
+      "B": "8 mA",
+      "C": "80 mA",
+      "D": "100 mA"
+    },
+    "answer": "B",
+    "feedback": "IC = hFE × IB = 100 × 80 µA = 8000 µA = 8 mA."
+  },
+  {
+    "question": "In a biased transistor circuit with IC = 5 mA, RC = 2 kΩ, and VCC = 15 V, what is the collector-emitter voltage VCE? Assume RE = 0.",
+    "options": {
+      "A": "0 V",
+      "B": "5 V",
+      "C": "10 V",
+      "D": "15 V"
+    },
+    "answer": "B",
+    "feedback": "VCE = VCC − IC × RC = 15 − 5 mA × 2 kΩ = 15 − 10 = 5 V."
+  },
+  {
+    "question": "What happens to the voltage across each resistor in a parallel circuit?",
+    "options": {
+      "A": "It is divided based on resistance",
+      "B": "It is equal across all resistors",
+      "C": "It depends on the current through each resistor",
+      "D": "It is zero for the largest resistor"
+    },
+    "answer": "B",
+    "feedback": "In a parallel circuit, voltage is the same across all branches regardless of resistance."
+  },
+  {
+    "question": "What is the role of a capacitor in a full-wave rectified power supply?",
+    "options": {
+      "A": "Increases frequency",
+      "B": "Drops voltage",
+      "C": "Smooths the output by reducing ripple",
+      "D": "Inverts the waveform"
+    },
+    "answer": "C",
+    "feedback": "The capacitor acts as a filter to smooth the output of the rectifier, reducing voltage ripple."
+  },
+  {
+    "question": "In a voltage regulator, when is a zener diode operating in regulation mode?",
+    "options": {
+      "A": "When forward-biased with 0.7 V",
+      "B": "When reverse-biased but not conducting",
+      "C": "When reverse-biased and breakdown voltage is reached",
+      "D": "Only when AC is applied"
+    },
+    "answer": "C",
+    "feedback": "A zener regulates voltage when reverse-biased and the breakdown voltage is reached, maintaining a constant output."
+  },
+  {
+    "question": "If an AC signal has a frequency of 200 Hz, what is its period?",
+    "options": {
+      "A": "0.2 ms",
+      "B": "5 ms",
+      "C": "50 ms",
+      "D": "200 ms"
+    },
+    "answer": "B",
+    "feedback": "T = 1/f = 1/200 = 0.005 s = 5 ms."
+  },
+  {
+    "question": "What is the ideal input impedance of an op-amp?",
+    "options": {
+      "A": "0 Ω",
+      "B": "10 Ω",
+      "C": "100 kΩ",
+      "D": "Infinite"
+    },
+    "answer": "D",
+    "feedback": "An ideal op-amp has infinite input impedance so it draws no current from the signal source."
+  },
+  {
+    "question": "What is the function of negative feedback in op-amp circuits?",
+    "options": {
+      "A": "Reduces gain and increases stability",
+      "B": "Increases distortion",
+      "C": "Inverts the input signal",
+      "D": "Limits input voltage"
+    },
+    "answer": "A",
+    "feedback": "Negative feedback stabilizes gain, reduces distortion, and improves bandwidth."
+  },
+  {
+    "question": "In a series circuit with three resistors, what happens to the current?",
+    "options": {
+      "A": "It is different in each resistor",
+      "B": "It depends on resistance value",
+      "C": "It is the same through all resistors",
+      "D": "It flows only through the smallest resistor"
+    },
+    "answer": "C",
+    "feedback": "Current is constant through all components in a series circuit."
+  },
+  {
+    "question": "What is the gain of an inverting op-amp with Rf = 100 kΩ and Rin = 10 kΩ?",
+    "options": {
+      "A": "+10",
+      "B": "-10",
+      "C": "+0.1",
+      "D": "-0.1"
+    },
+    "answer": "B",
+    "feedback": "Gain = -Rf / Rin = -100k / 10k = -10."
+  },
+  {
+    "question": "What is the unit of electrical power?",
+    "options": {
+      "A": "Ampere",
+      "B": "Volt",
+      "C": "Watt",
+      "D": "Ohm"
+    },
+    "answer": "C",
+    "feedback": "The unit of electrical power is the watt (W), calculated as P = VI."
+  },
+  {
+    "question": "What is the typical voltage drop across a silicon diode when it is forward biased?",
+    "options": {
+      "A": "0 V",
+      "B": "0.3 V",
+      "C": "0.7 V",
+      "D": "1.1 V"
+    },
+    "answer": "C",
+    "feedback": "A forward-biased silicon diode typically drops 0.7 V across its terminals."
+  },
+  {
+    "question": "What is the purpose of a voltage divider in a circuit?",
+    "options": {
+      "A": "To increase current",
+      "B": "To generate a lower voltage",
+      "C": "To amplify the input signal",
+      "D": "To eliminate resistance"
+    },
+    "answer": "B",
+    "feedback": "A voltage divider uses two resistors in series to produce a lower output voltage than the input."
+  },
+  {
+    "question": "Which of the following best describes RMS voltage in an AC sine wave?",
+    "options": {
+      "A": "Equal to peak voltage",
+      "B": "Twice the peak voltage",
+      "C": "The DC equivalent power voltage",
+      "D": "The maximum instantaneous voltage"
+    },
+    "answer": "C",
+    "feedback": "RMS voltage represents the DC voltage that would deliver the same power — it is about 0.707 × Vpeak for sine waves."
+  },
+  {
+    "question": "What is the role of an op-amp used as a comparator?",
+    "options": {
+      "A": "To filter high-frequency noise",
+      "B": "To produce linear gain",
+      "C": "To compare two voltages and switch output high or low",
+      "D": "To regulate DC voltage"
+    },
+    "answer": "C",
+    "feedback": "A comparator compares two input voltages and drives the output to the positive or negative rail depending on which is higher."
+  },
+  {
+    "question": "What is the primary function of the collector terminal in a BJT transistor?",
+    "options": {
+      "A": "To control base current",
+      "B": "To supply input signal",
+      "C": "To pass the majority of current from collector to emitter",
+      "D": "To regulate input voltage"
+    },
+    "answer": "C",
+    "feedback": "The collector handles the main current flow controlled by the base current. Most of the current flows from collector to emitter."
+  },
+  {
+    "question": "What happens to the period of a waveform if its frequency doubles?",
+    "options": {
+      "A": "It also doubles",
+      "B": "It stays the same",
+      "C": "It halves",
+      "D": "It increases exponentially"
+    },
+    "answer": "C",
+    "feedback": "T = 1/f, so if frequency doubles, period halves."
+  },
+  {
+    "question": "What happens to the voltage across a zener diode when the supply increases beyond its breakdown voltage?",
+    "options": {
+      "A": "It increases linearly",
+      "B": "It stays constant",
+      "C": "It drops to 0 V",
+      "D": "It oscillates"
+    },
+    "answer": "B",
+    "feedback": "In breakdown, the zener diode maintains a nearly constant voltage regardless of further increases in supply voltage."
+  },
+  {
+    "question": "Which direction does current flow in a forward-biased diode?",
+    "options": {
+      "A": "From cathode to anode",
+      "B": "From anode to cathode",
+      "C": "No current flows",
+      "D": "It alternates"
+    },
+    "answer": "B",
+    "feedback": "Current flows from anode to cathode when the diode is forward-biased."
+  },
+  {
+    "question": "Why is a resistor used in series with an LED?",
+    "options": {
+      "A": "To reduce brightness",
+      "B": "To prevent reverse current",
+      "C": "To limit the current and protect the LED",
+      "D": "To increase voltage"
+    },
+    "answer": "C",
+    "feedback": "Resistors limit current to prevent the LED from exceeding its maximum rated current and burning out."
+  },
+  {
+    "question": "Which multimeter setting is used to measure resistance?",
+    "options": {
+      "A": "V with a straight line",
+      "B": "V with a wavy line",
+      "C": "Ω symbol",
+      "D": "A symbol"
+    },
+    "answer": "C",
+    "feedback": "Resistance is measured using the setting with the 'Ω' symbol, which represents ohms."
+  },
+  {
+    "question": "On a breadboard, what are the long horizontal rows typically used for?",
+    "options": {
+      "A": "Signal lines",
+      "B": "Power and ground distribution",
+      "C": "Resistor placement",
+      "D": "Oscillator circuits"
+    },
+    "answer": "B",
+    "feedback": "The long rows along the edges are called power rails, commonly used for +V and GND distribution."
+  },
+  {
+    "question": "Which component is typically marked with '10µF' and has polarity?",
+    "options": {
+      "A": "Inductor",
+      "B": "Diode",
+      "C": "Electrolytic capacitor",
+      "D": "Resistor"
+    },
+    "answer": "C",
+    "feedback": "Electrolytic capacitors often have values like 10µF and a stripe or minus symbol to indicate polarity."
+  },
+  {
+    "question": "How do you measure voltage across a component using a multimeter?",
+    "options": {
+      "A": "In series with the component",
+      "B": "In parallel with the component",
+      "C": "Before connecting power",
+      "D": "With probes shorted"
+    },
+    "answer": "B",
+    "feedback": "Voltage is measured in parallel with the component so the multimeter can read the potential difference."
+  },
+  {
+    "question": "To measure current in a circuit with a multimeter, you should connect the meter:",
+    "options": {
+      "A": "In parallel with the load",
+      "B": "Across the power rails",
+      "C": "In series with the component",
+      "D": "To the battery terminals only"
+    },
+    "answer": "C",
+    "feedback": "Current must be measured in series so that all charge flows through the meter."
+  },
+  {
+    "question": "If a breadboard circuit randomly stops working when touched, what is the most likely issue?",
+    "options": {
+      "A": "Wrong resistor value",
+      "B": "Loose or poor connection",
+      "C": "Power supply too low",
+      "D": "Wrong transistor type"
+    },
+    "answer": "B",
+    "feedback": "Intermittent behavior when touched usually indicates a loose or faulty connection in the breadboard."
+  },
+  {
+    "question": "What happens if you reverse the polarity of an electrolytic capacitor?",
+    "options": {
+      "A": "It doubles the capacitance",
+      "B": "It works normally",
+      "C": "It may overheat or explode",
+      "D": "It increases resistance"
+    },
+    "answer": "C",
+    "feedback": "Electrolytic capacitors are polarized and reversing polarity can damage or destroy them, sometimes violently."
+  },
+  {
+    "question": "If an LED does not light in a simple circuit, what is the first thing to check?",
+    "options": {
+      "A": "Inductor value",
+      "B": "Zener voltage",
+      "C": "Polarity and resistor value",
+      "D": "Waveform frequency"
+    },
+    "answer": "C",
+    "feedback": "The LED must be correctly oriented (anode to positive), and the current-limiting resistor must be sized appropriately."
+  },
+  {
+    "question": "What is the primary purpose of a coupling capacitor in an amplifier circuit?",
+    "options": {
+      "A": "To store charge",
+      "B": "To block DC while allowing AC to pass",
+      "C": "To stabilize the power supply",
+      "D": "To reduce input resistance"
+    },
+    "answer": "B",
+    "feedback": "Coupling capacitors are used to block DC and pass AC signals between amplifier stages."
+  },
+  {
+    "question": "Which waveform results from a full-wave rectifier with no smoothing?",
+    "options": {
+      "A": "Pure sine wave",
+      "B": "Flat DC",
+      "C": "Absolute value of a sine wave",
+      "D": "Square wave"
+    },
+    "answer": "C",
+    "feedback": "A full-wave rectifier inverts the negative half-cycles, producing the absolute value of a sine wave."
+  },
+  {
+    "question": "When is a standard silicon diode forward-biased?",
+    "options": {
+      "A": "Anode is more negative than cathode",
+      "B": "Anode is at the same voltage as cathode",
+      "C": "Anode is more positive than cathode by ~0.7 V",
+      "D": "Cathode is connected to positive supply"
+    },
+    "answer": "C",
+    "feedback": "A silicon diode conducts when the anode is about 0.7 V more positive than the cathode."
+  },
+  {
+    "question": "In an op-amp circuit, what is the main difference between the inverting and non-inverting inputs?",
+    "options": {
+      "A": "Inverting input requires AC only",
+      "B": "Non-inverting input inverts the phase",
+      "C": "Inverting input produces 180° phase shift in output",
+      "D": "Non-inverting input reduces gain"
+    },
+    "answer": "C",
+    "feedback": "The inverting input causes the output to be 180° out of phase with the input."
+  },
+  {
+    "question": "What is the main function of a resistor in a circuit?",
+    "options": {
+      "A": "To store charge",
+      "B": "To resist the flow of current",
+      "C": "To amplify voltage",
+      "D": "To generate frequency"
+    },
+    "answer": "B",
+    "feedback": "Resistors oppose the flow of electrical current and reduce voltage in a circuit."
+  },
+  {
+    "question": "Which of the following is the correct unit for electric current?",
+    "options": {
+      "A": "Ohm",
+      "B": "Volt",
+      "C": "Ampere",
+      "D": "Watt"
+    },
+    "answer": "C",
+    "feedback": "The unit of current is the ampere (A)."
+  },
+  {
+    "question": "In a series circuit, how is total resistance calculated?",
+    "options": {
+      "A": "Smallest value only",
+      "B": "Multiply all resistors",
+      "C": "Add all resistor values",
+      "D": "Subtract all resistor values"
+    },
+    "answer": "C",
+    "feedback": "In series, total resistance is the sum of all resistors: R_total = R1 + R2 + R3..."
+  },
+  {
+    "question": "Which equation represents Ohm’s Law?",
+    "options": {
+      "A": "P = IV",
+      "B": "V = IR",
+      "C": "R = V × I",
+      "D": "I = VR"
+    },
+    "answer": "B",
+    "feedback": "Ohm’s Law: V = I × R — voltage equals current times resistance."
+  },
+  {
+    "question": "In conventional current flow, current moves:",
+    "options": {
+      "A": "From negative to positive",
+      "B": "In circles",
+      "C": "From positive to negative",
+      "D": "In alternating directions only"
+    },
+    "answer": "C",
+    "feedback": "Conventional current flows from the positive terminal to the negative terminal."
+  },
+  {
+    "question": "Which end of a diode is the cathode?",
+    "options": {
+      "A": "The longer leg",
+      "B": "The flat side",
+      "C": "The end with the stripe",
+      "D": "The end connected to the resistor"
+    },
+    "answer": "C",
+    "feedback": "The stripe on a diode indicates the cathode (negative end)."
+  },
+  {
+    "question": "What is the main function of a diode in a circuit?",
+    "options": {
+      "A": "To limit current",
+      "B": "To pass current in one direction only",
+      "C": "To amplify voltage",
+      "D": "To generate a waveform"
+    },
+    "answer": "B",
+    "feedback": "A diode allows current to flow in only one direction — from anode to cathode."
+  },
+  {
+    "question": "Which of the following best describes an AC voltage signal?",
+    "options": {
+      "A": "Constant and unchanging",
+      "B": "Switches on and off randomly",
+      "C": "Changes direction periodically",
+      "D": "Flows in one direction only"
+    },
+    "answer": "C",
+    "feedback": "AC voltage alternates direction and changes polarity over time (e.g., sine wave)."
+  },
+  {
+    "question": "What is the voltage across each resistor in a parallel circuit?",
+    "options": {
+      "A": "Divided based on resistance",
+      "B": "The same for all resistors",
+      "C": "Depends on wire thickness",
+      "D": "Only appears on the largest resistor"
+    },
+    "answer": "B",
+    "feedback": "In parallel circuits, voltage across each branch is the same."
+  },
+  {
+    "question": "What is the standard AC mains supply frequency in Ireland?",
+    "options": {
+      "A": "50 Hz",
+      "B": "60 Hz",
+      "C": "100 Hz",
+      "D": "120 Hz"
+    },
+    "answer": "A",
+    "feedback": "Ireland (and most of Europe) uses 50 Hz AC mains frequency."
+  },
+  {
+    "question": "What is the correct unit for resistance?",
+    "options": {
+      "A": "Ampere",
+      "B": "Ohm",
+      "C": "Volt",
+      "D": "Watt"
+    },
+    "answer": "B",
+    "feedback": "Resistance is measured in ohms, represented by the symbol Ω."
+  },
+  {
+    "question": "What happens to total resistance when a resistor is added in parallel?",
+    "options": {
+      "A": "It increases",
+      "B": "It stays the same",
+      "C": "It decreases",
+      "D": "It becomes zero"
+    },
+    "answer": "C",
+    "feedback": "Adding a resistor in parallel provides another current path, lowering the total resistance."
+  },
+  {
+    "question": "Which symbol represents a resistor in a circuit diagram?",
+    "options": {
+      "A": "A zigzag line",
+      "B": "A triangle",
+      "C": "Two parallel lines",
+      "D": "A circle with a cross"
+    },
+    "answer": "A",
+    "feedback": "The resistor symbol is a zigzag or rectangle, depending on region — it limits current in the circuit."
+  },
+  {
+    "question": "What is the purpose of a fuse in an electrical circuit?",
+    "options": {
+      "A": "To reduce voltage",
+      "B": "To convert current",
+      "C": "To break the circuit if too much current flows",
+      "D": "To amplify the signal"
+    },
+    "answer": "C",
+    "feedback": "A fuse protects the circuit by melting and opening the circuit if current exceeds a safe level."
+  },
+  {
+    "question": "A battery provides which type of voltage?",
+    "options": {
+      "A": "AC (Alternating Current)",
+      "B": "DC (Direct Current)",
+      "C": "Variable Frequency",
+      "D": "Sinusoidal Output"
+    },
+    "answer": "B",
+    "feedback": "Batteries supply DC — a constant voltage in one direction."
+  },
+  {
+    "question": "What is the role of ground in a circuit diagram?",
+    "options": {
+      "A": "Increases voltage",
+      "B": "Supplies current",
+      "C": "Acts as a common return path for current",
+      "D": "Stores energy"
+    },
+    "answer": "C",
+    "feedback": "Ground provides a reference point and a return path for current in electrical circuits."
+  },
+  {
+    "question": "What happens when an LED is connected with the wrong polarity?",
+    "options": {
+      "A": "It glows dimly",
+      "B": "It works as normal",
+      "C": "It will not light up",
+      "D": "It gets brighter"
+    },
+    "answer": "C",
+    "feedback": "An LED only allows current to flow in one direction. Reversing it stops current and the LED stays off."
+  },
+  {
+    "question": "In a series circuit with equal resistors, how is the supply voltage divided?",
+    "options": {
+      "A": "All voltage drops across the first resistor",
+      "B": "Divided equally across each resistor",
+      "C": "Only the last resistor receives voltage",
+      "D": "It depends on current only"
+    },
+    "answer": "B",
+    "feedback": "If all resistors are equal, the voltage is shared equally among them in a series circuit."
+  },
+  {
+    "question": "A 12 V battery is connected across a 4 Ω resistor. What is the power dissipated by the resistor?",
+    "options": {
+      "A": "3 W",
+      "B": "12 W",
+      "C": "36 W",
+      "D": "48 W"
+    },
+    "answer": "C",
+    "feedback": "P = V² / R = 12² / 4 = 144 / 4 = 36 W."
+  },
+  {
+  "question": "A 3 A current flows through an 8 Ω resistor. What is the power dissipated?",
+  "options": {
+    "A": "24 W",
+    "B": "48 W",
+    "C": "72 W",
+    "D": "96 W"
+  },
+  "answer": "C",
+  "feedback": "P = I² × R = 3² × 8 = 9 × 8 = 72 W."
+},
+{
+    "question": "A 3 A current flows through an 8 Ω resistor. What is the power dissipated?",
+    "options": {
+      "A": "24 W",
+      "B": "48 W",
+      "C": "72 W",
+      "D": "96 W"
+    },
+    "answer": "C",
+    "feedback": "P = I² × R = 3² × 8 = 9 × 8 = 72 W."
+  },
+  {
+    "question": "In a series circuit with a 6 V supply, R1 = 2 Ω and R2 = 4 Ω. Which resistor dissipates more power?",
+    "options": {
+      "A": "R1",
+      "B": "R2",
+      "C": "Both the same",
+      "D": "Cannot be determined"
+    },
+    "answer": "B",
+    "feedback": "Same current flows in series, so P = I²R. R2 is larger → it dissipates more power."
+  },
+  {
+    "question": "Two resistors, 2 Ω and 8 Ω, are in series with a 10 V supply. Which one has the higher power dissipation?",
+    "options": {
+      "A": "2 Ω",
+      "B": "8 Ω",
+      "C": "Both equal",
+      "D": "Depends on current"
+    },
+    "answer": "B",
+    "feedback": "In series, same current → power ∝ resistance. So 8 Ω dissipates 4× more power than 2 Ω."
+  },
+  {
+    "question": "A sinusoidal voltage has a peak value of 14.14 V. What is the RMS voltage?",
+    "options": {
+      "A": "10 V",
+      "B": "14.14 V",
+      "C": "20 V",
+      "D": "28.28 V"
+    },
+    "answer": "A",
+    "feedback": "V_RMS = V_peak / √2 = 14.14 / 1.414 = 10 V."
+  },
+  {
+    "question": "An AC voltage has an RMS value of 12 V across a 6 Ω resistor. What is the power dissipated?",
+    "options": {
+      "A": "12 W",
+      "B": "18 W",
+      "C": "24 W",
+      "D": "36 W"
+    },
+    "answer": "C",
+    "feedback": "P = V² / R = 12² / 6 = 144 / 6 = 24 W."
+  },
+  {
+    "question": "If an AC voltage has an RMS value of 230 V, what is the peak voltage?",
+    "options": {
+      "A": "162.6 V",
+      "B": "230 V",
+      "C": "325 V",
+      "D": "460 V"
+    },
+    "answer": "C",
+    "feedback": "V_peak = V_RMS × √2 = 230 × 1.414 ≈ 325 V."
+  },
+  {
+    "question": "What is the RMS voltage of a full-wave rectified sine wave with a peak voltage of 20 V?",
+    "options": {
+      "A": "10 V",
+      "B": "14.14 V",
+      "C": "20 V",
+      "D": "28.28 V"
+    },
+    "answer": "B",
+    "feedback": "The RMS of a full-wave rectified sine wave is the same as the original sine: V_RMS = V_peak / √2 = 14.14 V."
+  }
+
+]
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+
+  
+  
+  
+  
+  
+
+  
+  

@@ -3,11 +3,11 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info } from 'lucide-react'; // Added Info icon
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit } from 'lucide-react'; // Added BrainCircuit
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet"; // Import SheetHeader and SheetTitle
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet"; 
 import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation'; // Import usePathname for active link styling
+import { usePathname } from 'next/navigation'; 
 
 
 // Updated Nav Items for clarity and relevance
@@ -16,7 +16,7 @@ const navItems = [
   { href: "/quiz", label: "Quizzes", icon: BookOpen },
   { href: "/calculator", label: "Calculators", icon: Calculator },
   {
-    group: "Tools", // Group related tools
+    group: "Tools", 
     items: [
       { href: "/tools/subnet", label: "Subnet", icon: Network },
       { href: "/tools/truth-table", label: "Truth Table", icon: TableIcon },
@@ -25,18 +25,14 @@ const navItems = [
       { href: "/tools/packet-flow", label: "Packet Flow", icon: GitBranchPlus },
     ],
   },
-   // Add Diagnostics link - consider conditional rendering based on environment
    ...(process.env.NODE_ENV === 'development' ? [{ href: "/diagnostics", label: "Diagnostics", icon: Info }] : []),
 ];
 
-// Function to render navigation links, handling groups
 const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobile: boolean = false) => {
-   const pathname = usePathname(); // Get current path
+   const pathname = usePathname(); 
 
    return items.flatMap((item) => {
      if ('group' in item) {
-       // Handle dropdown/group for desktop (optional, keeping it simple for now)
-       // For mobile, render group items directly
        if (isMobile) {
            return [
                 <p key={item.group} className="px-2 pt-4 pb-1 text-xs font-semibold uppercase text-muted-foreground">{item.group}</p>,
@@ -56,7 +52,6 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
                 ))
            ];
        } else {
-          // Desktop: Render group items directly in the main nav for simplicity
            return item.items.map(subItem => (
                <Link
                 key={subItem.href}
@@ -72,7 +67,6 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
             ));
        }
      } else {
-       // Regular link
        if (isMobile) {
          return (
             <SheetClose key={item.href} asChild>
@@ -114,18 +108,15 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        {/* Logo/Brand Name */}
         <Link href="/" className="flex items-center gap-2 text-xl md:text-2xl font-bold tracking-tight text-primary transition-opacity hover:opacity-80" onClick={() => setIsMobileMenuOpen(false)}>
            <Network size={28} className="shrink-0"/>
            <span className="font-semibold">SmartPrep TU 716</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex flex-wrap items-center space-x-6"> {/* Added flex-wrap */}
+        <nav className="hidden md:flex flex-wrap items-center space-x-6"> 
              {renderNavLinks(navItems, undefined, false)}
         </nav>
 
-        {/* Mobile Navigation Trigger */}
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild className="md:hidden">
              <Button variant="ghost" size="icon" aria-label="Open main menu">
@@ -133,11 +124,9 @@ export default function Header() {
              </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
-             {/* Mobile Menu Header */}
-             <SheetHeader className="flex flex-row h-16 items-center justify-between border-b px-4"> {/* Use SheetHeader */}
+             <SheetHeader className="flex flex-row h-16 items-center justify-between border-b px-4"> 
                  <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
                    <Network size={24} />
-                    {/* Visually hidden title for accessibility */}
                    <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
                    SmartPrep
                  </Link>
@@ -147,7 +136,6 @@ export default function Header() {
                     </Button>
                  </SheetClose>
              </SheetHeader>
-             {/* Mobile Menu Links */}
              <nav className="flex flex-col space-y-1 p-4">
                  {renderNavLinks(navItems, () => setIsMobileMenuOpen(false), true)}
              </nav>

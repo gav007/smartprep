@@ -11,7 +11,7 @@ import ScoreReview from '@/components/quiz/ScoreReview';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, AlertTriangle, BookOpen, Network, ListChecks } from 'lucide-react';
+import { Loader2, AlertTriangle, BookOpen, Network, ListChecks, BrainCircuit } from 'lucide-react'; // Added BrainCircuit
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -24,11 +24,14 @@ interface QuizOption {
   label: string;
   filename: string;
   totalQuestions?: number; // Add total questions count after loading meta
+  icon: React.ElementType; // Add icon field
+  description: string; // Add description field
 }
 
 const quizOptions: QuizOption[] = [
-  { key: 'applied', label: 'Applied Networking Quiz', filename: 'applied.json' },
-  { key: 'network', label: 'Networking Fundamentals Quiz', filename: 'network_quiz.json' },
+  { key: 'applied', label: 'Applied Networking Quiz', filename: 'applied.json', icon: Network, description: 'Practical networking applications and scenarios.' },
+  { key: 'network', label: 'Networking Fundamentals Quiz', filename: 'network_quiz.json', icon: BookOpen, description: 'Core concepts of computer networking.' },
+  { key: 'electronics', label: 'Electronics Fundamentals Quiz', filename: 'electronics.json', icon: BrainCircuit, description: 'Basic principles and components of electronics.' },
 ];
 
 const questionCountOptions = [5, 10, 20]; // Define available question counts
@@ -78,7 +81,7 @@ export default function QuizPage() {
         // Fetch data from the public directory
         const response = await fetch(`/data/${quiz.filename}`);
         if (!response.ok) {
-          throw new Error(`Failed to fetch quiz data: ${response.statusText}`);
+          throw new Error(`Failed to fetch quiz data (${quiz.filename}): ${response.statusText}`);
         }
         const rawData: RawQuestion[] = await response.json();
 
@@ -107,7 +110,7 @@ export default function QuizPage() {
         setError(err instanceof Error ? err.message : 'An unknown error occurred while loading the quiz.');
         setQuizState('error');
       }
-    }, []); // Removed toast dependency as it's not used here anymore
+    }, []);
 
   const handleOptionChange = (optionKey: string) => {
     const currentQuestionId = questions[currentQuestionIndex]?.id;
@@ -123,13 +126,12 @@ export default function QuizPage() {
   };
 
   const handleNext = () => {
-     // Add a subtle toast notification when moving to the next question
     const currentAnswer = userAnswers[currentQuestionIndex]?.selectedOption;
      if (currentAnswer === null) {
        toast({
          title: "Reminder",
          description: "You haven't selected an answer for this question.",
-         variant: "default", // Use default (less intrusive) style
+         variant: "default",
        });
      }
 
@@ -140,41 +142,32 @@ export default function QuizPage() {
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prevIndex => prevIndex - 1);
+      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     }
   };
 
   const handleSubmit = () => {
-    // Check if all questions are answered before submitting
     const unanswered = userAnswers.filter(a => a.selectedOption === null).length;
     if (unanswered > 0) {
       toast({
         title: "Incomplete Quiz",
         description: `You have ${unanswered} unanswered question${unanswered > 1 ? 's' : ''}. Please review before submitting.`,
-        variant: "destructive", // More prominent for incomplete submission attempt
+        variant: "destructive",
       });
-       // Optionally, prevent submission or navigate to the first unanswered question
-       // const firstUnansweredIndex = userAnswers.findIndex(a => a.selectedOption === null);
-       // if (firstUnansweredIndex !== -1) setCurrentQuestionIndex(firstUnansweredIndex);
-       // return; // Prevent submission for now
     }
     setQuizState('review');
   };
 
   const handleRestart = () => {
-    // Restarting should take user back to selection screen
     setQuizState('selecting');
     setSelectedQuiz(null);
     setQuestions([]);
-    // Keep the selected question count or reset? Let's keep it.
   };
 
   const handleGoHome = () => {
-    // Go Home also means back to selection screen in this context
     setQuizState('selecting');
     setSelectedQuiz(null);
     setQuestions([]);
-     // router.push('/'); // Optionally navigate to actual home page if needed
   };
 
   // Derived state
@@ -183,9 +176,7 @@ export default function QuizPage() {
     (answer) => answer.questionId === currentQuestion?.id
   )?.selectedOption ?? null;
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
-   // Enable submit only when on the last question AND all questions have been attempted
-   // Modify this logic if you allow submitting incomplete quizzes
-  const canSubmit = isLastQuestion // && userAnswers.every(a => a.selectedOption !== null);
+  const canSubmit = isLastQuestion;
 
 
   // Render based on state
@@ -224,25 +215,28 @@ export default function QuizPage() {
         <h1 className="text-3xl font-bold mb-8 text-center">Select a Quiz</h1>
 
         {/* Quiz Selection Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl mb-8">
-          {availableQuizzes.map((quiz) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl mb-8">
+          {availableQuizzes.map((quiz) => {
+            const IconComponent = quiz.icon;
+            return (
             <Card
               key={quiz.key}
               className={`cursor-pointer hover:shadow-lg transition-all duration-200 border-2 ${selectedQuiz?.key === quiz.key ? 'border-primary shadow-lg scale-[1.02]' : 'hover:border-primary/50'}`}
               onClick={() => setSelectedQuiz(quiz)}
             >
               <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2">
-                 {quiz.key === 'applied' ? <Network className="h-8 w-8 text-primary" /> : <BookOpen className="h-8 w-8 text-primary" />}
+                 <IconComponent className="h-8 w-8 text-primary" />
                 <CardTitle className="text-xl font-semibold">{quiz.label}</CardTitle>
               </CardHeader>
               <CardContent>
                  <CardDescription>
-                    Test your knowledge on {quiz.label.toLowerCase().includes('applied') ? 'practical networking concepts' : 'fundamental networking principles'}.
+                    {quiz.description}
                     {quiz.totalQuestions && <span className="block mt-1 text-xs">({quiz.totalQuestions} questions available)</span>}
                  </CardDescription>
               </CardContent>
             </Card>
-          ))}
+          );
+        })}
         </div>
 
         {/* Question Count Selection - Only show if a quiz is selected */}
@@ -253,7 +247,7 @@ export default function QuizPage() {
                  </CardHeader>
                  <CardContent>
                     <Select
-                        value={String(Math.min(selectedQuestionCount, maxQuestions))} // Ensure selected value doesn't exceed max available
+                        value={String(Math.min(selectedQuestionCount, maxQuestions))}
                         onValueChange={(value) => setSelectedQuestionCount(parseInt(value))}
                         >
                         <SelectTrigger>
@@ -261,12 +255,12 @@ export default function QuizPage() {
                         </SelectTrigger>
                         <SelectContent>
                             {questionCountOptions.map((count) => (
-                                (count <= maxQuestions) && // Only show options <= max available questions
+                                (count <= maxQuestions) && 
                                 <SelectItem key={count} value={String(count)}>
                                     {count} Questions
                                 </SelectItem>
                             ))}
-                             {maxQuestions > 0 && ( // Add option for "All" if maxQuestions is known
+                             {maxQuestions > 0 && ( 
                                 <SelectItem key="all" value={String(maxQuestions)}>
                                      All ({maxQuestions}) Questions
                                 </SelectItem>
@@ -277,7 +271,6 @@ export default function QuizPage() {
             </Card>
         )}
 
-         {/* Start Button - Enabled only when quiz and count are selected */}
          <Button
            size="lg"
            onClick={() => selectedQuiz && startQuiz(selectedQuiz, selectedQuestionCount)}
@@ -296,8 +289,8 @@ export default function QuizPage() {
         <ScoreReview
             questions={questions}
             userAnswers={userAnswers}
-            onRestart={handleRestart} // Updated: Now goes back to selection
-            onGoHome={handleGoHome}   // Updated: Now goes back to selection
+            onRestart={handleRestart}
+            onGoHome={handleGoHome}
         />
       </div>
     );
@@ -325,7 +318,6 @@ export default function QuizPage() {
           />
         </>
       ) : (
-         // Should not happen if loading works, but good fallback
           <div className="text-center p-8">
             <p className="text-lg text-muted-foreground">No questions available for this quiz.</p>
              <Button onClick={handleGoHome} variant="outline" className="mt-6">
@@ -336,4 +328,5 @@ export default function QuizPage() {
     </div>
   );
 }
+
 
