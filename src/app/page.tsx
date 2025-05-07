@@ -64,6 +64,14 @@ const featuredTools = [
     aiHint: "binary decimal hexadecimal number system",
     ctaText: "Open Tool"
    },
+   {
+    title: "Voltage Divider Calc",
+    description: "Calculate output voltage for a resistive voltage divider circuit (Vout = Vin * R2 / (R1 + R2)).",
+    icon: Sigma,
+    link: "/tools/voltage-divider",
+    aiHint: "voltage divider resistors circuit",
+    ctaText: "Open Tool"
+  },
 ];
 
 
@@ -95,8 +103,8 @@ export default function HomePage() {
             </div>
             <div className="flex justify-center items-center">
                 <Image
-                  src="/assets/images/hero-network.jpg" 
-                  alt="Networking equipment including servers and ethernet cables in a data rack"
+                  src="/images/network.jpg" 
+                  alt="Networking equipment and server rack"
                   width={600}
                   height={400}
                   className="rounded-xl shadow-2xl object-cover aspect-[4/3]" 
@@ -141,8 +149,8 @@ export default function HomePage() {
           <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
             <div className="flex justify-center items-center md:order-2">
                  <Image
-                  src="/assets/images/hero-electronics.jpg" 
-                  alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform"
+                  src="/images/networking_2.jpg" 
+                  alt="Closeup of network cables and switch ports"
                   width={500}
                   height={350}
                   className="rounded-xl shadow-xl object-cover aspect-[4/3]" 
