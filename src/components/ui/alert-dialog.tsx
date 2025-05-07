@@ -30,7 +30,7 @@ AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
->(({ className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <AlertDialogPortal>
     <AlertDialogOverlay />
     <AlertDialogPrimitive.Content
@@ -40,7 +40,20 @@ const AlertDialogContent = React.forwardRef<
         className
       )}
       {...props}
-    />
+    >
+      {/* Add a visually hidden AlertDialogTitle if not provided by children for accessibility */}
+      {!React.Children.toArray(children).some(
+        (child) =>
+          React.isValidElement(child) &&
+          child.type === AlertDialogHeader &&
+          React.Children.toArray((child.props as any).children).some(
+            (headerChild) =>
+              React.isValidElement(headerChild) &&
+              headerChild.type === AlertDialogTitle
+          )
+      ) && <AlertDialogPrimitive.Title className="sr-only">Alert Dialog</AlertDialogPrimitive.Title>}
+      {children}
+      </AlertDialogPrimitive.Content>
   </AlertDialogPortal>
 ))
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName

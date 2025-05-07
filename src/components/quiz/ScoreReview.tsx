@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useCallback, useRef } from 'react';
@@ -80,28 +79,28 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
                     <AccordionTrigger className="flex-1 p-0 hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 text-left rounded-sm">
                       <div className="flex items-start min-w-0"> {/* Use items-start for better alignment if text wraps */}
                         {isCorrect ? (
-                          <CheckCircle className="h-5 w-5 mr-2 shrink-0 mt-0.5" /> // Added mt-0.5 for alignment
+                          <CheckCircle className="h-5 w-5 mr-2 shrink-0 mt-0.5" />
                         ) : (
-                          <XCircle className="h-5 w-5 mr-2 shrink-0 mt-0.5" /> // Used XCircle, added mt-0.5
+                          <XCircle className="h-5 w-5 mr-2 shrink-0 mt-0.5" />
                         )}
-                        {/* Ensure question text wraps properly */}
                         <span className="flex-1 text-sm sm:text-base font-medium mr-2 break-words overflow-wrap-anywhere">{index + 1}. {question.question}</span>
                       </div>
                     </AccordionTrigger>
                     <Button
+                        asChild // Prevents button inside button for AccordionTrigger
                         variant="ghost"
                         size="icon"
                         className={cn(
                             "ml-2 h-7 w-7 p-1 rounded-md flex items-center justify-center cursor-pointer shrink-0",
                             "opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity",
-                            isCorrect 
-                                ? "text-green-600 hover:bg-green-100 dark:text-green-400 dark:hover:bg-green-900/30" 
+                            isCorrect
+                                ? "text-green-600 hover:bg-green-100 dark:text-green-400 dark:hover:bg-green-900/30"
                                 : "text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/30"
                         )}
                         onClick={(e) => { e.stopPropagation(); copyToClipboard(question.question, index, 'Question'); }}
                         aria-label="Copy question text"
                     >
-                       <Copy size={14} />
+                       <span><Copy size={14} /></span>
                     </Button>
                 </div>
                 <AccordionContent className="pt-0 pb-0 px-0">
@@ -112,6 +111,7 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
                             <div className="relative group/feedback">
                                 <p className="text-muted-foreground italic pr-8 break-words overflow-wrap-anywhere"><strong>Feedback:</strong> {question.feedback}</p>
                                 <Button
+                                    asChild // Prevents button inside button
                                     variant="ghost"
                                     size="icon"
                                     className={cn(
@@ -121,7 +121,7 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
                                     onClick={(e) => {e.stopPropagation(); copyToClipboard(question.feedback, index, 'Feedback'); }}
                                     aria-label="Copy feedback text"
                                 >
-                                <Copy size={14} />
+                                <span><Copy size={14} /></span>
                                 </Button>
                             </div>
                          )}

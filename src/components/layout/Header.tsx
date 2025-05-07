@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -20,7 +19,7 @@ const navItems = [
   { href: "/", label: "Home", icon: HomeIcon },
   { href: "/quiz", label: "Quizzes", icon: BookOpen },
   { href: "/calculator", label: "Calculators", icon: Calculator },
-  { href: "/audio", label: "Audio Lessons", icon: Podcast }, 
+  { href: "/audio", label: "Audio Lessons", icon: Podcast },
   {
     group: "Tools",
     icon: Cpu, // Icon for the dropdown trigger itself
@@ -30,7 +29,7 @@ const navItems = [
       { href: "/tools/resistor", label: "Resistor", icon: Palette },
       { href: "/tools/base-converter", label: "Base Converter", icon: Binary },
       { href: "/tools/packet-flow", label: "Packet Flow", icon: GitBranchPlus },
-      { href: "/tools/voltage-divider", label: "Voltage Divider", icon: Sigma }, // Added
+      { href: "/tools/voltage-divider", label: "Voltage Divider", icon: Sigma },
     ],
   },
    ...(process.env.NODE_ENV === 'development' ? [{ href: "/diagnostics", label: "Diagnostics", icon: Info }] : []),
@@ -155,7 +154,9 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
              <SheetHeader className="flex flex-row h-16 items-center justify-between border-b px-4">
-                <SheetTitle> 
+                <SheetTitle>
+                  {/* Removed the explicit <DialogTitle> component which was causing "DialogTitle is not defined" error */}
+                  {/* The Link itself will act as the content for the SheetTitle which is already a DialogPrimitive.Title */}
                   <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
                     <Network size={24} />
                     SmartPrep
@@ -176,4 +177,3 @@ export default function Header() {
     </header>
   );
 }
-

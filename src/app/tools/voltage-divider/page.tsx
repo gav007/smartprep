@@ -6,5 +6,6 @@ import VoltageDividerCalculator from '@/components/calculators/VoltageDividerCal
 
 export default function VoltageDividerPage() {
   // Container and padding handled by src/app/tools/layout.tsx
+  // The VoltageDividerCalculator component itself is a Card.
   return <VoltageDividerCalculator />;
 }
