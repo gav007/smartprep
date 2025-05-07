@@ -1,45 +1,407 @@
-<svg width="250" height="150" viewBox="0 0 250 150" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor">
-  <style>
-    text {
-      font-family: monospace;
-      font-size: 12px;
-      fill: currentColor;
-    }
-    line, circle, rect {
-      stroke: currentColor;
-      fill: none;
-    }
-    circle[fill="currentColor"] {
-      fill: currentColor;
-    }
-  </style>
-  {/* Vin Source */}
-  <circle cx="30" cy="75" r="15" strokeWidth="2"/>
-  <line x1="30" y1="65" x2="30" y2="85" strokeWidth="2"/>
-  <line x1="25" y1="75" x2="35" y2="75" strokeWidth="2"/>
-  <text x="10" y="78">Vin</text>
-  <line x1="45" y1="75" x2="70" y2="75" strokeWidth="1.5"/>
+// src/components/calculators/VoltageDividerCalculator.tsx
+'use client';
 
-  {/* R1 */}
-  <rect x="70" y="65" width="40" height="20" strokeWidth="1.5"/>
-  <text x="85" y="55">R1</text>
-  <line x1="110" y1="75" x2="130" y2="75" strokeWidth="1.5"/>
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import Image from 'next/image';
+import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { AlertCircle, Sigma, RotateCcw, HelpCircle, TrendingUp, TrendingDown, Eye, EyeOff, Calculator } from 'lucide-react';
+import CalculatorCard from './CalculatorCard';
+import CalculatorInput from './CalculatorInput';
+import type { Unit } from '@/lib/units';
+import {
+    voltageUnitOptions,
+    resistanceUnitOptions,
+    unitMultipliers,
+    defaultUnits,
+    formatResultValue
+} from '@/lib/units';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from '@/lib/utils';
+
+type CalculationMode = 'standard' | 'reverse';
+
+interface StandardResults {
+  totalResistance: number | null;
+  current: number | null;
+  voltageDropR1: number | null;
+  voltageDropR2: number | null; 
+  voutNodeX: number | null; 
+  voutToleranceMin: number | null;
+  voutToleranceMax: number | null;
+}
+
+interface ReverseResults {
+  neededR2: number | null;
+}
+
+const initialVinUnit: Unit = defaultUnits.voltage;
+const initialR1Unit: Unit = 'kΩ'; 
+const initialR2Unit: Unit = 'kΩ'; 
+const initialVoutTargetUnit: Unit = defaultUnits.voltage;
+
+const initialVinStr = '12';
+const initialR1Str = '6'; 
+const initialR2Str = '6'; 
+const initialVoutTargetStr = '6'; 
+
+const exampleValues = [
+    { vin: '12', r1: '6', r2: '6', vout: '6.00', r1Unit: 'kΩ', r2Unit: 'kΩ', desc: "R1=R2, Vout=Vin/2" },
+    { vin: '5', r1: '8', r2: '5', vout: '1.923', r1Unit: 'kΩ', r2Unit: 'kΩ', desc: "R1 > R2" },
+    { vin: '9', r1: '1', r2: '2', vout: '6.00', r1Unit: 'kΩ', r2Unit: 'kΩ', desc: "R1 < R2" },
+];
+
+export default function VoltageDividerCalculator() {
+  const [mode, setMode] = useState<CalculationMode>('standard');
   
-  {/* Node X (Vout tap) */}
-  <circle cx="130" cy="75" r="2.5" fill="currentColor"/>
-  <line x1="130" y1="75" x2="130" y2="100" strokeWidth="1.5"/>
-  <line x1="130" y1="100" x2="150" y2="100" strokeWidth="1.5"/>
-  <text x="155" y="105">Vout (Node X)</text>
+  const [vinStandardStr, setVinStandardStr] = useState<string>(initialVinStr);
+  const [vinStandardUnit, setVinStandardUnit] = useState<Unit>(initialVinUnit);
+  const [r1StandardStr, setR1StandardStr] = useState<string>(initialR1Str);
+  const [r1StandardUnit, setR1StandardUnit] = useState<Unit>(initialR1Unit);
+  const [r2StandardStr, setR2StandardStr] = useState<string>(initialR2Str);
+  const [r2StandardUnit, setR2StandardUnit] = useState<Unit>(initialR2Unit);
+  const [standardResults, setStandardResults] = useState<StandardResults | null>(null);
 
-  {/* R2 */}
-  <line x1="130" y1="75" x2="150" y2="75" strokeWidth="1.5"/>
-  <rect x="150" y="65" width="40" height="20" strokeWidth="1.5"/>
-  <text x="165" y="55">R2</text>
-  <line x1="190" y1="75" x2="220" y2="75" strokeWidth="1.5"/>
+  const [vinReverseStr, setVinReverseStr] = useState<string>(initialVinStr);
+  const [vinReverseUnit, setVinReverseUnit] = useState<Unit>(initialVinUnit);
+  const [r1ReverseStr, setR1ReverseStr] = useState<string>('1.8');
+  const [r1ReverseUnit, setR1ReverseUnit] = useState<Unit>(initialR1Unit);
+  const [voutTargetStr, setVoutTargetStr] = useState<string>('5'); 
+  const [voutTargetUnit, setVoutTargetUnit] = useState<Unit>(initialVoutTargetUnit);
+  const [reverseResults, setReverseResults] = useState<ReverseResults | null>(null);
 
-  {/* Ground Symbol */}
-  <line x1="220" y1="75" x2="220" y2="95" strokeWidth="1.5"/>
-  <line x1="210" y1="95" x2="230" y2="95" strokeWidth="2"/>
-  <line x1="213" y1="100" x2="227" y2="100" strokeWidth="1.5"/>
-  <line x1="216" y1="105" x2="224" y2="105" strokeWidth="1"/>
-</svg>
+  const [error, setError] = useState<string | null>(null);
+  const [activeAccordionItem, setActiveAccordionItem] = useState<string | undefined>(undefined);
+  const [showSteps, setShowSteps] = useState<boolean>(false);
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+
+  const handleBlur = (fieldName: string) => {
+    setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
+  };
+
+  const loadExample = useCallback((example: typeof exampleValues[0]) => {
+    setMode('standard'); 
+    setVinStandardStr(example.vin);
+    setR1StandardStr(example.r1);
+    setR1StandardUnit(example.r1Unit as Unit);
+    setR2StandardStr(example.r2);
+    setR2StandardUnit(example.r2Unit as Unit);
+    setVinStandardUnit('V'); 
+    setError(null);
+    setStandardResults(null); 
+    setShowSteps(true); 
+    setTouchedFields({}); 
+  }, []);
+
+  const handleCalculateStandard = useCallback(() => {
+    setError(null);
+
+    const vinVal = parseFloat(vinStandardStr);
+    const r1Val = parseFloat(r1StandardStr);
+    const r2Val = parseFloat(r2StandardStr);
+
+    if (isNaN(vinVal) || isNaN(r1Val) || isNaN(r2Val)) {
+        if (touchedFields.vinStd || touchedFields.r1Std || touchedFields.r2Std) {
+            setError('Enter valid numbers for Vin, R1, and R2.');
+        }
+        setStandardResults(null);
+        return;
+    }
+    
+    const vin = vinVal * unitMultipliers[vinStandardUnit];
+    const r1 = r1Val * unitMultipliers[r1StandardUnit];
+    const r2 = r2Val * unitMultipliers[r2StandardUnit];
+
+    if (r1 <= 0) { setError('R1 must be positive.'); setStandardResults(null); return; }
+    if (r2 < 0) { setError('R2 must be non-negative.'); setStandardResults(null); return; }
+
+    const totalResistance = r1 + r2;
+    if (totalResistance === 0 && vin !== 0) { 
+        setError('Total resistance (R1 + R2) cannot be zero if Vin is non-zero.');
+        setStandardResults(null);
+        return;
+    }
+
+    const current = vin === 0 && totalResistance === 0 ? 0 : vin / totalResistance; 
+    const voltageDropR1 = current * r1;
+    const voltageDropR2 = current * r2;
+    
+    const r1TolHigh = r1 * 1.05; const r1TolLow = r1 * 0.95;
+    const r2TolHigh = r2 * 1.05; const r2TolLow = r2 * 0.95;
+    
+    let voutTolMinCalc = vin * (r2TolLow / (r1TolHigh + r2TolLow));
+    let voutTolMaxCalc = vin * (r1TolLow + r2TolHigh === 0 ? Infinity : r2TolHigh / (r1TolLow + r2TolHigh));
+
+    setStandardResults({
+      totalResistance,
+      current,
+      voltageDropR1,
+      voltageDropR2,
+      voutNodeX: voltageDropR2,
+      voutToleranceMin: isFinite(voutTolMinCalc) ? voutTolMinCalc : null,
+      voutToleranceMax: isFinite(voutTolMaxCalc) ? voutTolMaxCalc : null,
+    });
+    if (showSteps && !activeAccordionItem) setActiveAccordionItem("item-rt");
+  }, [vinStandardStr, vinStandardUnit, r1StandardStr, r1StandardUnit, r2StandardStr, r2StandardUnit, showSteps, activeAccordionItem, touchedFields]);
+
+  const handleCalculateReverse = useCallback(() => {
+    setError(null);
+
+    const vinVal = parseFloat(vinReverseStr);
+    const r1Val = parseFloat(r1ReverseStr);
+    const voutTargetVal = parseFloat(voutTargetStr);
+
+    if (isNaN(vinVal) || isNaN(r1Val) || isNaN(voutTargetVal)) {
+        if (touchedFields.vinRev || touchedFields.r1Rev || touchedFields.voutTarget) {
+             setError('Enter valid numbers for Vin, R1, and Target Vout.');
+        }
+        setReverseResults(null);
+        return;
+    }
+
+    const vin = vinVal * unitMultipliers[vinReverseUnit];
+    const r1 = r1Val * unitMultipliers[r1ReverseUnit];
+    const voutTarget = voutTargetVal * unitMultipliers[voutTargetUnit];
+    
+    if (r1 <= 0) { setError('R1 must be positive.'); setReverseResults(null); return; }
+    if (vin === voutTarget) {
+        if (vin === 0) { 
+             setReverseResults({ neededR2: 0 });
+             setError("Info: For Vin=0 and Vout=0, R2 can be any non-negative value (e.g. 0Ω).");
+             return;
+        }
+      setError('Vin cannot be equal to Target Vout (implies R2 is infinite or R1 is zero).');
+      setReverseResults(null); return;
+    }
+    if (voutTarget < 0) { setError('Target Vout cannot be negative.'); setReverseResults(null); return; }
+    if (vin < 0) { setError('Vin cannot be negative.'); setReverseResults(null); return; }
+    if (vin < voutTarget) { setError('Target Vout cannot be greater than Vin.'); setReverseResults(null); return; }
+    
+    const denominator = vin - voutTarget;
+    if (denominator === 0) { 
+        setError('Vin - Vout cannot be zero (division by zero).');
+        setReverseResults(null); return;
+    }
+
+    const neededR2 = (voutTarget * r1) / denominator;
+    if (neededR2 < 0) { 
+        setError('Calculation resulted in negative R2. Ensure Vin >= Target Vout.');
+        setReverseResults(null); return;
+    }
+    setReverseResults({ neededR2 });
+  }, [vinReverseStr, vinReverseUnit, r1ReverseStr, r1ReverseUnit, voutTargetStr, voutTargetUnit, touchedFields]);
+
+  const handleReset = useCallback(() => {
+    setVinStandardStr(initialVinStr); setVinStandardUnit(initialVinUnit);
+    setR1StandardStr(initialR1Str); setR1StandardUnit(initialR1Unit);
+    setR2StandardStr(initialR2Str); setR2StandardUnit(initialR2Unit);
+    setStandardResults(null);
+
+    setVinReverseStr(initialVinStr); setVinReverseUnit(initialVinUnit);
+    setR1ReverseStr('1.8'); setR1ReverseUnit(initialR1Unit);
+    setVoutTargetStr('5'); setVoutTargetUnit(initialVoutTargetUnit);
+    setReverseResults(null);
+    
+    setError(null);
+    setShowSteps(false);
+    setActiveAccordionItem(undefined);
+    setTouchedFields({}); 
+  }, []);
+  
+  useEffect(() => {
+    if (mode === 'standard') {
+      const inputsPresent = vinStandardStr.trim() && r1StandardStr.trim() && r2StandardStr.trim();
+      if (inputsPresent) {
+        const handler = setTimeout(handleCalculateStandard, 300); // Debounce
+        return () => clearTimeout(handler);
+      } else {
+        if (standardResults || error) {
+           setStandardResults(null);
+           if (error && !error.startsWith("Enter valid numbers")) setError(null);
+        }
+      }
+    }
+  }, [vinStandardStr, r1StandardStr, r2StandardStr, vinStandardUnit, r1StandardUnit, r2StandardUnit, mode, handleCalculateStandard, standardResults, error]);
+
+  useEffect(() => {
+    if (mode === 'reverse') {
+      const inputsPresent = vinReverseStr.trim() && r1ReverseStr.trim() && voutTargetStr.trim();
+       if (inputsPresent) {
+            const handler = setTimeout(handleCalculateReverse, 300); // Debounce
+            return () => clearTimeout(handler);
+       } else {
+           if (reverseResults || error) {
+              setReverseResults(null);
+              if (error && !error.startsWith("Enter valid numbers")) setError(null);
+           }
+       }
+    }
+  }, [vinReverseStr, r1ReverseStr, voutTargetStr, vinReverseUnit, r1ReverseUnit, voutTargetUnit, mode, handleCalculateReverse, reverseResults, error]);
+
+  const formatDisplay = (value: number | null, type: 'voltage' | 'current' | 'resistance', baseUnit?: Unit) => {
+    const { displayValue, unit } = formatResultValue(value, type, baseUnit);
+    return value === null || !isFinite(value) ? 'N/A' : `${displayValue} ${unit}`;
+  };
+
+  const formulaPreviewStandard = `Vout = Vin * (R2 / (R1 + R2))`;
+  const formulaPreviewReverse = `R2 = (Vout * R1) / (Vin - Vout)`;
+
+  return (
+    <CalculatorCard
+      title="Voltage Divider Analysis Tool"
+      description="Analyze DC series resistor circuits for exams or practical use."
+      icon={Calculator} // Changed icon to Calculator
+      className="w-full max-w-lg mx-auto"
+    >
+      <RadioGroup 
+        value={mode} 
+        onValueChange={(v) => { 
+            setMode(v as CalculationMode); 
+            setError(null); 
+            setStandardResults(null); 
+            setReverseResults(null); 
+            setShowSteps(false); 
+            setActiveAccordionItem(undefined);
+            setTouchedFields({});
+        }} 
+        className="flex space-x-4 mb-4"
+      >
+        <div className="flex items-center space-x-2"><RadioGroupItem value="standard" id="mode-standard" /><Label htmlFor="mode-standard">Standard (Calc Vout)</Label></div>
+        <div className="flex items-center space-x-2"><RadioGroupItem value="reverse" id="mode-reverse" /><Label htmlFor="mode-reverse">Reverse (Calc R2)</Label></div>
+      </RadioGroup>
+
+      <div className="my-4 p-3 bg-muted/30 rounded border text-center">
+        <Image
+          src="/images/voltage_divider_kvl.svg" 
+          alt="KVL style voltage divider schematic with Vin, R1, R2, Node X (Vout), and Ground."
+          width={250} height={180} // Adjusted height to match SVG
+          className="mx-auto mb-2 object-contain rounded dark:invert" // Dark mode invert for SVG
+          data-ai-hint="voltage divider KVL circuit schematic resistors"
+          priority={false}
+        />
+        <p className="font-mono text-xs sm:text-sm font-semibold break-all">
+          {mode === 'standard' ? formulaPreviewStandard : formulaPreviewReverse}
+        </p>
+      </div>
+      
+       {mode === 'standard' && (
+        <div className="mb-4">
+            <Label className="text-sm font-medium">Example Values:</Label>
+            <div className="flex flex-wrap gap-2 mt-1">
+                {exampleValues.map((ex, idx) => (
+                <TooltipProvider key={idx} delayDuration={100}>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="outline" size="sm" onClick={() => loadExample(ex)}>
+                                Ex {idx + 1}
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent><p>{ex.desc}</p></TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+                ))}
+            </div>
+        </div>
+       )}
+
+      {mode === 'standard' && (
+        <fieldset className="space-y-4 border-t pt-4">
+          <legend className="text-sm font-medium text-muted-foreground sr-only">Inputs for Standard Calculation</legend>
+          <CalculatorInput id="vinStd" label="Input Voltage (Vin)" value={vinStandardStr} onChange={setVinStandardStr} onBlur={() => handleBlur('vinStd')} unit={vinStandardUnit} unitOptions={voltageUnitOptions} onUnitChange={setVinStandardUnit} placeholder="e.g., 12" tooltip="Supply voltage (V, mV, kV)"/>
+          <CalculatorInput id="r1Std" label="Resistor R1" value={r1StandardStr} onChange={setR1StandardStr}  onBlur={() => handleBlur('r1Std')} unit={r1StandardUnit} unitOptions={resistanceUnitOptions} onUnitChange={setR1StandardUnit} placeholder="e.g., 6" tooltip="Top resistor (Ω, kΩ, MΩ)" min="0"/>
+          <CalculatorInput id="r2Std" label="Resistor R2" value={r2StandardStr} onChange={setR2StandardStr}  onBlur={() => handleBlur('r2Std')} unit={r2StandardUnit} unitOptions={resistanceUnitOptions} onUnitChange={setR2StandardUnit} placeholder="e.g., 6" tooltip="Bottom resistor (Ω, kΩ, MΩ) - Vout is across this" min="0"/>
+
+          {error && (
+            <Alert variant="destructive" className="mt-2">
+              <AlertCircle className="h-4 w-4" /><AlertTitle>Input Error</AlertTitle><AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {standardResults && !error && (
+            <div className="pt-4 mt-4 border-t">
+                <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-semibold text-lg">Calculated Output (Vout):</h4>
+                    <div className="flex items-center space-x-2">
+                        <Label htmlFor="show-steps-switch" className="text-xs text-muted-foreground">Show Steps</Label>
+                        <Switch id="show-steps-switch" checked={showSteps} onCheckedChange={setShowSteps} 
+                            aria-label="Toggle step-by-step solution visibility"
+                        />
+                         {showSteps ? <Eye size={14} className="text-muted-foreground"/> : <EyeOff size={14} className="text-muted-foreground"/> }
+                    </div>
+                </div>
+                <p className="text-2xl font-bold mb-3 text-center md:text-left">{formatDisplay(standardResults.voutNodeX, 'voltage', vinStandardUnit)}</p>
+
+                 {showSteps && (
+                    <Accordion type="single" collapsible className="w-full" value={activeAccordionItem} onValueChange={setActiveAccordionItem}>
+                    <AccordionItem value="item-rt">
+                        <AccordionTrigger>Step 1: Total Resistance (RT = R1 + R2)</AccordionTrigger>
+                        <AccordionContent className="text-lg font-semibold">{formatDisplay(standardResults.totalResistance, 'resistance', r1StandardUnit)}</AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-i">
+                        <AccordionTrigger>Step 2: Circuit Current (I = Vin / RT)</AccordionTrigger>
+                        <AccordionContent className="text-lg font-semibold">{formatDisplay(standardResults.current, 'current')}</AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-vr1">
+                        <AccordionTrigger>Step 3: Voltage Drop across R1 (VR1 = I * R1)</AccordionTrigger>
+                        <AccordionContent className="text-lg font-semibold">{formatDisplay(standardResults.voltageDropR1, 'voltage', vinStandardUnit)}</AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-vr2">
+                        <AccordionTrigger>Step 4: Voltage Drop across R2 (VR2 = I * R2 = Vout)</AccordionTrigger>
+                        <AccordionContent className="text-lg font-semibold">{formatDisplay(standardResults.voltageDropR2, 'voltage', vinStandardUnit)}</AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-vtol">
+                        <AccordionTrigger>Step 5: Vout Range with Resistor Tolerance (R1 ±5%, R2 ±5%)</AccordionTrigger>
+                        <AccordionContent className="space-y-1">
+                        <p className="text-sm">Min Vout (R1 +5%, R2 -5%): <strong className={cn(standardResults.voutToleranceMin === null ? "text-muted-foreground" : "text-blue-600 dark:text-blue-400")}><TrendingDown size={12} className="inline mr-1"/>{formatDisplay(standardResults.voutToleranceMin, 'voltage', vinStandardUnit)}</strong></p>
+                        <p className="text-sm">Max Vout (R1 -5%, R2 +5%): <strong className={cn(standardResults.voutToleranceMax === null ? "text-muted-foreground" : "text-red-600 dark:text-red-400")}><TrendingUp size={12} className="inline mr-1"/>{formatDisplay(standardResults.voutToleranceMax, 'voltage', vinStandardUnit)}</strong></p>
+                        </AccordionContent>
+                    </AccordionItem>
+                    </Accordion>
+                 )}
+                 <p className="text-xs text-muted-foreground mt-2 italic">Vout formula: Vout = {vinStandardStr || 'Vin'} * ({r2StandardStr || 'R2'} / ({r1StandardStr || 'R1'} + {r2StandardStr || 'R2'}))</p>
+            </div>
+          )}
+        </fieldset>
+      )}
+
+      {mode === 'reverse' && (
+        <fieldset className="space-y-4 border-t pt-4">
+            <legend className="text-sm font-medium text-muted-foreground sr-only">Inputs for Reverse Calculation</legend>
+          <CalculatorInput id="vinRev" label="Input Voltage (Vin)" value={vinReverseStr} onChange={setVinReverseStr} onBlur={() => handleBlur('vinRev')} unit={vinReverseUnit} unitOptions={voltageUnitOptions} onUnitChange={setVinReverseUnit} placeholder="e.g., 12" tooltip="Supply voltage (V, mV, kV)"/>
+          <CalculatorInput id="r1Rev" label="Resistor R1" value={r1ReverseStr} onChange={setR1ReverseStr} onBlur={() => handleBlur('r1Rev')} unit={r1ReverseUnit} unitOptions={resistanceUnitOptions} onUnitChange={setR1ReverseUnit} placeholder="e.g., 1.8" tooltip="Known resistor value (Ω, kΩ, MΩ)" min="0"/>
+          <CalculatorInput id="voutTarget" label="Target Vout" value={voutTargetStr} onChange={setVoutTargetStr} onBlur={() => handleBlur('voutTarget')} unit={voutTargetUnit} unitOptions={voltageUnitOptions} onUnitChange={setVoutTargetUnit} placeholder="e.g., 5" tooltip="Desired output voltage (V, mV, kV)"/>
+          
+           {error && (
+            <Alert variant={error.startsWith("Info:") ? "default" : "destructive"} className="mt-2">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>{error.startsWith("Info:") ? "Information" : "Input Error"}</AlertTitle>
+              <AlertDescription>{error.replace("Info: ", "")}</AlertDescription>
+            </Alert>
+          )}
+          
+          {reverseResults && (!error || error.startsWith("Info:")) && (
+             <div className="pt-4 mt-4 border-t text-center md:text-left">
+                <h4 className="font-semibold mb-1 md:mb-2">Calculated R2 Value:</h4>
+                <p className="text-xl md:text-2xl font-bold">{formatDisplay(reverseResults.neededR2, 'resistance', r1ReverseUnit)}</p>
+                <p className="text-xs text-muted-foreground mt-2 italic">R2 formula: R2 = ({voutTargetStr || 'Vout'} * {r1ReverseStr || 'R1'}) / ({vinReverseStr || 'Vin'} - {voutTargetStr || 'Vout'})</p>
+            </div>
+          )}
+        </fieldset>
+      )}
+
+      <Button variant="outline" onClick={handleReset} className="w-full mt-6">
+        <RotateCcw className="mr-2 h-4 w-4" /> Reset All Fields
+      </Button>
+    </CalculatorCard>
+  );
+}
+
+```
+  </change>
+  <change>
+    <file>public/images/voltage_divider_diagram.svg</file>
+    <
