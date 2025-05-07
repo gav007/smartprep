@@ -81,14 +81,14 @@ export default function HomePage() {
               <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto md:mx-0">
                 Your essential toolkit for learning, practice, and problem-solving. Interactive quizzes and powerful calculators at your fingertips.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start pt-4 flex-wrap">
                 <Button asChild size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
                   <Link href="/quiz">🎯 Start Quiz <ArrowRight className="ml-2 h-5 w-5" /></Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="shadow hover:shadow-md transition-shadow">
                   <Link href="/calculator">🧮 Open Calculators <Calculator className="ml-2 h-5 w-5" /></Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="shadow hover:shadow-md transition-shadow bg-accent/10 hover:bg-accent/20 text-accent-foreground">
+                <Button asChild variant="outline" size="lg" className="shadow hover:shadow-md transition-shadow bg-accent/10 hover:bg-accent/20 text-accent-foreground border-accent/30">
                   <Link href="/audio">🎧 Audio Lessons <Podcast className="ml-2 h-5 w-5" /></Link>
                 </Button>
               </div>
