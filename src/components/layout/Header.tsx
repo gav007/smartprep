@@ -131,7 +131,7 @@ export default function Header() {
                  <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
                    <Network size={24} />
                     {/* Use SheetTitle for screen readers but keep visual title as part of Link */}
-                   <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
+                   {/* <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle> */}
                    SmartPrep
                  </Link>
                 <SheetClose asChild>

@@ -6,10 +6,10 @@ import type { Question, AnswerSelection } from '@/types/quiz';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle, CircleAlert, RefreshCw, Home, Copy } from 'lucide-react'; // Changed CircleCheckBig to CheckCircle if that was a typo
+import { CheckCircle, CircleAlert, RefreshCw, Home, Copy } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useToast } from "@/hooks/use-toast"; // Import useToast
-import { cn } from "@/lib/utils"; // Import cn for conditional classes
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 interface ScoreReviewProps {
   questions: Question[];
@@ -20,7 +20,7 @@ interface ScoreReviewProps {
 
 
 export default function ScoreReview({ questions, userAnswers, onRestart, onGoHome }: ScoreReviewProps) {
-  const { toast } = useToast(); // Initialize useToast
+  const { toast } = useToast();
 
   const calculateScore = () => {
     let correctCount = 0;
@@ -76,12 +76,8 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
 
             return (
               <AccordionItem key={questionId} value={`item-${index}`} className={cn("border-b rounded-lg mb-2 overflow-hidden", isCorrect ? "border-green-200 dark:border-green-700/50" : "border-destructive/30 dark:border-destructive/50")}>
-                {/* The AccordionTrigger now only wraps the main clickable text/icon area.
-                    The copy Button is a sibling within the flex container.
-                    The outer div manages the overall header appearance and hover group for the copy button.
-                */}
                 <div className={cn("flex justify-between items-center p-3 group", isCorrect ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-destructive')}>
-                    <AccordionTrigger className="flex-1 p-0 hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 text-left rounded-sm"> {/* AccordionTrigger is now more minimal */}
+                    <AccordionTrigger className="flex-1 p-0 hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 text-left rounded-sm">
                       <div className="flex items-center min-w-0">
                         {isCorrect ? (
                           <CheckCircle className="h-5 w-5 mr-2 shrink-0" />
@@ -91,16 +87,28 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
                         <span className="flex-1 text-base font-medium mr-2 truncate">{index + 1}. {question.question}</span>
                       </div>
                     </AccordionTrigger>
-                    {/* Copy button is now a sibling to AccordionTrigger, within the shared header div */}
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className={cn("ml-2 h-6 w-6 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity shrink-0", isCorrect ? "text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300" : "text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300")}
+                    <div
+                        role="button"
+                        tabIndex={0}
+                        className={cn(
+                            "ml-2 h-6 w-6 p-1 rounded-md flex items-center justify-center cursor-pointer",
+                            "opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity shrink-0",
+                            "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                            isCorrect 
+                                ? "text-green-600 hover:bg-green-100 dark:text-green-400 dark:hover:bg-green-900/30" 
+                                : "text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/30"
+                        )}
                         onClick={(e) => { e.stopPropagation(); copyToClipboard(question.question, index, 'Question'); }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.stopPropagation();
+                                copyToClipboard(question.question, index, 'Question');
+                            }
+                        }}
                         aria-label="Copy question text"
                     >
                        <Copy size={14} />
-                    </Button>
+                    </div>
                 </div>
                 <AccordionContent className="pt-0 pb-0 px-0">
                     <div className="bg-background p-4 border-t border-border space-y-3">
@@ -109,15 +117,25 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
                         {question.feedback && (
                             <div className="relative group/feedback">
                                 <p className="text-muted-foreground italic pr-8"><strong>Feedback:</strong> {question.feedback}</p>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="absolute top-0 right-0 h-6 w-6 text-muted-foreground opacity-0 group-hover/feedback:opacity-100 focus-visible:opacity-100 transition-opacity"
+                                <div
+                                    role="button"
+                                    tabIndex={0}
+                                    className={cn(
+                                        "absolute top-1 right-1 h-6 w-6 p-1 rounded-md flex items-center justify-center cursor-pointer",
+                                        "text-muted-foreground opacity-0 group-hover/feedback:opacity-100 focus-visible:opacity-100 transition-opacity",
+                                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+                                    )}
                                     onClick={(e) => {e.stopPropagation(); copyToClipboard(question.feedback, index, 'Feedback'); }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.stopPropagation();
+                                            copyToClipboard(question.feedback, index, 'Feedback');
+                                        }
+                                    }}
                                     aria-label="Copy feedback text"
                                 >
                                 <Copy size={14} />
-                                </Button>
+                                </div>
                             </div>
                          )}
                     </div>

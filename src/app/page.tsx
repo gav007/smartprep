@@ -3,52 +3,66 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Code, Cpu, GitBranch, Network, Palette, Sigma, TableIcon, Settings, Zap, CircuitBoard, Binary } from 'lucide-react';
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
 const featuredTools = [
   {
+    title: "🎧 Audio Lessons – Learn by Listening",
+    description: "Understand networking & electronics anywhere, anytime.",
+    icon: Podcast,
+    link: "/audio",
+    aiHint: "audio podcast lessons education",
+    ctaText: "▶️ Browse Audio Library"
+  },
+  {
     title: "Subnet Calculator",
     description: "Visualize IPv4 subnets, calculate ranges, masks, and binary representations.",
     icon: Network,
     link: "/tools/subnet",
-    aiHint: "network topology diagram routing"
+    aiHint: "network topology diagram routing",
+    ctaText: "Open Tool"
   },
    {
     title: "Resistor Color Code",
     description: "Decode 4, 5, or 6 band resistor colors or find bands for a specific value.",
     icon: Palette,
     link: "/tools/resistor",
-    aiHint: "resistor color bands circuit"
+    aiHint: "resistor color bands circuit",
+    ctaText: "Open Tool"
   },
   {
     title: "Logic Truth Table",
     description: "Generate truth tables for boolean expressions with up to 4 variables (A, B, C, D).",
     icon: TableIcon,
     link: "/tools/truth-table",
-    aiHint: "logic gates boolean algebra"
+    aiHint: "logic gates boolean algebra",
+    ctaText: "Open Tool"
   },
    {
     title: "Ohm's & Power Calc",
     description: "Solve for Voltage (V), Current (I), Resistance (R), or Power (P) using Ohm's Law.",
     icon: Zap, // Power icon
     link: "/calculator#power", // Link to the main calculator page, section Power
-    aiHint: "ohms law power triangle formula"
+    aiHint: "ohms law power triangle formula",
+    ctaText: "Open Tool"
   },
    {
     title: "BJT Solver",
     description: "Analyze fixed-bias common-emitter BJT circuits: find IB, IC, VCE, and saturation points.",
     icon: CircuitBoard, // More specific BJT icon
     link: "/calculator#bjt", // Link to main calculator page, section BJT
-    aiHint: "bjt transistor circuit diagram"
+    aiHint: "bjt transistor circuit diagram",
+    ctaText: "Open Tool"
   },
    {
-    title: "Base Converter", // Added Base Converter
+    title: "Base Converter",
     description: "Convert numbers between Binary, Decimal, and Hexadecimal representations.",
     icon: Binary,
     link: "/tools/base-converter",
-    aiHint: "binary decimal hexadecimal number system"
+    aiHint: "binary decimal hexadecimal number system",
+    ctaText: "Open Tool"
    },
 ];
 
@@ -81,13 +95,14 @@ export default function HomePage() {
             <div className="flex justify-center items-center">
                 {/* Updated hero image placeholder and hints */}
                 <Image
-                  src="/images/network.jpg" // Updated relevant hero image path
+                  src="/assets/images/hero-network.jpg" // Updated relevant hero image path
                   alt="Networking equipment including servers and ethernet cables in a data rack" // Updated alt text
                   width={600}
                   height={400}
                   className="rounded-xl shadow-2xl object-cover aspect-[4/3]" // Consistent styling: aspect-[4/3], rounded-xl
                   data-ai-hint="network server rack data center ethernet cables switch" // Updated hint
                   priority // Load hero image faster
+                  // Removed onError handler to prevent SSR issues
                 />
             </div>
           </div>
@@ -113,7 +128,7 @@ export default function HomePage() {
                   </CardContent>
                    <CardFooter className="p-5 pt-0 bg-muted/30 group-hover:bg-muted/50 transition-colors">
                       <Button asChild variant="link" className="w-full justify-start p-0 h-auto text-primary font-semibold">
-                        <Link href={tool.link}>Open Tool <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
+                        <Link href={tool.link}>{tool.ctaText || 'Open Tool'} <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
                       </Button>
                    </CardFooter>
                 </Card>
@@ -128,13 +143,14 @@ export default function HomePage() {
             <div className="flex justify-center items-center md:order-2">
                  {/* Updated about image placeholder and hints */}
                  <Image
-                  src="/images/networking_2.jpg" // Replaced with picsum placeholder
-                  alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform" // Updated alt text
+                  src="/assets/images/hero-electronics.jpg" 
+                  alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform" 
                   width={500}
                   height={350}
-                  className="rounded-xl shadow-xl object-cover aspect-[4/3]" // Consistent styling: rounded-xl
-                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter" // Updated hint
-                  loading="lazy" // Add lazy loading
+                  className="rounded-xl shadow-xl object-cover aspect-[4/3]" 
+                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter" 
+                  loading="lazy" 
+                  // Removed onError handler to prevent SSR issues
                 />
             </div>
              <div className="space-y-5 md:order-1 text-center md:text-left">

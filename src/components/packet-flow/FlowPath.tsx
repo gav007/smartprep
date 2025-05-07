@@ -1,4 +1,4 @@
-
+// src/components/packet-flow/FlowPath.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -15,11 +15,13 @@ interface FlowPathProps {
 
 const FlowPath: React.FC<FlowPathProps> = ({ direction, isActive, isVertical = false, style, className }) => {
   const [markerId, setMarkerId] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false); // To track client-side mount
 
-  // Generate the marker ID only on the client side after hydration
   useEffect(() => {
+    setIsClient(true); // Component has mounted on the client
+    // Generate a unique ID for the marker only on the client
     setMarkerId(`arrowhead-${direction}-${Math.random().toString(16).slice(2)}`);
-  }, [direction]); // Regenerate if direction changes (though likely stable)
+  }, [direction]); // Re-generate if direction changes (though likely stable)
 
   const pathVariants = {
     inactive: { pathLength: 0, opacity: 0.3 },
@@ -30,9 +32,8 @@ const FlowPath: React.FC<FlowPathProps> = ({ direction, isActive, isVertical = f
     }
   };
 
-  // Basic line path - customize with actual coordinates based on layout
   const getPathD = () => {
-    if (isVertical) return "M 0 0 V 50"; // Simple vertical line
+    if (isVertical) return "M 5 0 V 50"; // Centered vertical line in a 10-width viewbox
     // Horizontal lines - adjust coordinates based on actual layout
     if (direction === 'AtoR' || direction === 'RtoA') return "M 0 25 H 100";
     if (direction === 'RtoB' || direction === 'BtoR') return "M 0 25 H 100";
@@ -40,33 +41,36 @@ const FlowPath: React.FC<FlowPathProps> = ({ direction, isActive, isVertical = f
   };
 
 
-  // Don't render until the marker ID is generated on the client
-  if (!markerId) {
-    // Render a placeholder or null during server render and initial client render before useEffect runs
+  // On the server, and for the initial client render, return a placeholder or null.
+  // This ensures the server output matches the client's first paint.
+  if (!isClient || !markerId) {
+    // Render a consistent placeholder. This SVG should not contain the marker or markerEnd.
+    // It's crucial that this output is identical between server and initial client render.
     return (
         <svg
             width="100%"
             height={isVertical ? "50" : "50"}
             viewBox={isVertical ? "0 0 10 50" : "0 0 100 50"}
-            className={cn("overflow-visible opacity-30", className)} // Show placeholder state
+            className={cn("overflow-visible opacity-30", className)}
             style={style}
         >
              <path
                 d={getPathD()}
                 fill="transparent"
-                stroke={'hsl(var(--muted-foreground))'}
+                stroke={'hsl(var(--muted-foreground))'} // Consistent placeholder color
                 strokeWidth="2"
-                strokeDasharray="4 4" // Make it dashed
+                strokeDasharray="4 4"
             />
         </svg>
     );
   }
 
+  // This part renders only on the client after isClient is true and markerId is generated
   return (
     <svg
-      width="100%" // Adjust width/height based on container
-      height={isVertical ? "50" : "50"} // Example heights
-      viewBox={isVertical ? "0 0 10 50" : "0 0 100 50"} // Adjust viewBox
+      width="100%"
+      height={isVertical ? "50" : "50"}
+      viewBox={isVertical ? "0 0 10 50" : "0 0 100 50"}
       className={cn("overflow-visible", className)}
       style={style}
     >
@@ -75,7 +79,7 @@ const FlowPath: React.FC<FlowPathProps> = ({ direction, isActive, isVertical = f
           id={markerId}
           markerWidth="6"
           markerHeight="6"
-          refX="5" // Position arrowhead slightly away from the end
+          refX="5" 
           refY="3"
           orient="auto"
           markerUnits="strokeWidth"
@@ -88,11 +92,11 @@ const FlowPath: React.FC<FlowPathProps> = ({ direction, isActive, isVertical = f
         fill="transparent"
         stroke={isActive ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))'}
         strokeWidth="2"
-        strokeDasharray="4 4" // Make it dashed
+        strokeDasharray="4 4" 
         variants={pathVariants}
         initial="inactive"
         animate={isActive ? "active" : "inactive"}
-        markerEnd={`url(#${markerId})`} // Add arrowhead using the client-generated ID
+        markerEnd={`url(#${markerId})`}
       />
     </svg>
   );
