@@ -13,14 +13,14 @@ interface CalculatorInputProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  onBlur?: () => void; // Added onBlur prop
-  unit?: Unit; // Make unit optional
+  onBlur?: () => void; 
+  unit?: Unit; 
   unitOptions?: Unit[];
   onUnitChange?: (unit: Unit) => void;
   placeholder?: string;
   tooltip?: string;
-  isCalculated?: boolean; // Indicate if the field is currently auto-calculated
-  error?: boolean; // Indicate an error state
+  isCalculated?: boolean; 
+  error?: boolean; 
   disabled?: boolean;
   type?: string;
   min?: string | number;
@@ -32,7 +32,7 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
   label,
   value,
   onChange,
-  onBlur, // Destructure onBlur
+  onBlur, 
   unit,
   unitOptions,
   onUnitChange,
@@ -51,7 +51,7 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
       type={type}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      onBlur={onBlur} // Pass onBlur to the Input component
+      onBlur={onBlur} 
       placeholder={placeholder}
       className={cn(
         isCalculated ? 'bg-muted/50 border-input font-medium' : '',
@@ -61,24 +61,24 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
       min={min}
       step={step}
       aria-invalid={error}
-      aria-describedby={tooltip ? `${id}-tooltip` : undefined}
+      aria-describedby={tooltip ? `${id}-tooltip-content` : undefined} // Changed to match TooltipContent id
     />
   );
 
   return (
     <div className="grid grid-cols-3 items-end gap-2">
       {/* Label and Tooltip */}
-      <div className="col-span-1 flex items-center space-x-1">
+      <div className="col-span-1 flex items-center space-x-1 pt-1"> {/* Adjusted padding for alignment */}
         <Label htmlFor={id}>{label}</Label>
         {tooltip && (
           <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <button type="button" className="cursor-help text-muted-foreground hover:text-foreground">
+                <button type="button" className="cursor-help text-muted-foreground hover:text-foreground" aria-label={`Help for ${label}`}>
                   <HelpCircle size={14} />
                 </button>
               </TooltipTrigger>
-              <TooltipContent id={`${id}-tooltip`}>
+              <TooltipContent id={`${id}-tooltip-content`}> {/* Added id for aria-describedby */}
                 <p>{tooltip}</p>
               </TooltipContent>
             </Tooltip>
@@ -105,12 +105,11 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
             </SelectContent>
           </Select>
         ) : unit ? (
-            // Display unit if provided but no options (e.g., %)
             <span className="flex h-10 w-full items-center justify-center rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground">
                 {unit}
             </span>
         ) : (
-          <div className="w-full md:w-[85px] flex-shrink-0"></div> // Placeholder for alignment
+          <div className="w-full md:w-[85px] flex-shrink-0"></div> 
         )}
       </div>
     </div>
