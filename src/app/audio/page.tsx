@@ -1,0 +1,84 @@
+// src/app/audio/page.tsx
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import AudioCard from '@/components/audio/AudioCard';
+import type { AudioMetadata } from '@/types/audio';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Loader2, AlertTriangle, Podcast } from 'lucide-react'; // Podcast icon for header
+
+export default function AudioLessonsPage() {
+  const [audioFiles, setAudioFiles] = useState<AudioMetadata[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchAudioMetadata() {
+      try {
+        const response = await fetch('/data/audio/audio-metadata.json');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch audio metadata: ${response.statusText}`);
+        }
+        const data: AudioMetadata[] = await response.json();
+        if (!Array.isArray(data)) {
+            throw new Error('Invalid audio metadata format: Expected an array.');
+        }
+        setAudioFiles(data);
+      } catch (err) {
+        console.error(err);
+        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchAudioMetadata();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-[60vh] text-center">
+        <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+        <p className="text-lg text-muted-foreground">Loading Audio Lessons...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-[60vh] text-center">
+        <Alert variant="destructive" className="max-w-lg mx-auto">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Error Loading Audio</AlertTitle>
+          <AlertDescription>
+            {error} Please try again later.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-12">
+      <header className="text-center mb-12">
+        <h1 className="text-3xl md:text-4xl font-bold mb-3 flex items-center justify-center gap-2">
+          <Podcast className="h-8 w-8 text-primary" />
+          Audio Lessons
+        </h1>
+        <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+          Listen to educational audio clips on networking and electronics topics.
+        </p>
+      </header>
+
+      {audioFiles.length === 0 ? (
+        <p className="text-center text-muted-foreground">No audio lessons available at the moment.</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {audioFiles.map((audio) => (
+            <AudioCard key={audio.id} audio={audio} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

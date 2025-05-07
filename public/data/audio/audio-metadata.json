@@ -1,0 +1,51 @@
+[
+    {
+      "id": "Wifi",
+      "title": "Wi-Fi Basics",
+      "description": "From Router Placement to Future Speeds",
+      "filename": "Wifi.wav"
+    },
+    {
+      "id": "modulation",
+      "title": "Modulation Explained",
+      "description": "How signals are encoded for transmission",
+      "filename": "modulation.wav"
+    },
+    {
+      "id": "fibreVsCopper",
+      "title": "Fibre vs Copper",
+      "description": "Speed, distance, and durability comparison",
+      "filename": "fibreVsCopper.wav"
+    },
+    {
+      "id": "frequencies",
+      "title": "Frequencies & Bands",
+      "description": "Why 2.4GHz vs 5GHz matters",
+      "filename": "frequencies.wav"
+    },
+    {
+      "id": "infrastructureCabling",
+      "title": "Infrastructure Cabling",
+      "description": "Planning cable runs and data closets",
+      "filename": "infrastructureCabling.wav"
+    },
+    {
+      "id": "cableCertification",
+      "title": "Cable Certification",
+      "description": "Why it matters for installations",
+      "filename": "cableCertification.wav"
+    },
+    {
+      "id": "cableSheilding",
+      "title": "Cable Shielding",
+      "description": "Foil, braided, and unshielded explained",
+      "filename": "cableSheilding.wav"
+    },
+    {
+      "id": "fibreOptics",
+      "title": "Fibre Optics",
+      "description": "Light-speed data and its benefits",
+      "filename": "fibreOptics.wav"
+    }
+  ]
+  

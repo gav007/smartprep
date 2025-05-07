@@ -3,11 +3,11 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit } from 'lucide-react'; // Added BrainCircuit
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast } from 'lucide-react'; // Added Podcast
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet"; 
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation'; 
+import { usePathname } from 'next/navigation';
 
 
 // Updated Nav Items for clarity and relevance
@@ -15,8 +15,9 @@ const navItems = [
   { href: "/", label: "Home", icon: HomeIcon },
   { href: "/quiz", label: "Quizzes", icon: BookOpen },
   { href: "/calculator", label: "Calculators", icon: Calculator },
+  { href: "/audio", label: "Audio Lessons", icon: Podcast }, // Added Audio Lessons
   {
-    group: "Tools", 
+    group: "Tools",
     items: [
       { href: "/tools/subnet", label: "Subnet", icon: Network },
       { href: "/tools/truth-table", label: "Truth Table", icon: TableIcon },
@@ -29,7 +30,7 @@ const navItems = [
 ];
 
 const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobile: boolean = false) => {
-   const pathname = usePathname(); 
+   const pathname = usePathname();
 
    return items.flatMap((item) => {
      if ('group' in item) {
@@ -44,6 +45,7 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
                             "flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium transition-colors hover:bg-muted hover:text-primary",
                             pathname === subItem.href ? "bg-muted text-primary font-semibold" : "text-foreground"
                         )}
+                        onClick={closeSheet}
                         >
                         <subItem.icon size={18} />
                         {subItem.label}
@@ -76,6 +78,7 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
                         "flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium transition-colors hover:bg-muted hover:text-primary",
                          pathname === item.href ? "bg-muted text-primary font-semibold" : "text-foreground"
                     )}
+                    onClick={closeSheet}
                 >
                     <item.icon size={18} />
                     {item.label}
@@ -113,7 +116,7 @@ export default function Header() {
            <span className="font-semibold">SmartPrep TU 716</span>
         </Link>
 
-        <nav className="hidden md:flex flex-wrap items-center space-x-6"> 
+        <nav className="hidden md:flex flex-wrap items-center space-x-6">
              {renderNavLinks(navItems, undefined, false)}
         </nav>
 
@@ -124,9 +127,10 @@ export default function Header() {
              </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
-             <SheetHeader className="flex flex-row h-16 items-center justify-between border-b px-4"> 
+             <SheetHeader className="flex flex-row h-16 items-center justify-between border-b px-4">
                  <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
                    <Network size={24} />
+                    {/* Use SheetTitle for screen readers but keep visual title as part of Link */}
                    <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
                    SmartPrep
                  </Link>
@@ -145,3 +149,4 @@ export default function Header() {
     </header>
   );
 }
+
