@@ -15,7 +15,7 @@ const navItems = [
   { href: "/", label: "Home", icon: HomeIcon },
   { href: "/quiz", label: "Quizzes", icon: BookOpen },
   { href: "/calculator", label: "Calculators", icon: Calculator },
-  { href: "/audio", label: "Audio Lessons", icon: Podcast }, // Added Audio Lessons
+  { href: "/audio", label: "Audio Lessons", icon: Podcast }, 
   {
     group: "Tools",
     items: [
@@ -128,12 +128,12 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
              <SheetHeader className="flex flex-row h-16 items-center justify-between border-b px-4">
-                 <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-                   <Network size={24} />
-                    {/* Use SheetTitle for screen readers but keep visual title as part of Link */}
-                   {/* <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle> */}
-                   SmartPrep
-                 </Link>
+                <SheetTitle className="text-left"> {/* Ensure title is present for accessibility */}
+                  <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Network size={24} />
+                    SmartPrep
+                  </Link>
+                </SheetTitle>
                 <SheetClose asChild>
                      <Button variant="ghost" size="icon" aria-label="Close main menu">
                         <X className="h-6 w-6" />
@@ -149,4 +149,3 @@ export default function Header() {
     </header>
   );
 }
-

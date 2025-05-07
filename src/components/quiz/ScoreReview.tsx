@@ -6,7 +6,7 @@ import type { Question, AnswerSelection } from '@/types/quiz';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle, CircleAlert, RefreshCw, Home, Copy } from 'lucide-react';
+import { CheckCircle, XCircle, RefreshCw, Home, Copy, CircleAlert } from 'lucide-react'; // Replaced X with XCircle for consistency, added CircleAlert
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -57,9 +57,9 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
 
   return (
     <Card className="w-full max-w-3xl mx-auto shadow-lg rounded-lg">
-      <CardHeader className="text-center bg-primary text-primary-foreground p-6 rounded-t-lg">
+      <CardHeader className="text-center bg-primary text-primary-foreground p-4 md:p-6 rounded-t-lg">
         <CardTitle className="text-2xl md:text-3xl font-bold">Quiz Results</CardTitle>
-        <CardDescription className="text-primary-foreground/80 text-lg mt-2">
+        <CardDescription className="text-primary-foreground/80 text-md md:text-lg mt-2">
           You scored {score} out of {totalQuestions} ({scorePercentage}%)
         </CardDescription>
       </CardHeader>
@@ -78,64 +78,51 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
               <AccordionItem key={questionId} value={`item-${index}`} className={cn("border-b rounded-lg mb-2 overflow-hidden", isCorrect ? "border-green-200 dark:border-green-700/50" : "border-destructive/30 dark:border-destructive/50")}>
                 <div className={cn("flex justify-between items-center p-3 group", isCorrect ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-destructive')}>
                     <AccordionTrigger className="flex-1 p-0 hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 text-left rounded-sm">
-                      <div className="flex items-center min-w-0">
+                      <div className="flex items-start min-w-0"> {/* Use items-start for better alignment if text wraps */}
                         {isCorrect ? (
-                          <CheckCircle className="h-5 w-5 mr-2 shrink-0" />
+                          <CheckCircle className="h-5 w-5 mr-2 shrink-0 mt-0.5" /> // Added mt-0.5 for alignment
                         ) : (
-                          <CircleAlert className="h-5 w-5 mr-2 shrink-0" />
+                          <XCircle className="h-5 w-5 mr-2 shrink-0 mt-0.5" /> // Used XCircle, added mt-0.5
                         )}
-                        <span className="flex-1 text-base font-medium mr-2 truncate">{index + 1}. {question.question}</span>
+                        {/* Ensure question text wraps properly */}
+                        <span className="flex-1 text-sm sm:text-base font-medium mr-2 break-words overflow-wrap-anywhere">{index + 1}. {question.question}</span>
                       </div>
                     </AccordionTrigger>
-                    <div
-                        role="button"
-                        tabIndex={0}
+                    <Button
+                        variant="ghost"
+                        size="icon"
                         className={cn(
-                            "ml-2 h-6 w-6 p-1 rounded-md flex items-center justify-center cursor-pointer",
-                            "opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity shrink-0",
-                            "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                            "ml-2 h-7 w-7 p-1 rounded-md flex items-center justify-center cursor-pointer shrink-0",
+                            "opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity",
                             isCorrect 
                                 ? "text-green-600 hover:bg-green-100 dark:text-green-400 dark:hover:bg-green-900/30" 
                                 : "text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/30"
                         )}
                         onClick={(e) => { e.stopPropagation(); copyToClipboard(question.question, index, 'Question'); }}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                e.stopPropagation();
-                                copyToClipboard(question.question, index, 'Question');
-                            }
-                        }}
                         aria-label="Copy question text"
                     >
                        <Copy size={14} />
-                    </div>
+                    </Button>
                 </div>
                 <AccordionContent className="pt-0 pb-0 px-0">
-                    <div className="bg-background p-4 border-t border-border space-y-3">
-                         <p><strong>Your Answer:</strong> {userAnswerLabel || (userAnswer?.selectedOption ? `"${userAnswer.selectedOption}" (Invalid)`: <span className="italic text-muted-foreground">Not answered</span>)} {isCorrect ? <span className="text-green-700 dark:text-green-400">(Correct)</span> : <span className="text-destructive">(Incorrect)</span>}</p>
-                        {!isCorrect && <p><strong>Correct Answer:</strong> {correctAnswerLabel || `"${question.answer}" (Invalid)`}</p>}
+                    <div className="bg-background p-3 md:p-4 border-t border-border space-y-3 text-sm sm:text-base">
+                         <p className="break-words overflow-wrap-anywhere"><strong>Your Answer:</strong> {userAnswerLabel || (userAnswer?.selectedOption ? `"${userAnswer.selectedOption}" (Invalid)`: <span className="italic text-muted-foreground">Not answered</span>)} {isCorrect ? <span className="text-green-700 dark:text-green-400">(Correct)</span> : <span className="text-destructive">(Incorrect)</span>}</p>
+                        {!isCorrect && <p className="break-words overflow-wrap-anywhere"><strong>Correct Answer:</strong> {correctAnswerLabel || `"${question.answer}" (Invalid)`}</p>}
                         {question.feedback && (
                             <div className="relative group/feedback">
-                                <p className="text-muted-foreground italic pr-8"><strong>Feedback:</strong> {question.feedback}</p>
-                                <div
-                                    role="button"
-                                    tabIndex={0}
+                                <p className="text-muted-foreground italic pr-8 break-words overflow-wrap-anywhere"><strong>Feedback:</strong> {question.feedback}</p>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
                                     className={cn(
-                                        "absolute top-1 right-1 h-6 w-6 p-1 rounded-md flex items-center justify-center cursor-pointer",
-                                        "text-muted-foreground opacity-0 group-hover/feedback:opacity-100 focus-visible:opacity-100 transition-opacity",
-                                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+                                        "absolute top-0 right-0 h-7 w-7 p-1 rounded-md flex items-center justify-center cursor-pointer",
+                                        "text-muted-foreground opacity-0 group-hover/feedback:opacity-100 focus-visible:opacity-100 transition-opacity"
                                     )}
                                     onClick={(e) => {e.stopPropagation(); copyToClipboard(question.feedback, index, 'Feedback'); }}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' || e.key === ' ') {
-                                            e.stopPropagation();
-                                            copyToClipboard(question.feedback, index, 'Feedback');
-                                        }
-                                    }}
                                     aria-label="Copy feedback text"
                                 >
                                 <Copy size={14} />
-                                </div>
+                                </Button>
                             </div>
                          )}
                     </div>
@@ -145,7 +132,7 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
           })}
         </Accordion>
       </CardContent>
-      <CardFooter className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 p-6 bg-muted/30 rounded-b-lg">
+      <CardFooter className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 p-4 md:p-6 bg-muted/30 rounded-b-lg">
         <Button variant="outline" onClick={onRestart} className="w-full sm:w-auto">
           <RefreshCw className="mr-2 h-4 w-4" /> Select New Quiz
         </Button>
@@ -156,4 +143,3 @@ export default function ScoreReview({ questions, userAnswers, onRestart, onGoHom
     </Card>
   );
 }
-

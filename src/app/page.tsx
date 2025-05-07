@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast } from 'lucide-react';
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, GitBranchPlus, Info } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -13,7 +13,7 @@ const featuredTools = [
     description: "Understand networking & electronics anywhere, anytime.",
     icon: Podcast,
     link: "/audio",
-    aiHint: "audio podcast lessons education",
+    aiHint: "audio podcast lessons education", // Added aiHint for consistency
     ctaText: "▶️ Browse Audio Library"
   },
   {
@@ -44,15 +44,15 @@ const featuredTools = [
     title: "Ohm's & Power Calc",
     description: "Solve for Voltage (V), Current (I), Resistance (R), or Power (P) using Ohm's Law.",
     icon: Zap, // Power icon
-    link: "/calculator#power", // Link to the main calculator page, section Power
+    link: "/calculator#power", 
     aiHint: "ohms law power triangle formula",
     ctaText: "Open Tool"
   },
    {
     title: "BJT Solver",
     description: "Analyze fixed-bias common-emitter BJT circuits: find IB, IC, VCE, and saturation points.",
-    icon: CircuitBoard, // More specific BJT icon
-    link: "/calculator#bjt", // Link to main calculator page, section BJT
+    icon: CircuitBoard, 
+    link: "/calculator#bjt", 
     aiHint: "bjt transistor circuit diagram",
     ctaText: "Open Tool"
   },
@@ -73,8 +73,6 @@ export default function HomePage() {
       <main className="flex-grow">
         {/* Hero Section - Updated Design */}
         <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-br from-primary/10 via-background to-background">
-           {/* Optional: Subtle background pattern or SVG */}
-           {/* <div className="absolute inset-0 opacity-5"> ... SVG pattern ... </div> */}
           <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative z-10">
             <div className="space-y-6 text-center md:text-left">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight text-primary">
@@ -93,16 +91,14 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex justify-center items-center">
-                {/* Updated hero image placeholder and hints */}
                 <Image
-                  src="/assets/images/hero-network.jpg" // Updated relevant hero image path
-                  alt="Networking equipment including servers and ethernet cables in a data rack" // Updated alt text
+                  src="/assets/images/hero-network.jpg" 
+                  alt="Stylized representation of a network with interconnected nodes and data packets flowing, emphasizing connectivity and data transfer."
                   width={600}
                   height={400}
-                  className="rounded-xl shadow-2xl object-cover aspect-[4/3]" // Consistent styling: aspect-[4/3], rounded-xl
-                  data-ai-hint="network server rack data center ethernet cables switch" // Updated hint
-                  priority // Load hero image faster
-                  // Removed onError handler to prevent SSR issues
+                  className="rounded-xl shadow-2xl object-cover aspect-[4/3]" 
+                  data-ai-hint="network diagram data center" 
+                  priority 
                 />
             </div>
           </div>
@@ -141,16 +137,14 @@ export default function HomePage() {
         <section className="py-16 md:py-24 bg-secondary/30">
           <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
             <div className="flex justify-center items-center md:order-2">
-                 {/* Updated about image placeholder and hints */}
                  <Image
                   src="/assets/images/hero-electronics.jpg" 
-                  alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform" 
+                  alt="An engineer's workbench with various electronics components, a breadboard, multimeter, and an oscilloscope displaying a waveform."
                   width={500}
                   height={350}
                   className="rounded-xl shadow-xl object-cover aspect-[4/3]" 
-                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter" 
+                  data-ai-hint="electronics workbench circuit oscilloscope"
                   loading="lazy" 
-                  // Removed onError handler to prevent SSR issues
                 />
             </div>
              <div className="space-y-5 md:order-1 text-center md:text-left">
@@ -167,10 +161,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
       </main>
-
-      <Footer /> {/* Use the existing Footer component */}
+      <Footer />
     </div>
   );
 }

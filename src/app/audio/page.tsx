@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import AudioCard from '@/components/audio/AudioCard';
 import type { AudioMetadata } from '@/types/audio';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertTriangle, Podcast } from 'lucide-react'; // Podcast icon for header
+import { Loader2, AlertTriangle, Podcast } from 'lucide-react'; 
 
 export default function AudioLessonsPage() {
   const [audioFiles, setAudioFiles] = useState<AudioMetadata[]>([]);
@@ -15,9 +15,10 @@ export default function AudioLessonsPage() {
   useEffect(() => {
     async function fetchAudioMetadata() {
       try {
-        const response = await fetch('/data/audio/audio-metadata.json');
+        // Corrected path to fetch from the root of public/data
+        const response = await fetch('/data/audio.json'); 
         if (!response.ok) {
-          throw new Error(`Failed to fetch audio metadata: ${response.statusText}`);
+          throw new Error(`Failed to fetch audio metadata: ${response.statusText} (status: ${response.status})`);
         }
         const data: AudioMetadata[] = await response.json();
         if (!Array.isArray(data)) {

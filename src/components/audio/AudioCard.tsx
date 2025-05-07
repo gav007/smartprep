@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlayCircle, FileAudio } from 'lucide-react'; // Icons for visual appeal
+import { FileAudio } from 'lucide-react'; 
 import type { AudioMetadata } from '@/types/audio';
 
 interface AudioCardProps {
@@ -11,10 +11,11 @@ interface AudioCardProps {
 }
 
 const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
+  // Construct the audio source path relative to the public directory
   const audioSrc = `/data/audio/${audio.filename}`;
 
   return (
-    <Card className="w-full overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
+    <Card className="w-full overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl bg-card border border-border/50 rounded-xl">
       <CardHeader className="flex flex-row items-start gap-4 p-4 bg-muted/30">
         <div className="p-2 bg-primary/10 text-primary rounded-lg">
           <FileAudio size={24} />

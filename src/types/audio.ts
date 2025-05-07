@@ -4,4 +4,5 @@ export interface AudioMetadata {
   title: string;
   description: string;
   filename: string;
+  // duration?: string; // Consider adding if needed for display
 }
