@@ -13,7 +13,7 @@ const featuredTools = [
     description: "Understand networking & electronics anywhere, anytime.",
     icon: Podcast,
     link: "/audio",
-    aiHint: "audio podcast lessons education", // Added aiHint for consistency
+    aiHint: "audio podcast lessons education",
     ctaText: "▶️ Browse Audio Library"
   },
   {
@@ -88,16 +88,19 @@ export default function HomePage() {
                 <Button asChild variant="outline" size="lg" className="shadow hover:shadow-md transition-shadow">
                   <Link href="/calculator">🧮 Open Calculators <Calculator className="ml-2 h-5 w-5" /></Link>
                 </Button>
+                <Button asChild variant="outline" size="lg" className="shadow hover:shadow-md transition-shadow bg-accent/10 hover:bg-accent/20 text-accent-foreground">
+                  <Link href="/audio">🎧 Audio Lessons <Podcast className="ml-2 h-5 w-5" /></Link>
+                </Button>
               </div>
             </div>
             <div className="flex justify-center items-center">
                 <Image
                   src="/assets/images/hero-network.jpg" 
-                  alt="Stylized representation of a network with interconnected nodes and data packets flowing, emphasizing connectivity and data transfer."
+                  alt="Networking equipment including servers and ethernet cables in a data rack"
                   width={600}
                   height={400}
                   className="rounded-xl shadow-2xl object-cover aspect-[4/3]" 
-                  data-ai-hint="network diagram data center" 
+                  data-ai-hint="network server rack data center ethernet cables switch" 
                   priority 
                 />
             </div>
@@ -139,11 +142,11 @@ export default function HomePage() {
             <div className="flex justify-center items-center md:order-2">
                  <Image
                   src="/assets/images/hero-electronics.jpg" 
-                  alt="An engineer's workbench with various electronics components, a breadboard, multimeter, and an oscilloscope displaying a waveform."
+                  alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform"
                   width={500}
                   height={350}
                   className="rounded-xl shadow-xl object-cover aspect-[4/3]" 
-                  data-ai-hint="electronics workbench circuit oscilloscope"
+                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter"
                   loading="lazy" 
                 />
             </div>
@@ -166,3 +169,4 @@ export default function HomePage() {
     </div>
   );
 }
+
