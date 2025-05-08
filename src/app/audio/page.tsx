@@ -1,3 +1,4 @@
+
 // src/app/audio/page.tsx
 'use client';
 
@@ -23,15 +24,13 @@ export default function AudioLessonsPage() {
         if (!response.ok) {
           throw new Error(`Failed to fetch audio metadata: ${response.statusText} (status: ${response.status})`);
         }
-        const data: any[] = await response.json(); // Fetch as any[] first for more flexible validation
+        const data: any[] = await response.json();
         
         if (!Array.isArray(data)) {
             throw new Error('Invalid audio metadata format: Expected an array.');
         }
         
-        // Filter and group valid audio files
         const groups: GroupedAudio = data.reduce((acc, audioItem) => {
-          // Validate each audio item before processing
           if (
             !audioItem ||
             typeof audioItem.id !== 'string' ||
@@ -41,12 +40,11 @@ export default function AudioLessonsPage() {
             audioItem.filename.trim() === ''
           ) {
             console.warn('AudioLessonsPage: Skipping invalid audio entry in audio.json:', audioItem);
-            return acc; // Skip this invalid item
+            return acc;
           }
 
-          // Cast to AudioMetadata after validation
           const validAudioItem = audioItem as AudioMetadata;
-          const category = validAudioItem.category || 'General'; // Default category if none provided
+          const category = validAudioItem.category || 'General'; 
           
           if (!acc[category]) {
             acc[category] = [];
@@ -104,11 +102,11 @@ export default function AudioLessonsPage() {
         </p>
       </header>
 
-      {categories.length === 0 && !loading ? ( // Check !loading to avoid showing "No lessons" during initial load
+      {categories.length === 0 && !loading ? (
         <p className="text-center text-muted-foreground">No audio lessons available at the moment. Please check back later.</p>
       ) : (
         <div className="space-y-12">
-          {categories.sort().map((category) => ( // Sort categories alphabetically for consistent order
+          {categories.sort().map((category) => (
             <section key={category}>
               <h2 className="text-2xl font-semibold mb-6 border-b pb-2 flex items-center gap-2">
                 <ListMusic className="h-6 w-6 text-accent" /> 

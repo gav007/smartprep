@@ -65,8 +65,8 @@
       "mimeType": "audio/wav"
     },
     {
-      "id": "applied_summary",
-      "title": "Applied Networking Summary",
+      "id": "applied_summary_new",
+      "title": "Applied Networking Summary (New)",
       "description": "A quick recap of applied networking topics and their importance.",
       "filename": "applied_summary.wav",
       "category": "Applied Networking",

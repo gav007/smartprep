@@ -1,3 +1,4 @@
+
 // src/components/audio/AudioCard.tsx
 'use client';
 
@@ -11,10 +12,8 @@ interface AudioCardProps {
 }
 
 const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
-  // Ensure audio object and filename are valid before constructing the path
   if (!audio || typeof audio.filename !== 'string' || audio.filename.trim() === '') {
     console.error("AudioCard: Invalid or missing audio filename for audio item:", audio);
-    // Simplified error display within the card space
     return (
       <Card className="w-full overflow-hidden shadow-lg bg-destructive/10 border-destructive/50 rounded-xl">
         <CardHeader className="flex flex-row items-center gap-3 p-3">
@@ -40,20 +39,25 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     if (!filename) return 'audio/mpeg'; // Default fallback
 
     const extension = filename.split('.').pop()?.toLowerCase();
-    if (extension === 'wav') return 'audio/wav';
-    if (extension === 'mp3') return 'audio/mpeg'; // Explicitly handle .mp3
-    if (extension === 'mpg') return 'audio/mpeg'; // Treat .mpg as MPEG audio
-    
-    console.warn(`AudioCard: Unknown audio extension ".${extension}" for ${filename}. Defaulting to audio/mpeg.`);
-    return 'audio/mpeg'; 
+    switch (extension) {
+      case 'wav':
+        return 'audio/wav';
+      case 'mp3':
+        return 'audio/mpeg';
+      case 'mpg': // Treat .mpg as MPEG audio, common for older audio/video rips
+        return 'audio/mpeg';
+      case 'ogg':
+        return 'audio/ogg';
+      case 'aac':
+        return 'audio/aac';
+      // Add more cases as needed
+      default:
+        console.warn(`AudioCard: Unknown audio extension ".${extension}" for ${filename}. Defaulting to audio/mpeg.`);
+        return 'audio/mpeg'; 
+    }
   };
   
   const mimeType = getMimeType(audio.filename, audio.mimeType);
-
-  // Uncomment for debugging in browser console:
-  // React.useEffect(() => {
-  //   console.log(`AudioCard for "${audio.title}": src="${audioSrc}", type="${mimeType}"`);
-  // }, [audio.title, audioSrc, mimeType]);
 
   return (
     <Card className="w-full overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl bg-card border border-border/50 rounded-xl">
@@ -69,9 +73,9 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <audio controls className="w-full" preload="metadata"> {/* Added preload="metadata" */}
+        <audio controls className="w-full" preload="metadata">
           <source src={audioSrc} type={mimeType} />
-          Your browser does not support the audio element.
+          Your browser does not support the audio element. Try updating your browser or using a different one.
         </audio>
       </CardContent>
     </Card>
