@@ -44,13 +44,12 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         return 'audio/wav';
       case 'mp3':
         return 'audio/mpeg';
-      case 'mpg': // Treat .mpg as MPEG audio, common for older audio/video rips
+      case 'mpg': 
         return 'audio/mpeg';
       case 'ogg':
         return 'audio/ogg';
       case 'aac':
         return 'audio/aac';
-      // Add more cases as needed
       default:
         console.warn(`AudioCard: Unknown audio extension ".${extension}" for ${filename}. Defaulting to audio/mpeg.`);
         return 'audio/mpeg'; 

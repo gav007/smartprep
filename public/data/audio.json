@@ -66,7 +66,7 @@
     },
     {
       "id": "applied_summary_new",
-      "title": "Applied Networking Summary (New)",
+      "title": "Applied Networking Summary",
       "description": "A quick recap of applied networking topics and their importance.",
       "filename": "applied_summary.wav",
       "category": "Applied Networking",
@@ -84,7 +84,7 @@
       "id": "ccna_subnetting_intro",
       "title": "CCNA: Introduction to Subnetting",
       "description": "Basic concepts of IPv4 subnetting for CCNA students.",
-      "filename": "audio2/ccna_subnetting.mpg",
+      "filename": "audio2/ccna_subnetting.mp3",
       "category": "CCNA",
       "mimeType": "audio/mpeg"
     },
@@ -97,4 +97,3 @@
       "mimeType": "audio/wav"
     }
   ]
-  
