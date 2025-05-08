@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import type { WaveformType, WaveformParams } from '@/types/waveform';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, HelpCircle } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface WaveformControlsProps {
   params: WaveformParams;
@@ -22,7 +23,6 @@ const initialParamsForReset: WaveformParams = {
   timeWindowMs: 1000, samplingRateHz: 1000,
 };
 
-
 export default function WaveformControls({ params, onParamsChange }: WaveformControlsProps) {
 
   const handleReset = () => {
@@ -35,11 +35,22 @@ export default function WaveformControls({ params, onParamsChange }: WaveformCon
     min: number,
     max: number,
     step: number,
-    unit: string
+    unit: string,
+    tooltipText: string
   ) => (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
-        <Label htmlFor={id} className="text-xs">{label}</Label>
+        <Label htmlFor={id} className="text-xs flex items-center">
+          {label}
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HelpCircle size={12} className="inline ml-1 text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent><p>{tooltipText}</p></TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </Label>
         <Input
           id={`${id}-input`}
           type="number"
@@ -64,7 +75,6 @@ export default function WaveformControls({ params, onParamsChange }: WaveformCon
     </div>
   );
 
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 p-4 border rounded-lg bg-muted/50">
       <div className="space-y-1">
@@ -86,16 +96,16 @@ export default function WaveformControls({ params, onParamsChange }: WaveformCon
         </Select>
       </div>
 
-      {renderSliderWithInput('amplitude', 'Amplitude', 0.1, 20, 0.1, 'V')}
-      {renderSliderWithInput('frequency', 'Frequency', 0.1, 100, 0.1, 'Hz')}
-      {renderSliderWithInput('phase', 'Phase Shift', -180, 180, 1, '°')}
-      {renderSliderWithInput('dcOffset', 'DC Offset', -10, 10, 0.1, 'V')}
+      {renderSliderWithInput('amplitude', 'Amplitude', 0.1, 20, 0.1, 'V', "Peak voltage deviation from DC offset.")}
+      {renderSliderWithInput('frequency', 'Frequency', 0.1, 100, 0.1, 'Hz', "Number of cycles per second.")}
+      {renderSliderWithInput('phase', 'Phase Shift', -180, 180, 1, '°', "Horizontal shift of the waveform in degrees.")}
+      {renderSliderWithInput('dcOffset', 'DC Offset', -10, 10, 0.1, 'V', "Vertical shift of the entire waveform.")}
       
-      <div className="space-y-1 lg:col-span-1"> {/* Time Window takes full width on small screens, half on medium */}
-         {renderSliderWithInput('timeWindowMs', 'Time Window', 10, 5000, 10, 'ms')}
+      <div className="space-y-1 lg:col-span-1">
+         {renderSliderWithInput('timeWindowMs', 'Time Window', 10, 5000, 10, 'ms', "Total duration of time displayed on the X-axis.")}
       </div>
        <div className="space-y-1 lg:col-span-1">
-         {renderSliderWithInput('samplingRateHz', 'Sampling Rate', 100, 10000, 100, 'Hz')}
+         {renderSliderWithInput('samplingRateHz', 'Sampling Rate', 100, 10000, 100, 'Hz', "Number of data points calculated per second.")}
       </div>
 
        <div className="sm:col-span-2 lg:col-span-3 flex justify-end mt-2">

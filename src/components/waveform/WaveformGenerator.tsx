@@ -53,7 +53,6 @@ export default function WaveformGenerator() {
         return;
     }
 
-
     let points: DataPoint[] = [];
     switch (params.type) {
       case 'sine':
@@ -95,6 +94,18 @@ export default function WaveformGenerator() {
         </Alert>
       )}
       <WaveformPlot data={waveformPoints} params={params} />
+       <div className="mt-4 p-3 border rounded-md bg-muted/30 text-xs">
+        <h4 className="font-semibold mb-1 text-sm">Current Waveform Parameters:</h4>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1">
+            <p><strong>Type:</strong> <span className="capitalize">{params.type}</span></p>
+            <p><strong>Amplitude:</strong> {params.amplitude.toFixed(1)} V</p>
+            <p><strong>Frequency:</strong> {params.frequency.toFixed(1)} Hz</p>
+            <p><strong>Phase:</strong> {params.phase}°</p>
+            <p><strong>DC Offset:</strong> {params.dcOffset.toFixed(1)} V</p>
+            <p><strong>Time Window:</strong> {params.timeWindowMs} ms</p>
+            <p><strong>Sampling Rate:</strong> {params.samplingRateHz} Hz</p>
+        </div>
+      </div>
     </div>
   );
 }
