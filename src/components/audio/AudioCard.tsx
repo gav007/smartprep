@@ -30,9 +30,9 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
   }
 
   // Construct the audio source path relative to the public directory
-  // If audio.filename is "audio2/file.mp3", src will be "/data/audio2/file.mp3"
-  // This correctly maps to "public/data/audio2/file.mp3"
-  const audioSrc = `/data/${audio.filename}`;
+  // If audio.filename is "ccna_file.mp3", src will be "/data/audio/ccna_file.mp3"
+  // This correctly maps to "public/data/audio/ccna_file.mp3"
+  const audioSrc = `/data/audio/${audio.filename}`;
 
   const getMimeType = (filename?: string, providedMimeType?: string): string => {
     if (providedMimeType) return providedMimeType;
@@ -44,7 +44,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         return 'audio/wav';
       case 'mp3':
         return 'audio/mpeg';
-      case 'mpg': 
+      case 'mpg': // Treat .mpg as MPEG audio as well, though it's typically video
         return 'audio/mpeg';
       case 'ogg':
         return 'audio/ogg';
@@ -82,3 +82,4 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
 };
 
 export default AudioCard;
+

@@ -6,11 +6,14 @@ import React, { useState, useEffect } from 'react';
 import AudioCard from '@/components/audio/AudioCard';
 import type { AudioMetadata } from '@/types/audio';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertTriangle, Podcast, ListMusic } from 'lucide-react'; 
+import { Loader2, AlertTriangle, Podcast, ListMusic, BookOpen, Network } from 'lucide-react'; 
 
 interface GroupedAudio {
   [category: string]: AudioMetadata[];
 }
+
+const CATEGORY_APPLIED = "Applied Networking";
+const CATEGORY_CCNA = "CCNA";
 
 export default function AudioLessonsPage() {
   const [groupedAudioFiles, setGroupedAudioFiles] = useState<GroupedAudio>({});
@@ -20,6 +23,7 @@ export default function AudioLessonsPage() {
   useEffect(() => {
     async function fetchAudioMetadata() {
       try {
+        // Fetch from the single audio.json in public/data/
         const response = await fetch('/data/audio.json'); 
         if (!response.ok) {
           throw new Error(`Failed to fetch audio metadata: ${response.statusText} (status: ${response.status})`);
@@ -30,7 +34,12 @@ export default function AudioLessonsPage() {
             throw new Error('Invalid audio metadata format: Expected an array.');
         }
         
-        const groups: GroupedAudio = data.reduce((acc, audioItem) => {
+        const groups: GroupedAudio = {
+          [CATEGORY_APPLIED]: [],
+          [CATEGORY_CCNA]: [],
+        };
+
+        data.forEach((audioItem) => {
           if (
             !audioItem ||
             typeof audioItem.id !== 'string' ||
@@ -40,18 +49,24 @@ export default function AudioLessonsPage() {
             audioItem.filename.trim() === ''
           ) {
             console.warn('AudioLessonsPage: Skipping invalid audio entry in audio.json:', audioItem);
-            return acc;
+            return;
           }
 
           const validAudioItem = audioItem as AudioMetadata;
-          const category = validAudioItem.category || 'General'; 
+          // Use the explicit category from audio.json
+          const category = validAudioItem.category;
           
-          if (!acc[category]) {
-            acc[category] = [];
+          if (category === CATEGORY_CCNA) {
+            groups[CATEGORY_CCNA].push(validAudioItem);
+          } else if (category === CATEGORY_APPLIED) {
+            groups[CATEGORY_APPLIED].push(validAudioItem);
+          } else {
+             // Fallback: if category is missing or different, decide based on filename or put in a default group
+             // For now, if not explicitly CCNA, assume Applied Networking or a 'General' group if preferred
+             console.warn(`Audio item "${validAudioItem.title}" has an unrecognized or missing category "${category}". Placing in "Applied Networking".`);
+             groups[CATEGORY_APPLIED].push(validAudioItem);
           }
-          acc[category].push(validAudioItem);
-          return acc;
-        }, {} as GroupedAudio);
+        });
 
         setGroupedAudioFiles(groups);
       } catch (err) {
@@ -88,7 +103,7 @@ export default function AudioLessonsPage() {
     );
   }
 
-  const categories = Object.keys(groupedAudioFiles);
+  const categoriesToDisplay = [CATEGORY_APPLIED, CATEGORY_CCNA];
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -102,27 +117,30 @@ export default function AudioLessonsPage() {
         </p>
       </header>
 
-      {categories.length === 0 && !loading ? (
+      {categoriesToDisplay.every(cat => !groupedAudioFiles[cat] || groupedAudioFiles[cat].length === 0) && !loading ? (
         <p className="text-center text-muted-foreground">No audio lessons available at the moment. Please check back later.</p>
       ) : (
         <div className="space-y-12">
-          {categories.sort().map((category) => (
-            <section key={category}>
-              <h2 className="text-2xl font-semibold mb-6 border-b pb-2 flex items-center gap-2">
-                <ListMusic className="h-6 w-6 text-accent" /> 
-                {category} Audio
-              </h2>
-              {groupedAudioFiles[category].length > 0 ? (
+          {categoriesToDisplay.map((category) => {
+            const filesInCategory = groupedAudioFiles[category] || [];
+            if (filesInCategory.length === 0) return null; // Don't render section if no files
+
+            const IconComponent = category === CATEGORY_CCNA ? BookOpen : Network;
+
+            return (
+              <section key={category}>
+                <h2 className="text-2xl font-semibold mb-6 border-b pb-2 flex items-center gap-2">
+                  <IconComponent className="h-6 w-6 text-accent" /> 
+                  {category} Audio
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {groupedAudioFiles[category].map((audio) => (
+                  {filesInCategory.map((audio) => (
                     <AudioCard key={audio.id} audio={audio} />
                   ))}
                 </div>
-              ) : (
-                <p className="text-muted-foreground italic">No audio files found in this category.</p>
-              )}
-            </section>
-          ))}
+              </section>
+            );
+          })}
         </div>
       )}
     </div>
