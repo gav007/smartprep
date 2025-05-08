@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, WaveSquare } from 'lucide-react'; // Added WaveSquare
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves } from 'lucide-react'; // Changed WaveSquare to Waves
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -91,7 +91,7 @@ const featuredTools = [
   {
     title: "Waveform Viewer",
     description: "Visualize Sine, Square, Triangle, and Sawtooth waveforms. Adjust parameters in real-time.",
-    icon: WaveSquare,
+    icon: Waves, // Changed WaveSquare to Waves
     link: "/tools/waveform",
     aiHint: "oscilloscope signal waveform electronics",
     ctaText: "Open Viewer"
@@ -178,7 +178,7 @@ export default function HomePage() {
                   width={500}
                   height={350}
                   className="rounded-xl shadow-xl object-cover aspect-[4/3]" 
-                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter"
+                  data-ai-hint="network cables switch ports"
                   loading="lazy" 
                 />
             </div>

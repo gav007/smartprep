@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, WaveSquare } from 'lucide-react'; // Added WaveSquare
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves } from 'lucide-react'; // Changed WaveSquare to Waves
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet"; // Added SheetTrigger
 import {
@@ -39,7 +39,7 @@ const navItems = [
       { href: "/tools/base-converter", label: "Base Converter", icon: Binary },
       { href: "/tools/packet-flow", label: "Packet Flow", icon: GitBranchPlus },
       { href: "/tools/voltage-divider", label: "Voltage Divider", icon: Sigma },
-      { href: "/tools/waveform", label: "Waveform Viewer", icon: WaveSquare }, // Added Waveform Viewer
+      { href: "/tools/waveform", label: "Waveform Viewer", icon: Waves }, // Changed WaveSquare to Waves
     ],
   },
    ...(process.env.NODE_ENV === 'development' ? [{ href: "/diagnostics", label: "Diagnostics", icon: Info }] : []),
