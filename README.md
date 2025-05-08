@@ -127,7 +127,6 @@ smartprep/
 │       ├── quiz.ts
 │       └── audio.ts
 
-
 ## 🚀 Getting Started (Local Development)
 
 1. Clone the repository
