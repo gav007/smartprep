@@ -1,13 +1,11 @@
-
 // src/components/calculators/VoltageDividerCalculator.tsx
 'use client';
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
-// RadioGroup and associated imports are removed as mode toggle is removed
 import { Label } from "@/components/ui/label";
-import { AlertCircle, Sigma, RotateCcw, HelpCircle, TrendingUp, TrendingDown, Eye, EyeOff, Calculator } from 'lucide-react';
+import { AlertCircle, Sigma, RotateCcw, HelpCircle, TrendingUp, TrendingDown, Eye, EyeOff } from 'lucide-react';
 import CalculatorCard from './CalculatorCard';
 import CalculatorInput from './CalculatorInput';
 import type { Unit } from '@/lib/units';
@@ -24,7 +22,6 @@ import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from '@/lib/utils';
 
-// Type for standard calculation results
 interface StandardResults {
   totalResistance: number | null;
   current: number | null;
@@ -34,7 +31,6 @@ interface StandardResults {
   voutToleranceMax: number | null;
 }
 
-// Initial state values for standard mode
 const initialVinUnit: Unit = defaultUnits.voltage;
 const initialR1Unit: Unit = 'kΩ';
 const initialR2Unit: Unit = 'kΩ';
@@ -43,7 +39,6 @@ const initialVinStr = '12';
 const initialR1Str = '6';
 const initialR2Str = '6';
 
-// Example values now only for standard mode
 const exampleValues = [
     { vin: '12', r1: '6', r2: '6', vout: '6.00', r1Unit: 'kΩ', r2Unit: 'kΩ', desc: "R1=R2, Vout=Vin/2" },
     { vin: '5', r1: '8', r2: '5', vout: '1.923', r1Unit: 'kΩ', r2Unit: 'kΩ', desc: "R1 > R2" },
@@ -51,7 +46,6 @@ const exampleValues = [
 ];
 
 export default function VoltageDividerCalculator() {
-  // State for standard calculation mode inputs
   const [vinStandardStr, setVinStandardStr] = useState<string>(initialVinStr);
   const [vinStandardUnit, setVinStandardUnit] = useState<Unit>(initialVinUnit);
   const [r1StandardStr, setR1StandardStr] = useState<string>(initialR1Str);
@@ -65,15 +59,14 @@ export default function VoltageDividerCalculator() {
   const [showSteps, setShowSteps] = useState<boolean>(false);
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
 
-  // Ref for debouncing
   const calculationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleBlur = (fieldName: string) => {
     setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
-    // Trigger calculation on blur if conditions met
     if (vinStandardStr.trim() && r1StandardStr.trim() && r2StandardStr.trim()) {
         handleCalculateStandard();
-    } else if (Object.keys(touchedFields).length +1 >= 2 && (vinStandardStr.trim() || r1StandardStr.trim() || r2StandardStr.trim()) ) { // Show hint if enough fields are touched and some input exists
+    } else if (Object.values(touchedFields).filter(Boolean).length + (touchedFields[fieldName] ? 0 : 1) >= 2 && 
+               (vinStandardStr.trim() || r1StandardStr.trim() || r2StandardStr.trim()) ) {
          setError('Enter valid numbers for Vin, R1, and R2.');
     }
   };
@@ -84,12 +77,12 @@ export default function VoltageDividerCalculator() {
     setR1StandardUnit(example.r1Unit as Unit);
     setR2StandardStr(example.r2);
     setR2StandardUnit(example.r2Unit as Unit);
-    setVinStandardUnit('V'); // Default Vin unit for examples
+    setVinStandardUnit('V'); 
     setError(null);
     setStandardResults(null);
-    setShowSteps(true); // Auto-show steps for examples
-    setActiveAccordionItem("item-rt"); // Open first step
-    setTouchedFields({}); // Reset touched state for examples
+    setShowSteps(true); 
+    setActiveAccordionItem("item-rt"); 
+    setTouchedFields({}); 
   }, []);
 
   const handleCalculateStandard = useCallback(() => {
@@ -98,15 +91,11 @@ export default function VoltageDividerCalculator() {
     const vinVal = parseFloat(vinStandardStr);
     const r1Val = parseFloat(r1StandardStr);
     const r2Val = parseFloat(r2StandardStr);
-
-    const allFieldsTouchedOrFilled =
-        (touchedFields.vinStd || vinStandardStr.trim() !== '') &&
-        (touchedFields.r1Std || r1StandardStr.trim() !== '') &&
-        (touchedFields.r2Std || r2StandardStr.trim() !== '');
-
+    
+    const allInputsProvided = vinStandardStr.trim() !== '' && r1StandardStr.trim() !== '' && r2StandardStr.trim() !== '';
 
     if (isNaN(vinVal) || isNaN(r1Val) || isNaN(r2Val)) {
-        if (allFieldsTouchedOrFilled) { // Only show error if all fields were touched or have some value
+        if (allInputsProvided || Object.values(touchedFields).some(Boolean)) {
              setError('Enter valid numbers for Vin, R1, and R2.');
         }
         setStandardResults(null);
@@ -127,16 +116,16 @@ export default function VoltageDividerCalculator() {
         return;
     }
 
-    const current = vin === 0 && totalResistance === 0 ? 0 : vin / totalResistance; // Avoid NaN if vin & totalR are 0
+    const current = vin === 0 && totalResistance === 0 ? 0 : vin / totalResistance; 
     const voltageDropR1 = current * r1;
-    const voltageDropR2 = current * r2; // This is Vout
+    const voltageDropR2 = current * r2; 
 
-    // Tolerance calculation (assuming 5% for R1 and R2 for demonstration)
     const r1TolHigh = r1 * 1.05; const r1TolLow = r1 * 0.95;
     const r2TolHigh = r2 * 1.05; const r2TolLow = r2 * 0.95;
 
-    let voutTolMinCalc = vin * (r2TolLow / (r1TolHigh + r2TolLow));
+    let voutTolMinCalc = (r1TolHigh + r2TolLow === 0 && vin !== 0) ? -Infinity : vin * (r2TolLow / (r1TolHigh + r2TolLow));
     let voutTolMaxCalc = (r1TolLow + r2TolHigh === 0 && vin !== 0) ? Infinity : vin * (r2TolHigh / (r1TolLow + r2TolHigh));
+     if (r1TolHigh + r2TolLow === 0 && vin === 0) voutTolMinCalc = 0;
      if (r1TolLow + r2TolHigh === 0 && vin === 0) voutTolMaxCalc = 0;
 
 
@@ -163,21 +152,22 @@ export default function VoltageDividerCalculator() {
     setTouchedFields({});
   }, []);
 
-  // Debounced calculation for standard mode
   useEffect(() => {
     if (calculationTimeoutRef.current) {
         clearTimeout(calculationTimeoutRef.current);
     }
-    // Only calculate if all inputs are present
     const inputsPresent = vinStandardStr.trim() && r1StandardStr.trim() && r2StandardStr.trim();
     if (inputsPresent) {
         calculationTimeoutRef.current = setTimeout(handleCalculateStandard, 300);
     } else {
-        // Clear results if inputs are incomplete, but preserve user's partial input
         if (standardResults) setStandardResults(null);
-        // Clear error only if it was about missing values and now inputs are empty
-        if (error && error.startsWith("Enter valid numbers") && !(vinStandardStr.trim() || r1StandardStr.trim() || r2StandardStr.trim())) {
-            setError(null);
+        const someInputExists = vinStandardStr.trim() || r1StandardStr.trim() || r2StandardStr.trim();
+        const enoughFieldsTouched = Object.values(touchedFields).filter(Boolean).length >= 2;
+        if (error && error.startsWith("Enter valid numbers") && !someInputExists) {
+             setError(null);
+        } else if (someInputExists && !inputsPresent && enoughFieldsTouched && !error?.startsWith("Enter valid numbers")) {
+            // If some input exists, not all required, and enough fields touched, then set the error.
+            // setError('Enter valid numbers for Vin, R1, and R2.');
         }
     }
     return () => {
@@ -185,7 +175,7 @@ export default function VoltageDividerCalculator() {
             clearTimeout(calculationTimeoutRef.current);
         }
     };
-  }, [vinStandardStr, r1StandardStr, r2StandardStr, vinStandardUnit, r1StandardUnit, r2StandardUnit, handleCalculateStandard, standardResults, error]);
+  }, [vinStandardStr, r1StandardStr, r2StandardStr, vinStandardUnit, r1StandardUnit, r2StandardUnit, handleCalculateStandard, standardResults, error, touchedFields]);
 
 
   const formatDisplay = (value: number | null, type: 'voltage' | 'current' | 'resistance', baseUnit?: Unit) => {
@@ -198,15 +188,14 @@ export default function VoltageDividerCalculator() {
   return (
     <CalculatorCard
       title="Voltage Divider Calculator"
-      description="Analyze DC series resistor circuits for Vout. Vout is the voltage across R2."
-      icon={Sigma} // Using Sigma as requested before, or Calculator if you prefer that consistency
+      description="Analyze DC series resistor circuits. Vout is the voltage across R2."
+      icon={Sigma} 
       className="w-full max-w-lg mx-auto"
     >
-      {/* Static Diagram and Formula Preview */}
       <div className="my-4 p-3 bg-muted/30 rounded border text-center">
         <Image
           src="/images/voltage_divider_kvl.svg"
-          alt="KVL style voltage divider schematic with Vin, R1, R2, Node X (Vout), and Ground."
+          alt="Voltage divider schematic: Vin source, R1, Node X (Vout), R2, Ground. Loop arrow indicates current."
           width={250} height={180}
           className="mx-auto mb-2 object-contain rounded dark:invert"
           data-ai-hint="voltage divider KVL circuit schematic resistors"
@@ -216,7 +205,6 @@ export default function VoltageDividerCalculator() {
         </p>
       </div>
 
-      {/* Example Values Buttons */}
        <div className="mb-4">
             <Label className="text-sm font-medium">Example Values:</Label>
             <div className="flex flex-wrap gap-2 mt-1">
@@ -235,7 +223,6 @@ export default function VoltageDividerCalculator() {
             </div>
         </div>
 
-      {/* Standard Mode Inputs */}
         <fieldset className="space-y-4 border-t pt-4">
           <legend className="text-sm font-medium text-muted-foreground sr-only">Inputs for Vout Calculation</legend>
           <CalculatorInput id="vinStd" label="Input Voltage (Vin)" value={vinStandardStr} onChange={setVinStandardStr} onBlur={() => handleBlur('vinStd')} unit={vinStandardUnit} unitOptions={voltageUnitOptions} onUnitChange={setVinStandardUnit} placeholder="e.g., 12" tooltip="Supply voltage (V, mV, kV)"/>

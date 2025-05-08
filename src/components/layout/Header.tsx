@@ -1,10 +1,11 @@
+
 'use client';
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown } from 'lucide-react';
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, WaveSquare } from 'lucide-react'; // Added WaveSquare
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet"; // Added SheetTrigger
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,8 +22,16 @@ const navItems = [
   { href: "/calculator", label: "Calculators", icon: Calculator },
   { href: "/audio", label: "Audio Lessons", icon: Podcast },
   {
+    group: "Flashcards",
+    icon: Layers,
+    items: [
+      { href: "/flashcards/applied", label: "Applied Networking", icon: Network },
+      { href: "/flashcards/ccna", label: "CCNA Concepts", icon: BookOpen },
+    ]
+  },
+  {
     group: "Tools",
-    icon: Cpu, // Icon for the dropdown trigger itself
+    icon: Cpu, 
     items: [
       { href: "/tools/subnet", label: "Subnet", icon: Network },
       { href: "/tools/truth-table", label: "Truth Table", icon: TableIcon },
@@ -30,6 +39,7 @@ const navItems = [
       { href: "/tools/base-converter", label: "Base Converter", icon: Binary },
       { href: "/tools/packet-flow", label: "Packet Flow", icon: GitBranchPlus },
       { href: "/tools/voltage-divider", label: "Voltage Divider", icon: Sigma },
+      { href: "/tools/waveform", label: "Waveform Viewer", icon: WaveSquare }, // Added Waveform Viewer
     ],
   },
    ...(process.env.NODE_ENV === 'development' ? [{ href: "/diagnostics", label: "Diagnostics", icon: Info }] : []),
@@ -43,18 +53,18 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
        const GroupIcon = item.icon || Cpu;
        if (isMobile) {
            return [
-                <p key={`${item.group}-${index}-title`} className="px-2 pt-4 pb-1 text-xs font-semibold uppercase text-muted-foreground">{item.group}</p>,
+                <p key={`${item.group}-${index}-title`} className="px-2 pt-3 pb-1 text-xs font-semibold uppercase text-muted-foreground">{item.group}</p>,
                 ...item.items.map(subItem => (
                     <SheetClose key={subItem.href} asChild>
                         <Link
                         href={subItem.href}
                         className={cn(
-                            "flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium transition-colors hover:bg-muted hover:text-primary",
+                            "flex items-center gap-3 rounded-md px-3 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-primary", // Adjusted py
                             pathname === subItem.href ? "bg-muted text-primary font-semibold" : "text-foreground"
                         )}
                         onClick={closeSheet}
                         >
-                        <subItem.icon size={18} />
+                        <subItem.icon size={16} /> {/* Adjusted icon size */}
                         {subItem.label}
                         </Link>
                     </SheetClose>
@@ -66,25 +76,25 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
              <DropdownMenu key={`${item.group}-${index}-dropdown`}>
                <DropdownMenuTrigger asChild>
                  <Button variant="ghost" className={cn(
-                   "flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-primary",
-                   item.items.some(sub => pathname.startsWith(sub.href)) ? "text-primary" : "text-muted-foreground"
+                   "flex items-center gap-1 text-xs font-medium transition-colors hover:text-primary px-2 py-1 h-auto", // Compacted
+                   item.items.some(sub => pathname.startsWith(sub.href) || pathname === sub.href) ? "text-primary" : "text-muted-foreground"
                  )}>
-                   {item.icon && <GroupIcon size={16} />}
+                   {item.icon && <GroupIcon size={14} />} {/* Compacted */}
                    {item.group}
-                   <ChevronDown size={14} className="opacity-70 ml-1" />
+                   <ChevronDown size={12} className="opacity-70 ml-0.5" /> {/* Compacted */}
                  </Button>
                </DropdownMenuTrigger>
-               <DropdownMenuContent align="start" className="w-56">
+               <DropdownMenuContent align="start" className="w-52"> {/* Compacted width */}
                  {item.items.map(subItem => (
                    <DropdownMenuItem key={subItem.href} asChild>
                      <Link
                        href={subItem.href}
                        className={cn(
-                         "flex items-center gap-2 w-full px-2 py-1.5 text-sm",
+                         "flex items-center gap-2 w-full px-2 py-1 text-xs", // Compacted
                          pathname === subItem.href ? "bg-accent text-accent-foreground font-semibold" : "hover:bg-accent/50"
                        )}
                      >
-                       <subItem.icon size={14} className="mr-2 opacity-80" />
+                       <subItem.icon size={12} className="mr-1.5 opacity-80" /> {/* Compacted */}
                        {subItem.label}
                      </Link>
                    </DropdownMenuItem>
@@ -101,12 +111,12 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
                 <Link
                     href={item.href}
                      className={cn(
-                        "flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium transition-colors hover:bg-muted hover:text-primary",
+                        "flex items-center gap-3 rounded-md px-3 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-primary", // Adjusted py
                          pathname === item.href ? "bg-muted text-primary font-semibold" : "text-foreground"
                     )}
                     onClick={closeSheet}
                 >
-                    <item.icon size={18} />
+                    <item.icon size={16} /> {/* Adjusted icon size */}
                     {item.label}
                 </Link>
             </SheetClose>
@@ -117,11 +127,11 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
              key={item.href}
              href={item.href}
              className={cn(
-                "flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-primary",
+                "flex items-center gap-1 text-xs font-medium transition-colors hover:text-primary px-2 py-1 h-auto", // Compacted
                  pathname === item.href ? "text-primary" : "text-muted-foreground"
              )}
            >
-             <item.icon size={16} />
+             <item.icon size={14} /> {/* Compacted */}
              {item.label}
            </Link>
          );
@@ -136,39 +146,36 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
-      <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 text-xl md:text-2xl font-bold tracking-tight text-primary transition-opacity hover:opacity-80" onClick={() => setIsMobileMenuOpen(false)}>
-           <Network size={28} className="shrink-0"/>
-           <span className="font-semibold">SmartPrep TU 716</span>
+      <div className="container mx-auto flex h-14 max-w-7xl items-center justify-between px-4"> {/* Reduced height h-14 */}
+        <Link href="/" className="flex items-center gap-1.5 text-lg md:text-xl font-bold tracking-tight text-primary transition-opacity hover:opacity-80" onClick={() => setIsMobileMenuOpen(false)}>
+           <Network size={24} className="shrink-0"/> {/* Slightly smaller logo icon */}
+           <span className="font-semibold">SmartPrep</span> {/* Removed TU 716 for brevity */}
         </Link>
 
-        <nav className="hidden md:flex flex-wrap items-center space-x-4 lg:space-x-6"> {/* Adjusted spacing */}
+        <nav className="hidden md:flex flex-wrap items-center space-x-2 lg:space-x-3"> {/* Reduced spacing */}
              {renderNavLinks(navItems, undefined, false)}
         </nav>
 
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild className="md:hidden">
              <Button variant="ghost" size="icon" aria-label="Open main menu">
-                <Menu className="h-6 w-6" />
+                <Menu className="h-5 w-5" /> {/* Smaller burger */}
              </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
-             <SheetHeader className="flex flex-row h-16 items-center justify-between border-b px-4">
-                <SheetTitle>
-                  {/* Removed the explicit <DialogTitle> component which was causing "DialogTitle is not defined" error */}
-                  {/* The Link itself will act as the content for the SheetTitle which is already a DialogPrimitive.Title */}
-                  <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Network size={24} />
+             <SheetHeader className="flex flex-row h-14 items-center justify-between border-b px-4">
+                {/* SheetTitle implicitly uses DialogPrimitive.Title. No need for explicit DialogTitle */}
+                 <Link href="/" className="flex items-center gap-2 text-lg font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Network size={20} />
                     SmartPrep
-                  </Link>
-                </SheetTitle>
+                 </Link>
                 <SheetClose asChild>
                      <Button variant="ghost" size="icon" aria-label="Close main menu">
-                        <X className="h-6 w-6" />
+                        <X className="h-5 w-5" />
                     </Button>
                  </SheetClose>
              </SheetHeader>
-             <nav className="flex flex-col space-y-1 p-4">
+             <nav className="flex flex-col space-y-1 p-3"> {/* Adjusted padding */}
                  {renderNavLinks(navItems, () => setIsMobileMenuOpen(false), true)}
              </nav>
           </SheetContent>
@@ -177,3 +184,4 @@ export default function Header() {
     </header>
   );
 }
+

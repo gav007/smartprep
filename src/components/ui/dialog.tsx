@@ -51,7 +51,7 @@ const DialogContent = React.forwardRef<
           React.Children.toArray((child.props as any).children).some(
             (headerChild) =>
               React.isValidElement(headerChild) &&
-              headerChild.type === DialogTitle
+              headerChild.type === DialogPrimitive.Title // Check against DialogPrimitive.Title
           )
       ) && <DialogPrimitive.Title className="sr-only">Dialog</DialogPrimitive.Title>}
       {children}

@@ -1,0 +1,1852 @@
+[
+  {
+    "id": 1,
+    "front": "What is a network?",
+    "back": "A group of connected devices that share information and resources."
+  },
+  {
+    "id": 2,
+    "front": "What is a host?",
+    "back": "A device on a network that sends or receives data — like a PC, phone, or server."
+  },
+  {
+    "id": 3,
+    "front": "What is a server?",
+    "back": "A host that provides services or data to other devices on the network."
+  },
+  {
+    "id": 4,
+    "front": "What is a client?",
+    "back": "A host that requests and uses services from a server."
+  },
+  {
+    "id": 5,
+    "front": "What is a peer-to-peer network?",
+    "back": "A simple network where devices share files or printers without a central server."
+  },
+  {
+    "id": 6,
+    "front": "What are the three main components of a network?",
+    "back": "Devices, media, and services."
+  },
+  {
+    "id": 7,
+    "front": "What is network media?",
+    "back": "The cables or signals that carry data between devices — like copper, fiber, or wireless."
+  },
+  {
+    "id": 8,
+    "front": "What is an intermediary device?",
+    "back": "A device like a switch or router that manages data flow between hosts."
+  },
+  {
+    "id": 9,
+    "front": "What is a physical topology?",
+    "back": "A diagram showing where devices and cables are placed in a network."
+  },
+  {
+    "id": 10,
+    "front": "What is a logical topology?",
+    "back": "A diagram showing how data flows through the network, regardless of cable layout."
+  },
+  {
+    "id": 11,
+    "front": "What does LAN stand for?",
+    "back": "Local Area Network — a network covering a small area like a home, office, or building."
+  },
+  {
+    "id": 12,
+    "front": "What does WAN stand for?",
+    "back": "Wide Area Network — a network that spans large distances, like between cities or countries."
+  },
+  {
+    "id": 13,
+    "front": "What does ISP stand for?",
+    "back": "Internet Service Provider — a company that gives you access to the internet."
+  },
+  {
+    "id": 14,
+    "front": "What does IP address stand for?",
+    "back": "Internet Protocol address — a unique number that identifies a device on a network."
+  },
+  {
+    "id": 15,
+    "front": "What does NIC stand for?",
+    "back": "Network Interface Card — hardware inside a device that connects it to a network."
+  },
+  {
+    "id": 16,
+    "front": "What does DNS stand for?",
+    "back": "Domain Name System — it translates website names into IP addresses."
+  },
+  {
+    "id": 17,
+    "front": "What does DHCP stand for?",
+    "back": "Dynamic Host Configuration Protocol — it automatically gives IP addresses to devices."
+  },
+  {
+    "id": 18,
+    "front": "What does MAC address stand for?",
+    "back": "Media Access Control address — a unique ID given to every network device."
+  },
+  {
+    "id": 19,
+    "front": "What does HTTP stand for?",
+    "back": "Hypertext Transfer Protocol — the basic rule for loading websites in a browser."
+  },
+  {
+    "id": 20,
+    "front": "What does URL stand for?",
+    "back": "Uniform Resource Locator — it’s the full address of a website, like https://example.com."
+  },
+  {
+    "id": 21,
+    "front": "What is a switch?",
+    "back": "A network device that connects devices in a LAN and forwards data only to the correct destination."
+  },
+  {
+    "id": 22,
+    "front": "What is a router?",
+    "back": "A device that connects different networks and chooses the best path for data to travel."
+  },
+  {
+    "id": 23,
+    "front": "What is a packet?",
+    "back": "A small piece of data sent across a network, containing both the data and destination info."
+  },
+  {
+    "id": 24,
+    "front": "What does TCP stand for?",
+    "back": "Transmission Control Protocol — ensures reliable, ordered delivery of data."
+  },
+  {
+    "id": 25,
+    "front": "What does UDP stand for?",
+    "back": "User Datagram Protocol — sends data quickly without checking for errors or delivery."
+  },
+  {
+    "id": 26,
+    "front": "What is a protocol?",
+    "back": "A set of rules that devices follow to communicate on a network."
+  },
+  {
+    "id": 27,
+    "front": "What is bandwidth?",
+    "back": "The maximum amount of data that can move through a network link per second."
+  },
+  {
+    "id": 28,
+    "front": "What is latency?",
+    "back": "The delay it takes for data to travel from source to destination."
+  },
+  {
+    "id": 29,
+    "front": "What does FTP stand for?",
+    "back": "File Transfer Protocol — used to upload or download files over a network."
+  },
+  {
+    "id": 30,
+    "front": "What is a firewall?",
+    "back": "A security device or software that controls what data is allowed in or out of a network."
+  },
+  {
+    "id": 31,
+    "front": "What does IOS stand for in Cisco devices?",
+    "back": "Internetwork Operating System — the software that controls routers and switches."
+  },
+  {
+    "id": 32,
+    "front": "What is the CLI?",
+    "back": "Command Line Interface — a text-based way to interact with Cisco devices."
+  },
+  {
+    "id": 33,
+    "front": "What is a console port?",
+    "back": "A physical port used to configure a device directly, even with no network."
+  },
+  {
+    "id": 34,
+    "front": "What is SSH?",
+    "back": "Secure Shell — a secure way to remotely access a device using CLI."
+  },
+  {
+    "id": 35,
+    "front": "What is Telnet?",
+    "back": "An insecure method to remotely access a device — sends data as plain text."
+  },
+  {
+    "id": 36,
+    "front": "What is the purpose of a hostname?",
+    "back": "To give a switch or router a unique name for identification."
+  },
+  {
+    "id": 37,
+    "front": "What does VTY stand for?",
+    "back": "Virtual Terminal Lines — used for remote CLI access like SSH or Telnet."
+  },
+  {
+    "id": 38,
+    "front": "What is a banner message in Cisco IOS?",
+    "back": "A legal warning shown to users when they access the device."
+  },
+  {
+    "id": 39,
+    "front": "What is the difference between running-config and startup-config?",
+    "back": "Running-config is active in RAM; startup-config is stored in NVRAM for reboot."
+  },
+  {
+    "id": 40,
+    "front": "What is a Switch Virtual Interface (SVI)?",
+    "back": "A software-based interface used to manage a switch remotely using an IP address."
+  },
+  {
+    "id": 41,
+    "front": "What is the enable password?",
+    "back": "A password used to enter privileged EXEC mode — stored in plain text."
+  },
+  {
+    "id": 42,
+    "front": "What is the enable secret password?",
+    "back": "A secure password that also gives access to privileged EXEC mode — it is encrypted."
+  },
+  {
+    "id": 43,
+    "front": "What is the console password used for?",
+    "back": "To control access to the device through the local console port."
+  },
+  {
+    "id": 44,
+    "front": "What is the VTY password used for?",
+    "back": "To control remote access through Telnet or SSH."
+  },
+  {
+    "id": 45,
+    "front": "What does the 'login' command do on a line?",
+    "back": "It tells the device to prompt for a password on that line."
+  },
+  {
+    "id": 46,
+    "front": "What is User EXEC mode?",
+    "back": "The basic mode with limited commands — shown by the '>' prompt."
+  },
+  {
+    "id": 47,
+    "front": "What is Privileged EXEC mode?",
+    "back": "Gives access to all commands — shown by the '#' prompt."
+  },
+  {
+    "id": 48,
+    "front": "What is Global Configuration mode?",
+    "back": "A mode where you can make system-wide changes like setting hostname or passwords."
+  },
+  {
+    "id": 49,
+    "front": "What is interface configuration mode?",
+    "back": "A sub-mode used to configure settings on a specific interface like FastEthernet0/1."
+  },
+  {
+    "id": 50,
+    "front": "What does the 'exit' command do?",
+    "back": "It moves you back one level in the CLI."
+  },
+  {
+    "id": 51,
+    "front": "What is RAM used for in Cisco devices?",
+    "back": "It stores the running configuration and active processes — lost when the device is turned off."
+  },
+  {
+    "id": 52,
+    "front": "What is NVRAM used for?",
+    "back": "It stores the startup configuration — kept when power is off."
+  },
+  {
+    "id": 53,
+    "front": "What is Flash memory?",
+    "back": "It stores the IOS image and other system files — kept when power is off."
+  },
+  {
+    "id": 54,
+    "front": "What is the purpose of ROM in a Cisco device?",
+    "back": "It holds startup instructions, like a basic bootloader — not used for configuration."
+  },
+  {
+    "id": 55,
+    "front": "What does 'show running-config' do?",
+    "back": "Displays the current active configuration in RAM."
+  },
+  {
+    "id": 56,
+    "front": "What does 'show startup-config' do?",
+    "back": "Shows the saved configuration in NVRAM that loads on reboot."
+  },
+  {
+    "id": 57,
+    "front": "What does 'show ip interface brief' do?",
+    "back": "Gives a quick summary of all interfaces and their IP status."
+  },
+  {
+    "id": 58,
+    "front": "What does 'copy running-config startup-config' do?",
+    "back": "Saves the current configuration so it is used after a reboot."
+  },
+  {
+    "id": 59,
+    "front": "What is the purpose of the 'reload' command?",
+    "back": "It restarts the device — used to test or apply changes after saving."
+  },
+  {
+    "id": 60,
+    "front": "What is stored in the startup-config?",
+    "back": "The saved settings that load when the device reboots."
+  },
+  {
+    "id": 61,
+    "front": "What is a protocol?",
+    "back": "A set of rules that devices use to communicate on a network."
+  },
+  {
+    "id": 62,
+    "front": "What are the three parts of communication?",
+    "back": "Source, Destination, and Channel."
+  },
+  {
+    "id": 63,
+    "front": "What is segmentation?",
+    "back": "Breaking a large message into smaller pieces before sending it over the network."
+  },
+  {
+    "id": 64,
+    "front": "What is encapsulation?",
+    "back": "Adding headers and trailers to data so it can move through the network."
+  },
+  {
+    "id": 65,
+    "front": "What is de-encapsulation?",
+    "back": "Removing headers and trailers from data at the receiving device."
+  },
+  {
+    "id": 66,
+    "front": "What is flow control?",
+    "back": "A method to make sure the sender doesn’t send data too fast for the receiver."
+  },
+  {
+    "id": 67,
+    "front": "What is a protocol suite?",
+    "back": "A group of related protocols that work together to complete a network task."
+  },
+  {
+    "id": 68,
+    "front": "What does TCP/IP stand for?",
+    "back": "Transmission Control Protocol / Internet Protocol — the main protocol suite for the internet."
+  },
+  {
+    "id": 69,
+    "front": "What is the OSI model?",
+    "back": "A 7-layer reference model used to explain how network communication works."
+  },
+  {
+    "id": 70,
+    "front": "What is the purpose of the TCP/IP model?",
+    "back": "It defines how data moves across a network using four layers."
+  },
+  {
+    "id": 71,
+    "front": "What are the 7 layers of the OSI model?",
+    "back": "Application, Presentation, Session, Transport, Network, Data Link, Physical."
+  },
+  {
+    "id": 72,
+    "front": "What is a simple way to remember the OSI layers?",
+    "back": "\"All People Seem To Need Data Processing\" — from top (Layer 7) to bottom (Layer 1)."
+  },
+  {
+    "id": 73,
+    "front": "What are the 4 layers of the TCP/IP model?",
+    "back": "Application, Transport, Internet, Network Access."
+  },
+  {
+    "id": 74,
+    "front": "What layer of the OSI model does IP work at?",
+    "back": "Layer 3 — the Network Layer."
+  },
+  {
+    "id": 75,
+    "front": "What layer of the OSI model does MAC addressing happen at?",
+    "back": "Layer 2 — the Data Link Layer."
+  },
+  {
+    "id": 76,
+    "front": "What is a unicast transmission?",
+    "back": "Data sent from one device directly to one other device."
+  },
+  {
+    "id": 77,
+    "front": "What is a multicast transmission?",
+    "back": "Data sent to a group of specific devices at the same time."
+  },
+  {
+    "id": 78,
+    "front": "What is a broadcast transmission?",
+    "back": "Data sent to all devices on a network segment."
+  },
+  {
+    "id": 79,
+    "front": "What is a frame?",
+    "back": "A data unit at Layer 2 that includes MAC addresses and error checking."
+  },
+  {
+    "id": 80,
+    "front": "What is a packet?",
+    "back": "A data unit at Layer 3 that includes IP addresses."
+  },
+  {
+    "id": 81,
+    "front": "What is the purpose of the Physical Layer?",
+    "back": "To transport raw bits over the network media using signals."
+  },
+  {
+    "id": 82,
+    "front": "What does NIC stand for?",
+    "back": "Network Interface Card — connects a device to the network physically."
+  },
+  {
+    "id": 83,
+    "front": "What is encoding in networking?",
+    "back": "A method to convert bits into recognizable signal patterns for transmission."
+  },
+  {
+    "id": 84,
+    "front": "What is signaling?",
+    "back": "The way 1s and 0s are represented on the medium — like electrical pulses or light."
+  },
+  {
+    "id": 85,
+    "front": "What is bandwidth?",
+    "back": "The capacity of a medium to carry data, measured in bits per second."
+  },
+  {
+    "id": 86,
+    "front": "What is latency?",
+    "back": "The total time it takes for data to travel from source to destination."
+  },
+  {
+    "id": 87,
+    "front": "What is throughput?",
+    "back": "The actual amount of data successfully transferred over time."
+  },
+  {
+    "id": 88,
+    "front": "What is goodput?",
+    "back": "The usable data transferred over time — throughput minus overhead like headers."
+  },
+  {
+    "id": 89,
+    "front": "What does EMI stand for?",
+    "back": "Electromagnetic Interference — interference from external electrical signals."
+  },
+  {
+    "id": 90,
+    "front": "What does RFI stand for?",
+    "back": "Radio Frequency Interference — signal disruption from other radio sources."
+  },
+  {
+    "id": 91,
+    "front": "What is the binary number system?",
+    "back": "A base-2 system using only 1s and 0s — used by computers to represent data."
+  },
+  {
+    "id": 92,
+    "front": "What is a bit?",
+    "back": "A single binary digit — either 1 or 0."
+  },
+  {
+    "id": 93,
+    "front": "What is an octet?",
+    "back": "A group of 8 bits — forms part of an IPv4 address."
+  },
+  {
+    "id": 94,
+    "front": "What is a byte?",
+    "back": "A group of 8 bits — same as an octet."
+  },
+  {
+    "id": 95,
+    "front": "What is the decimal number system?",
+    "back": "A base-10 system using digits 0 through 9 — used by humans."
+  },
+  {
+    "id": 96,
+    "front": "What is the hexadecimal number system?",
+    "back": "A base-16 system using digits 0–9 and letters A–F — used in IPv6 and MAC addresses."
+  },
+  {
+    "id": 97,
+    "front": "How many bits are in an IPv4 address?",
+    "back": "32 bits — divided into four 8-bit octets."
+  },
+  {
+    "id": 98,
+    "front": "How many bits are in an IPv6 address?",
+    "back": "128 bits — shown as 32 hexadecimal characters."
+  },
+  {
+    "id": 99,
+    "front": "What is a hextet?",
+    "back": "A group of four hexadecimal digits in an IPv6 address."
+  },
+  {
+    "id": 100,
+    "front": "Why is hexadecimal used in networking?",
+    "back": "It’s shorter and easier to read than binary — used in IPv6 and MAC addressing."
+  },
+  {
+    "id": 101,
+    "front": "How do you convert binary to decimal?",
+    "back": "Add the values of the bits that are set to 1 using powers of 2."
+  },
+  {
+    "id": 102,
+    "front": "What is the value of each position in an 8-bit binary number?",
+    "back": "128, 64, 32, 16, 8, 4, 2, 1 — from left to right."
+  },
+  {
+    "id": 103,
+    "front": "How do you convert decimal to binary?",
+    "back": "Subtract powers of 2 from the decimal number and mark each bit as 1 or 0."
+  },
+  {
+    "id": 104,
+    "front": "How many values can 8 bits represent?",
+    "back": "256 values — from 0 to 255."
+  },
+  {
+    "id": 105,
+    "front": "How do you convert hex to binary?",
+    "back": "Convert each hex digit into a 4-bit binary number."
+  },
+  {
+    "id": 106,
+    "front": "How do you convert binary to hex?",
+    "back": "Group the bits in sets of 4 and convert each group to a hex digit."
+  },
+  {
+    "id": 107,
+    "front": "What is the decimal value of binary 11110000?",
+    "back": "240"
+  },
+  {
+    "id": 108,
+    "front": "What is the binary of decimal 192?",
+    "back": "11000000"
+  },
+  {
+    "id": 109,
+    "front": "What is the hex value of binary 10101100?",
+    "back": "AC"
+  },
+  {
+    "id": 110,
+    "front": "What is the binary of hex 3F?",
+    "back": "00111111"
+  },
+  {
+    "id": 111,
+    "front": "What is the main job of the Data Link Layer?",
+    "back": "To package Layer 3 packets into frames and move them across the physical network."
+  },
+  {
+    "id": 112,
+    "front": "What are the two sublayers of the Data Link Layer?",
+    "back": "Logical Link Control (LLC) and Media Access Control (MAC)."
+  },
+  {
+    "id": 113,
+    "front": "What does the LLC sublayer do?",
+    "back": "Provides interface to Layer 3 and controls frame creation and delivery."
+  },
+  {
+    "id": 114,
+    "front": "What does the MAC sublayer do?",
+    "back": "Controls how frames are placed on and taken off the media — handles physical addressing."
+  },
+  {
+    "id": 115,
+    "front": "What is a frame?",
+    "back": "A Layer 2 data unit with headers, data, and trailer used for transmission."
+  },
+  {
+    "id": 116,
+    "front": "What is a MAC address?",
+    "back": "A unique hardware address assigned to a network interface — used for local delivery."
+  },
+  {
+    "id": 117,
+    "front": "What is FCS in a frame?",
+    "back": "Frame Check Sequence — used to detect errors with a CRC check."
+  },
+  {
+    "id": 118,
+    "front": "What is the difference between physical and logical topology?",
+    "back": "Physical shows cable layout; logical shows how data flows between nodes."
+  },
+  {
+    "id": 119,
+    "front": "What is half-duplex?",
+    "back": "Devices take turns to send data — only one can talk at a time."
+  },
+  {
+    "id": 120,
+    "front": "What is full-duplex?",
+    "back": "Devices can send and receive data at the same time — no waiting."
+  },
+  {
+    "id": 121,
+    "front": "What is a bus topology?",
+    "back": "A single central cable connects all devices — used in early Ethernet networks."
+  },
+  {
+    "id": 122,
+    "front": "What is a star topology?",
+    "back": "All devices connect to a central device like a switch — most common today."
+  },
+  {
+    "id": 123,
+    "front": "What is a ring topology?",
+    "back": "Each device connects to two others in a loop — data travels in one direction."
+  },
+  {
+    "id": 124,
+    "front": "What is a mesh topology?",
+    "back": "Devices are interconnected — each device can reach others directly."
+  },
+  {
+    "id": 125,
+    "front": "What is a point-to-point topology?",
+    "back": "A direct connection between two devices — common in WAN links."
+  },
+  {
+    "id": 126,
+    "front": "What is a hybrid topology?",
+    "back": "A mix of two or more basic topologies — like star-ring or star-bus."
+  },
+  {
+    "id": 127,
+    "front": "What is CSMA/CD?",
+    "back": "Carrier Sense Multiple Access with Collision Detection — used in Ethernet to detect and recover from collisions."
+  },
+  {
+    "id": 128,
+    "front": "What is CSMA/CA?",
+    "back": "Carrier Sense Multiple Access with Collision Avoidance — used in Wi-Fi to avoid collisions before sending."
+  },
+  {
+    "id": 129,
+    "front": "Why is CSMA/CD not used in modern Ethernet?",
+    "back": "Because switches and full-duplex links eliminate collisions."
+  },
+  {
+    "id": 130,
+    "front": "Where is CSMA/CA used?",
+    "back": "In wireless networks — devices check before transmitting to avoid collisions."
+  },
+  {
+    "id": 131,
+    "front": "What does CSMA/CD stand for?",
+    "back": "Carrier Sense Multiple Access with Collision Detection — used to detect and handle collisions in Ethernet."
+  },
+  {
+    "id": 132,
+    "front": "What is the minimum size of an Ethernet frame?",
+    "back": "64 bytes — smaller frames are dropped as collision fragments."
+  },
+  {
+    "id": 133,
+    "front": "What is the maximum size of a standard Ethernet frame?",
+    "back": "1518 bytes — larger frames are called jumbo or giant frames."
+  },
+  {
+    "id": 134,
+    "front": "What is a MAC address?",
+    "back": "A unique 48-bit hardware address assigned to a network interface card (NIC)."
+  },
+  {
+    "id": 135,
+    "front": "How many hexadecimal digits are in a MAC address?",
+    "back": "12 hexadecimal digits — equal to 6 bytes or 48 bits."
+  },
+  {
+    "id": 136,
+    "front": "What is the OUI in a MAC address?",
+    "back": "Organizationally Unique Identifier — the first 3 bytes that identify the device vendor."
+  },
+  {
+    "id": 137,
+    "front": "What is a unicast MAC address?",
+    "back": "A unique MAC address for a single device — used in direct communication."
+  },
+  {
+    "id": 138,
+    "front": "What is the broadcast MAC address?",
+    "back": "FF:FF:FF:FF:FF:FF — used to send frames to all devices on the local network."
+  },
+  {
+    "id": 139,
+    "front": "What is a MAC address table?",
+    "back": "A table in a switch that maps MAC addresses to specific ports — used for forwarding frames."
+  },
+  {
+    "id": 140,
+    "front": "What is store-and-forward switching?",
+    "back": "A method where the switch reads the whole frame and checks for errors before forwarding it."
+  },
+  {
+    "id": 141,
+    "front": "What is cut-through switching?",
+    "back": "A method where the switch starts forwarding a frame as soon as it reads the destination MAC address."
+  },
+  {
+    "id": 142,
+    "front": "What is fragment-free switching?",
+    "back": "A switching method that reads the first 64 bytes of a frame before forwarding to avoid collision fragments."
+  },
+  {
+    "id": 143,
+    "front": "What does a switch do when it receives a frame with an unknown MAC address?",
+    "back": "It floods the frame out of all ports except the one it was received on."
+  },
+  {
+    "id": 144,
+    "front": "What does a switch do when it receives a frame for a known MAC address?",
+    "back": "It forwards the frame only to the port associated with that MAC in its table."
+  },
+  {
+    "id": 145,
+    "front": "What is duplex in Ethernet?",
+    "back": "It defines if a device can send and receive data at the same time (full) or not (half)."
+  },
+  {
+    "id": 146,
+    "front": "What is auto-MDIX?",
+    "back": "A feature that automatically adjusts the port to use straight-through or crossover cable type."
+  },
+  {
+    "id": 147,
+    "front": "What happens if two connected ports have different duplex settings?",
+    "back": "It creates a duplex mismatch — leading to collisions, errors, and poor performance."
+  },
+  {
+    "id": 148,
+    "front": "What does the switch do with a frame that fails the FCS check?",
+    "back": "It drops the frame — the frame is considered corrupted."
+  },
+  {
+    "id": 149,
+    "front": "What is frame flooding?",
+    "back": "When a switch sends a frame out all ports because it doesn't know the destination MAC."
+  },
+  {
+    "id": 150,
+    "front": "What is a switch's MAC address table sometimes called?",
+    "back": "A Content Addressable Memory (CAM) table."
+  },
+  {
+    "id": 151,
+    "front": "What is the main function of the network layer?",
+    "back": "To move packets between different networks using logical addressing (IP)."
+  },
+  {
+    "id": 152,
+    "front": "What does IP stand for?",
+    "back": "Internet Protocol — the main protocol used to send packets across networks."
+  },
+  {
+    "id": 153,
+    "front": "What is encapsulation at the network layer?",
+    "back": "Adding an IP header to a transport layer segment to form a packet."
+  },
+  {
+    "id": 154,
+    "front": "What are the two main IP versions?",
+    "back": "IPv4 and IPv6."
+  },
+  {
+    "id": 155,
+    "front": "What is a connectionless protocol?",
+    "back": "A protocol that sends data without setting up a dedicated connection first — like IP."
+  },
+  {
+    "id": 156,
+    "front": "What does 'best effort' delivery mean?",
+    "back": "IP will try to deliver packets but does not guarantee delivery or order."
+  },
+  {
+    "id": 157,
+    "front": "What does media independent mean for IP?",
+    "back": "IP can work over any type of physical media (copper, fiber, wireless)."
+  },
+  {
+    "id": 158,
+    "front": "What is fragmentation?",
+    "back": "Splitting a large IPv4 packet into smaller pieces to fit the MTU of a network link."
+  },
+  {
+    "id": 159,
+    "front": "Why doesn't IPv6 support fragmentation?",
+    "back": "To reduce processing and improve performance — fragmentation is handled before sending."
+  },
+  {
+    "id": 160,
+    "front": "What is a packet?",
+    "back": "A Layer 3 data unit that contains an IP header and the payload from the transport layer."
+  },
+  {
+    "id": 161,
+    "front": "What is a routing table?",
+    "back": "A database used by routers to determine where to send packets next."
+  },
+  {
+    "id": 162,
+    "front": "What is a default gateway?",
+    "back": "A router that handles traffic when the destination is outside the local network."
+  },
+  {
+    "id": 163,
+    "front": "What are the three types of routes in a routing table?",
+    "back": "Directly connected, static, and dynamic."
+  },
+  {
+    "id": 164,
+    "front": "What is a directly connected route?",
+    "back": "A route to a network that is physically connected to one of the router’s interfaces."
+  },
+  {
+    "id": 165,
+    "front": "What is a static route?",
+    "back": "A manually configured route that doesn’t change unless updated by an admin."
+  },
+  {
+    "id": 166,
+    "front": "What is a dynamic route?",
+    "back": "A route learned automatically through a routing protocol like OSPF or EIGRP."
+  },
+  {
+    "id": 167,
+    "front": "What is the purpose of the IP header?",
+    "back": "It contains source and destination IP addresses and control information."
+  },
+  {
+    "id": 168,
+    "front": "What is MTU?",
+    "back": "Maximum Transmission Unit — the largest size a packet can be on a link."
+  },
+  {
+    "id": 169,
+    "front": "What does fragmentation do?",
+    "back": "Splits IPv4 packets into smaller pieces to fit within the MTU of a network link."
+  },
+  {
+    "id": 170,
+    "front": "Why doesn’t IPv6 use fragmentation?",
+    "back": "IPv6 hosts handle fragmentation before sending to reduce router load."
+  },
+  {
+    "id": 171,
+    "front": "What is a MAC address?",
+    "back": "A physical address used by NICs to identify devices on the same local network."
+  },
+  {
+    "id": 172,
+    "front": "What is an IP address?",
+    "back": "A logical address used to identify devices across different networks."
+  },
+  {
+    "id": 173,
+    "front": "What is ARP?",
+    "back": "Address Resolution Protocol — used by IPv4 to find a MAC address for a known IP."
+  },
+  {
+    "id": 174,
+    "front": "What is the ARP table?",
+    "back": "A list of IP addresses and their matching MAC addresses stored in memory."
+  },
+  {
+    "id": 175,
+    "front": "What happens when an ARP table has no entry for a device?",
+    "back": "The device sends an ARP broadcast asking who has that IP address."
+  },
+  {
+    "id": 176,
+    "front": "What does the 'arp -a' command do?",
+    "back": "Displays the ARP table on a Windows PC."
+  },
+  {
+    "id": 177,
+    "front": "What does 'show ip arp' do on a router?",
+    "back": "Displays the ARP table on a Cisco router."
+  },
+  {
+    "id": 178,
+    "front": "What is ARP spoofing?",
+    "back": "A type of attack where a device sends fake ARP replies to mislead the network."
+  },
+  {
+    "id": 179,
+    "front": "What is ICMPv6 Neighbor Discovery?",
+    "back": "An IPv6 process that replaces ARP to resolve MAC addresses and discover routers."
+  },
+  {
+    "id": 180,
+    "front": "What is a Neighbor Solicitation message?",
+    "back": "An ICMPv6 message sent to learn the MAC address of a known IPv6 address."
+  },
+  {
+    "id": 181,
+    "front": "What is a Neighbor Advertisement in IPv6?",
+    "back": "A response to a Neighbor Solicitation that gives the MAC address of the IPv6 device."
+  },
+  {
+    "id": 182,
+    "front": "What is the difference between ARP and ND?",
+    "back": "ARP is for IPv4, uses broadcasts; ND is for IPv6, uses ICMPv6 messages and multicast."
+  },
+  {
+    "id": 183,
+    "front": "What is the lifetime of an ARP table entry?",
+    "back": "Entries stay in the ARP table for a limited time before they are removed — usually a few minutes."
+  },
+  {
+    "id": 184,
+    "front": "What happens after a device replies to an ARP request?",
+    "back": "The requester adds the IP-MAC mapping to its ARP table."
+  },
+  {
+    "id": 185,
+    "front": "What does gratuitous ARP mean?",
+    "back": "A device sends an ARP request for its own IP — used to detect conflicts or update tables."
+  },
+  {
+    "id": 186,
+    "front": "Why is ARP a security risk?",
+    "back": "It trusts replies without checking — attackers can send fake replies (ARP spoofing)."
+  },
+  {
+    "id": 187,
+    "front": "What is ARP poisoning?",
+    "back": "A malicious technique where fake ARP messages are used to link an IP to the wrong MAC."
+  },
+  {
+    "id": 188,
+    "front": "How can you reduce ARP attacks?",
+    "back": "Use features like Dynamic ARP Inspection (DAI) and static ARP entries."
+  },
+  {
+    "id": 189,
+    "front": "What type of message does ND use instead of broadcast?",
+    "back": "Multicast — to reduce traffic and limit scope."
+  },
+  {
+    "id": 190,
+    "front": "What layer does ARP operate at?",
+    "back": "It works between Layer 2 (MAC) and Layer 3 (IP) — sometimes called Layer 2.5."
+  },
+  {
+    "id": 191,
+    "front": "What does the command 'hostname' do on a router?",
+    "back": "Sets the device name shown in the CLI prompt."
+  },
+  {
+    "id": 192,
+    "front": "What is the 'enable secret' password?",
+    "back": "A secure, encrypted password for privileged EXEC mode."
+  },
+  {
+    "id": 193,
+    "front": "What does 'line console 0' configure?",
+    "back": "Access settings for the router's console port."
+  },
+  {
+    "id": 194,
+    "front": "What does 'line vty 0 4' configure?",
+    "back": "Access settings for Telnet/SSH remote sessions."
+  },
+  {
+    "id": 195,
+    "front": "What does the 'login' command do in line config?",
+    "back": "Enables password checking for that line."
+  },
+  {
+    "id": 196,
+    "front": "What does 'service password-encryption' do?",
+    "back": "Encrypts all passwords in the configuration file."
+  },
+  {
+    "id": 197,
+    "front": "What is the purpose of a 'banner motd'?",
+    "back": "Displays a legal warning message to users before login."
+  },
+  {
+    "id": 198,
+    "front": "What does 'copy running-config startup-config' do?",
+    "back": "Saves the active configuration to NVRAM so it's kept after a reboot."
+  },
+  {
+    "id": 199,
+    "front": "What does the 'no shutdown' command do on an interface?",
+    "back": "Enables the interface and brings it up."
+  },
+  {
+    "id": 200,
+    "front": "What is the default gateway for a host?",
+    "back": "The IP address of the router interface used to send data to other networks."
+  },
+  {
+    "id": 201,
+    "front": "What is an IPv4 address?",
+    "back": "A 32-bit address made of four octets used to identify devices on a network."
+  },
+  {
+    "id": 202,
+    "front": "What is an octet in an IP address?",
+    "back": "A group of 8 bits — each IPv4 address has 4 octets."
+  },
+  {
+    "id": 203,
+    "front": "What does a subnet mask do?",
+    "back": "It shows which part of the IP address is the network and which part is the host."
+  },
+  {
+    "id": 204,
+    "front": "What is the purpose of a prefix length?",
+    "back": "It tells how many bits are used for the network part (e.g., /24)."
+  },
+  {
+    "id": 205,
+    "front": "What is a network address?",
+    "back": "The lowest address in a subnet — identifies the entire network, not a device."
+  },
+  {
+    "id": 206,
+    "front": "What is a broadcast address?",
+    "back": "The highest address in a subnet — used to send data to all devices in that network."
+  },
+  {
+    "id": 207,
+    "front": "What is a host address?",
+    "back": "Any address between the network and broadcast address — can be assigned to a device."
+  },
+  {
+    "id": 208,
+    "front": "What is a unicast address?",
+    "back": "An address used to send data to one specific device."
+  },
+  {
+    "id": 209,
+    "front": "What is a broadcast address in IPv4?",
+    "back": "An address used to send data to all devices in a local network."
+  },
+  {
+    "id": 210,
+    "front": "What is a multicast address?",
+    "back": "An address used to send data to a group of selected devices."
+  },
+  {
+    "id": 211,
+    "front": "What are private IP addresses?",
+    "back": "Addresses that are not routable on the internet — used in internal networks."
+  },
+  {
+    "id": 212,
+    "front": "What are the three private IP ranges?",
+    "back": "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16"
+  },
+  {
+    "id": 213,
+    "front": "What is a public IP address?",
+    "back": "An IP address that can be used on the internet — must be unique globally."
+  },
+  {
+    "id": 214,
+    "front": "What is a loopback address?",
+    "back": "127.0.0.1 — used to test the local network stack."
+  },
+  {
+    "id": 215,
+    "front": "What is the 169.254.0.0/16 range used for?",
+    "back": "Link-local addressing — used when a device can't get an IP from DHCP."
+  },
+  {
+    "id": 216,
+    "front": "What is subnetting?",
+    "back": "Breaking a larger network into smaller ones to organize and manage IPs better."
+  },
+  {
+    "id": 217,
+    "front": "What is the purpose of subnetting?",
+    "back": "To reduce broadcast domains and make more efficient use of IP addresses."
+  },
+  {
+    "id": 218,
+    "front": "What is a subnet mask?",
+    "back": "A 32-bit number that separates the network part from the host part of an IP address."
+  },
+  {
+    "id": 219,
+    "front": "What does CIDR stand for?",
+    "back": "Classless Inter-Domain Routing — uses prefix lengths like /24 instead of class-based rules."
+  },
+  {
+    "id": 220,
+    "front": "What is the magic number method?",
+    "back": "A shortcut to find subnet ranges by subtracting the subnet block from 256."
+  },
+  {
+    "id": 221,
+    "front": "What is a 'magic number' in subnetting?",
+    "back": "The block size — found by subtracting the subnet mask value from 256."
+  },
+  {
+    "id": 222,
+    "front": "How do you find the subnet increment using the magic number?",
+    "back": "Subtract the subnet mask octet from 256 (e.g., 256 - 192 = 64)."
+  },
+  {
+    "id": 223,
+    "front": "If the subnet mask is 255.255.255.224, what is the magic number?",
+    "back": "256 - 224 = 32 — subnets increase by 32 (e.g., 0, 32, 64, 96, ...)."
+  },
+  {
+    "id": 224,
+    "front": "If the subnet mask is 255.255.255.240, what is the block size?",
+    "back": "256 - 240 = 16 — subnets start at 0, 16, 32, etc."
+  },
+  {
+    "id": 225,
+    "front": "What is the first valid host in the 192.168.1.64/26 subnet?",
+    "back": "192.168.1.65 — one above the network address."
+  },
+  {
+    "id": 226,
+    "front": "What is the last valid host in the 192.168.1.64/26 subnet?",
+    "back": "192.168.1.126 — one below the broadcast address."
+  },
+  {
+    "id": 227,
+    "front": "What is the broadcast address for 192.168.1.64/26?",
+    "back": "192.168.1.127 — the last address in the block."
+  },
+  {
+    "id": 228,
+    "front": "How many hosts can a /26 subnet support?",
+    "back": "64 addresses total, minus 2 — so 62 usable hosts."
+  },
+  {
+    "id": 229,
+    "front": "What does a /30 subnet mean?",
+    "back": "It has 4 addresses — 2 usable hosts, 1 network address, 1 broadcast."
+  },
+  {
+    "id": 230,
+    "front": "Why is the magic number helpful?",
+    "back": "It quickly shows subnet boundaries and helps find valid IP ranges."
+  },
+  {
+    "id": 231,
+    "front": "What is the magic number for a /25 subnet?",
+    "back": "256 - 128 = 128 — subnet blocks are 0–127 and 128–255."
+  },
+  {
+    "id": 232,
+    "front": "What are the valid host ranges for a /25 network starting at 192.168.10.0?",
+    "back": "192.168.10.1 to 192.168.10.126 and 192.168.10.129 to 192.168.10.254."
+  },
+  {
+    "id": 233,
+    "front": "What is the broadcast address for the 192.168.10.128/25 subnet?",
+    "back": "192.168.10.255"
+  },
+  {
+    "id": 234,
+    "front": "What is the magic number for a /27 subnet?",
+    "back": "256 - 224 = 32 — subnets are 0–31, 32–63, 64–95, etc."
+  },
+  {
+    "id": 235,
+    "front": "What is the network address for 192.168.5.77/27?",
+    "back": "192.168.5.64 — it falls in the 64–95 block."
+  },
+  {
+    "id": 236,
+    "front": "What is the broadcast address for 192.168.5.64/27?",
+    "back": "192.168.5.95"
+  },
+  {
+    "id": 237,
+    "front": "What is the valid host range for 192.168.5.64/27?",
+    "back": "192.168.5.65 to 192.168.5.94"
+  },
+  {
+    "id": 238,
+    "front": "What is the magic number for a /28 subnet?",
+    "back": "256 - 240 = 16 — blocks are 0–15, 16–31, 32–47, etc."
+  },
+  {
+    "id": 239,
+    "front": "How many usable hosts in a /28?",
+    "back": "16 total IPs — 14 usable hosts."
+  },
+  {
+    "id": 240,
+    "front": "What subnet does 10.0.5.23/28 belong to?",
+    "back": "10.0.5.16 — because 23 falls in the 16–31 block."
+  },
+  {
+    "id": 241,
+    "front": "What is the size of an IPv6 address?",
+    "back": "128 bits — written in hexadecimal and divided into eight 16-bit blocks (hextets)."
+  },
+  {
+    "id": 242,
+    "front": "What is a hextet?",
+    "back": "A group of 16 bits (4 hex characters) in an IPv6 address."
+  },
+  {
+    "id": 243,
+    "front": "What is SLAAC?",
+    "back": "Stateless Address Autoconfiguration — a method for devices to self-configure IPv6 addresses using RA messages."
+  },
+  {
+    "id": 244,
+    "front": "What is a Link-Local Address (LLA)?",
+    "back": "An IPv6 address used for communication within the same local link — starts with fe80::/10."
+  },
+  {
+    "id": 245,
+    "front": "What is a Global Unicast Address (GUA)?",
+    "back": "A routable IPv6 address assigned by an ISP — similar to a public IPv4 address."
+  },
+  {
+    "id": 246,
+    "front": "What is a Router Solicitation (RS)?",
+    "back": "An ICMPv6 message sent by a host to discover IPv6 routers on the network."
+  },
+  {
+    "id": 247,
+    "front": "What is a Router Advertisement (RA)?",
+    "back": "An ICMPv6 message sent by a router with IPv6 info like prefix, gateway, and DNS."
+  },
+  {
+    "id": 248,
+    "front": "What is a Neighbor Solicitation (NS)?",
+    "back": "An ICMPv6 message used to discover the MAC address of another IPv6 device or check if it is reachable."
+  },
+  {
+    "id": 249,
+    "front": "What is a Neighbor Advertisement (NA)?",
+    "back": "An ICMPv6 message sent in response to a Neighbor Solicitation — includes MAC info."
+  },
+  {
+    "id": 250,
+    "front": "What does the ping command do?",
+    "back": "Sends ICMP Echo Requests to test if a device is reachable and measures round-trip time."
+  },
+  {
+    "id": 251,
+    "front": "What is the IPv6 loopback address?",
+    "back": "::1 — used to test internal networking on a device."
+  },
+  {
+    "id": 252,
+    "front": "What is the IPv6 unspecified address?",
+    "back": ":: — used when a device doesn't yet have an IP address."
+  },
+  {
+    "id": 253,
+    "front": "What is EUI-64?",
+    "back": "A method to auto-generate an interface ID for IPv6 using the device’s MAC address."
+  },
+  {
+    "id": 254,
+    "front": "What does DAD stand for in IPv6?",
+    "back": "Duplicate Address Detection — checks if an address is already in use on the network."
+  },
+  {
+    "id": 255,
+    "front": "What are the first 3 bits of a Global Unicast Address (GUA)?",
+    "back": "They are always 001 — GUAs usually start with 2xxx or 3xxx."
+  },
+  {
+    "id": 256,
+    "front": "What is a multicast address in IPv6?",
+    "back": "An address that sends traffic to a group of devices — starts with ff00::/8."
+  },
+  {
+    "id": 257,
+    "front": "What is the all-nodes multicast address?",
+    "back": "ff02::1 — used to reach all IPv6 devices on a local link."
+  },
+  {
+    "id": 258,
+    "front": "What is the all-routers multicast address?",
+    "back": "ff02::2 — used to reach all IPv6 routers on the local link."
+  },
+  {
+    "id": 259,
+    "front": "How is IPv6 address compression done?",
+    "back": "By removing leading zeros and replacing one group of consecutive zeros with '::'."
+  },
+  {
+    "id": 260,
+    "front": "Can you use '::' more than once in an IPv6 address?",
+    "back": "No — '::' can only be used once to avoid confusion when decompressing."
+  },
+  {
+    "id": 261,
+    "front": "What type of IPv6 address is fe80::/10?",
+    "back": "Link-Local Address — used for communication on the same network segment."
+  },
+  {
+    "id": 262,
+    "front": "What type of IPv6 address starts with ff00::/8?",
+    "back": "Multicast Address — used to send packets to multiple devices."
+  },
+  {
+    "id": 263,
+    "front": "What is ::/128 in IPv6?",
+    "back": "The unspecified address — used when a device doesn’t yet have an address."
+  },
+  {
+    "id": 264,
+    "front": "What is ::1/128 in IPv6?",
+    "back": "The loopback address — used to test the local TCP/IP stack."
+  },
+  {
+    "id": 265,
+    "front": "What is the IPv6 all-nodes multicast address?",
+    "back": "ff02::1 — targets all devices on the local network."
+  },
+  {
+    "id": 266,
+    "front": "What is the IPv6 all-routers multicast address?",
+    "back": "ff02::2 — used to reach all routers on the link."
+  },
+  {
+    "id": 267,
+    "front": "What is the IPv6 solicited-node multicast address?",
+    "back": "An address used for Neighbor Discovery — helps a host find another host’s MAC address."
+  },
+  {
+    "id": 268,
+    "front": "What is the prefix for IPv6 documentation examples?",
+    "back": "2001:db8::/32 — used in books and training."
+  },
+  {
+    "id": 269,
+    "front": "What is ICMPv6 used for?",
+    "back": "To send error messages, ping replies, and support Neighbor Discovery in IPv6."
+  },
+  {
+    "id": 270,
+    "front": "What is the IPv6 equivalent of ARP?",
+    "back": "Neighbor Discovery Protocol (NDP) — uses ICMPv6 instead of broadcasts."
+  },
+  {
+    "id": 271,
+    "front": "What does the 'ping' command do?",
+    "back": "Sends ICMP Echo Request messages to test if a device is reachable."
+  },
+  {
+    "id": 272,
+    "front": "What response indicates a successful ping?",
+    "back": "An ICMP Echo Reply is received from the target device."
+  },
+  {
+    "id": 273,
+    "front": "What protocol does 'ping' use?",
+    "back": "ICMP — Internet Control Message Protocol."
+  },
+  {
+    "id": 274,
+    "front": "What is the difference between 'ping' and 'tracert'?",
+    "back": "'ping' tests reachability; 'tracert' shows the path a packet takes to the destination."
+  },
+  {
+    "id": 275,
+    "front": "What does 'tracert' stand for?",
+    "back": "Trace Route — it lists each hop a packet takes to reach its target."
+  },
+  {
+    "id": 276,
+    "front": "What does a '*' in traceroute output mean?",
+    "back": "No response was received from that hop — it could be filtered or down."
+  },
+  {
+    "id": 277,
+    "front": "What does the TTL field do in traceroute?",
+    "back": "It limits how many hops a packet can make — used to trace each step."
+  },
+  {
+    "id": 278,
+    "front": "What is the equivalent of 'ping' for IPv6?",
+    "back": "ping6 or ping -6 — used to test IPv6 connectivity."
+  },
+  {
+    "id": 279,
+    "front": "What is the equivalent of 'tracert' for IPv6?",
+    "back": "tracert -6 or traceroute6 — shows the path for IPv6 packets."
+  },
+  {
+    "id": 280,
+    "front": "What does a ping test help diagnose?",
+    "back": "Connectivity issues, network delays, or unreachable devices."
+  },
+  {
+    "id": 281,
+    "front": "What is TCP?",
+    "back": "Transmission Control Protocol — a connection-oriented protocol that ensures reliable, ordered delivery of data."
+  },
+  {
+    "id": 282,
+    "front": "What is UDP?",
+    "back": "User Datagram Protocol — a fast, connectionless protocol with low overhead and no guaranteed delivery."
+  },
+  {
+    "id": 283,
+    "front": "What is a port number?",
+    "back": "A numerical identifier used to direct data to specific services or applications on a host."
+  },
+  {
+    "id": 284,
+    "front": "What is a socket?",
+    "back": "A combination of IP address and port number used to identify a specific connection."
+  },
+  {
+    "id": 285,
+    "front": "What is malware?",
+    "back": "Malicious software designed to harm, steal, or disrupt data or systems."
+  },
+  {
+    "id": 286,
+    "front": "What is a DDoS attack?",
+    "back": "Distributed Denial of Service — uses multiple systems to flood and disrupt a network or service."
+  },
+  {
+    "id": 287,
+    "front": "What is AAA in network security?",
+    "back": "Authentication, Authorization, and Accounting — controls who can access, what they can do, and keeps a record."
+  },
+  {
+    "id": 288,
+    "front": "What is a DMZ in networking?",
+    "back": "Demilitarized Zone — a network segment exposed to external traffic, used to host public services securely."
+  },
+  {
+    "id": 289,
+    "front": "What is a network baseline?",
+    "back": "A record of normal network performance used for comparison during troubleshooting."
+  },
+  {
+    "id": 290,
+    "front": "What is QoS?",
+    "back": "Quality of Service — prioritizing some types of traffic (like voice or video) to reduce delay and improve performance."
+  },
+  {
+    "id": 291,
+    "front": "What is window size in TCP?",
+    "back": "The amount of data that can be sent before receiving an acknowledgment."
+  },
+  {
+    "id": 292,
+    "front": "What is a three-way handshake?",
+    "back": "The TCP process to establish a connection: SYN, SYN-ACK, ACK."
+  },
+  {
+    "id": 293,
+    "front": "What is a SYN flood attack?",
+    "back": "A type of DoS attack that overwhelms a system by sending many TCP connection requests without completing them."
+  },
+  {
+    "id": 294,
+    "front": "What is the function of a firewall?",
+    "back": "To filter traffic based on rules and protect a network from unauthorized access."
+  },
+  {
+    "id": 295,
+    "front": "What is social engineering?",
+    "back": "Tricking people into giving up sensitive information or access — not a technical attack."
+  },
+  {
+    "id": 296,
+    "front": "What does NAT stand for?",
+    "back": "Network Address Translation — allows private IP addresses to be used with a single public IP."
+  },
+  {
+    "id": 297,
+    "front": "What is PAT?",
+    "back": "Port Address Translation — a type of NAT where multiple devices share one public IP using different ports."
+  },
+  {
+    "id": 298,
+    "front": "What is redundancy in networking?",
+    "back": "Having backup systems or paths to ensure reliability if one part fails."
+  },
+  {
+    "id": 299,
+    "front": "What is scalability in networking?",
+    "back": "The ability of a network to grow and handle increased traffic or users."
+  },
+  {
+    "id": 300,
+    "front": "What is a network topology?",
+    "back": "The layout of devices and connections in a network — physical or logical."
+  },
+  {
+    "id": 301,
+    "front": "What is a threat actor?",
+    "back": "A person or group that tries to gain unauthorized access to a network, often using software exploits or stolen credentials."
+  },
+  {
+    "id": 302,
+    "front": "What is malware?",
+    "back": "Malicious software that damages or steals data, disrupts systems, or gives unauthorized access."
+  },
+  {
+    "id": 303,
+    "front": "What is a botnet?",
+    "back": "A group of infected devices controlled by an attacker, used in DDoS attacks."
+  },
+  {
+    "id": 304,
+    "front": "What does VPN stand for?",
+    "back": "Virtual Private Network — a secure connection over the internet that protects data from interception."
+  },
+  {
+    "id": 305,
+    "front": "What is the function of the show ip interface brief command?",
+    "back": "It quickly displays the status and IP address of all interfaces on a router or switch."
+  },
+  {
+    "id": 306,
+    "front": "What is the purpose of the ping command?",
+    "back": "To test connectivity between two devices using ICMP echo request and reply messages."
+  },
+  {
+    "id": 307,
+    "front": "What does traceroute do?",
+    "back": "It shows the path that packets take from source to destination, listing each router along the way."
+  },
+  {
+    "id": 308,
+    "front": "What is defense-in-depth?",
+    "back": "A layered security strategy using multiple tools and techniques to protect a network."
+  },
+  {
+    "id": 309,
+    "front": "What is a backup?",
+    "back": "A saved copy of device settings or data, used for recovery in case of failure or attack."
+  },
+  {
+    "id": 310,
+    "front": "What is the purpose of IP addressing in a small network?",
+    "back": "To give each device a unique address so data can be routed correctly and easily managed."
+  },
+  {
+    "id": 311,
+    "front": "What does HTTP stand for?",
+    "back": "Hypertext Transfer Protocol — used for web browsing over the internet."
+  },
+  {
+    "id": 312,
+    "front": "What does HTTPS stand for?",
+    "back": "Hypertext Transfer Protocol Secure — a secure version of HTTP that uses encryption."
+  },
+  {
+    "id": 313,
+    "front": "What does FTP stand for?",
+    "back": "File Transfer Protocol — used to upload and download files between systems."
+  },
+  {
+    "id": 314,
+    "front": "What does TFTP stand for?",
+    "back": "Trivial File Transfer Protocol — a simpler version of FTP, often used for network booting or device configs."
+  },
+  {
+    "id": 315,
+    "front": "What does SSH stand for?",
+    "back": "Secure Shell — used for secure remote access to network devices using CLI."
+  },
+  {
+    "id": 316,
+    "front": "What does Telnet stand for?",
+    "back": "Telecommunication Network — used for remote CLI access without encryption."
+  },
+  {
+    "id": 317,
+    "front": "What does DNS stand for?",
+    "back": "Domain Name System — translates website names to IP addresses."
+  },
+  {
+    "id": 318,
+    "front": "What does DHCP stand for?",
+    "back": "Dynamic Host Configuration Protocol — automatically assigns IP addresses to devices."
+  },
+  {
+    "id": 319,
+    "front": "What does SMTP stand for?",
+    "back": "Simple Mail Transfer Protocol — used to send emails."
+  },
+  {
+    "id": 320,
+    "front": "What does POP3 stand for?",
+    "back": "Post Office Protocol version 3 — used to retrieve emails from a server."
+  },
+  {
+    "id": 321,
+    "front": "What does IMAP stand for?",
+    "back": "Internet Message Access Protocol — used to access and manage emails on a server."
+  },
+  {
+    "id": 322,
+    "front": "What does SNMP stand for?",
+    "back": "Simple Network Management Protocol — used to monitor and manage network devices."
+  },
+  {
+    "id": 323,
+    "front": "What does ICMP stand for?",
+    "back": "Internet Control Message Protocol — used for error reporting and testing connectivity (e.g., ping)."
+  },
+  {
+    "id": 324,
+    "front": "What does ARP stand for?",
+    "back": "Address Resolution Protocol — maps an IP address to a MAC address on a local network."
+  },
+  {
+    "id": 325,
+    "front": "What does NTP stand for?",
+    "back": "Network Time Protocol — used to synchronize the time on networked devices."
+  },
+  {
+    "id": 326,
+    "front": "What does RDP stand for?",
+    "back": "Remote Desktop Protocol — used to remotely access and control another computer’s desktop."
+  },
+  {
+    "id": 327,
+    "front": "What does LDAP stand for?",
+    "back": "Lightweight Directory Access Protocol — used for accessing and managing directory services."
+  },
+  {
+    "id": 328,
+    "front": "What does NAT stand for?",
+    "back": "Network Address Translation — allows multiple private IP addresses to share a single public IP."
+  },
+  {
+    "id": 329,
+    "front": "What does PAT stand for?",
+    "back": "Port Address Translation — a type of NAT that uses different port numbers for each connection."
+  },
+  {
+    "id": 330,
+    "front": "What does OSPF stand for?",
+    "back": "Open Shortest Path First — a link-state routing protocol used within large networks."
+  },
+  {
+    "id": 331,
+    "front": "What does EIGRP stand for?",
+    "back": "Enhanced Interior Gateway Routing Protocol — a Cisco-proprietary distance-vector routing protocol."
+  },
+  {
+    "id": 332,
+    "front": "What does BGP stand for?",
+    "back": "Border Gateway Protocol — used to route data between different autonomous systems on the internet."
+  },
+  {
+    "id": 333,
+    "front": "What does RIP stand for?",
+    "back": "Routing Information Protocol — a distance-vector routing protocol with a hop-count limit."
+  },
+  {
+    "id": 334,
+    "front": "What does AAA stand for in networking?",
+    "back": "Authentication, Authorization, and Accounting — a security model for managing user access."
+  },
+  {
+    "id": 335,
+    "front": "What does RADIUS stand for?",
+    "back": "Remote Authentication Dial-In User Service — a centralized AAA protocol."
+  },
+  {
+    "id": 336,
+    "front": "What does TACACS+ stand for?",
+    "back": "Terminal Access Controller Access-Control System Plus — a Cisco AAA protocol with more control than RADIUS."
+  },
+  {
+    "id": 337,
+    "front": "What does ISP stand for?",
+    "back": "Internet Service Provider — a company that provides access to the internet."
+  },
+  {
+    "id": 338,
+    "front": "What does LAN stand for?",
+    "back": "Local Area Network — a network that connects devices in a limited area like a home or office."
+  },
+  {
+    "id": 339,
+    "front": "What does WAN stand for?",
+    "back": "Wide Area Network — a network that covers a large area and connects multiple LANs."
+  },
+  {
+    "id": 340,
+    "front": "What does CLI stand for?",
+    "back": "Command Line Interface — a text-based way to interact with devices like routers and switches."
+  },
+  {
+    "id": 341,
+    "front": "What does VLAN stand for?",
+    "back": "Virtual Local Area Network — it allows logical separation of devices on the same physical switch."
+  },
+  {
+    "id": 342,
+    "front": "What does SVI stand for?",
+    "back": "Switched Virtual Interface — a virtual interface used to manage and assign an IP address to a VLAN."
+  },
+  {
+    "id": 343,
+    "front": "What does MAC stand for?",
+    "back": "Media Access Control — a unique hardware address used for local delivery of frames."
+  },
+  {
+    "id": 344,
+    "front": "What does IP stand for?",
+    "back": "Internet Protocol — provides logical addressing and routing for network communication."
+  },
+  {
+    "id": 345,
+    "front": "What does DNS stand for?",
+    "back": "Domain Name System — translates domain names into IP addresses."
+  },
+  {
+    "id": 346,
+    "front": "What does DHCP stand for?",
+    "back": "Dynamic Host Configuration Protocol — assigns IP addresses and other network settings to devices automatically."
+  },
+  {
+    "id": 347,
+    "front": "What does MTU stand for?",
+    "back": "Maximum Transmission Unit — the largest size a packet can be to travel across a link without fragmentation."
+  },
+  {
+    "id": 348,
+    "front": "What does CAM stand for in switching?",
+    "back": "Content Addressable Memory — used by switches to store MAC address tables."
+  },
+  {
+    "id": 349,
+    "front": "What does CRC stand for?",
+    "back": "Cyclic Redundancy Check — a method used to detect errors in frames."
+  },
+  {
+    "id": 350,
+    "front": "What does TTL stand for?",
+    "back": "Time To Live — a value that limits how many hops a packet can take before being dropped."
+  },
+  {
+    "id": 351,
+    "front": "What port number does HTTP use?",
+    "back": "Port 80 — used for unencrypted web traffic."
+  },
+  {
+    "id": 352,
+    "front": "What port number does HTTPS use?",
+    "back": "Port 443 — used for encrypted web traffic over SSL/TLS."
+  },
+  {
+    "id": 353,
+    "front": "What port numbers does FTP use?",
+    "back": "Ports 20 and 21 — 21 for control commands, 20 for data transfer."
+  },
+  {
+    "id": 354,
+    "front": "What port number does SSH use?",
+    "back": "Port 22 — used for secure remote login and CLI access."
+  },
+  {
+    "id": 355,
+    "front": "What port number does Telnet use?",
+    "back": "Port 23 — used for unencrypted remote CLI access."
+  },
+  {
+    "id": 356,
+    "front": "What port number does DNS use?",
+    "back": "Port 53 — used for both TCP and UDP queries to resolve names to IPs."
+  },
+  {
+    "id": 357,
+    "front": "What port number does DHCP use?",
+    "back": "Ports 67 and 68 — 67 for server to client, 68 for client to server (both use UDP)."
+  },
+  {
+    "id": 358,
+    "front": "What port number does SMTP use?",
+    "back": "Port 25 — used to send emails between servers (usually TCP)."
+  },
+  {
+    "id": 359,
+    "front": "What port number does POP3 use?",
+    "back": "Port 110 — used to download emails from a server."
+  },
+  {
+    "id": 360,
+    "front": "What port number does IMAP use?",
+    "back": "Port 143 — used to access and manage emails on a mail server."
+  },
+  {
+    "id": 361,
+    "front": "What port number does TFTP use?",
+    "back": "Port 69 — used for simple file transfers with no authentication or encryption (UDP)."
+  },
+  {
+    "id": 362,
+    "front": "What port number does SNMP use?",
+    "back": "Port 161 — used by network management systems to monitor devices (UDP)."
+  },
+  {
+    "id": 363,
+    "front": "What port number does SNMP Trap use?",
+    "back": "Port 162 — used to receive alerts from SNMP-enabled devices (UDP)."
+  },
+  {
+    "id": 364,
+    "front": "What port number does RDP use?",
+    "back": "Port 3389 — used for Remote Desktop Protocol (Microsoft remote access)."
+  },
+  {
+    "id": 365,
+    "front": "What port number does NTP use?",
+    "back": "Port 123 — used to synchronize time between network devices (UDP)."
+  },
+  {
+    "id": 366,
+    "front": "What port number does LDAP use?",
+    "back": "Port 389 — used for accessing directory services like Microsoft Active Directory."
+  },
+  {
+    "id": 367,
+    "front": "What port number does LDAPS use?",
+    "back": "Port 636 — LDAP over SSL for secure directory access."
+  },
+  {
+    "id": 368,
+    "front": "What port number does NetBIOS use?",
+    "back": "Ports 137, 138, 139 — used for file and printer sharing in legacy Windows networks."
+  },
+  {
+    "id": 369,
+    "front": "What port number does SMB use?",
+    "back": "Port 445 — Server Message Block used for Windows file and printer sharing."
+  },
+  {
+    "id": 370,
+    "front": "What port number does HTTPS use?",
+    "back": "Port 443 — secure version of HTTP using SSL/TLS encryption."
+  }
+]

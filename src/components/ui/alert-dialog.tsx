@@ -49,7 +49,7 @@ const AlertDialogContent = React.forwardRef<
           React.Children.toArray((child.props as any).children).some(
             (headerChild) =>
               React.isValidElement(headerChild) &&
-              headerChild.type === AlertDialogTitle
+              headerChild.type === AlertDialogPrimitive.Title // Check against AlertDialogPrimitive.Title
           )
       ) && <AlertDialogPrimitive.Title className="sr-only">Alert Dialog</AlertDialogPrimitive.Title>}
       {children}

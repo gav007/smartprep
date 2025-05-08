@@ -15,7 +15,6 @@ export default function AudioLessonsPage() {
   useEffect(() => {
     async function fetchAudioMetadata() {
       try {
-        // Corrected path to fetch from the root of public/data
         const response = await fetch('/data/audio.json'); 
         if (!response.ok) {
           throw new Error(`Failed to fetch audio metadata: ${response.statusText} (status: ${response.status})`);

@@ -3,18 +3,34 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, GitBranchPlus, Info } from 'lucide-react';
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, WaveSquare } from 'lucide-react'; // Added WaveSquare
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
 const featuredTools = [
   {
-    title: "🎧 Audio Lessons – Learn by Listening",
-    description: "Understand networking & electronics anywhere, anytime.",
+    title: "🎧 Audio Lessons",
+    description: "Listen and learn with focused lessons on networking and electronics.",
     icon: Podcast,
     link: "/audio",
     aiHint: "audio podcast lessons education",
     ctaText: "▶️ Browse Audio Library"
+  },
+  {
+    title: "⚡ Flash Cards: Applied Networking",
+    description: "Reinforce practical networking knowledge with interactive flash cards.",
+    icon: Layers, 
+    link: "/flashcards/applied",
+    aiHint: "flashcards networking applied study",
+    ctaText: "Start Studying"
+  },
+  {
+    title: "📚 Flash Cards: CCNA",
+    description: "Review key CCNA concepts and terminologies with flash cards.",
+    icon: BookOpen, 
+    link: "/flashcards/ccna",
+    aiHint: "flashcards ccna cisco study",
+    ctaText: "Start Studying"
   },
   {
     title: "Subnet Calculator",
@@ -43,7 +59,7 @@ const featuredTools = [
    {
     title: "Ohm's & Power Calc",
     description: "Solve for Voltage (V), Current (I), Resistance (R), or Power (P) using Ohm's Law.",
-    icon: Zap, // Power icon
+    icon: Zap, 
     link: "/calculator#power", 
     aiHint: "ohms law power triangle formula",
     ctaText: "Open Tool"
@@ -72,6 +88,14 @@ const featuredTools = [
     aiHint: "voltage divider resistors circuit",
     ctaText: "Open Tool"
   },
+  {
+    title: "Waveform Viewer",
+    description: "Visualize Sine, Square, Triangle, and Sawtooth waveforms. Adjust parameters in real-time.",
+    icon: WaveSquare,
+    link: "/tools/waveform",
+    aiHint: "oscilloscope signal waveform electronics",
+    ctaText: "Open Viewer"
+  }
 ];
 
 
@@ -104,7 +128,7 @@ export default function HomePage() {
             <div className="flex justify-center items-center">
                 <Image
                   src="/images/network.jpg" 
-                  alt="Networking equipment and server rack"
+                  alt="Networking equipment including servers and ethernet cables in a data rack"
                   width={600}
                   height={400}
                   className="rounded-xl shadow-2xl object-cover aspect-[4/3]" 
