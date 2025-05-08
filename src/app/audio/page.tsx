@@ -23,25 +23,42 @@ export default function AudioLessonsPage() {
         if (!response.ok) {
           throw new Error(`Failed to fetch audio metadata: ${response.statusText} (status: ${response.status})`);
         }
-        const data: AudioMetadata[] = await response.json();
+        const data: any[] = await response.json(); // Fetch as any[] first for more flexible validation
+        
         if (!Array.isArray(data)) {
             throw new Error('Invalid audio metadata format: Expected an array.');
         }
         
-        // Group audio files by category
-        const groups: GroupedAudio = data.reduce((acc, audio) => {
-          const category = audio.category || 'General'; // Default category if none provided
+        // Filter and group valid audio files
+        const groups: GroupedAudio = data.reduce((acc, audioItem) => {
+          // Validate each audio item before processing
+          if (
+            !audioItem ||
+            typeof audioItem.id !== 'string' ||
+            typeof audioItem.title !== 'string' ||
+            typeof audioItem.description !== 'string' ||
+            typeof audioItem.filename !== 'string' ||
+            audioItem.filename.trim() === ''
+          ) {
+            console.warn('AudioLessonsPage: Skipping invalid audio entry in audio.json:', audioItem);
+            return acc; // Skip this invalid item
+          }
+
+          // Cast to AudioMetadata after validation
+          const validAudioItem = audioItem as AudioMetadata;
+          const category = validAudioItem.category || 'General'; // Default category if none provided
+          
           if (!acc[category]) {
             acc[category] = [];
           }
-          acc[category].push(audio);
+          acc[category].push(validAudioItem);
           return acc;
         }, {} as GroupedAudio);
 
         setGroupedAudioFiles(groups);
       } catch (err) {
-        console.error(err);
-        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+        console.error("Error in fetchAudioMetadata:", err);
+        setError(err instanceof Error ? err.message : 'An unknown error occurred while loading audio metadata.');
       } finally {
         setLoading(false);
       }
@@ -66,7 +83,7 @@ export default function AudioLessonsPage() {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Error Loading Audio</AlertTitle>
           <AlertDescription>
-            {error} Please try again later.
+            {error} Please try again later or check the console for more details.
           </AlertDescription>
         </Alert>
       </div>
@@ -87,8 +104,8 @@ export default function AudioLessonsPage() {
         </p>
       </header>
 
-      {categories.length === 0 ? (
-        <p className="text-center text-muted-foreground">No audio lessons available at the moment.</p>
+      {categories.length === 0 && !loading ? ( // Check !loading to avoid showing "No lessons" during initial load
+        <p className="text-center text-muted-foreground">No audio lessons available at the moment. Please check back later.</p>
       ) : (
         <div className="space-y-12">
           {categories.sort().map((category) => ( // Sort categories alphabetically for consistent order
@@ -97,11 +114,15 @@ export default function AudioLessonsPage() {
                 <ListMusic className="h-6 w-6 text-accent" /> 
                 {category} Audio
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {groupedAudioFiles[category].map((audio) => (
-                  <AudioCard key={audio.id} audio={audio} />
-                ))}
-              </div>
+              {groupedAudioFiles[category].length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {groupedAudioFiles[category].map((audio) => (
+                    <AudioCard key={audio.id} audio={audio} />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground italic">No audio files found in this category.</p>
+              )}
             </section>
           ))}
         </div>
