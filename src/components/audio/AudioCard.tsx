@@ -12,7 +12,20 @@ interface AudioCardProps {
 
 const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
   // Construct the audio source path relative to the public directory
-  const audioSrc = `/data/audio/${audio.filename}`;
+  // The filename already includes the subfolder like "audio2/file.wav"
+  const audioSrc = `/data/${audio.filename}`;
+
+  const getMimeType = (filename?: string, providedMimeType?: string): string => {
+    if (providedMimeType) return providedMimeType;
+    if (!filename) return 'audio/mpeg'; // Default fallback
+
+    const extension = filename.split('.').pop()?.toLowerCase();
+    if (extension === 'wav') return 'audio/wav';
+    if (extension === 'mp3' || extension === 'mpg') return 'audio/mpeg'; // Treat .mpg as mp3 audio
+    return 'audio/mpeg'; // Default for unknown extensions
+  };
+  
+  const mimeType = getMimeType(audio.filename, audio.mimeType);
 
   return (
     <Card className="w-full overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl bg-card border border-border/50 rounded-xl">
@@ -29,7 +42,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
       </CardHeader>
       <CardContent className="p-4">
         <audio controls className="w-full">
-          <source src={audioSrc} type="audio/wav" />
+          <source src={audioSrc} type={mimeType} />
           Your browser does not support the audio element.
         </audio>
       </CardContent>

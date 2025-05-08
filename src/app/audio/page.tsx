@@ -5,10 +5,14 @@ import React, { useState, useEffect } from 'react';
 import AudioCard from '@/components/audio/AudioCard';
 import type { AudioMetadata } from '@/types/audio';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertTriangle, Podcast } from 'lucide-react'; 
+import { Loader2, AlertTriangle, Podcast, ListMusic } from 'lucide-react'; 
+
+interface GroupedAudio {
+  [category: string]: AudioMetadata[];
+}
 
 export default function AudioLessonsPage() {
-  const [audioFiles, setAudioFiles] = useState<AudioMetadata[]>([]);
+  const [groupedAudioFiles, setGroupedAudioFiles] = useState<GroupedAudio>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,7 +27,18 @@ export default function AudioLessonsPage() {
         if (!Array.isArray(data)) {
             throw new Error('Invalid audio metadata format: Expected an array.');
         }
-        setAudioFiles(data);
+        
+        // Group audio files by category
+        const groups: GroupedAudio = data.reduce((acc, audio) => {
+          const category = audio.category || 'General'; // Default category if none provided
+          if (!acc[category]) {
+            acc[category] = [];
+          }
+          acc[category].push(audio);
+          return acc;
+        }, {} as GroupedAudio);
+
+        setGroupedAudioFiles(groups);
       } catch (err) {
         console.error(err);
         setError(err instanceof Error ? err.message : 'An unknown error occurred.');
@@ -58,6 +73,8 @@ export default function AudioLessonsPage() {
     );
   }
 
+  const categories = Object.keys(groupedAudioFiles);
+
   return (
     <div className="container mx-auto px-4 py-12">
       <header className="text-center mb-12">
@@ -66,16 +83,26 @@ export default function AudioLessonsPage() {
           Audio Lessons
         </h1>
         <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-          Listen to educational audio clips on networking and electronics topics.
+          Listen to educational audio clips on networking and electronics topics, grouped by category.
         </p>
       </header>
 
-      {audioFiles.length === 0 ? (
+      {categories.length === 0 ? (
         <p className="text-center text-muted-foreground">No audio lessons available at the moment.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {audioFiles.map((audio) => (
-            <AudioCard key={audio.id} audio={audio} />
+        <div className="space-y-12">
+          {categories.sort().map((category) => ( // Sort categories alphabetically for consistent order
+            <section key={category}>
+              <h2 className="text-2xl font-semibold mb-6 border-b pb-2 flex items-center gap-2">
+                <ListMusic className="h-6 w-6 text-accent" /> 
+                {category} Audio
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {groupedAudioFiles[category].map((audio) => (
+                  <AudioCard key={audio.id} audio={audio} />
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       )}
