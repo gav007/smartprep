@@ -12,7 +12,8 @@ interface GroupedAudio {
   [category: string]: AudioMetadata[];
 }
 
-const CATEGORY_APPLIED = "Applied Networking";
+// Define constants for category names to avoid typos
+const CATEGORY_APPLIED_NETWORKING = "Applied Networking";
 const CATEGORY_CCNA = "CCNA";
 
 export default function AudioLessonsPage() {
@@ -36,34 +37,42 @@ export default function AudioLessonsPage() {
         }
 
         const groups: GroupedAudio = {
-          [CATEGORY_APPLIED]: [],
+          [CATEGORY_APPLIED_NETWORKING]: [],
           [CATEGORY_CCNA]: [],
         };
 
         data.forEach((audioItem) => {
+          // Validate essential fields for an AudioMetadata object
           if (
             !audioItem ||
             typeof audioItem.id !== 'string' ||
             typeof audioItem.title !== 'string' ||
-            typeof audioItem.description !== 'string' || // Assuming description is always present or handled
+            // typeof audioItem.description !== 'string' || // Description can be optional based on the type
             typeof audioItem.filename !== 'string' ||
             audioItem.filename.trim() === ''
+            // category and mimeType are optional in AudioMetadata, but good to have in JSON
           ) {
             console.warn('AudioLessonsPage: Skipping invalid audio entry in audio.json:', audioItem);
-            return;
+            return; // Skip this invalid entry
           }
+          
+          const validAudioItem = audioItem as AudioMetadata; // Cast after basic validation
 
-          const validAudioItem = audioItem as AudioMetadata;
-          // Use the explicit category from audio.json
-          // If category is missing or not 'CCNA', default to 'Applied Networking'
-          const category = validAudioItem.category;
+          // Use the explicit category from audio.json if present
+          const categoryFromJson = validAudioItem.category;
 
-          if (category === CATEGORY_CCNA) {
-            if (!groups[CATEGORY_CCNA]) groups[CATEGORY_CCNA] = [];
+          if (categoryFromJson === CATEGORY_CCNA) {
             groups[CATEGORY_CCNA].push(validAudioItem);
-          } else { // Default to Applied Networking if not CCNA or category is missing
-            if (!groups[CATEGORY_APPLIED]) groups[CATEGORY_APPLIED] = [];
-            groups[CATEGORY_APPLIED].push(validAudioItem);
+          } else if (categoryFromJson === CATEGORY_APPLIED_NETWORKING) {
+            groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
+          } else {
+            // Fallback logic if category is missing or not recognized
+            // Check filename patterns if category field is not explicit or unrecognized
+            if (validAudioItem.filename.toLowerCase().startsWith('ccna')) {
+              groups[CATEGORY_CCNA].push(validAudioItem);
+            } else {
+              groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
+            }
           }
         });
         
@@ -103,7 +112,7 @@ export default function AudioLessonsPage() {
     );
   }
   
-  const categoriesToDisplay = [CATEGORY_APPLIED, CATEGORY_CCNA];
+  const categoriesToDisplay = [CATEGORY_APPLIED_NETWORKING, CATEGORY_CCNA];
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -121,7 +130,7 @@ export default function AudioLessonsPage() {
          <div className="text-center py-10">
             <AlertTriangle className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-xl text-muted-foreground">No audio lessons available at the moment.</p>
-            <p className="text-sm text-muted-foreground/80">Please check back later or ensure audio files are correctly configured in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio.json</code>.</p>
+            <p className="text-sm text-muted-foreground/80">Please check back later or ensure audio files are correctly configured in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio.json</code> and present in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio/</code>.</p>
         </div>
       ) : (
         <div className="space-y-12">
@@ -135,7 +144,7 @@ export default function AudioLessonsPage() {
               <section key={category}>
                 <h2 className="text-2xl font-semibold mb-6 border-b pb-2 flex items-center gap-2">
                   <IconComponent className="h-6 w-6 text-accent" />
-                  {category} Audio
+                  {category}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filesInCategory.map((audio) => (

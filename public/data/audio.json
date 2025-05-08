@@ -1,7 +1,7 @@
 
 [
   {
-    "id": "Wifi",
+    "id": "wifi",
     "title": "Wifi",
     "description": "Audio lesson on Wifi.",
     "filename": "Wifi.wav",
@@ -17,7 +17,7 @@
     "mimeType": "audio/wav"
   },
   {
-    "id": "fibreVsCopper",
+    "id": "fibre_vs_copper",
     "title": "Fibre Vs Copper",
     "description": "Audio lesson on Fibre Vs Copper.",
     "filename": "fibreVsCopper.wav",
@@ -33,7 +33,7 @@
     "mimeType": "audio/wav"
   },
   {
-    "id": "infrastructureCabling",
+    "id": "infrastructure_cabling",
     "title": "Infrastructure Cabling",
     "description": "Audio lesson on Infrastructure Cabling.",
     "filename": "infrastructureCabling.wav",
@@ -41,7 +41,7 @@
     "mimeType": "audio/wav"
   },
   {
-    "id": "cableCertification",
+    "id": "cable_certification",
     "title": "Cable Certification",
     "description": "Audio lesson on Cable Certification.",
     "filename": "cableCertification.wav",
@@ -49,15 +49,15 @@
     "mimeType": "audio/wav"
   },
   {
-    "id": "cableSheilding",
-    "title": "Cable Sheilding",
-    "description": "Audio lesson on Cable Sheilding.",
+    "id": "cable_sheilding",
+    "title": "Cable Shielding",
+    "description": "Audio lesson on Cable Shielding.",
     "filename": "cableSheilding.wav",
     "category": "Applied Networking",
     "mimeType": "audio/wav"
   },
   {
-    "id": "fibreOptics",
+    "id": "fibre_optics",
     "title": "Fibre Optics",
     "description": "Audio lesson on Fibre Optics.",
     "filename": "fibreOptics.wav",
@@ -66,16 +66,152 @@
   },
   {
     "id": "applied_summary",
-    "title": "Applied Summary",
-    "description": "Audio lesson on Applied Summary.",
+    "title": "Applied Networking Summary",
+    "description": "Summary audio lesson for Applied Networking.",
     "filename": "applied_summary.mp3",
     "category": "Applied Networking",
     "mimeType": "audio/mpeg"
   },
   {
+    "id": "ccna1_the_invisible_networks_powering_everything",
+    "title": "The Invisible Networks Powering Everything",
+    "description": "CCNA Audio: The Invisible Networks Powering Everything.",
+    "filename": "CCNA1_The Invisible Networks Powering Everything.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna2_your_hands_on_guide_to_getting_started",
+    "title": "Your Hands-On Guide to Getting Started",
+    "description": "CCNA Audio: Your Hands-On Guide to Getting Started.",
+    "filename": "CCNA2_Your Hands-On Guide to Getting Started.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna3_how_your_devices_secretly_talk_online",
+    "title": "How Your Devices Secretly Talk Online",
+    "description": "CCNA Audio: How Your Devices Secretly Talk Online.",
+    "filename": "CCNA3_How Your Devices Secretly Talk Online.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna4_the_hidden_foundation_of_your_digital_life",
+    "title": "The Hidden Foundation of Your Digital Life",
+    "description": "CCNA Audio: The Hidden Foundation of Your Digital Life.",
+    "filename": "CCNA4_The Hidden Foundation of Your Digital Life.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna5_binary_hex_and_the_language_of_networks",
+    "title": "Binary, Hex, and the Language of Networks",
+    "description": "CCNA Audio: Binary, Hex, and the Language of Networks.",
+    "filename": "CCNA5_Binary, Hex, and the Language of Networks.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna_6how_your_devices_actually_talk_the_data_link_layer_explained",
+    "title": "How Your Devices Actually Talk (The Data Link Layer Explained)",
+    "description": "CCNA Audio: How Your Devices Actually Talk (The Data Link Layer Explained).",
+    "filename": "CCNA_6How Your Devices Actually Talk (The Data Link Layer Explained).mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna_7the_surprisingly_smart_foundation_of_your_local_network",
+    "title": "The Surprisingly Smart Foundation of Your Local Network",
+    "description": "CCNA Audio: The Surprisingly Smart Foundation of Your Local Network.",
+    "filename": "CCNA_7The Surprisingly Smart Foundation of Your Local Network.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna_8ip_addresses_routing_and_the_ipv6_revolution",
+    "title": "IP Addresses, Routing, and the IPv6 Revolution",
+    "description": "CCNA Audio: IP Addresses, Routing, and the IPv6 Revolution.",
+    "filename": "CCNA_8IP Addresses, Routing, and the IPv6 Revolution.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna9_how_your_devices_actually_find_each_other",
+    "title": "How Your Devices Actually Find Each Other",
+    "description": "CCNA Audio: How Your Devices Actually Find Each Other.",
+    "filename": "CCNA9_How Your Devices Actually Find Each Other.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna10_hostname_security_ips_and_the_vital_show_commands",
+    "title": "Hostname, Security, IPs and the Vital Show Commands",
+    "description": "CCNA Audio: Hostname, Security, IPs and the Vital Show Commands.",
+    "filename": "CCNA10_Hostname, Security, IPs and the Vital Show Commands.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna11_decoding_ipv4_subnets_and_why_it_all_matters",
+    "title": "Decoding IPv4 Subnets and Why It All Matters",
+    "description": "CCNA Audio: Decoding IPv4 Subnets and Why It All Matters.",
+    "filename": "CCNA11_Decoding IPv4 Subnets and Why It All Matters.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna12_unlimited_addresses_next_gen_internet",
+    "title": "Unlimited Addresses, Next-Gen Internet",
+    "description": "CCNA Audio: Unlimited Addresses, Next-Gen Internet.",
+    "filename": "CCNA12_Unlimited Addresses, Next-Gen Internet.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna13_decoding_ping_traceroute_and_the_vital_role_of_icmp",
+    "title": "Decoding Ping, Traceroute, and the Vital Role of ICMP",
+    "description": "CCNA Audio: Decoding Ping, Traceroute, and the Vital Role of ICMP.",
+    "filename": "CCNA13_Decoding Ping, Traceroute, and the Vital Role of ICMP.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna_14the_internets_reliable_postman_vs_speedy_delivery_service",
+    "title": "The Internet's Reliable Postman vs. Speedy Delivery Service",
+    "description": "CCNA Audio: The Internet's Reliable Postman vs. Speedy Delivery Service.",
+    "filename": "CCNA_14The Internet's Reliable Postman vs. Speedy Delivery Service.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna15_decoding_the_internets_hidden_language",
+    "title": "Decoding the Internet's Hidden Language",
+    "description": "CCNA Audio: Decoding the Internet's Hidden Language.",
+    "filename": "CCNA15_Decoding the Internet's Hidden Language.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna16_mastering_the_layers_of_network_security",
+    "title": "Mastering the Layers of Network Security",
+    "description": "CCNA Audio: Mastering the Layers of Network Security.",
+    "filename": "CCNA16_Mastering the Layers of Network Security.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna17_ping_traceroute_and_the_secrets_of_small_network",
+    "title": "Ping, Traceroute, and the Secrets of Small Network",
+    "description": "CCNA Audio: Ping, Traceroute, and the Secrets of Small Network.",
+    "filename": "CCNA17_Ping, Traceroute, and the Secrets of Small Network.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
     "id": "ccna_osi_model",
     "title": "OSI Model",
-    "description": "Audio lesson on OSI Model.",
+    "description": "CCNA Audio: OSI Model.",
     "filename": "ccna_osi_model.wav",
     "category": "CCNA",
     "mimeType": "audio/wav"
@@ -83,7 +219,7 @@
   {
     "id": "ccna_subnetting",
     "title": "Subnetting",
-    "description": "Audio lesson on Subnetting.",
+    "description": "CCNA Audio: Subnetting.",
     "filename": "ccna_subnetting.mp3",
     "category": "CCNA",
     "mimeType": "audio/mpeg"
@@ -91,7 +227,7 @@
   {
     "id": "ccna_vlans_switching",
     "title": "VLANs and Switching",
-    "description": "Audio lesson on VLANs and Switching.",
+    "description": "CCNA Audio: VLANs and Switching.",
     "filename": "ccna_vlans.wav",
     "category": "CCNA",
     "mimeType": "audio/wav"
