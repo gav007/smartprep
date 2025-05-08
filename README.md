@@ -62,67 +62,7 @@ Learn networking and electronics on the go!
 
 📁 Folder Structure
 
-smartprep/
-├── .env
-├── .dockerignore
-├── .vscode/
-├── README.md
-├── components.json
-├── docker-compose.yml
-├── Dockerfile
-├── jest.config.js
-├── jest.setup.js
-├── next.config.js
-├── nginx.conf
-├── package.json
-├── tailwind.config.ts
-├── tsconfig.json
-├── public/
-│   ├── data/
-│   │   ├── applied.json
-│   │   ├── network_quiz.json
-│   │   ├── electronics.json
-│   │   └── audio.json
-│   └── assets/
-│       └── images/
-│           ├── hero-network.jpg
-│           └── hero-electronics.jpg
-├── src/
-│   ├── __tests__/
-│   │   ├── calculators/
-│   │   └── lib/
-│   ├── app/
-│   │   ├── calculator/
-│   │   ├── quiz/
-│   │   ├── audio/
-│   │   │   └── page.tsx
-│   │   ├── tools/
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── components/
-│   │   ├── calculators/
-│   │   ├── layout/
-│   │   ├── quiz/
-│   │   ├── packet-flow/
-│   │   ├── tools/
-│   │   ├── ui/
-│   │   └── audio/
-│   │       └── AudioCard.tsx
-│   ├── hooks/
-│   │   ├── use-calculator-state.ts
-│   │   ├── use-mobile.ts
-│   │   └── use-toast.ts
-│   ├── lib/
-│   │   ├── calculator-utils.ts
-│   │   ├── osi-model.ts
-│   │   ├── quiz-client.ts
-│   │   ├── units.ts
-│   │   └── utils.ts
-│   └── types/
-│       ├── calculator.ts
-│       ├── packet.ts
-│       ├── quiz.ts
-│       └── audio.ts
+<pre> 📁 Folder Structure ``` smartprep/ ├── .env ├── .dockerignore ├── .vscode/ ├── README.md ├── components.json ├── docker-compose.yml ├── Dockerfile ├── jest.config.js ├── jest.setup.js ├── next.config.js ├── nginx.conf ├── package.json ├── tailwind.config.ts ├── tsconfig.json ├── public/ │ ├── data/ │ │ ├── applied.json │ │ ├── network_quiz.json │ │ ├── electronics.json │ │ └── audio.json │ └── assets/ │ └── images/ │ ├── hero-network.jpg │ └── hero-electronics.jpg ├── src/ │ ├── __tests__/ │ │ ├── calculators/ │ │ └── lib/ │ ├── app/ │ │ ├── calculator/ │ │ ├── quiz/ │ │ ├── audio/ │ │ │ └── page.tsx │ │ ├── tools/ │ │ ├── layout.tsx │ │ └── page.tsx │ ├── components/ │ │ ├── calculators/ │ │ ├── layout/ │ │ ├── quiz/ │ │ ├── packet-flow/ │ │ ├── tools/ │ │ ├── ui/ │ │ └── audio/ │ │ └── AudioCard.tsx │ ├── hooks/ │ │ ├── use-calculator-state.ts │ │ ├── use-mobile.ts │ │ └── use-toast.ts │ ├── lib/ │ │ ├── calculator-utils.ts │ │ ├── osi-model.ts │ │ ├── quiz-client.ts │ │ ├── units.ts │ │ └── utils.ts │ └── types/ │ ├── calculator.ts │ ├── packet.ts │ ├── quiz.ts │ └── audio.ts ``` </pre>
 
 
 ## 🚀 Getting Started (Local Development)
