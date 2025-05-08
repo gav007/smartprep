@@ -207,29 +207,5 @@
     "filename": "CCNA17_Ping, Traceroute, and the Secrets of Small Network.mp3",
     "category": "CCNA",
     "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "ccna_osi_model",
-    "title": "OSI Model",
-    "description": "CCNA Audio: OSI Model.",
-    "filename": "ccna_osi_model.wav",
-    "category": "CCNA",
-    "mimeType": "audio/wav"
-  },
-  {
-    "id": "ccna_subnetting",
-    "title": "Subnetting",
-    "description": "CCNA Audio: Subnetting.",
-    "filename": "ccna_subnetting.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "ccna_vlans_switching",
-    "title": "VLANs and Switching",
-    "description": "CCNA Audio: VLANs and Switching.",
-    "filename": "ccna_vlans.wav",
-    "category": "CCNA",
-    "mimeType": "audio/wav"
   }
 ]
