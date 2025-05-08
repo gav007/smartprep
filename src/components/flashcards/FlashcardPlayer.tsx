@@ -30,7 +30,7 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedCount, setSelectedCount] = useState<string>(questionCountOptions[1].toString());
+  const [selectedCount, setSelectedCount] = useState<string>(questionCountOptions[1].toString()); // Default to 10 cards
   const [totalAvailableCards, setTotalAvailableCards] = useState(0);
   const { toast } = useToast();
 
@@ -46,8 +46,17 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
         if (!Array.isArray(data) || data.some(card => typeof card.front !== 'string' || typeof card.back !== 'string')) {
           throw new Error('Invalid flashcard data format.');
         }
+        console.log("Total cards fetched from JSON:", data.length, "for", quizFilename); // Debug log
         setAllCards(data);
         setTotalAvailableCards(data.length);
+        // Automatically set selectedCount to "All" if total available is less than the default (10) or any specific option.
+        // This ensures if a small deck is loaded, "All" is pre-selected if appropriate.
+        if (data.length > 0 && data.length < Math.min(...questionCountOptions)) {
+            setSelectedCount("All");
+        } else if (data.length === 0) {
+            setSelectedCount(questionCountOptions[1].toString()); // Revert to default if no cards
+        }
+
         setPlayerState('selecting'); 
       } catch (err) {
         console.error("Failed to load flashcards:", err);
@@ -66,10 +75,13 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
     }
     setPlayerState('loading');
     const count = selectedCount === 'All' ? allCards.length : parseInt(selectedCount, 10);
-    const numToDisplay = Math.min(count, allCards.length);
+    const numToDisplay = Math.min(count, allCards.length); // Ensure not to exceed available
     
-    const shuffled = shuffleArray(allCards);
-    setActiveCards(shuffled.slice(0, numToDisplay));
+    const shuffledFullDeck = shuffleArray([...allCards]); // Shuffle the entire deck first
+    const sessionCards = shuffledFullDeck.slice(0, numToDisplay); // Then take the slice
+    setActiveCards(sessionCards); 
+    console.log("Session started. Active cards count:", sessionCards.length, "Selected count:", selectedCount, "First card ID:", sessionCards[0]?.id); // Debug log
+
     setCurrentCardIndex(0);
     setIsCardFlipped(false); 
     setPlayerState('active');
@@ -97,10 +109,10 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
 
     let newActiveSet: FlashcardData[];
 
+    // If "All" was selected for the session OR if the current active set is already the full deck,
+    // shuffle the entire deck and use it.
     if (selectedCount === 'All' || currentSessionSize === allCards.length) {
-      // If "All" was selected for the session OR if the current active set is already the full deck,
-      // just shuffle the existing activeCards.
-      newActiveSet = shuffleArray([...activeCards]);
+      newActiveSet = shuffleArray([...allCards]); // Shuffle the entire deck
     } else {
       // If a specific count was selected for the session (and it's less than all available cards),
       // shuffle the entire deck and take a new random slice of the same size as the current session.
@@ -111,6 +123,7 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
     setActiveCards(newActiveSet);
     setCurrentCardIndex(0);
     setIsCardFlipped(false);
+    console.log("Cards reshuffled. New first card ID:", newActiveSet[0]?.id); // Debug log
     toast({ title: "Cards Reshuffled!" });
   };
 
@@ -155,7 +168,7 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
             <CardTitle className="text-2xl text-center">{quizTitle}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {totalAvailableCards === 0 && !error ? ( 
+            {totalAvailableCards === 0 && !error && playerState !== 'loading' ? ( // Show loading if fetch still in progress
               <div className="flex items-center justify-center py-4">
                 <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                  <p className="ml-2 text-muted-foreground">Loading card info...</p>
@@ -165,13 +178,19 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
                 <p className="text-center text-muted-foreground">{totalAvailableCards} cards available.</p>
                 <div className="space-y-1">
                   <Label htmlFor="card-count">How many cards to review?</Label>
-                  <Select value={selectedCount} onValueChange={setSelectedCount} disabled={totalAvailableCards === 0}>
+                  <Select 
+                    value={selectedCount} 
+                    onValueChange={(value) => setSelectedCount(value)} 
+                    disabled={totalAvailableCards === 0}
+                  >
                     <SelectTrigger id="card-count">
-                      <SelectValue />
+                      <SelectValue placeholder="Select count" />
                     </SelectTrigger>
                     <SelectContent>
                       {questionCountOptions.map(count => (
-                        count <= totalAvailableCards && <SelectItem key={count} value={count.toString()}>{count}</SelectItem>
+                        // Only show option if total cards are >= count, or if it's the smallest option
+                        (count <= totalAvailableCards || count === Math.min(...questionCountOptions)) && 
+                        <SelectItem key={count} value={count.toString()}>{Math.min(count, totalAvailableCards)}</SelectItem>
                       ))}
                        {totalAvailableCards > 0 && <SelectItem value="All">All ({totalAvailableCards})</SelectItem>}
                     </SelectContent>
@@ -192,7 +211,7 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
     );
   }
 
-  if (activeCards.length === 0) { 
+  if (activeCards.length === 0 && playerState === 'active') { // Changed condition to check playerState
     return (
       <div className="container mx-auto px-4 py-12 text-center">
         <p className="text-muted-foreground mb-4">No flashcards available for this session. Please select again.</p>
@@ -205,13 +224,25 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
   }
 
   const currentCard = activeCards[currentCardIndex];
+  if (!currentCard && playerState === 'active') { // Added check for playerState
+    // This case might happen briefly if activeCards is being updated
+    return (
+        <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-[60vh]">
+            <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+            <p className="text-lg text-muted-foreground">Loading card...</p>
+        </div>
+    );
+  }
+  // Debug log for current card
+  // console.log("Displaying card index:", currentCardIndex, "ID:", currentCard?.id, "Front:", currentCard?.front);
+
 
   return (
     <div className="container mx-auto px-4 py-8 flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-2 text-center">{quizTitle}</h1>
       <p className="text-muted-foreground mb-6 text-center">Card {currentCardIndex + 1} of {activeCards.length}</p>
       
-      <Flashcard card={currentCard} isFlipped={isCardFlipped} onFlip={handleFlipCard} />
+      {currentCard && <Flashcard card={currentCard} isFlipped={isCardFlipped} onFlip={handleFlipCard} />}
 
       <div className="flex items-center justify-center gap-2 mt-8 flex-wrap w-full max-w-lg">
         <Button variant="outline" onClick={handlePreviousCard} disabled={currentCardIndex === 0} className="flex-1 min-w-[calc(25%-0.5rem)] sm:min-w-[calc(20%-0.5rem)]">
