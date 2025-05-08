@@ -8,11 +8,13 @@ export interface WaveformParams {
   frequency: number;      // Hz (1 to 1,000,000)
   phase: number;          // Degrees
   dcOffset: number;       // Volts
-  timeWindowMs: number;   // Milliseconds (0.001 ms for 1µs, up to 1000 ms for 1s)
-  samplingRateHz: number; // Samples per second (up to 10,000,000)
+  cyclesToDisplay: number; // Number of cycles to show in the time window
+  samplingRateHz: number; // Samples per second (e.g., 100Hz to 10MHz)
+  // timeWindowMs is now derived from frequency and cyclesToDisplay in the generator component
 }
 
 export interface DataPoint {
-  time: number;    // Milliseconds (for plot X-axis)
+  time: number;    // Time in base unit (seconds) for calculation, converted to ms/µs/s for plot
   voltage: number; // Volts
 }
+

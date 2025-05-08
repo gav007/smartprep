@@ -3,16 +3,18 @@ import type { DataPoint, WaveformParams } from '@/types/waveform';
 
 const generatePoints = (numPoints: number, timeWindowMs: number, generatorFunc: (tSeconds: number) => number): DataPoint[] => {
   const points: DataPoint[] = [];
-  const timeStepSeconds = (timeWindowMs / 1000) / (numPoints - 1 > 0 ? numPoints -1 : 1); // Time step in seconds
+  const timeWindowSeconds = timeWindowMs / 1000; // Total time window in seconds
+  const timeStepSeconds = timeWindowSeconds / (numPoints > 1 ? numPoints - 1 : 1); // Time step in seconds
+
   for (let i = 0; i < numPoints; i++) {
     const tSeconds = i * timeStepSeconds;
-    const tMilliseconds = tSeconds * 1000; // For X-axis display
-    points.push({ time: tMilliseconds, voltage: generatorFunc(tSeconds) });
+    // Store time in base unit (seconds) for data integrity
+    points.push({ time: tSeconds, voltage: generatorFunc(tSeconds) });
   }
   return points;
 };
 
-export const generateSineWave = (params: WaveformParams, numPoints: number): DataPoint[] => {
+export const generateSineWave = (params: WaveformParams & {timeWindowMs: number}, numPoints: number): DataPoint[] => {
   const { amplitude, frequency, phase, dcOffset, timeWindowMs } = params;
   const phaseRad = phase * (Math.PI / 180); // Convert phase from degrees to radians
   return generatePoints(numPoints, timeWindowMs, (t) => 
@@ -20,7 +22,7 @@ export const generateSineWave = (params: WaveformParams, numPoints: number): Dat
   );
 };
 
-export const generateSquareWave = (params: WaveformParams, numPoints: number): DataPoint[] => {
+export const generateSquareWave = (params: WaveformParams & {timeWindowMs: number}, numPoints: number): DataPoint[] => {
   const { amplitude, frequency, phase, dcOffset, timeWindowMs } = params;
   const period = 1 / frequency;
   const phaseSeconds = (phase / 360) * period; // Phase shift in seconds
@@ -32,7 +34,7 @@ export const generateSquareWave = (params: WaveformParams, numPoints: number): D
   });
 };
 
-export const generateTriangleWave = (params: WaveformParams, numPoints: number): DataPoint[] => {
+export const generateTriangleWave = (params: WaveformParams & {timeWindowMs: number}, numPoints: number): DataPoint[] => {
   const { amplitude, frequency, phase, dcOffset, timeWindowMs } = params;
   const period = 1 / frequency;
   const phaseSeconds = (phase / 360) * period;
@@ -41,24 +43,24 @@ export const generateTriangleWave = (params: WaveformParams, numPoints: number):
     const timeIntoCycle = (t + phaseSeconds) % period;
     let value;
     if (timeIntoCycle < period / 2) {
-      // Rising edge
+      // Rising edge from -A to +A over T/2
       value = (4 * amplitude / period) * timeIntoCycle - amplitude;
     } else {
-      // Falling edge
-      value = (-4 * amplitude / period) * (timeIntoCycle - period / 2) + amplitude;
+      // Falling edge from +A to -A over T/2
+      value = (-4 * amplitude / period) * (timeIntoCycle - (period / 2)) + amplitude;
     }
     return value + dcOffset;
   });
 };
 
-export const generateSawtoothWave = (params: WaveformParams, numPoints: number): DataPoint[] => {
+export const generateSawtoothWave = (params: WaveformParams & {timeWindowMs: number}, numPoints: number): DataPoint[] => {
   const { amplitude, frequency, phase, dcOffset, timeWindowMs } = params;
   const period = 1 / frequency;
-  const phaseSeconds = (phase / 360) * period;
+  const phaseSeconds = (phase / 360) * period; // Phase shift in seconds
 
   return generatePoints(numPoints, timeWindowMs, (t) => {
     const timeIntoCycle = (t + phaseSeconds) % period;
-    // Linear ramp from -A to +A
+    // Linear ramp from -A to +A over the period
     const value = (2 * amplitude / period) * timeIntoCycle - amplitude;
     return value + dcOffset;
   });

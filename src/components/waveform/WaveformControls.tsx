@@ -14,40 +14,55 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 interface WaveformControlsProps {
   params: WaveformParams;
   onParamsChange: (newParams: Partial<WaveformParams>) => void;
-  onSamplingRateChange: (newRate: number) => void; // Specific handler for sampling rate
+  onSamplingRateChange: (newRate: number) => void;
 }
 
 const waveformTypes: WaveformType[] = ['sine', 'square', 'triangle', 'sawtooth'];
 
+const MIN_FREQUENCY_HZ = 1;
+const MAX_FREQUENCY_HZ = 1_000_000; // 1 MHz
+const MIN_SAMPLING_RATE_HZ = 100;
+const MAX_SAMPLING_RATE_HZ = 10_000_000; // 10 MHz
+
 const initialParamsForReset: WaveformParams = {
   type: 'sine', amplitude: 5, frequency: 1000, phase: 0, dcOffset: 0,
-  timeWindowMs: 1, samplingRateHz: 20000, // Default to 1ms window, 20kHz sampling for 1kHz signal
+  cyclesToDisplay: 5, samplingRateHz: 20000,
 };
 
 // Helper to get appropriate step for a wide range slider (logarithmic-like behavior)
-const getSmartStep = (min: number, max: number, value: number) => {
-    if (max / min > 10000) { // Very wide range
-        if (value < min * 100) return Math.max(1, min); // Finer steps for smaller values
-        if (value < max / 100) return Math.max(1, Math.floor(value / 100));
-        return Math.max(1, Math.floor(max / 1000));
+const getSmartStep = (min: number, max: number, value: number, isFine: boolean = false) => {
+    const range = max - min;
+    if (range <= 0) return 1;
+
+    if (isFine) { // Finer steps for parameters like amplitude, phase, DC offset
+      if (value < 10) return 0.01;
+      if (value < 100) return 0.1;
+      return 1;
     }
-    return Math.max(1, (max - min) / 200); // Default step for narrower ranges
+
+    // For frequency/sampling rate
+    if (value < 100) return 1;
+    if (value < 1000) return 10;
+    if (value < 10000) return 100;
+    if (value < 100000) return 1000;
+    return 10000; // Coarser steps for very high values
 };
 
 
 export default function WaveformControls({ params, onParamsChange, onSamplingRateChange }: WaveformControlsProps) {
 
   const handleReset = () => {
-    onParamsChange(initialParamsForReset);
-    onSamplingRateChange(initialParamsForReset.samplingRateHz);
+    onParamsChange(initialParamsForReset); // This will update all params
+    onSamplingRateChange(initialParamsForReset.samplingRateHz); // Explicitly set sampling rate via its handler
   };
   
   const handleFrequencyChange = (value: number) => {
-    const newFreq = Math.max(1, value); // Ensure frequency is at least 1 Hz
+    const newFreq = Math.max(MIN_FREQUENCY_HZ, Math.min(value, MAX_FREQUENCY_HZ));
     onParamsChange({ frequency: newFreq });
-    // Suggest a new sampling rate (Nyquist * 10, or 20x)
-    // Capping to 10M for slider, actual cap in generator
-    const suggestedSamplingRate = Math.min(10_000_000, Math.max(100, newFreq * 20)); 
+    
+    // Suggest a new sampling rate based on the new frequency
+    // Nyquist * 10 (or 20x frequency), capped by MAX_SAMPLING_RATE_HZ
+    const suggestedSamplingRate = Math.min(MAX_SAMPLING_RATE_HZ, Math.max(MIN_SAMPLING_RATE_HZ, newFreq * 20)); 
     onSamplingRateChange(suggestedSamplingRate);
   };
 
@@ -56,14 +71,19 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
     label: string,
     min: number,
     max: number,
-    defaultStep: number,
+    defaultStep: number, // For direct input
     unit: string,
     tooltipText: string,
-    isLogScale?: boolean, // Optional flag for log-like behavior on sliders
-    isFrequencyControl?: boolean
+    isLogScale?: boolean, // Controls slider step behavior
+    isFrequencyControl?: boolean,
+    isSamplingRateControl?: boolean
   ) => {
     const currentValue = params[id] as number;
-    const step = isLogScale ? getSmartStep(min, max, currentValue) : defaultStep;
+    // Use a smaller, potentially dynamic step for the slider for smoother control on log-like scales
+    const sliderStep = isLogScale ? getSmartStep(min, max, currentValue) : defaultStep;
+    // Use a finer step for the number input itself
+    const inputStep = (id === 'amplitude' || id === 'dcOffset') ? 0.01 : 1;
+
 
     return (
         <div className="space-y-2">
@@ -73,7 +93,7 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
             <TooltipProvider delayDuration={100}>
                 <Tooltip>
                 <TooltipTrigger asChild>
-                    <HelpCircle size={12} className="inline ml-1 text-muted-foreground cursor-help" />
+                    <button type="button" aria-label={`Info for ${label}`} className="ml-1 text-muted-foreground hover:text-foreground cursor-help"><HelpCircle size={12} /></button>
                 </TooltipTrigger>
                 <TooltipContent><p>{tooltipText}</p></TooltipContent>
                 </Tooltip>
@@ -86,20 +106,21 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
             onChange={(e) => {
                 const val = parseFloat(e.target.value);
                 if (!isNaN(val)) {
+                    const boundedVal = Math.max(min, Math.min(val, max));
                     if (isFrequencyControl) {
-                         handleFrequencyChange(val);
-                    } else if (id === 'samplingRateHz') {
-                        onSamplingRateChange(Math.max(100, val)); // Min sampling rate 100 Hz
+                         handleFrequencyChange(boundedVal);
+                    } else if (isSamplingRateControl) {
+                        onSamplingRateChange(boundedVal);
                     }
                     else {
-                        onParamsChange({ [id]: val });
+                        onParamsChange({ [id]: boundedVal });
                     }
                 }
             }}
-            className="h-7 w-24 text-xs px-1 py-0.5 ml-2" // Increased width slightly
+            className="h-7 w-24 text-xs px-1 py-0.5 ml-2"
             min={min}
-            max={max} // HTML5 max
-            step={defaultStep} // Input step can be finer
+            max={max}
+            step={inputStep}
             />
             <span className="text-xs text-muted-foreground ml-1">{unit}</span>
         </div>
@@ -107,12 +128,12 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
             id={id}
             min={min}
             max={max}
-            step={step} // Slider step can be dynamic for log-like feel
+            step={sliderStep} 
             value={[currentValue]}
             onValueChange={(value) => {
                  if (isFrequencyControl) {
                     handleFrequencyChange(value[0]);
-                } else if (id === 'samplingRateHz') {
+                } else if (isSamplingRateControl) {
                     onSamplingRateChange(value[0]);
                 }
                 else {
@@ -146,18 +167,14 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
         </Select>
       </div>
 
-      {renderSliderWithInput('amplitude', 'Amplitude', 0.1, 20, 0.1, 'V', "Peak voltage deviation from DC offset.")}
-      {/* Frequency: 1Hz to 1MHz. Slider for common range, input for precise high values. */}
-      {renderSliderWithInput('frequency', 'Frequency', 1, 1000000, 1, 'Hz', "Number of cycles per second. Slider for 1Hz-10kHz, input up to 1MHz.", true, true)}
-      {renderSliderWithInput('phase', 'Phase Shift', -180, 180, 1, '°', "Horizontal shift of the waveform in degrees.")}
-      {renderSliderWithInput('dcOffset', 'DC Offset', -10, 10, 0.1, 'V', "Vertical shift of the entire waveform.")}
+      {renderSliderWithInput('amplitude', 'Amplitude', 0.1, 20, 0.1, 'V', "Peak voltage deviation from DC offset.", false, false, false)}
+      {renderSliderWithInput('frequency', 'Frequency', MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ, 1, 'Hz', `Number of cycles per second (1Hz to ${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').displayValue}${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').unit}).`, true, true, false)}
+      {renderSliderWithInput('phase', 'Phase Shift', -180, 180, 1, '°', "Horizontal shift of the waveform in degrees.", false, false, false)}
+      {renderSliderWithInput('dcOffset', 'DC Offset', -10, 10, 0.1, 'V', "Vertical shift of the entire waveform.", false, false, false)}
       
-      {/* Time Window: 1µs (0.001ms) to 1s (1000ms). Slider for common range in ms. */}
-       {renderSliderWithInput('timeWindowMs', 'Time Window', 0.001, 1000, 0.001, 'ms', "Total duration displayed on X-axis (1µs to 1s). Input in ms.", true)}
+      {renderSliderWithInput('cyclesToDisplay', 'Cycles to Display', 1, 50, 1, '', "Number of waveform cycles to show in the time window.", false, false, false)}
       
-      {/* Sampling Rate: User adjustable, with a suggested default logic. */}
-       {renderSliderWithInput('samplingRateHz', 'Sampling Rate', 100, 10000000, 100, 'Hz', "Data points per second. Min 2x Frequency. Slider for 100Hz-1MHz, input up to 10MHz.", true)}
-
+      {renderSliderWithInput('samplingRateHz', 'Sampling Rate', MIN_SAMPLING_RATE_HZ, MAX_SAMPLING_RATE_HZ, 100, 'Hz', `Data points per second (Min 2x Frequency recommended). Max ${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').displayValue}${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').unit}.`, true, false, true)}
 
        <div className="sm:col-span-2 lg:col-span-3 flex justify-end mt-2">
             <Button variant="outline" size="sm" onClick={handleReset} className="text-xs">
@@ -168,3 +185,4 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
     </div>
   );
 }
+
