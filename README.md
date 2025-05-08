@@ -60,10 +60,7 @@ Learn networking and electronics on the go!
 * Testing: Jest, React Testing Library
 * Deployment: Docker, Nginx
 
----
-
-## 📁 Folder Structure
-
+📁 Folder Structure
 
 smartprep/
 ├── .env
@@ -126,6 +123,7 @@ smartprep/
 │       ├── packet.ts
 │       ├── quiz.ts
 │       └── audio.ts
+
 
 ## 🚀 Getting Started (Local Development)
 
