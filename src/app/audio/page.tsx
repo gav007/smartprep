@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import AudioCard from '@/components/audio/AudioCard';
 import type { AudioMetadata } from '@/types/audio';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertTriangle, Podcast, ListMusic, BookOpen, Network } from 'lucide-react'; 
+import { Loader2, AlertTriangle, Podcast, Network, BookOpen } from 'lucide-react';
 
 interface GroupedAudio {
   [category: string]: AudioMetadata[];
@@ -22,18 +22,19 @@ export default function AudioLessonsPage() {
 
   useEffect(() => {
     async function fetchAudioMetadata() {
+      setLoading(true);
+      setError(null);
       try {
-        // Fetch from the single audio.json in public/data/
-        const response = await fetch('/data/audio.json'); 
+        const response = await fetch('/data/audio.json');
         if (!response.ok) {
           throw new Error(`Failed to fetch audio metadata: ${response.statusText} (status: ${response.status})`);
         }
         const data: any[] = await response.json();
-        
+
         if (!Array.isArray(data)) {
-            throw new Error('Invalid audio metadata format: Expected an array.');
+          throw new Error('Invalid audio metadata format: Expected an array.');
         }
-        
+
         const groups: GroupedAudio = {
           [CATEGORY_APPLIED]: [],
           [CATEGORY_CCNA]: [],
@@ -44,7 +45,7 @@ export default function AudioLessonsPage() {
             !audioItem ||
             typeof audioItem.id !== 'string' ||
             typeof audioItem.title !== 'string' ||
-            typeof audioItem.description !== 'string' ||
+            typeof audioItem.description !== 'string' || // Assuming description is always present or handled
             typeof audioItem.filename !== 'string' ||
             audioItem.filename.trim() === ''
           ) {
@@ -54,21 +55,20 @@ export default function AudioLessonsPage() {
 
           const validAudioItem = audioItem as AudioMetadata;
           // Use the explicit category from audio.json
+          // If category is missing or not 'CCNA', default to 'Applied Networking'
           const category = validAudioItem.category;
-          
+
           if (category === CATEGORY_CCNA) {
+            if (!groups[CATEGORY_CCNA]) groups[CATEGORY_CCNA] = [];
             groups[CATEGORY_CCNA].push(validAudioItem);
-          } else if (category === CATEGORY_APPLIED) {
+          } else { // Default to Applied Networking if not CCNA or category is missing
+            if (!groups[CATEGORY_APPLIED]) groups[CATEGORY_APPLIED] = [];
             groups[CATEGORY_APPLIED].push(validAudioItem);
-          } else {
-             // Fallback: if category is missing or different, decide based on filename or put in a default group
-             // For now, if not explicitly CCNA, assume Applied Networking or a 'General' group if preferred
-             console.warn(`Audio item "${validAudioItem.title}" has an unrecognized or missing category "${category}". Placing in "Applied Networking".`);
-             groups[CATEGORY_APPLIED].push(validAudioItem);
           }
         });
-
+        
         setGroupedAudioFiles(groups);
+
       } catch (err) {
         console.error("Error in fetchAudioMetadata:", err);
         setError(err instanceof Error ? err.message : 'An unknown error occurred while loading audio metadata.');
@@ -102,7 +102,7 @@ export default function AudioLessonsPage() {
       </div>
     );
   }
-
+  
   const categoriesToDisplay = [CATEGORY_APPLIED, CATEGORY_CCNA];
 
   return (
@@ -118,19 +118,23 @@ export default function AudioLessonsPage() {
       </header>
 
       {categoriesToDisplay.every(cat => !groupedAudioFiles[cat] || groupedAudioFiles[cat].length === 0) && !loading ? (
-        <p className="text-center text-muted-foreground">No audio lessons available at the moment. Please check back later.</p>
+         <div className="text-center py-10">
+            <AlertTriangle className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+            <p className="text-xl text-muted-foreground">No audio lessons available at the moment.</p>
+            <p className="text-sm text-muted-foreground/80">Please check back later or ensure audio files are correctly configured in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio.json</code>.</p>
+        </div>
       ) : (
         <div className="space-y-12">
           {categoriesToDisplay.map((category) => {
             const filesInCategory = groupedAudioFiles[category] || [];
-            if (filesInCategory.length === 0) return null; // Don't render section if no files
+            if (filesInCategory.length === 0) return null;
 
             const IconComponent = category === CATEGORY_CCNA ? BookOpen : Network;
 
             return (
               <section key={category}>
                 <h2 className="text-2xl font-semibold mb-6 border-b pb-2 flex items-center gap-2">
-                  <IconComponent className="h-6 w-6 text-accent" /> 
+                  <IconComponent className="h-6 w-6 text-accent" />
                   {category} Audio
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

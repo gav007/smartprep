@@ -1,100 +1,99 @@
 
 [
-    {
-      "id": "Wifi",
-      "title": "Wi-Fi Basics",
-      "description": "From Router Placement to Future Speeds",
-      "filename": "Wifi.wav",
-      "category": "Applied Networking",
-      "mimeType": "audio/wav"
-    },
-    {
-      "id": "modulation",
-      "title": "Modulation Explained",
-      "description": "How signals are encoded for transmission",
-      "filename": "modulation.wav",
-      "category": "Applied Networking",
-      "mimeType": "audio/wav"
-    },
-    {
-      "id": "fibreVsCopper",
-      "title": "Fibre vs Copper",
-      "description": "Speed, distance, and durability comparison",
-      "filename": "fibreVsCopper.wav",
-      "category": "Applied Networking",
-      "mimeType": "audio/wav"
-    },
-    {
-      "id": "frequencies",
-      "title": "Frequencies & Bands",
-      "description": "Why 2.4GHz vs 5GHz matters",
-      "filename": "frequencies.wav",
-      "category": "Applied Networking",
-      "mimeType": "audio/wav"
-    },
-    {
-      "id": "infrastructureCabling",
-      "title": "Infrastructure Cabling",
-      "description": "Planning cable runs and data closets",
-      "filename": "infrastructureCabling.wav",
-      "category": "Applied Networking",
-      "mimeType": "audio/wav"
-    },
-    {
-      "id": "cableCertification",
-      "title": "Cable Certification",
-      "description": "Why it matters for installations",
-      "filename": "cableCertification.wav",
-      "category": "Applied Networking",
-      "mimeType": "audio/wav"
-    },
-    {
-      "id": "cableSheilding",
-      "title": "Cable Shielding",
-      "description": "Foil, braided, and unshielded explained",
-      "filename": "cableSheilding.wav",
-      "category": "Applied Networking",
-      "mimeType": "audio/wav"
-    },
-    {
-      "id": "fibreOptics",
-      "title": "Fibre Optics",
-      "description": "Light-speed data and its benefits",
-      "filename": "fibreOptics.wav",
-      "category": "Applied Networking",
-      "mimeType": "audio/wav"
-    },
-    {
-      "id": "applied_summary_new",
-      "title": "Applied Networking Summary",
-      "description": "A quick recap of applied networking topics and their importance.",
-      "filename": "applied_summary.mp3",
-      "category": "Applied Networking",
-      "mimeType": "audio/mpeg"
-    },
-    {
-      "id": "ccna_osi_model",
-      "title": "OSI Model Deep Dive",
-      "description": "Exploring the 7 layers of the OSI model relevant to CCNA.",
-      "filename": "ccna_osi_model.wav",
-      "category": "CCNA",
-      "mimeType": "audio/wav"
-    },
-    {
-      "id": "ccna_subnetting_intro",
-      "title": "Introduction to Subnetting",
-      "description": "Basic concepts of IPv4 subnetting for CCNA students.",
-      "filename": "ccna_subnetting.mp3",
-      "category": "CCNA",
-      "mimeType": "audio/mpeg"
-    },
-    {
-      "id": "ccna_vlans_switching",
-      "title": "VLANs and Switching",
-      "description": "Understanding Virtual LANs and Layer 2 switching fundamentals.",
-      "filename": "ccna_vlans.wav",
-      "category": "CCNA",
-      "mimeType": "audio/wav"
-    }
-  ]
-
+  {
+    "id": "Wifi",
+    "title": "Wifi",
+    "description": "Audio lesson on Wifi.",
+    "filename": "Wifi.wav",
+    "category": "Applied Networking",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "modulation",
+    "title": "Modulation",
+    "description": "Audio lesson on Modulation.",
+    "filename": "modulation.wav",
+    "category": "Applied Networking",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "fibreVsCopper",
+    "title": "Fibre Vs Copper",
+    "description": "Audio lesson on Fibre Vs Copper.",
+    "filename": "fibreVsCopper.wav",
+    "category": "Applied Networking",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "frequencies",
+    "title": "Frequencies",
+    "description": "Audio lesson on Frequencies.",
+    "filename": "frequencies.wav",
+    "category": "Applied Networking",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "infrastructureCabling",
+    "title": "Infrastructure Cabling",
+    "description": "Audio lesson on Infrastructure Cabling.",
+    "filename": "infrastructureCabling.wav",
+    "category": "Applied Networking",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "cableCertification",
+    "title": "Cable Certification",
+    "description": "Audio lesson on Cable Certification.",
+    "filename": "cableCertification.wav",
+    "category": "Applied Networking",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "cableSheilding",
+    "title": "Cable Sheilding",
+    "description": "Audio lesson on Cable Sheilding.",
+    "filename": "cableSheilding.wav",
+    "category": "Applied Networking",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "fibreOptics",
+    "title": "Fibre Optics",
+    "description": "Audio lesson on Fibre Optics.",
+    "filename": "fibreOptics.wav",
+    "category": "Applied Networking",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "applied_summary",
+    "title": "Applied Summary",
+    "description": "Audio lesson on Applied Summary.",
+    "filename": "applied_summary.mp3",
+    "category": "Applied Networking",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna_osi_model",
+    "title": "OSI Model",
+    "description": "Audio lesson on OSI Model.",
+    "filename": "ccna_osi_model.wav",
+    "category": "CCNA",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "ccna_subnetting",
+    "title": "Subnetting",
+    "description": "Audio lesson on Subnetting.",
+    "filename": "ccna_subnetting.mp3",
+    "category": "CCNA",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "ccna_vlans_switching",
+    "title": "VLANs and Switching",
+    "description": "Audio lesson on VLANs and Switching.",
+    "filename": "ccna_vlans.wav",
+    "category": "CCNA",
+    "mimeType": "audio/wav"
+  }
+]
