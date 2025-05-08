@@ -9,9 +9,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, AlertTriangle, Layers, Shuffle, ChevronLeft, ChevronRight, RotateCcw, Home, RefreshCw } from 'lucide-react'; // Used RefreshCw for flip
+import { Loader2, AlertTriangle, Layers, Shuffle, ChevronLeft, ChevronRight, RotateCcw, Home, RefreshCw } from 'lucide-react';
 import { shuffleArray } from '@/lib/quiz-client';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
 
 interface FlashcardPlayerProps {
   quizFilename: string;
@@ -27,14 +28,15 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
   const [allCards, setAllCards] = useState<FlashcardData[]>([]);
   const [activeCards, setActiveCards] = useState<FlashcardData[]>([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [isCardFlipped, setIsCardFlipped] = useState(false); // State for card flip
+  const [isCardFlipped, setIsCardFlipped] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedCount, setSelectedCount] = useState<string>(questionCountOptions[1].toString());
   const [totalAvailableCards, setTotalAvailableCards] = useState(0);
+  const { toast } = useToast();
 
   useEffect(() => {
     async function fetchFlashcards() {
-      setPlayerState('loading'); // Set loading early
+      setPlayerState('loading'); 
       try {
         const response = await fetch(`/data/${quizFilename}`);
         if (!response.ok) {
@@ -46,7 +48,7 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
         }
         setAllCards(data);
         setTotalAvailableCards(data.length);
-        setPlayerState('selecting'); // Back to selecting after loading meta
+        setPlayerState('selecting'); 
       } catch (err) {
         console.error("Failed to load flashcards:", err);
         setError(err instanceof Error ? err.message : 'An unknown error occurred.');
@@ -69,30 +71,47 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
     const shuffled = shuffleArray(allCards);
     setActiveCards(shuffled.slice(0, numToDisplay));
     setCurrentCardIndex(0);
-    setIsCardFlipped(false); // Ensure card starts unflipped
+    setIsCardFlipped(false); 
     setPlayerState('active');
   }, [allCards, selectedCount]);
 
   const handleNextCard = () => {
     if (currentCardIndex < activeCards.length - 1) {
         setCurrentCardIndex(prev => prev + 1);
-        setIsCardFlipped(false); // Flip back to front for next card
+        setIsCardFlipped(false); 
     }
   };
 
   const handlePreviousCard = () => {
     if (currentCardIndex > 0) {
         setCurrentCardIndex(prev => prev - 1);
-        setIsCardFlipped(false); // Flip back to front for previous card
+        setIsCardFlipped(false); 
     }
   };
   
   const handleShuffle = () => {
-    if(activeCards.length > 1) {
-      setActiveCards(prev => shuffleArray([...prev]));
-      setCurrentCardIndex(0);
-      setIsCardFlipped(false);
+    if (allCards.length === 0) return;
+
+    const currentSessionSize = activeCards.length;
+    if (currentSessionSize === 0) return; // Nothing to shuffle if no active cards
+
+    let newActiveSet: FlashcardData[];
+
+    if (selectedCount === 'All' || currentSessionSize === allCards.length) {
+      // If "All" was selected for the session OR if the current active set is already the full deck,
+      // just shuffle the existing activeCards.
+      newActiveSet = shuffleArray([...activeCards]);
+    } else {
+      // If a specific count was selected for the session (and it's less than all available cards),
+      // shuffle the entire deck and take a new random slice of the same size as the current session.
+      const shuffledFullDeck = shuffleArray([...allCards]);
+      newActiveSet = shuffledFullDeck.slice(0, currentSessionSize);
     }
+    
+    setActiveCards(newActiveSet);
+    setCurrentCardIndex(0);
+    setIsCardFlipped(false);
+    toast({ title: "Cards Reshuffled!" });
   };
 
   const handleFlipCard = () => {
@@ -106,7 +125,7 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
     setIsCardFlipped(false);
   };
 
-  if (playerState === 'loading' && totalAvailableCards === 0) { // Only show full loading if meta is not yet fetched
+  if (playerState === 'loading' && totalAvailableCards === 0) { 
     return (
       <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-[60vh]">
         <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
@@ -136,7 +155,7 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
             <CardTitle className="text-2xl text-center">{quizTitle}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {totalAvailableCards === 0 && !error ? ( // Show loading spinner for card count if not error
+            {totalAvailableCards === 0 && !error ? ( 
               <div className="flex items-center justify-center py-4">
                 <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                  <p className="ml-2 text-muted-foreground">Loading card info...</p>
@@ -173,7 +192,7 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
     );
   }
 
-  if (activeCards.length === 0) { // Active state but no cards (e.g., if user selected 0 somehow or error during start)
+  if (activeCards.length === 0) { 
     return (
       <div className="container mx-auto px-4 py-12 text-center">
         <p className="text-muted-foreground mb-4">No flashcards available for this session. Please select again.</p>
@@ -201,7 +220,7 @@ export default function FlashcardPlayer({ quizFilename, quizTitle }: FlashcardPl
          <Button variant="secondary" onClick={handleFlipCard} className="flex-1 min-w-[calc(25%-0.5rem)] sm:min-w-[calc(20%-0.5rem)]">
             <RefreshCw className="mr-1 h-5 w-5" /> Flip
         </Button>
-        <Button variant="outline" onClick={handleShuffle} disabled={activeCards.length <= 1} className="flex-1 min-w-[calc(25%-0.5rem)] sm:min-w-[calc(20%-0.5rem)]">
+        <Button variant="outline" onClick={handleShuffle} disabled={activeCards.length <= 1 && allCards.length <=1} className="flex-1 min-w-[calc(25%-0.5rem)] sm:min-w-[calc(20%-0.5rem)]">
             <Shuffle className="mr-1 h-5 w-5" /> Shuffle
         </Button>
         <Button variant="default" onClick={handleNextCard} disabled={currentCardIndex === activeCards.length - 1} className="flex-1 min-w-[calc(25%-0.5rem)] sm:min-w-[calc(20%-0.5rem)]">
