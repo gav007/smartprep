@@ -14,6 +14,7 @@ export type FrequencyUnit = 'Hz' | 'kHz' | 'MHz' | 'GHz';
 export type TimeUnit = 's' | 'ms' | 'µs' | 'ns';
 export type AngleUnit = 'degrees' | 'radians';
 export type ToleranceUnit = '%' | 'ppm';
+export type AngularFrequencyUnit = 'rad/s'; // New
 
 // Combined type for any unit used in calculators
 export type Unit =
@@ -25,9 +26,10 @@ export type Unit =
   | FrequencyUnit
   | TimeUnit
   | AngleUnit
-  | ToleranceUnit;
+  | ToleranceUnit
+  | AngularFrequencyUnit; // Added
 
-// Multipliers for conversion to base units (V, A, Ω, W, F, Hz, s)
+// Multipliers for conversion to base units (V, A, Ω, W, F, Hz, s, rad/s)
 export const unitMultipliers: Record<Unit, number> = {
   // Voltage
   V: 1,
@@ -64,11 +66,13 @@ export const unitMultipliers: Record<Unit, number> = {
   µs: 1e-6,
   ns: 1e-9,
   // Angle
-  degrees: 1, // Special handling needed (deg to rad)
+  degrees: 1, 
   radians: 1,
   // Tolerance
   '%': 1,
-  ppm: 1e-6, // Parts per million
+  ppm: 1e-6, 
+  // Angular Frequency
+  'rad/s': 1,
 };
 
 // Options for select dropdowns
@@ -76,14 +80,17 @@ export const voltageUnitOptions: VoltageUnit[] = ['V', 'mV', 'kV'];
 export const currentUnitOptions: CurrentUnit[] = ['A', 'mA', 'µA', 'nA'];
 export const resistanceUnitOptions: ResistanceUnit[] = ['Ω', 'kΩ', 'MΩ', 'GΩ'];
 export const powerUnitOptions: PowerUnit[] = ['W', 'mW', 'kW'];
-export const capacitanceUnitOptions: CapacitanceUnit[] = ['F', 'mF', 'µF', 'nF', 'pF'];
+export const capacitanceUnitOptions: CapacitanceUnit[] = ['F', 'mF', 'µF' | 'nF', 'pF'];
 export const frequencyUnitOptions: FrequencyUnit[] = ['Hz', 'kHz', 'MHz', 'GHz'];
 export const timeUnitOptions: TimeUnit[] = ['s', 'ms', 'µs', 'ns'];
 export const angleUnitOptions: AngleUnit[] = ['degrees', 'radians'];
-export const toleranceUnitOptions: ToleranceUnit[] = ['%', 'ppm']; // Mainly for future use
+export const toleranceUnitOptions: ToleranceUnit[] = ['%', 'ppm']; 
+export const angularFrequencyUnitOptions: AngularFrequencyUnit[] = ['rad/s'];
 
-// Function to get options based on variable type (example)
-export function getUnitOptions(variableType: 'voltage' | 'current' | 'resistance' | 'power' | 'capacitance' | 'frequency' | 'time' | 'angle' | 'tolerance'): Unit[] {
+
+export type VariableCategory = 'voltage' | 'current' | 'resistance' | 'power' | 'capacitance' | 'frequency' | 'time' | 'angle' | 'tolerance' | 'angularFrequency' | 'gain' | 'other';
+
+export function getUnitOptions(variableType: VariableCategory): Unit[] {
   switch (variableType) {
     case 'voltage': return voltageUnitOptions;
     case 'current': return currentUnitOptions;
@@ -94,6 +101,7 @@ export function getUnitOptions(variableType: 'voltage' | 'current' | 'resistance
     case 'time': return timeUnitOptions;
     case 'angle': return angleUnitOptions;
     case 'tolerance': return toleranceUnitOptions;
+    case 'angularFrequency': return angularFrequencyUnitOptions;
     default: return [];
   }
 }
@@ -109,32 +117,27 @@ export const defaultUnits = {
     time: 'ms' as TimeUnit,
     angle: 'degrees' as AngleUnit,
     tolerance: '%' as ToleranceUnit,
+    angularFrequency: 'rad/s' as AngularFrequencyUnit,
 };
 
 
-/**
- * Formats a numeric result into a string with appropriate units and precision.
- * Handles null, undefined, NaN, and Infinity gracefully.
- */
 export function formatResultValue(
     value: number | null | undefined,
-    variableType: 'voltage' | 'current' | 'resistance' | 'power' | 'capacitance' | 'frequency' | 'time' | 'gain' | 'tolerance' | 'other',
-    inputUnit?: Unit // Optional: Base unit preference
+    variableType: VariableCategory,
+    inputUnit?: Unit 
 ): { displayValue: string, unit: Unit | string } {
-    // Handle edge cases first
     if (value === null || value === undefined || isNaN(value)) {
         return { displayValue: '', unit: inputUnit || '' };
     }
     if (!isFinite(value)) {
-         // Display Infinity or -Infinity symbolically or as text
          return { displayValue: value === Infinity ? '∞' : '-∞', unit: inputUnit || '' };
     }
 
     let baseValue = value;
     let options: Unit[] = [];
     let baseUnit: Unit | string = '';
+    let useSignificantDigits = 4; // Default significant digits
 
-    // Determine appropriate units based on type
     switch (variableType) {
         case 'voltage': options = voltageUnitOptions; baseUnit = 'V'; break;
         case 'current': options = currentUnitOptions; baseUnit = 'A'; break;
@@ -143,76 +146,68 @@ export function formatResultValue(
         case 'capacitance': options = capacitanceUnitOptions; baseUnit = 'F'; break;
         case 'frequency': options = frequencyUnitOptions; baseUnit = 'Hz'; break;
         case 'time': options = timeUnitOptions; baseUnit = 's'; break;
-        case 'gain': return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: 4 }), unit: '(Unitless)' }; // Use significant digits
-        case 'tolerance': return { displayValue: value.toString(), unit: '%' }; // Assuming % for now
-        default: return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: 4 }), unit: '' }; // Generic fallback
+        case 'angularFrequency': return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: 5, useGrouping: false }), unit: 'rad/s' };
+        case 'gain': return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: 4, useGrouping: false }), unit: '(Unitless)' };
+        case 'tolerance': return { displayValue: value.toString(), unit: '%' };
+        default: return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: 4, useGrouping: false }), unit: '' };
     }
 
     if (options.length === 0) {
-         return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: 4 }), unit: baseUnit };
+         return { displayValue: value.toLocaleString(undefined, { maximumSignificantDigits: useSignificantDigits, useGrouping: false }), unit: baseUnit };
     }
-
+    
     let bestUnit: Unit = (inputUnit && options.includes(inputUnit)) ? inputUnit : options[0];
-    let bestFitValue = baseValue / (unitMultipliers[bestUnit] || 1); // Handle potential missing multiplier
+    let bestFitValue = baseValue / (unitMultipliers[bestUnit] || 1);
 
-    // Find the best unit: prefer values >= 1, otherwise choose the one closest to 1
      for (const u of options) {
          const multiplier = unitMultipliers[u];
-         if (!multiplier) continue; // Skip if unit multiplier is not defined
+         if (!multiplier) continue; 
          const scaledValue = baseValue / multiplier;
 
-         if (Math.abs(scaledValue) >= 1) {
-             // Prefer smaller numbers >= 1
-             if (Math.abs(bestFitValue) < 1 || Math.abs(scaledValue) < Math.abs(bestFitValue)) {
+         if (Math.abs(scaledValue) >= 0.1 && Math.abs(scaledValue) < 10000) { // Prefer values in a "nice" range
+            if (Math.abs(scaledValue) < Math.abs(bestFitValue) || (Math.abs(bestFitValue) < 0.1 && Math.abs(scaledValue) >=0.1) || (Math.abs(bestFitValue) >= 10000 && Math.abs(scaledValue) < 10000) ) {
                  bestFitValue = scaledValue;
                  bestUnit = u;
-             }
-         } else {
-             // If all are < 1, prefer the largest magnitude (closest to 1)
-             if (Math.abs(bestFitValue) < 1 && Math.abs(scaledValue) > Math.abs(bestFitValue)) {
-                 bestFitValue = scaledValue;
-                 bestUnit = u;
+            }
+         } else if (Math.abs(bestFitValue) < 0.1 || Math.abs(bestFitValue) >= 10000) { // If current best is outside "nice" range
+             if (Math.abs(scaledValue - baseValue) < Math.abs(bestFitValue - baseValue)) { // Choose unit that results in value closest to original base value if all are "bad"
+                  bestFitValue = scaledValue;
+                  bestUnit = u;
              }
          }
      }
-
-     // If after optimization, the value is still extremely small (e.g., < 1e-9 for current),
-     // consider reverting to base unit with exponential notation or the smallest available unit.
-     if (Math.abs(bestFitValue) < 1e-12 && bestFitValue !== 0) { // Extremely small
-        bestFitValue = baseValue / (unitMultipliers[options[options.length-1]] || 1); // Use smallest unit
-        bestUnit = options[options.length-1];
-     }
-     // Or handle cases like exactly zero
+    
      if (baseValue === 0) {
          bestFitValue = 0;
-         // Keep input unit if provided, otherwise use base unit
-         bestUnit = (inputUnit && options.includes(inputUnit)) ? inputUnit : options[0];
+         bestUnit = (inputUnit && options.includes(inputUnit)) ? inputUnit : (options.find(u => unitMultipliers[u] === 1) || options[0]);
      }
 
-
-    // Determine precision using toLocaleString for better handling of significant digits/decimals
     let displayString: string;
     try {
+        // Adjust precision based on unit for very small or very large numbers
+        let maxFracDigits = 3;
+        if (bestUnit === 'ns' || bestUnit === 'µs' || bestUnit === 'nA' || bestUnit === 'µA' || bestUnit === 'pF') maxFracDigits = 0;
+        else if (bestUnit === 'mV' || bestUnit === 'mW' || bestUnit === 'ms') maxFracDigits = 2;
+        else if (bestUnit === 'kV' || bestUnit === 'kW' || bestUnit === 'kHz' || bestUnit === 'MHz' || bestUnit === 'GHz' || bestUnit === 'kΩ' || bestUnit === 'MΩ' || bestUnit === 'GΩ') maxFracDigits = 3;
+
+
         displayString = bestFitValue.toLocaleString(undefined, {
-            maximumSignificantDigits: 4, // Adjust significant digits as needed
-            useGrouping: false // Avoid commas for easier parsing if needed elsewhere
+            maximumFractionDigits: maxFracDigits,
+            minimumFractionDigits: 0, // Don't force decimals if whole number
+            useGrouping: false 
         });
-         // Further cleanup might be needed if toLocaleString introduces issues
-         // e.g., ensuring it doesn't use scientific notation unexpectedly for reasonable numbers
-         if (Math.abs(bestFitValue) > 1e-4 && Math.abs(bestFitValue) < 1e6 && displayString.includes('e')) {
-            // Fallback to fixed precision if scientific notation appears unexpectedly
-            displayString = bestFitValue.toFixed(3);
+        
+         if (Math.abs(bestFitValue) > 1e-6 && Math.abs(bestFitValue) < 1e6 && displayString.includes('e')) {
+            displayString = bestFitValue.toFixed(maxFracDigits);
          }
 
     } catch {
-        // Fallback if toLocaleString fails (e.g., very large/small numbers in some environments)
-        displayString = bestFitValue.toPrecision(4);
+        displayString = bestFitValue.toPrecision(useSignificantDigits);
     }
 
-    // Final cleanup for display: remove trailing zeros after decimal, remove trailing decimal point
     if (displayString.includes('.')) {
-        displayString = displayString.replace(/(\.\d*?[1-9])0+$/, '$1');
-        displayString = displayString.replace(/\.$/, '');
+        displayString = displayString.replace(/(\.[0-9]*[1-9])0+$/, '$1'); 
+        displayString = displayString.replace(/\.$/, ''); 
     }
 
     return {
