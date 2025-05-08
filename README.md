@@ -2,7 +2,7 @@
 
 SmartPrep is a modern web application designed as an educational platform focused on networking and electronics. It provides interactive quizzes and a suite of essential calculation tools for students and professionals in these fields.
 
----
+
 
 ## ✅ Features
 
@@ -53,21 +53,18 @@ Learn networking and electronics on the go!
 
 ## ⚙️ Tech Stack
 
-* **Frontend:** Next.js (App Router), React, TypeScript
-* **Styling:** Tailwind CSS, ShadCN UI, Lucide React Icons
-* **State Management:** React Hooks (`useState`, `useMemo`, `useCallback`, etc.), `usehooks-ts`
-* **Utilities:** `clsx`, `tailwind-merge`
-* **Testing:** Jest, React Testing Library
-* **Deployment:** Docker, Nginx
+* Frontend: Next.js (App Router), React, TypeScript
+* Styling: Tailwind CSS, ShadCN UI, Lucide React Icons
+* State Management: React Hooks (useState, useMemo, useCallback, etc.), usehooks-ts
+* Utilities: clsx, tailwind-merge
+* Testing: Jest, React Testing Library
+* Deployment: Docker, Nginx
 
 ---
 
 ## 📁 Folder Structure
 
-<details>
-<summary>Click to view folder structure</summary>
 
-```
 smartprep/
 ├── .env
 ├── .dockerignore
@@ -81,15 +78,18 @@ smartprep/
 ├── next.config.js
 ├── nginx.conf
 ├── package.json
+├── tailwind.config.ts
+├── tsconfig.json
 ├── public/
 │   ├── data/
 │   │   ├── applied.json
 │   │   ├── network_quiz.json
 │   │   ├── electronics.json
 │   │   └── audio.json
-│   └── assets/images/
-│       ├── hero-network.jpg
-│       └── hero-electronics.jpg
+│   └── assets/
+│       └── images/
+│           ├── hero-network.jpg
+│           └── hero-electronics.jpg
 ├── src/
 │   ├── __tests__/
 │   │   ├── calculators/
@@ -111,163 +111,129 @@ smartprep/
 │   │   ├── ui/
 │   │   └── audio/
 │   │       └── AudioCard.tsx
+│   ├── hooks/
+│   │   ├── use-calculator-state.ts
+│   │   ├── use-mobile.ts
+│   │   └── use-toast.ts
 │   ├── lib/
 │   │   ├── calculator-utils.ts
 │   │   ├── osi-model.ts
 │   │   ├── quiz-client.ts
 │   │   ├── units.ts
 │   │   └── utils.ts
-│   ├── hooks/
-│   │   ├── use-calculator-state.ts
-│   │   ├── use-mobile.ts
-│   │   └── use-toast.ts
 │   └── types/
 │       ├── calculator.ts
 │       ├── packet.ts
 │       ├── quiz.ts
 │       └── audio.ts
-├── tailwind.config.ts
-└── tsconfig.json
-```
 
-</details>
-
----
 
 ## 🚀 Getting Started (Local Development)
 
-```bash
-# 1. Clone the repository
-git clone <repository-url>
-cd smartprep
+1. Clone the repository
+   git clone <repository-url>
+   cd smartprep
 
-# 2. Install dependencies
-npm install
+2. Install dependencies
+   npm install
 
-# 3. Create .env file (optional for now)
+3. Create .env file (optional for now)
 
-# 4. Run the development server
-npm run dev
-# → Accessible at http://localhost:9002
+4. Run the development server
+   npm run dev
+   → Accessible at [http://localhost:9002](http://localhost:9002)
 
-# 5. Run tests (optional)
-npm test
-```
+5. Run tests (optional)
+   npm test
 
----
+
 
 ## 🧠 Quiz JSON Format
 
-Stored in `/public/data/`, each JSON file is an array of question objects:
+Stored in /public/data/, each JSON file is an array of question objects:
 
-```json
-[
-  {
-    "question": "Which device connects multiple devices in a LAN and uses MAC addresses to forward data?",
-    "options": {
-      "A": "Router",
-      "B": "Switch",
-      "C": "Modem",
-      "D": "Hub"
-    },
-    "answer": "B",
-    "feedback": "Switches use MAC addresses to intelligently forward frames only to the intended recipient."
-  }
+\[
+{
+"question": "Which device connects multiple devices in a LAN and uses MAC addresses to forward data?",
+"options": {
+"A": "Router",
+"B": "Switch",
+"C": "Modem",
+"D": "Hub"
+},
+"answer": "B",
+"feedback": "Switches use MAC addresses to intelligently forward frames only to the intended recipient."
+}
 ]
-```
 
-**Rules:**
+Rules:
 
-* Must be a JSON array `[]`
-* Each item must have `question`, `options`, `answer`, and `feedback`
-* `options` is a key-value object, and `answer` must match a key
+* Must be a JSON array \[]
+* Each item must have question, options, answer, and feedback
+* options is a key-value object, and answer must match a key
 
----
+
 
 ## 🐳 Docker Deployment
 
-### Build Image
-
-```bash
+Build Image
 docker build -t smartprep .
-```
 
-### Run Container
+Run Container
+docker run -d -p 80:3000 --name smartprep\_container --restart always smartprep
 
-```bash
-docker run -d -p 80:3000 --name smartprep_container --restart always smartprep
-```
-
-### Or Use Docker Compose
-
-```bash
+Or Use Docker Compose
 docker-compose up -d
-```
 
 To stop:
-
-```bash
 docker-compose down
-```
 
----
+
 
 ## ☁️ AWS EC2 Deployment Guide
 
 1. Launch EC2 (Ubuntu 22.04 LTS)
 2. Install Docker + Docker Compose
 3. Allow ports 22 (SSH), 80 (HTTP), 443 (HTTPS)
-4. SCP files:
-
-   ```bash
+4. Transfer project:
    scp -i your-key.pem -r ./smartprep ubuntu@<ec2-ip>:/home/ubuntu/
-   ```
-5. SSH into EC2, run:
-
-   ```bash
+5. SSH into EC2:
+   cd /home/ubuntu/smartprep
    docker-compose up -d --build
-   ```
 
-### Set Up Nginx
-
-```bash
+Set Up Nginx
 sudo apt install nginx
 sudo nano /etc/nginx/sites-available/smartprep
-# Add config and symlink it
 sudo ln -s /etc/nginx/sites-available/smartprep /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
-```
 
-### HTTPS via Certbot (Optional)
-
-```bash
+Enable HTTPS with Certbot (Optional)
 sudo apt install certbot python3-certbot-nginx
-sudo certbot --nginx -d your-domain.com -d www.your-domain.com
-```
+sudo certbot --nginx -d your-domain.com -d [www.your-domain.com](http://www.your-domain.com)
 
----
 
-## 🛠️ Contributing
 
-* Run `npm test` before commits
-* Edit `/public/data/` to add new questions
+## 🛠 Contributing
+
+* Run npm test before commits
+* Edit /public/data/ to add new questions
 * New calculators/tools:
 
-  * Create in `src/components/calculators/` or `/tools/`
-  * Add logic to `src/lib/`
-  * Link from `src/app/`
-  * Update nav (`Header.tsx`)
+  * Create in src/components/calculators/ or /tools/
+  * Add logic to src/lib/
+  * Link from src/app/
+  * Update nav (Header.tsx)
   * Add tests
 
----
+
 
 ## 🌐 Browser Compatibility
 
-Tested on latest Chrome + Firefox. Edge and Safari expected to work.
+Tested on latest Chrome and Firefox. Edge and Safari are expected to work.
 
----
 
-## 📄 License
+
+## 📝 License
 
 Specify license here (e.g., MIT, Apache 2.0)
