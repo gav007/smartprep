@@ -17,44 +17,51 @@ interface WaveformControlsProps {
   params: WaveformParams;
   onParamsChange: (newParams: Partial<WaveformParams>) => void;
   onSamplingRateChange: (newRate: number) => void;
-  onTimeForInstantaneousVoltageChange: (newTime?: number) => void; // New handler
+  onTimeForInstantaneousVoltageChange: (newTime?: number) => void;
 }
 
 const waveformTypes: WaveformType[] = ['sine', 'square', 'triangle', 'sawtooth'];
 
-const MIN_FREQUENCY_HZ = 1;
-const MAX_FREQUENCY_HZ = 500_000; // Adjusted to 500 kHz as per prompt
-const MIN_SAMPLING_RATE_HZ = 100;
-const MAX_SAMPLING_RATE_HZ = 10_000_000; // 10 MHz
+const MIN_FREQUENCY_HZ = 0.01; // Allow very low frequencies for educational purposes
+const MAX_FREQUENCY_HZ = 500_000;
+const MIN_SAMPLING_RATE_HZ = 2; // Min 2 samples for any waveform
+const MAX_SAMPLING_RATE_HZ = 10_000_000;
 const MIN_TIME_WINDOW_MS = 0.001; // 1 µs
 const MAX_TIME_WINDOW_MS = 1000;  // 1 s
+const MIN_AMPLITUDE_V = 0.001; // Allow very small amplitudes
+const MAX_AMPLITUDE_V = 400;
+const MIN_DC_OFFSET_V = -400;
+const MAX_DC_OFFSET_V = 400;
+
 
 const initialParamsForReset: WaveformParams = {
   type: 'sine', amplitude: 12, frequency: 5000, phase: 0, dcOffset: 0,
-  timeWindowMs: 0.2, // 0.2ms to show a few cycles of 5kHz (T=0.2ms, so 1 cycle)
-  samplingRateHz: 100000, // 20x 5kHz
-  timeForInstantaneousVoltageMs: undefined, // Optional, example: 23.23 / 1000 for µs -> ms
+  timeWindowMs: 0.4, 
+  samplingRateHz: 100000, 
+  timeForInstantaneousVoltageMs: undefined,
 };
 
-// Helper to get appropriate step for a wide range slider (logarithmic-like behavior)
 const getSmartStep = (min: number, max: number, value: number, isFine: boolean = false) => {
     const range = max - min;
-    if (range <= 0) return isFine ? 0.01 : 1;
+    if (range <= 0) return isFine ? 0.001 : 0.1; // Finer base step for fine controls
 
-    if (isFine) { // Finer steps for parameters like amplitude, phase, DC offset
-      if (value < 10) return 0.01;
-      if (value < 100) return 0.1;
+    const relativeValue = value / max; // Position within the range
+
+    if (isFine) {
+      if (Math.abs(value) < 1) return 0.001;
+      if (Math.abs(value) < 10) return 0.01;
+      if (Math.abs(value) < 100) return 0.1;
       return 1;
     }
 
-    // For frequency/sampling rate/time window
-    if (value < 0.1) return 0.001; // For time window in µs range
-    if (value < 1) return 0.01;   // For time window in sub-ms range
-    if (value < 100) return value < 10 ? 0.1 : 1;
-    if (value < 1000) return 10;
-    if (value < 10000) return 100;
-    if (value < 100000) return 1000;
-    return 10000; // Coarser steps for very high values
+    // For frequency/sampling rate/time window (wider ranges)
+    if (max <= 1) return 0.0001; // For time window in µs range (e.g. 0.001ms)
+    if (max <= 10) return 0.001; 
+    if (max <= 100) return 0.01;
+    if (max <= 1000) return relativeValue < 0.1 ? 0.1 : 1;
+    if (max <= 10000) return relativeValue < 0.1 ? 1 : 10;
+    if (max <= 100000) return relativeValue < 0.1 ? 10 : 100;
+    return relativeValue < 0.1 ? 100 : 1000; // Coarser steps for very high values
 };
 
 
@@ -66,8 +73,15 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
     onTimeForInstantaneousVoltageChange(initialParamsForReset.timeForInstantaneousVoltageMs);
   };
   
-  const handleFrequencyChange = (value: number) => {
-    const newFreq = Math.max(MIN_FREQUENCY_HZ, Math.min(value, MAX_FREQUENCY_HZ));
+  const handleFrequencyChange = (value: number | string) => {
+    const numVal = typeof value === 'string' ? parseFloat(value) : value;
+    if (typeof value === 'string' && value.trim() === '') {
+        onParamsChange({ frequency: 0 }); // Treat empty as 0 temporarily for input, validation handles actual 0
+        return;
+    }
+    if (isNaN(numVal)) return;
+
+    const newFreq = Math.max(MIN_FREQUENCY_HZ, Math.min(numVal, MAX_FREQUENCY_HZ));
     onParamsChange({ frequency: newFreq });
     
     const suggestedSamplingRate = Math.min(MAX_SAMPLING_RATE_HZ, Math.max(MIN_SAMPLING_RATE_HZ, newFreq * 20)); 
@@ -75,40 +89,45 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
   };
 
   const renderSliderWithInput = (
-    id: keyof Pick<WaveformParams, 'amplitude' | 'phase' | 'dcOffset' | 'timeWindowMs'> | 'samplingRateHz' | 'timeForInstantaneousVoltageMs',
+    id: keyof WaveformParams | 'samplingRateHz' | 'timeForInstantaneousVoltageMs',
     label: string,
     min: number,
     max: number,
-    defaultStep: number, // For direct input
+    defaultSliderStep: number, // For direct input
+    inputStep: number,
     unit: string,
     tooltipText: string,
-    isLogScale?: boolean,
+    isLogScale?: boolean, // For slider visual scaling, actual step determined by getSmartStep
     isFrequencyControl?: boolean,
-    unitOptionsList?: TimeUnit[] // Optional unit options for timeForInstantaneousVoltage
+    unitOptionsList?: TimeUnit[]
   ) => {
     const currentValue = id === 'samplingRateHz' ? params.samplingRateHz :
-                         id === 'timeForInstantaneousVoltageMs' ? (params.timeForInstantaneousVoltageMs ?? '') : // Handle undefined
-                         params[id as keyof WaveformParams] as number;
+                         id === 'timeForInstantaneousVoltageMs' ? (params.timeForInstantaneousVoltageMs ?? '') :
+                         params[id as keyof WaveformParams] as number | string; // Allow string for controlled input
     
-    const sliderStep = isLogScale ? getSmartStep(min, max, typeof currentValue === 'number' ? currentValue : 0) : defaultStep;
-    const inputStep = (id === 'amplitude' || id === 'dcOffset' || id === 'timeWindowMs' || id === 'timeForInstantaneousVoltageMs') ? 0.001 : 1; // Allow finer input for time
+    // Determine smart step for slider based on current value and range for more intuitive control
+    const sliderStep = getSmartStep(min, max, typeof currentValue === 'number' ? currentValue : (min + max) / 2, id === 'amplitude' || id === 'dcOffset' || id === 'phase' || id === 'timeWindowMs' || id === 'timeForInstantaneousVoltageMs');
 
-    const handleChange = (val: number | string) => { // Allow string for input field empty state
-        const numVal = typeof val === 'string' ? parseFloat(val) : val;
 
-        if (typeof val === 'string' && val.trim() === '' && id === 'timeForInstantaneousVoltageMs') {
-            onTimeForInstantaneousVoltageChange(undefined);
+    const handleChange = (val: number | string) => {
+        const isTimeForVInst = id === 'timeForInstantaneousVoltageMs';
+        if (typeof val === 'string' && val.trim() === '') {
+            if (isTimeForVInst) onTimeForInstantaneousVoltageChange(undefined);
+            else if (id === 'frequency') handleFrequencyChange(0); // Allow temporary 0 for frequency
+            else if (id !== 'samplingRateHz') onParamsChange({ [id]: '' } as Partial<WaveformParams>); // Allow clearing other fields
             return;
         }
 
-        if (isNaN(numVal)) return; // Don't proceed if parsing fails
+        const numVal = typeof val === 'string' ? parseFloat(val) : val;
+        if (isNaN(numVal)) return;
 
         const boundedVal = Math.max(min, Math.min(numVal, max));
+
         if (isFrequencyControl) {
             handleFrequencyChange(boundedVal);
         } else if (id === 'samplingRateHz') {
             onSamplingRateChange(boundedVal);
-        } else if (id === 'timeForInstantaneousVoltageMs') {
+        } else if (isTimeForVInst) {
             onTimeForInstantaneousVoltageChange(boundedVal);
         } else {
             onParamsChange({ [id]: boundedVal } as Partial<WaveformParams>);
@@ -134,22 +153,21 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
                  <Input
                     id={`${id}-input`}
                     type="number"
-                    value={currentValue}
+                    value={currentValue === '' && id !== 'timeForInstantaneousVoltageMs' ? '' : (currentValue ?? '')} // Handle null/undefined for timeForV
                     onChange={(e) => handleChange(e.target.value)}
                     className="h-7 w-24 text-xs px-1 py-0.5"
-                    min={min}
-                    max={max}
+                    min={min} // HTML5 min
+                    max={max} // HTML5 max
                     step={inputStep}
                 />
                 {unitOptionsList && id === 'timeForInstantaneousVoltageMs' ? (
                      <Select 
-                        value={unit} // Assuming unit state is managed elsewhere or passed for this specific input
+                        value={unit}
                         onValueChange={(newUnit) => {
-                            // This would require more complex state if unit for timeForInstantaneousVoltage needs to be selectable
-                            // For now, let's assume 'ms' for input, display logic can handle conversions
+                            // Unit selection for 't' could be added here if display needs to change
                             console.log("Unit change for t:", newUnit);
                          }}
-                         disabled // Keep it simple: input in ms, display handles conversion
+                         disabled // For now, input 't' is always in ms
                      >
                         <SelectTrigger className="h-7 w-[60px] text-xs px-1">
                             <SelectValue defaultValue="ms" />
@@ -163,13 +181,13 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
                 )}
             </div>
         </div>
-        {id !== 'timeForInstantaneousVoltageMs' && ( // No slider for 't' input
+        {id !== 'timeForInstantaneousVoltageMs' && ( // No slider for 't' input for now
             <Slider
                 id={id}
                 min={min}
                 max={max}
                 step={sliderStep} 
-                value={[typeof currentValue === 'number' ? currentValue : 0]} // Ensure value is number
+                value={[typeof currentValue === 'number' && isFinite(currentValue) ? currentValue : min]} // Ensure value is valid number for slider
                 onValueChange={(value) => {
                     handleChange(value[0]);
                 }}
@@ -201,17 +219,16 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
         </Select>
       </div>
 
-      {renderSliderWithInput('amplitude', 'Amplitude', 0.1, 20, 0.1, 'V', "Peak voltage deviation from DC offset.", false, false)}
-      {renderSliderWithInput('frequency', 'Frequency', MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ, 1, 'Hz', `Signal frequency (1Hz to ${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').displayValue}${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').unit}).`, true, true)}
-      {renderSliderWithInput('phase', 'Phase Shift', -180, 180, 1, '°', "Horizontal shift of the waveform in degrees.", false, false)}
-      {renderSliderWithInput('dcOffset', 'DC Offset', -10, 10, 0.1, 'V', "Vertical shift of the entire waveform.", false, false)}
+      {renderSliderWithInput('amplitude', 'Amplitude', MIN_AMPLITUDE_V, MAX_AMPLITUDE_V, 0.1, 0.001, 'V', `Peak voltage deviation from DC offset (${MIN_AMPLITUDE_V}V to ${MAX_AMPLITUDE_V}V).`, false, false)}
+      {renderSliderWithInput('frequency', 'Frequency', MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ, 1, 0.01, 'Hz', `Signal frequency (${formatResultValue(MIN_FREQUENCY_HZ, 'frequency').displayValue}${formatResultValue(MIN_FREQUENCY_HZ, 'frequency').unit} to ${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').displayValue}${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').unit}).`, true, true)}
+      {renderSliderWithInput('phase', 'Phase Shift', -180, 180, 1, 0.1, '°', "Horizontal shift of the waveform in degrees.", false, false)}
+      {renderSliderWithInput('dcOffset', 'DC Offset', MIN_DC_OFFSET_V, MAX_DC_OFFSET_V, 0.1, 0.001, 'V', `Vertical shift of the waveform (${MIN_DC_OFFSET_V}V to ${MAX_DC_OFFSET_V}V).`, false, false)}
       
-      {renderSliderWithInput('timeWindowMs', 'Time Window', MIN_TIME_WINDOW_MS, MAX_TIME_WINDOW_MS, 0.001, 'ms', `Total time duration displayed on X-axis (1µs to 1s).`, true, false)}
+      {renderSliderWithInput('timeWindowMs', 'Time Window', MIN_TIME_WINDOW_MS, MAX_TIME_WINDOW_MS, 0.001, 0.0001, 'ms', `Total time duration displayed on X-axis (${formatResultValue(MIN_TIME_WINDOW_MS / 1000, 'time').displayValue}${formatResultValue(MIN_TIME_WINDOW_MS / 1000, 'time').unit} to ${formatResultValue(MAX_TIME_WINDOW_MS / 1000, 'time').displayValue}${formatResultValue(MAX_TIME_WINDOW_MS / 1000, 'time').unit}).`, true, false)}
       
-      {renderSliderWithInput('samplingRateHz', 'Sampling Rate', MIN_SAMPLING_RATE_HZ, MAX_SAMPLING_RATE_HZ, 100, 'Hz', `Data points per second (Min 2x Frequency recommended). Max ${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').displayValue}${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').unit}.`, true, false)}
+      {renderSliderWithInput('samplingRateHz', 'Sampling Rate', MIN_SAMPLING_RATE_HZ, MAX_SAMPLING_RATE_HZ, 100, 1, 'Hz', `Data points per second (Min ${formatResultValue(MIN_SAMPLING_RATE_HZ, 'frequency').displayValue}${formatResultValue(MIN_SAMPLING_RATE_HZ, 'frequency').unit}. Recommended >= 20x Frequency). Max ${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').displayValue}${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').unit}.`, true, false)}
 
-      {/* New Input for time 't' for instantaneous voltage calculation */}
-       {renderSliderWithInput('timeForInstantaneousVoltageMs', 'Calc v(t) at time', 0, params.timeWindowMs, 0.001, 'ms', "Time 't' (in ms) to calculate instantaneous voltage v(t). Must be within current Time Window.", false, false, timeUnitOptions.filter(u => u ==='ms' || u === 'µs') as TimeUnit[])}
+       {renderSliderWithInput('timeForInstantaneousVoltageMs', 'Calc v(t) at time', 0, params.timeWindowMs, 0.001, 0.0001, 'ms', `Time 't' to calculate v(t). Must be within current Time Window. Input as milliseconds.`, false, false, timeUnitOptions.filter(u => u ==='ms' || u === 'µs' || u === 'ns') as TimeUnit[])}
 
 
        <div className="sm:col-span-2 lg:col-span-3 flex justify-end mt-2">
