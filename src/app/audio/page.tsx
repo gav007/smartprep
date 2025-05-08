@@ -47,7 +47,7 @@ export default function AudioLessonsPage() {
             !audioItem ||
             typeof audioItem.id !== 'string' ||
             typeof audioItem.title !== 'string' ||
-            // typeof audioItem.description !== 'string' || // Description can be optional based on the type
+            // audioItem.description can be undefined as per AudioMetadata type
             typeof audioItem.filename !== 'string' ||
             audioItem.filename.trim() === ''
             // category and mimeType are optional in AudioMetadata, but good to have in JSON
@@ -58,21 +58,20 @@ export default function AudioLessonsPage() {
           
           const validAudioItem = audioItem as AudioMetadata; // Cast after basic validation
 
-          // Use the explicit category from audio.json if present
-          const categoryFromJson = validAudioItem.category;
-
-          if (categoryFromJson === CATEGORY_CCNA) {
+          // Primarily use the 'category' field from audio.json
+          if (validAudioItem.category === CATEGORY_CCNA) {
             groups[CATEGORY_CCNA].push(validAudioItem);
-          } else if (categoryFromJson === CATEGORY_APPLIED_NETWORKING) {
+          } else if (validAudioItem.category === CATEGORY_APPLIED_NETWORKING) {
             groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
           } else {
-            // Fallback logic if category is missing or not recognized
-            // Check filename patterns if category field is not explicit or unrecognized
-            if (validAudioItem.filename.toLowerCase().startsWith('ccna')) {
+            // Fallback: If category field is missing or not one of the known ones,
+            // try to infer from filename (less reliable).
+            if (validAudioItem.filename.toLowerCase().includes('ccna')) {
               groups[CATEGORY_CCNA].push(validAudioItem);
             } else {
               groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
             }
+            console.warn(`Audio item "${validAudioItem.title}" missing or has unrecognized category. Assigned based on filename.`);
           }
         });
         
