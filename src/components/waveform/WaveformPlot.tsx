@@ -103,3 +103,4 @@ export default function WaveformPlot({ data, params }: WaveformPlotProps) {
     </div>
   );
 }
+

@@ -63,3 +63,4 @@ export const generateSawtoothWave = (params: WaveformParams, numPoints: number):
     return value + dcOffset;
   });
 };
+

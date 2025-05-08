@@ -117,3 +117,4 @@ export default function WaveformControls({ params, onParamsChange }: WaveformCon
     </div>
   );
 }
+

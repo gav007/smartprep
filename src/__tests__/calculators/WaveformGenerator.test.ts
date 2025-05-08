@@ -85,16 +85,17 @@ describe('Waveform Generation Utilities', () => {
   // Test for number of points and time steps
   test('waveform generation uses correct number of points and time steps', () => {
     const params = { ...baseParams, timeWindowMs: 100, samplingRateHz: 1000 }; // 100ms window, 1000 samples/sec -> 100 points
-    const expectedNumPoints = Math.floor((params.timeWindowMs / 1000) * params.samplingRateHz);
+    const expectedNumPoints = Math.max(2, Math.floor((params.timeWindowMs / 1000) * params.samplingRateHz)); // Ensure at least 2 points
     const points = generateSineWave(params, expectedNumPoints);
     
     expect(points.length).toBe(expectedNumPoints);
     if (expectedNumPoints > 1) {
-        const expectedTimeStepMs = params.timeWindowMs / (expectedNumPoints -1);
+        const expectedTimeStepMs = params.timeWindowMs / (expectedNumPoints -1); // time between points
         expect(points[1].time - points[0].time).toBeCloseTo(expectedTimeStepMs);
         expect(points[expectedNumPoints - 1].time).toBeCloseTo(params.timeWindowMs);
-    } else if (expectedNumPoints === 1) {
+    } else if (expectedNumPoints === 1) { // Should be 2 if timeWindow > 0
         expect(points[0].time).toBe(0); // Or timeWindowMs, depending on how single point is handled
     }
   });
 });
+

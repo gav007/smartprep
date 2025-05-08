@@ -16,3 +16,4 @@ export interface DataPoint {
   time: number;    // Milliseconds
   voltage: number; // Volts
 }
+
