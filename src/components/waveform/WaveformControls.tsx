@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import type { WaveformType, WaveformParams } from '@/types/waveform';
 import { RotateCcw, HelpCircle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { formatResultValue } from '@/lib/units'; // Added import
 
 interface WaveformControlsProps {
   params: WaveformParams;
@@ -67,7 +68,7 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
   };
 
   const renderSliderWithInput = (
-    id: keyof WaveformParams,
+    id: keyof WaveformParams | 'samplingRateHz', // Adjust type to include samplingRateHz directly
     label: string,
     min: number,
     max: number,
@@ -75,14 +76,23 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
     unit: string,
     tooltipText: string,
     isLogScale?: boolean, // Controls slider step behavior
-    isFrequencyControl?: boolean,
-    isSamplingRateControl?: boolean
+    isFrequencyControl?: boolean
   ) => {
-    const currentValue = params[id] as number;
-    // Use a smaller, potentially dynamic step for the slider for smoother control on log-like scales
+    // Adjust to handle 'samplingRateHz' which is not directly in WaveformParams but controlled via props
+    const currentValue = id === 'samplingRateHz' ? params.samplingRateHz : params[id] as number;
     const sliderStep = isLogScale ? getSmartStep(min, max, currentValue) : defaultStep;
-    // Use a finer step for the number input itself
     const inputStep = (id === 'amplitude' || id === 'dcOffset') ? 0.01 : 1;
+
+    const handleChange = (val: number) => {
+        const boundedVal = Math.max(min, Math.min(val, max));
+        if (isFrequencyControl) {
+            handleFrequencyChange(boundedVal);
+        } else if (id === 'samplingRateHz') {
+            onSamplingRateChange(boundedVal);
+        } else {
+            onParamsChange({ [id]: boundedVal } as Partial<WaveformParams>);
+        }
+    };
 
 
     return (
@@ -106,15 +116,7 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
             onChange={(e) => {
                 const val = parseFloat(e.target.value);
                 if (!isNaN(val)) {
-                    const boundedVal = Math.max(min, Math.min(val, max));
-                    if (isFrequencyControl) {
-                         handleFrequencyChange(boundedVal);
-                    } else if (isSamplingRateControl) {
-                        onSamplingRateChange(boundedVal);
-                    }
-                    else {
-                        onParamsChange({ [id]: boundedVal });
-                    }
+                    handleChange(val);
                 }
             }}
             className="h-7 w-24 text-xs px-1 py-0.5 ml-2"
@@ -131,14 +133,7 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
             step={sliderStep} 
             value={[currentValue]}
             onValueChange={(value) => {
-                 if (isFrequencyControl) {
-                    handleFrequencyChange(value[0]);
-                } else if (isSamplingRateControl) {
-                    onSamplingRateChange(value[0]);
-                }
-                else {
-                    onParamsChange({ [id]: value[0] });
-                }
+                handleChange(value[0]);
             }}
             className="my-1"
         />
@@ -167,14 +162,14 @@ export default function WaveformControls({ params, onParamsChange, onSamplingRat
         </Select>
       </div>
 
-      {renderSliderWithInput('amplitude', 'Amplitude', 0.1, 20, 0.1, 'V', "Peak voltage deviation from DC offset.", false, false, false)}
-      {renderSliderWithInput('frequency', 'Frequency', MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ, 1, 'Hz', `Number of cycles per second (1Hz to ${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').displayValue}${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').unit}).`, true, true, false)}
-      {renderSliderWithInput('phase', 'Phase Shift', -180, 180, 1, '°', "Horizontal shift of the waveform in degrees.", false, false, false)}
-      {renderSliderWithInput('dcOffset', 'DC Offset', -10, 10, 0.1, 'V', "Vertical shift of the entire waveform.", false, false, false)}
+      {renderSliderWithInput('amplitude', 'Amplitude', 0.1, 20, 0.1, 'V', "Peak voltage deviation from DC offset.", false, false)}
+      {renderSliderWithInput('frequency', 'Frequency', MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ, 1, 'Hz', `Number of cycles per second (1Hz to ${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').displayValue}${formatResultValue(MAX_FREQUENCY_HZ, 'frequency').unit}).`, true, true)}
+      {renderSliderWithInput('phase', 'Phase Shift', -180, 180, 1, '°', "Horizontal shift of the waveform in degrees.", false, false)}
+      {renderSliderWithInput('dcOffset', 'DC Offset', -10, 10, 0.1, 'V', "Vertical shift of the entire waveform.", false, false)}
       
-      {renderSliderWithInput('cyclesToDisplay', 'Cycles to Display', 1, 50, 1, '', "Number of waveform cycles to show in the time window.", false, false, false)}
+      {renderSliderWithInput('cyclesToDisplay', 'Cycles to Display', 1, 50, 1, '', "Number of waveform cycles to show in the time window.", false, false)}
       
-      {renderSliderWithInput('samplingRateHz', 'Sampling Rate', MIN_SAMPLING_RATE_HZ, MAX_SAMPLING_RATE_HZ, 100, 'Hz', `Data points per second (Min 2x Frequency recommended). Max ${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').displayValue}${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').unit}.`, true, false, true)}
+      {renderSliderWithInput('samplingRateHz', 'Sampling Rate', MIN_SAMPLING_RATE_HZ, MAX_SAMPLING_RATE_HZ, 100, 'Hz', `Data points per second (Min 2x Frequency recommended). Max ${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').displayValue}${formatResultValue(MAX_SAMPLING_RATE_HZ, 'frequency').unit}.`, true, false)}
 
        <div className="sm:col-span-2 lg:col-span-3 flex justify-end mt-2">
             <Button variant="outline" size="sm" onClick={handleReset} className="text-xs">
