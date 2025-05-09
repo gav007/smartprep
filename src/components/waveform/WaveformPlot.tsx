@@ -14,21 +14,23 @@ import {
   Dot,
 } from 'recharts';
 import type { DataPoint, WaveformParams } from '@/types/waveform';
-import { formatResultValue } from '@/lib/units';
+import { formatResultValue, unitMultipliers } from '@/lib/units';
 
 interface WaveformPlotProps {
   data: DataPoint[];
   params: WaveformParams; 
+  Vrms: number | null; // Added Vrms prop
 }
 
-const CustomTooltip = ({ active, payload, label, timeUnitLabel, timeForInstantaneousVoltageMs }: any) => {
+const CustomTooltip = ({ active, payload, label, timeUnitLabel, timeForInstantaneousVoltageMs, timeUnitForVInst }: any) => {
   if (active && payload && payload.length) {
     const timeValue = label !== undefined && label !== null ? parseFloat(label) : NaN;
     let displayTime = 'N/A';
     if (!isNaN(timeValue)) {
-      // Format time based on timeUnitLabel for consistency
-      const timeInSeconds = timeValue / (timeUnitLabel === 'ms' ? 1000 : timeUnitLabel === 'µs' ? 1e6 : timeUnitLabel === 'ns' ? 1e9 : 1);
-      const formattedTime = formatResultValue(timeInSeconds, 'time');
+      // timeValue is already in the correct display unit for X-axis (ns, µs, ms, s)
+      // We just need to format it nicely.
+      const baseTimeSeconds = timeValue * (unitMultipliers[timeUnitForVInst || 'ms'] / unitMultipliers[timeUnitLabel]); // Convert display time to base time for consistent formatting
+      const formattedTime = formatResultValue(baseTimeSeconds, 'time', timeUnitForVInst || 'ms');
       displayTime = `${formattedTime.displayValue} ${formattedTime.unit}`;
     }
 
@@ -36,7 +38,8 @@ const CustomTooltip = ({ active, payload, label, timeUnitLabel, timeForInstantan
       <div className="bg-background/80 backdrop-blur-sm p-2 border rounded-md shadow-lg text-xs">
         <p className="label">{`Time: ${displayTime}`}</p>
         <p className="intro text-primary">{`Voltage: ${payload[0].value !== undefined && payload[0].value !== null ? parseFloat(payload[0].value).toFixed(3) : 'N/A'} V`}</p>
-         {timeForInstantaneousVoltageMs !== undefined && Math.abs(timeValue - timeForInstantaneousVoltageMs) < 0.000001 * (timeUnitLabel === 'ms' ? 1 : (timeUnitLabel === 'µs' ? 1000 : 1000000) ) && ( // Check against actual ms value
+         {timeForInstantaneousVoltageMs !== undefined && 
+          Math.abs(parseFloat(label) - (timeForInstantaneousVoltageMs * (unitMultipliers[timeUnitForVInst || 'ms'] / unitMultipliers[timeUnitLabel]))) < 1e-6 * (timeUnitLabel === 'ms' ? 1 : (timeUnitLabel === 'µs' ? 1000 : 1000000) ) && (
           <p className="font-bold text-accent">Calculated v(t)</p>
         )}
       </div>
@@ -47,21 +50,24 @@ const CustomTooltip = ({ active, payload, label, timeUnitLabel, timeForInstantan
 
 // Custom Dot for marking instantaneous voltage point
 const CalculatedPointDot = (props: any) => {
-  const { cx, cy, stroke, payload, value, timeForInstantaneousVoltageMs, timeDivisorForPlot } = props;
+  const { cx, cy, stroke, payload, value, timeForInstantaneousVoltageMs, timePlotUnitMultiplier } = props;
 
-  // timeForInstantaneousVoltageMs is in ms. payload.time is in seconds from data.
-  // Convert payload.time to the same unit as tMarkerPosition for comparison.
-  const plotTimeForPayload = payload.time * timeDivisorForPlot;
-  const tMarkerPosition = timeForInstantaneousVoltageMs !== undefined ? (timeForInstantaneousVoltageMs / 1000) * timeDivisorForPlot : undefined;
+  if (timeForInstantaneousVoltageMs === undefined || timeForInstantaneousVoltageMs === null) {
+    return null; // No marker if t is not set
+  }
+  // payload.time is in seconds. timeForInstantaneousVoltageMs is in milliseconds.
+  // timePlotUnitMultiplier converts seconds (payload.time) to the current X-axis display unit (ns, µs, ms, s).
+  // We need to compare the payload's time (converted to ms) with timeForInstantaneousVoltageMs.
+  const payloadTimeInMs = payload.time * 1000; 
 
-  if (tMarkerPosition === undefined || Math.abs(plotTimeForPayload - tMarkerPosition) > 1e-6 ) { // Use a small epsilon for float comparison
+  if (Math.abs(payloadTimeInMs - timeForInstantaneousVoltageMs) > 1e-3 ) { // Compare in ms with a small tolerance
     return null;
   }
-  return <Dot cx={cx} cy={cy} r={4} stroke={"hsl(var(--accent))"} fill="hsl(var(--accent))" strokeWidth={1} />;
+  return <Dot cx={cx} cy={cy} r={4} stroke={"hsl(var(--accent))"} fill="hsl(var(--accent))"} strokeWidth={1} />;
 };
 
 
-export default function WaveformPlot({ data, params }: WaveformPlotProps) {
+export default function WaveformPlot({ data, params, Vrms }: WaveformPlotProps) {
   if (!data || data.length === 0) {
     return <div className="h-80 w-full flex items-center justify-center text-muted-foreground bg-muted/30 rounded-md border border-dashed">No waveform data to display. Adjust parameters or check for errors.</div>;
   }
@@ -69,21 +75,24 @@ export default function WaveformPlot({ data, params }: WaveformPlotProps) {
   const timeWindowMs = params.timeWindowMs;
   
   let xAxisUnitLabel = 'ms';
-  let timeDivisorForPlot = 1; // Default: plot time in ms (data.time is in seconds)
+  let timePlotUnitMultiplier = 1; // Multiplier to convert data.time (seconds) to the X-axis display unit
 
-  if (timeWindowMs < 0.01) { // e.g., 5µs window -> 0.005ms
+  if (timeWindowMs < 0.01) { 
     xAxisUnitLabel = 'ns';
-    timeDivisorForPlot = 1e6; // data.time (s) * 1e9 (to ns) / 1000 (ns to µs for plot) -> simplified to 1e6 from s for ns display
-  } else if (timeWindowMs < 1) { // e.g., 0.5ms window
+    timePlotUnitMultiplier = 1e9; 
+  } else if (timeWindowMs < 1) { 
     xAxisUnitLabel = 'µs';
-    timeDivisorForPlot = 1000; // data.time (s) * 1e6 (to µs) / 1000 (ms to µs for plot) -> simplified to 1000 from s for µs display
-  } else if (timeWindowMs >= 1000) { // e.g., 1s window
+    timePlotUnitMultiplier = 1e6; 
+  } else if (timeWindowMs >= 1000) { 
     xAxisUnitLabel = 's';
-    timeDivisorForPlot = 1/1000; // data.time (s) / 1000 (ms to s for plot)
+    timePlotUnitMultiplier = 1; 
   }
+  // Else, it defaults to 'ms' and multiplier of 1000 (from seconds to ms)
+  else { timePlotUnitMultiplier = 1000; }
+
   
-  const plotData = data.map(p => ({ ...p, timePlot: p.time * 1000 * timeDivisorForPlot })); // timePlot is now in the target unit (ns, µs, ms, s)
-  const xAxisDomainMax = timeWindowMs * timeDivisorForPlot;
+  const plotData = data.map(p => ({ ...p, timePlot: p.time * timePlotUnitMultiplier })); 
+  const xAxisDomainMax = timeWindowMs * (timePlotUnitMultiplier / 1000); // Max X-axis value in its display unit
 
   const numXTicks = Math.min(11, Math.max(5, Math.floor(xAxisDomainMax / (xAxisDomainMax < 10 ? 1 : (xAxisDomainMax < 100 ? 10: 100))) + 1));
   const xTickInterval = parseFloat((xAxisDomainMax / (numXTicks > 1 ? numXTicks - 1 : 1)).toPrecision(3));
@@ -93,29 +102,38 @@ export default function WaveformPlot({ data, params }: WaveformPlotProps) {
      if (xAxisUnitLabel === 'ns' || xAxisUnitLabel === 'µs') return parseFloat(tick.toFixed(0));
      if (xAxisUnitLabel === 'ms' && timeWindowMs < 10) return parseFloat(tick.toFixed(2));
      return parseFloat(tick.toFixed(1));
-  }).filter((value, index, self) => self.indexOf(value) === index); // Ensure unique ticks
+  }).filter((value, index, self) => self.indexOf(value) === index); 
 
   const peakMagnitude = Math.abs(params.amplitude);
   let yMin = params.dcOffset - peakMagnitude;
   let yMax = params.dcOffset + peakMagnitude;
   
-  if (yMax === yMin) { 
-    yMin -= Math.max(1, Math.abs(yMin * 0.1)); // Add padding relative to value or 1
-    yMax += Math.max(1, Math.abs(yMax * 0.1));
+  // Handle flat line cases (amplitude is zero or frequency is zero for some types)
+  if (params.amplitude === 0) {
+    yMin = params.dcOffset - 1; // Default padding for flat line at DC offset
+    yMax = params.dcOffset + 1;
+  } else if (params.frequency === 0 && params.type !== 'square' && params.type !== 'sine') { // For triangle/sawtooth at f=0, it's just DC
+    yMin = params.dcOffset - Math.max(1, Math.abs(params.dcOffset * 0.1) || 1);
+    yMax = params.dcOffset + Math.max(1, Math.abs(params.dcOffset * 0.1) || 1);
+  } else if (params.frequency === 0 && params.type === 'square') {
+    yMin = Math.min(params.dcOffset, params.amplitude + params.dcOffset) - Math.max(1, Math.abs(params.amplitude * 0.1) || 1);
+    yMax = Math.max(params.dcOffset, params.amplitude + params.dcOffset) + Math.max(1, Math.abs(params.amplitude * 0.1) || 1);
+  } else if (params.frequency === 0 && params.type === 'sine') {
+    const dcVal = params.amplitude * Math.sin(params.phase * (Math.PI/180)) + params.dcOffset;
+    yMin = dcVal - Math.max(1, Math.abs(dcVal * 0.1) || 1);
+    yMax = dcVal + Math.max(1, Math.abs(dcVal * 0.1) || 1);
   }
-  if (yMax === 0 && yMin === 0) { // handles A=0, DC=0 case
-      yMin = -1; yMax = 1;
-  }
-  
+
+
   const range = yMax - yMin;
-  const yPadding = range === 0 ? 1 : Math.max(0.5, range * 0.2);
+  const yPadding = range === 0 ? 1 : Math.max(0.5, range * 0.2); // Ensure some padding even if range is tiny
   const yAxisDomain: [number, number] = [parseFloat((yMin - yPadding).toFixed(2)), parseFloat((yMax + yPadding).toFixed(2))];
 
   const numYGridLines = Math.min(11, Math.max(5, Math.floor(Math.abs(yAxisDomain[1] - yAxisDomain[0])) +1 ));
   const yStep = (yAxisDomain[1] - yAxisDomain[0]) / (numYGridLines -1 > 0 ? numYGridLines -1 : 1);
   const yTicks = [];
   for (let i = 0; i < numYGridLines; i++) {
-    const tickVal = parseFloat((yAxisDomain[0] + i * yStep).toFixed(1)); // One decimal for Y axis
+    const tickVal = parseFloat((yAxisDomain[0] + i * yStep).toFixed(1)); 
     if(!yTicks.includes(tickVal)) yTicks.push(tickVal); 
   }
   if (yAxisDomain[0] < 0 && yAxisDomain[1] > 0 && !yTicks.some(tick => Math.abs(tick) < Math.abs(yStep/3))) {
@@ -125,26 +143,14 @@ export default function WaveformPlot({ data, params }: WaveformPlotProps) {
   
   let tMarkerPositionOnPlot: number | undefined = undefined;
   if (params.timeForInstantaneousVoltageMs !== undefined) {
-     // Convert the timeForInstantaneousVoltageMs (which is in ms) to the current plot's X-axis unit
-     tMarkerPositionOnPlot = params.timeForInstantaneousVoltageMs * timeDivisorForPlot;
+     tMarkerPositionOnPlot = params.timeForInstantaneousVoltageMs * (timePlotUnitMultiplier / 1000);
   }
   
-  // Vrms calculation for reference line
-  let vrmsValue: number | undefined = undefined;
-  if (params.amplitude > 0) {
-    switch (params.type) {
-        case 'sine': vrmsValue = params.amplitude / Math.sqrt(2); break;
-        case 'square': vrmsValue = params.amplitude; break;
-        case 'triangle': vrmsValue = params.amplitude / Math.sqrt(3); break;
-        case 'sawtooth': vrmsValue = params.amplitude / Math.sqrt(3); break;
-    }
-  }
-
   return (
     <div className="h-80 w-full md:h-96 bg-card p-2 rounded-lg shadow-inner border">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={plotData} margin={{ top: 10, right: 30, left: 0, bottom: 25 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))"} />
           <XAxis
             dataKey="timePlot"
             type="number"
@@ -168,44 +174,44 @@ export default function WaveformPlot({ data, params }: WaveformPlotProps) {
             allowDataOverflow={false}
           />
           <Tooltip 
-            content={<CustomTooltip timeUnitLabel={xAxisUnitLabel} timeForInstantaneousVoltageMs={tMarkerPositionOnPlot} />} 
+            content={<CustomTooltip timeUnitLabel={xAxisUnitLabel} timeForInstantaneousVoltageMs={params.timeForInstantaneousVoltageMs} timeUnitForVInst={params.timeForInstantaneousVoltageUnit} />} 
             cursor={{ stroke: 'hsl(var(--accent))', strokeWidth: 1, strokeDasharray: '3 3' }} 
           />
           <Line
             type="monotone"
             dataKey="voltage"
-            stroke="hsl(var(--primary))"
+            stroke="hsl(var(--primary))"}
             strokeWidth={1.5} 
-            dot={<CalculatedPointDot timeForInstantaneousVoltageMs={params.timeForInstantaneousVoltageMs} timeDivisorForPlot={1000 * timeDivisorForPlot} />}
+            dot={<CalculatedPointDot timeForInstantaneousVoltageMs={params.timeForInstantaneousVoltageMs} timePlotUnitMultiplier={timePlotUnitMultiplier} />}
             activeDot={{ r: 4, strokeWidth: 1, stroke: 'hsl(var(--ring))', fill: 'hsl(var(--primary))' }}
-            isAnimationActive={false}
+            isAnimationActive={false} // Disable animation for performance with many points
           />
            {params.dcOffset !== 0 && <ReferenceLine y={params.dcOffset} stroke="hsl(var(--muted-foreground))" strokeDasharray="2 2" strokeWidth={0.75} label={{ value: `DC: ${params.dcOffset.toFixed(1)}V`, position: 'insideTopRight', fontSize: 9, fill: 'hsl(var(--muted-foreground))', dy: -2, dx: -2 }} />}
-           {yAxisDomain[0] < 0 && yAxisDomain[1] > 0 && params.dcOffset !== 0 && (
+           {yAxisDomain[0] < 0 && yAxisDomain[1] > 0 && params.dcOffset !== 0 && ( // Only show 0V line if it's different from DC offset and within view
              <ReferenceLine y={0} stroke="hsl(var(--muted-foreground))" strokeDasharray="4 4" strokeWidth={0.75} />
           )}
            {tMarkerPositionOnPlot !== undefined && isFinite(tMarkerPositionOnPlot) && tMarkerPositionOnPlot >=0 && tMarkerPositionOnPlot <= xAxisDomainMax && (
             <ReferenceLine 
                 x={tMarkerPositionOnPlot} 
-                stroke="hsl(var(--accent))" 
+                stroke="hsl(var(--accent))"} 
                 strokeWidth={1.5} 
-                label={{ value: `t=${formatResultValue(params.timeForInstantaneousVoltageMs! / 1000, 'time', 'ms').displayValue}${formatResultValue(params.timeForInstantaneousVoltageMs! / 1000, 'time', 'ms').unit}`, position: 'top', fontSize: 9, fill: 'hsl(var(--accent))', dy: -5 }} 
+                label={{ value: `t=${formatResultValue(params.timeForInstantaneousVoltageMs! / 1000, 'time', params.timeForInstantaneousVoltageUnit).displayValue}${formatResultValue(params.timeForInstantaneousVoltageMs! / 1000, 'time', params.timeForInstantaneousVoltageUnit).unit}`, position: 'top', fontSize: 9, fill: 'hsl(var(--accent))', dy: -5 }} 
             />
           )}
-           {/* Vrms Marker */}
-           {vrmsValue !== undefined && params.amplitude !==0 && (
-              <ReferenceLine y={vrmsValue + params.dcOffset} stroke="hsl(var(--destructive))" strokeDasharray="3 3" strokeWidth={0.75} label={{ value: `Vrms(+)`, position: 'insideBottomRight', fontSize: 9, fill: 'hsl(var(--destructive))' }} />
+          {/* Vrms Markers */}
+           {Vrms !== null && params.amplitude !==0 && params.frequency !== 0 && (Vrms + params.dcOffset) <= yAxisDomain[1] && (Vrms + params.dcOffset) >= yAxisDomain[0] && (
+              <ReferenceLine y={Vrms + params.dcOffset} stroke="hsl(var(--destructive))" strokeDasharray="3 3" strokeWidth={0.75} label={{ value: `Vrms(+)`, position: 'insideBottomRight', fontSize: 9, fill: 'hsl(var(--destructive))' }} />
            )}
-           {vrmsValue !== undefined && params.amplitude !==0 && params.type !== 'square' && ( // Square wave RMS is only positive for ideal case
-              <ReferenceLine y={-vrmsValue + params.dcOffset} stroke="hsl(var(--destructive))" strokeDasharray="3 3" strokeWidth={0.75} label={{ value: `Vrms(-)`, position: 'insideTopRight', fontSize: 9, fill: 'hsl(var(--destructive))' }} />
+           {Vrms !== null && params.amplitude !==0 && params.frequency !== 0 && params.type !== 'square' && (-Vrms + params.dcOffset) >= yAxisDomain[0] && (-Vrms + params.dcOffset) <= yAxisDomain[1] && (
+              <ReferenceLine y={-Vrms + params.dcOffset} stroke="hsl(var(--destructive))" strokeDasharray="3 3" strokeWidth={0.75} label={{ value: `Vrms(-)`, position: 'insideTopRight', fontSize: 9, fill: 'hsl(var(--destructive))' }} />
            )}
            {/* Peak Markers */}
-            {params.amplitude !== 0 && <ReferenceLine y={params.amplitude + params.dcOffset} stroke="hsl(var(--chart-2))" strokeDasharray="1 2" strokeWidth={0.5} label={{ value: `Vpk(+)`, position: 'insideTopLeft', fontSize: 8, fill: 'hsl(var(--chart-2))' }} />}
-            {params.amplitude !== 0 && <ReferenceLine y={-params.amplitude + params.dcOffset} stroke="hsl(var(--chart-2))" strokeDasharray="1 2" strokeWidth={0.5} label={{ value: `Vpk(-)`, position: 'insideBottomLeft', fontSize: 8, fill: 'hsl(var(--chart-2))' }} />}
-
+            {params.amplitude !== 0 && (params.amplitude + params.dcOffset) <= yAxisDomain[1] && <ReferenceLine y={params.amplitude + params.dcOffset} stroke="hsl(var(--chart-2))" strokeDasharray="1 2" strokeWidth={0.5} label={{ value: `Vpk(+)`, position: 'insideTopLeft', fontSize: 8, fill: 'hsl(var(--chart-2))' }} />}
+            {params.amplitude !== 0 && (-params.amplitude + params.dcOffset) >= yAxisDomain[0] && <ReferenceLine y={-params.amplitude + params.dcOffset} stroke="hsl(var(--chart-2))" strokeDasharray="1 2" strokeWidth={0.5} label={{ value: `Vpk(-)`, position: 'insideBottomLeft', fontSize: 8, fill: 'hsl(var(--chart-2))' }} />}
 
         </LineChart>
       </ResponsiveContainer>
     </div>
   );
 }
+
