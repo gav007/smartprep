@@ -24,8 +24,8 @@ interface WaveformControlsProps {
 
 const waveformTypes: WaveformType[] = ['sine', 'square', 'triangle', 'sawtooth'];
 
-const MIN_FREQUENCY_HZ = 0; // Allow 0 Hz for DC
-const MAX_FREQUENCY_HZ = 50_000; // Updated to 50 kHz
+const MIN_FREQUENCY_HZ = 0; 
+const MAX_FREQUENCY_HZ = 50000; 
 const MIN_SAMPLING_RATE_HZ = 2; 
 const MAX_SAMPLING_RATE_HZ = 10_000_000;
 const MIN_TIME_WINDOW_MS = 0.001; 
@@ -37,14 +37,14 @@ const MAX_DC_OFFSET_V = MAX_AMPLITUDE_V;
 
 
 const initialParamsForReset: WaveformParams = {
-  type: 'sine', amplitude: 12, frequency: 1000, phase: 0, dcOffset: 0, // Default frequency to 1kHz
-  timeWindowMs: 1, // Default time window to 1ms for higher frequencies
-  samplingRateHz: 20000, // Default sampling rate (20x 1kHz)
+  type: 'sine', amplitude: 12, frequency: 1000, phase: 0, dcOffset: 0,
+  timeWindowMs: 1, 
+  samplingRateHz: 20000, 
   timeForInstantaneousVoltageMs: undefined,
   timeForInstantaneousVoltageUnit: 'ms',
 };
 
-const getSmartStep = (min: number, max: number, value: number, isFine: boolean = false) => {
+const getSmartStep = (id: keyof WaveformParams | 'samplingRateHz', min: number, max: number, value: number, isFine: boolean = false) => {
     const range = max - min;
     if (range <= 0) return isFine ? 0.001 : 0.1; 
 
@@ -108,21 +108,19 @@ export default function WaveformControls({
   const handleFrequencyChange = (value: number | string) => {
     const numVal = typeof value === 'string' ? parseFloat(value) : value;
      if (typeof value === 'string' && value.trim() === '') {
-        // When cleared, set to 0 (DC) instead of MIN_FREQUENCY_HZ if MIN_FREQUENCY_HZ was > 0
         onParamsChange({ frequency: 0 }); 
-        onSamplingRateChange(MIN_SAMPLING_RATE_HZ); // Reset sampling rate to minimum for DC
+        onSamplingRateChange(MIN_SAMPLING_RATE_HZ); 
         return;
     }
-    // Allow 0 for DC. Negative frequencies are not physically meaningful for these waveforms.
     if (isNaN(numVal) || numVal < 0) return; 
 
     const newFreq = Math.min(numVal, MAX_FREQUENCY_HZ);
     onParamsChange({ frequency: newFreq });
     
-    if (newFreq > 0) { // Only adjust sampling rate if frequency is positive
+    if (newFreq > 0) { 
         const suggestedSamplingRate = Math.min(MAX_SAMPLING_RATE_HZ, Math.max(MIN_SAMPLING_RATE_HZ, newFreq * 20)); 
         onSamplingRateChange(suggestedSamplingRate);
-    } else { // If frequency is 0 (DC), set sampling rate to a low value (e.g., 2)
+    } else { 
         onSamplingRateChange(MIN_SAMPLING_RATE_HZ);
     }
   };
@@ -166,8 +164,7 @@ export default function WaveformControls({
     isFrequencyControl?: boolean,
   ) => {
     const currentValue = id === 'samplingRateHz' ? params.samplingRateHz : params[id as keyof WaveformParams] as number | string;
-    // Use id explicitly for getSmartStep if needed
-    const sliderStep = getSmartStep(min, max, typeof currentValue === 'number' ? currentValue : (min + max) / 2, id === 'amplitude' || id === 'dcOffset' || id === 'phase' || id === 'timeWindowMs' || id === 'frequency');
+    const sliderStep = getSmartStep(id, min, max, typeof currentValue === 'number' ? currentValue : (min + max) / 2, id === 'amplitude' || id === 'dcOffset' || id === 'phase' || id === 'timeWindowMs' || id === 'frequency');
 
 
     const handleChange = (val: number | string) => {
@@ -175,11 +172,10 @@ export default function WaveformControls({
 
         if (typeof val === 'string') {
             if (val.trim() === '') {
-                // If field is cleared, set to its minimum defined value (or 0 if min is less than 0)
-                numValToSet = Math.max(min, 0); // Default to 0 or min if min is positive
+                numValToSet = Math.max(min, 0); 
             } else {
                 const parsed = parseFloat(val);
-                if (isNaN(parsed)) return; // Do nothing if not a number
+                if (isNaN(parsed)) return; 
                 numValToSet = parsed;
             }
         } else {
@@ -217,7 +213,7 @@ export default function WaveformControls({
                     type="number"
                     value={currentValue === '' ? '' : (currentValue ?? '')}
                     onChange={(e) => handleChange(e.target.value)}
-                    onBlur={() => { // On blur, if empty, set to min
+                    onBlur={() => { 
                         if (String(currentValue).trim() === '') {
                             handleChange(min);
                         }
@@ -295,7 +291,7 @@ export default function WaveformControls({
                     className="h-7 w-24 text-xs px-1 py-0.5"
                     min={0}
                     max={params.timeWindowMs * (unitMultipliers['ms'] / (unitMultipliers[params.timeForInstantaneousVoltageUnit || 'ms']))} 
-                    step={getSmartStep(0, params.timeWindowMs, parseFloat(timeForVInstInputStr || '0'), true)}
+                    step={getSmartStep('timeWindowMs', 0, params.timeWindowMs, parseFloat(timeForVInstInputStr || '0'), true)} // Pass ID 'timeWindowMs' for step calculation context
                 />
                 <Select 
                     value={params.timeForInstantaneousVoltageUnit || 'ms'}
