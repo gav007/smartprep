@@ -3011,17 +3011,17 @@
             "feedback": "At the transport layer, the Protocol Data Unit is called a segment."
         },
         {
-            "type": "MC",
-            "question": "Which statement accurately describes a TCP/IP encapsulation process when a PC is sending data to the network?",
-            "options": {
-            "A": "Data is sent from the internet layer to the network access layer.",
-            "B": "Packets are sent from the network access layer to the transport layer.",
-            "C": "Segments are sent from the transport layer to the internet layer.",
-            "D": "Frames are sent from the network access layer to the internet layer."
-            },
-            "answer": "A",
-            "feedback": "In TCP/IP encapsulation, data passes from the internet layer down to the network access layer, where it is framed for transmission over the physical medium."
-        },
+          "type": "MC",
+          "question": "Which statement accurately describes a TCP/IP encapsulation process when a PC is sending data to the network?",
+          "options": {
+              "A": "Data is sent from the internet layer to the network access layer.",
+              "B": "Packets are sent from the network access layer to the transport layer.",
+              "C": "Segments are sent from the transport layer to the internet layer.",
+              "D": "Frames are sent from the network access layer to the internet layer."
+          },
+          "answer": "C",
+          "feedback": "In TCP/IP encapsulation, data flows top-down. The transport layer creates segments, which are passed to the internet layer to be encapsulated into packets."
+      },      
         {
             "type": "MC",
             "question": "What is a characteristic of multicast messages?",
@@ -3107,16 +3107,16 @@
             "feedback": "An intranet is a private network consisting of interconnected LANs and WANs within an organization."
         },
         {
-            "type": "MC",
-            "question": "At which OSI layer is data added to a PDU during the encapsulation process?",
-            "options": {
+          "type": "MC",
+          "question": "At which OSI layer is a packet encapsulated into a frame during the encapsulation process?",
+          "options": {
             "A": "data link layer",
             "B": "transport layer",
             "C": "network layer",
             "D": "application layer"
-            },
-            "answer": "A",
-            "feedback": "During encapsulation, the data link layer adds its header and trailer to the packet, forming a frame."
+          },
+          "answer": "A",
+          "feedback": "The data link layer encapsulates the network layer packet into a frame by adding a header and trailer."
         },
         {
             "type": "MC",
@@ -3839,16 +3839,16 @@
   },
   {
     "type": "MC",
-    "question": "At which OSI layer is data added to a PDU during the encapsulation process?",
+    "question": "At which OSI layer does the encapsulation process begin by adding a header to the data received from the upper layers?",
     "options": {
       "A": "transport layer",
       "B": "presentation layer",
       "C": "network layer",
       "D": "application layer"
     },
-    "answer": "D",
-    "feedback": "Encapsulation begins at the Application layer (Layer 7), where the user's data is generated and then passed down the protocol stack to have headers and trailers added at each subsequent layer."
-  },
+    "answer": "A",
+    "feedback": "Encapsulation begins at the Transport layer (Layer 4), where the data from the Application, Presentation, and Session layers is encapsulated into segments by adding transport layer headers."
+  },  
   {
     "type": "MC",
     "question": "What is the auto-MDIX feature?",
@@ -5077,16 +5077,16 @@
   },
   {
     "type": "MC_MA",
-    "question": "Which two OSI model layers have the same functionality as two layers of the TCP/IP model? (Choose two.)",
+    "question": "Which two OSI model layers have the same functionality as a single layer of the TCP/IP model? (Choose two.)",
     "options": {
-      "A": "network",
-      "B": "transport",
-      "C": "data link",
-      "D": "physical",
-      "E": "session"
+        "A": "network",
+        "B": "transport",
+        "C": "data link",
+        "D": "physical",
+        "E": "session"
     },
-    "answer": ["A", "B"],
-    "feedback": "The OSI model's Transport layer (Layer 4) maps directly to the TCP/IP model's Transport layer, and the OSI model's Network layer (Layer 3) maps directly to the TCP/IP model's Internet layer."
+    "answer": ["C", "D"],
+    "feedback": "The TCP/IP Network Access layer combines the functionality of both the OSI Data Link and Physical layers."
   },
   {
     "type": "MC",
