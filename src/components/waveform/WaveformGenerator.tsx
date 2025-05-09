@@ -67,31 +67,39 @@ export default function WaveformGenerator() {
   }, [params.amplitude, params.frequency, params.phase, params.dcOffset, params.type, params.timeForInstantaneousVoltageMs, angularFrequency]);
 
   const Vrms = useMemo(() => {
-    if (params.amplitude === 0 && params.frequency === 0) return Math.abs(params.dcOffset); // Pure DC
-    if (params.amplitude === 0) return Math.abs(params.dcOffset); // Waveform with zero amplitude is just DC offset
-    
-    if (params.frequency === 0) { // "DC" from an AC waveform type
-        if (params.type === 'sine') return Math.abs(params.amplitude * Math.sin(params.phase * (Math.PI/180)) + params.dcOffset);
-        if (params.type === 'square') return Math.abs(params.amplitude + params.dcOffset);
-        return Math.abs(params.dcOffset); // Triangle, Sawtooth at f=0
+    const A = params.amplitude;
+    const f = params.frequency;
+    const Vdc = params.dcOffset;
+    const phi = params.phase * (Math.PI / 180);
+  
+    // DC only
+    if (f === 0) {
+      if (params.type === 'sine') return Math.abs(A * Math.sin(phi) + Vdc);
+      if (params.type === 'square') return Math.abs(A + Vdc);
+      return Math.abs(Vdc);
     }
-
-    // For AC components, Vrms calculation usually ignores DC offset.
-    // If Vrms of the total signal (AC+DC) is needed, it's sqrt(Vrms_ac^2 + Vdc^2)
-    // Here we calculate Vrms of the AC component.
+  
+    // AC + DC total RMS
+    let VrmsAC: number;
+  
     switch (params.type) {
       case 'sine':
-        return params.amplitude / Math.sqrt(2);
+        VrmsAC = A / Math.sqrt(2);
+        break;
       case 'square':
-        return params.amplitude; 
+        VrmsAC = A;
+        break;
       case 'triangle':
-        return params.amplitude / Math.sqrt(3);
       case 'sawtooth':
-        return params.amplitude / Math.sqrt(3);
+        VrmsAC = A / Math.sqrt(3);
+        break;
       default:
         return null;
     }
-  }, [params.type, params.amplitude, params.frequency, params.dcOffset, params.phase]);
+  
+    return Math.sqrt(VrmsAC ** 2 + Vdc ** 2);
+  }, [params.amplitude, params.frequency, params.dcOffset, params.phase, params.type]);
+  
 
 
   const generateWaveform = useCallback(() => {

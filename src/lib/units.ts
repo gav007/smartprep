@@ -159,6 +159,19 @@ export function formatResultValue(
     let bestUnit: Unit = (inputUnit && options.includes(inputUnit)) ? inputUnit : options[0];
     let bestFitValue = baseValue / (unitMultipliers[bestUnit] || 1);
 
+    if (inputUnit && options.includes(inputUnit)) {
+        const scaledValue = baseValue / unitMultipliers[inputUnit];
+        return {
+          displayValue: scaledValue.toLocaleString(undefined, {
+            maximumFractionDigits: 3,
+            minimumFractionDigits: 0,
+            useGrouping: false,
+          }),
+          unit: inputUnit,
+        };
+      }
+      
+
      for (const u of options) {
          const multiplier = unitMultipliers[u];
          if (!multiplier) continue; 
