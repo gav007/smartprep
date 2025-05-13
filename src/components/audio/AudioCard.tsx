@@ -1,10 +1,9 @@
-
 // src/components/audio/AudioCard.tsx
 'use client';
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileAudio, AlertTriangle } from 'lucide-react'; 
+import { FileAudio, AlertTriangle } from 'lucide-react';
 import type { AudioMetadata } from '@/types/audio';
 
 interface AudioCardProps {
@@ -21,7 +20,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
           <div className="flex-1">
             <CardTitle className="text-destructive text-sm font-semibold">Audio Error</CardTitle>
             <CardDescription className="text-destructive/80 text-xs">
-              Invalid audio data.
+              Invalid audio data. Filename is missing or empty.
             </CardDescription>
           </div>
         </CardHeader>
@@ -29,7 +28,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     );
   }
 
-  const audioSrc = `/data/audio/${audio.filename}`;
+  const audioSrc = `/data/audio/${audio.filename}`; // Path relative to public
 
   const getMimeType = (filename?: string, providedMimeType?: string): string => {
     if (providedMimeType && providedMimeType.trim() !== '') return providedMimeType;
@@ -40,19 +39,22 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
       case 'wav':
         return 'audio/wav';
       case 'mp3':
-      case 'mpg': // Treat .mpg as MPEG audio based on user's files
+      case 'mpg': // Keep supporting .mpg as per user's files, assuming they are MPEG audio
         return 'audio/mpeg';
       case 'ogg':
         return 'audio/ogg';
       case 'aac':
         return 'audio/aac';
       default:
-        // Avoid console warning for unknown extension, just fallback
-        return 'audio/mpeg'; 
+        console.warn(`AudioCard: Unknown audio extension ".${extension}" for file "${filename}". Defaulting to "audio/mpeg".`);
+        return 'audio/mpeg';
     }
   };
-  
+
   const mimeType = getMimeType(audio.filename, audio.mimeType);
+
+  // Detailed console log for debugging
+  console.log(`AudioCard rendering: Title: "${audio.title}", Src: "${audioSrc}", Determined MimeType: "${mimeType}", Original MimeType: "${audio.mimeType || 'Not provided'}"`);
 
   return (
     <Card className="w-full overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl bg-card border border-border/50 rounded-xl">
