@@ -1,5 +1,5 @@
 // src/types/calculator.ts
-import type { Unit } from '@/lib/units'; // Import central Unit type
+import type { Unit, VariableCategory } from '@/lib/units'; // Import central Unit type & VariableCategory
 
 /**
  * Represents an IPv4 address.
@@ -69,4 +69,24 @@ export interface ResistorResult {
  resistanceString: string; // Formatted string e.g., "4.7 kΩ"
 }
 
-// Centralized ResistorColorMap moved to calculator-utils.ts
+
+/**
+ * Types for Converter Game
+ */
+export interface GameOption {
+  key: string; // e.g., 'A', 'B', 'C'
+  label: string; // Formatted string, e.g., "2000 µA"
+  valueInTargetUnit: number; // The numerical value corresponding to the label, in the target unit's base magnitude
+}
+
+export interface ConverterGameQuestion {
+  id: string;
+  originalValue: number; // The value in its original presented unit (before conversion to base for generation)
+  originalUnit: Unit;    // The unit the original value is presented in (e.g., 'A', 'mV', 'kΩ')
+  targetUnit: Unit;      // The unit to convert to (e.g., 'µA', 'V', 'MΩ')
+  category: VariableCategory; // The physical quantity (e.g., 'current', 'voltage')
+  promptText: string;    // Question text, e.g., "Convert 0.002 A to µA"
+  options: GameOption[];
+  correctAnswerKey: string;
+  difficulty: number; // 1 to 10
+}

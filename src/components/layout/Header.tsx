@@ -3,9 +3,9 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves } from 'lucide-react'; // Changed WaveSquare to Waves
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem } from 'lucide-react'; // Added Gem for Converter Game
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet"; // Added SheetTrigger
+import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,9 +37,10 @@ const navItems = [
       { href: "/tools/truth-table", label: "Truth Table", icon: TableIcon },
       { href: "/tools/resistor", label: "Resistor", icon: Palette },
       { href: "/tools/base-converter", label: "Base Converter", icon: Binary },
+      { href: "/tools/converter-game", label: "Converter Game", icon: Gem }, // Added Converter Game
       { href: "/tools/packet-flow", label: "Packet Flow", icon: GitBranchPlus },
       { href: "/tools/voltage-divider", label: "Voltage Divider", icon: Sigma },
-      { href: "/tools/waveform", label: "Waveform Viewer", icon: Waves }, // Changed WaveSquare to Waves
+      { href: "/tools/waveform", label: "Waveform Viewer", icon: Waves },
     ],
   },
    ...(process.env.NODE_ENV === 'development' ? [{ href: "/diagnostics", label: "Diagnostics", icon: Info }] : []),
@@ -164,7 +165,6 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
              <SheetHeader className="flex flex-row h-14 items-center justify-between border-b px-4">
-                {/* SheetTitle implicitly uses DialogPrimitive.Title. No need for explicit DialogTitle */}
                  <Link href="/" className="flex items-center gap-2 text-lg font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
                     <Network size={20} />
                     SmartPrep
@@ -184,4 +184,3 @@ export default function Header() {
     </header>
   );
 }
-

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Hash } from 'lucide-react';
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Hash, Gem } from 'lucide-react'; // Added Gem
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -81,6 +81,14 @@ const featuredTools = [
     ctaText: "Open Tool"
    },
    {
+    title: "Converter Game",
+    description: "Test your unit conversion skills. Convert values to engineering notation.",
+    icon: Gem, // Using Gem icon
+    link: "/tools/converter-game",
+    aiHint: "units conversion game engineering notation practice",
+    ctaText: "Play Game"
+   },
+   {
     title: "Voltage Divider Calc",
     description: "Calculate output voltage for a resistive voltage divider circuit (Vout = Vin * R2 / (R1 + R2)).",
     icon: Sigma,
@@ -128,7 +136,7 @@ export default function HomePage() {
             <div className="flex justify-center items-center">
                 <Image
                   src="/images/network.jpg" 
-                  alt="Networking equipment including servers and ethernet cables in a data rack"
+                  alt="Networking equipment and server rack"
                   width={600}
                   height={400}
                   className="rounded-xl shadow-2xl object-cover aspect-[4/3]" 
