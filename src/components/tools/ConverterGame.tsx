@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertCircle, CheckCircle, XCircle, RotateCw, Trophy, Gem } from 'lucide-react';
+import { AlertCircle, CheckCircle, XCircle, RotateCw, Trophy, Gem, Loader2 } from 'lucide-react'; // Added Loader2
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import type { Unit, VariableCategory } from '@/lib/units';
@@ -363,4 +363,3 @@ export default function ConverterGame() {
     </div>
   );
 }
-
