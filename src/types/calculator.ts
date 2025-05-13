@@ -81,12 +81,13 @@ export interface GameOption {
 
 export interface ConverterGameQuestion {
   id: string;
-  originalValue: number; // The value in its original presented unit (before conversion to base for generation)
-  originalUnit: Unit;    // The unit the original value is presented in (e.g., 'A', 'mV', 'kΩ')
-  targetUnit: Unit;      // The unit to convert to (e.g., 'µA', 'V', 'MΩ')
-  category: VariableCategory; // The physical quantity (e.g., 'current', 'voltage')
-  promptText: string;    // Question text, e.g., "Convert 0.002 A to µA"
+  originalValue: number; 
+  originalUnit: Unit;    
+  targetUnit: Unit;      
+  category: VariableCategory; // Added category for formatting context
+  promptText: string;    
   options: GameOption[];
   correctAnswerKey: string;
-  difficulty: number; // 1 to 10
+  difficulty: number; 
 }
+
