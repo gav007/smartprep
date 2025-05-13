@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves } from 'lucide-react'; // Changed WaveSquare to Waves
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Hash } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -91,7 +91,7 @@ const featuredTools = [
   {
     title: "Waveform Viewer",
     description: "Visualize Sine, Square, Triangle, and Sawtooth waveforms. Adjust parameters in real-time.",
-    icon: Waves, // Changed WaveSquare to Waves
+    icon: Waves,
     link: "/tools/waveform",
     aiHint: "oscilloscope signal waveform electronics",
     ctaText: "Open Viewer"
@@ -136,6 +136,30 @@ export default function HomePage() {
                   priority 
                 />
             </div>
+          </div>
+        </section>
+
+        {/* Plenty of Pi Card Section */}
+        <section className="py-16 md:py-20 bg-secondary/20 dark:bg-background">
+          <div className="container mx-auto px-4">
+            <Card className="max-w-2xl mx-auto bg-card border border-border/60 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] dark:border-border/40">
+              <CardHeader className="items-center text-center pt-8 pb-4">
+                <div className="p-3 bg-accent/10 text-accent rounded-full mb-4 inline-block ring-1 ring-accent/20">
+                  <span className="text-5xl font-bold text-accent">π</span>
+                </div>
+                <CardTitle className="text-3xl md:text-4xl font-bold text-foreground">Plenty of π</CardTitle>
+                <CardDescription className="text-muted-foreground text-lg mt-2 max-w-md mx-auto">
+                  Dive into the fascinating world of Pi, its history, and its endless applications in mathematics and science.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="text-center pb-8">
+                <Button asChild size="lg" className="shadow-lg hover:shadow-xl transition-shadow bg-accent text-accent-foreground hover:bg-accent/90">
+                  <a href="https://plenty-of-pi.xyz" target="_blank" rel="noopener noreferrer">
+                    Explore Plenty of π <ArrowRight className="ml-2 h-5 w-5" />
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
@@ -201,4 +225,3 @@ export default function HomePage() {
     </div>
   );
 }
-
