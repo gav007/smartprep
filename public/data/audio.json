@@ -51,7 +51,7 @@
   {
     "id": "cable-shielding",
     "title": "Cable Shielding",
-    "description": "Audio lesson on Cable Shielding.",
+    "description": "Audio lesson on Cable Shielding. (Note: filename 'cableSheilding.wav' used as provided)",
     "filename": "cableSheilding.wav",
     "category": "Applied Networking",
     "mimeType": "audio/wav"
@@ -73,7 +73,7 @@
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "ccna1-the-invisible-networks",
+    "id": "ccna1-invisible-networks",
     "title": "The Invisible Networks Powering Everything",
     "description": "CCNA Audio: The Invisible Networks Powering Everything.",
     "filename": "CCNA1_The Invisible Networks Powering Everything.mp3",
@@ -81,7 +81,7 @@
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "ccna2-your-hands-on-guide",
+    "id": "ccna2-hands-on-guide",
     "title": "Your Hands-On Guide to Getting Started",
     "description": "CCNA Audio: Your Hands-On Guide to Getting Started.",
     "filename": "CCNA2_Your Hands-On Guide to Getting Started.mp3",
@@ -89,7 +89,7 @@
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "ccna3-how-your-devices-secretly-talk",
+    "id": "ccna3-devices-secretly-talk",
     "title": "How Your Devices Secretly Talk Online",
     "description": "CCNA Audio: How Your Devices Secretly Talk Online.",
     "filename": "CCNA3_How Your Devices Secretly Talk Online.mp3",
@@ -97,7 +97,7 @@
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "ccna4-the-hidden-foundation",
+    "id": "ccna4-hidden-foundation",
     "title": "The Hidden Foundation of Your Digital Life",
     "description": "CCNA Audio: The Hidden Foundation of Your Digital Life.",
     "filename": "CCNA4_The Hidden Foundation of Your Digital Life.mp3",
@@ -105,7 +105,7 @@
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "ccna5-binary-hex-language-of-networks",
+    "id": "ccna5-binary-hex-language",
     "title": "Binary, Hex, and the Language of Networks",
     "description": "CCNA Audio: Binary, Hex, and the Language of Networks.",
     "filename": "CCNA5_Binary_Hex_and_the_Language_of_Networks.mp3",
@@ -129,7 +129,7 @@
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "ccna8-ip-addresses-routing-ipv6-revolution",
+    "id": "ccna8-ip-addresses-routing-ipv6",
     "title": "IP Addresses, Routing, and the IPv6 Revolution",
     "description": "CCNA Audio: IP Addresses, Routing, and the IPv6 Revolution.",
     "filename": "CCNA_8IP Addresses_Routing_and_the_IPv6_Revolution.mp3",

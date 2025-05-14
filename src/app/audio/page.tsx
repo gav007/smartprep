@@ -32,10 +32,10 @@ export default function AudioLessonsPage() {
         const data: any[] = await response.json();
 
         if (!Array.isArray(data)) {
-          throw new Error('Invalid audio metadata format: Expected an array.');
+          throw new Error('Invalid audio metadata format: Expected an array from audio.json.');
         }
         
-        console.log("AudioLessonsPage: Fetched data from audio.json:", data);
+        console.log("AudioLessonsPage: Fetched data from audio.json:", data); // Log fetched data
 
         const groups: GroupedAudio = {
           [CATEGORY_APPLIED_NETWORKING]: [],
@@ -49,15 +49,15 @@ export default function AudioLessonsPage() {
             typeof audioItem.id !== 'string' ||
             typeof audioItem.title !== 'string' ||
             typeof audioItem.filename !== 'string' ||
-            audioItem.filename.trim() === '' ||
+            audioItem.filename.trim() === '' || // Ensure filename is not empty
             (audioItem.category && typeof audioItem.category !== 'string') ||
-            (audioItem.mimeType && typeof audioItem.mimeType !== 'string')
+            (audioItem.mimeType && typeof audioItem.mimeType !== 'string') // Check mimeType type
           ) {
-            console.warn(`AudioLessonsPage: Skipping invalid audio entry at index ${index} in audio.json:`, audioItem);
+            console.warn(`AudioLessonsPage: Skipping invalid audio entry at index ${index} in audio.json due to missing or invalid fields:`, audioItem);
             return; // Skip this invalid entry
           }
           
-          const validAudioItem = audioItem as AudioMetadata;
+          const validAudioItem = audioItem as AudioMetadata; // Cast after validation
 
           // Primarily use the 'category' field from audio.json
           if (validAudioItem.category === CATEGORY_CCNA) {
@@ -65,21 +65,21 @@ export default function AudioLessonsPage() {
           } else if (validAudioItem.category === CATEGORY_APPLIED_NETWORKING) {
             groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
           } else {
-            // Fallback logic if category is missing or unrecognized (though ideally category should always be present and correct)
-            console.warn(`AudioLessonsPage: Audio item "${validAudioItem.title}" (filename: ${validAudioItem.filename}) has an unrecognized or missing category "${validAudioItem.category}". Attempting to assign based on filename pattern.`);
-            if (validAudioItem.filename.toLowerCase().startsWith('ccna')) {
+             // Log if category is missing or unrecognized, then attempt fallback
+            console.warn(`AudioLessonsPage: Audio item "${validAudioItem.title}" (filename: ${validAudioItem.filename}) has an unrecognized or missing category: "${validAudioItem.category || 'undefined'}". Assigning based on filename pattern or to Applied Networking.`);
+            if (validAudioItem.filename.toLowerCase().includes('ccna')) {
               groups[CATEGORY_CCNA].push(validAudioItem);
             } else {
-              groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
+              groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem); // Default fallback
             }
           }
         });
         
-        console.log("AudioLessonsPage: Grouped audio files:", groups);
+        console.log("AudioLessonsPage: Processed and grouped audio files:", groups);
         setGroupedAudioFiles(groups);
 
       } catch (err) {
-        console.error("Error in fetchAudioMetadata:", err);
+        console.error("Error in fetchAudioMetadata of AudioLessonsPage:", err);
         setError(err instanceof Error ? err.message : 'An unknown error occurred while loading audio metadata.');
       } finally {
         setLoading(false);
@@ -105,7 +105,7 @@ export default function AudioLessonsPage() {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Error Loading Audio</AlertTitle>
           <AlertDescription>
-            {error} Please try again later or check the console for more details. Ensure <code>public/data/audio.json</code> is correctly formatted and accessible.
+            {error} Please try again later or check the console for more details. Ensure <code>public/data/audio.json</code> is correctly formatted and accessible, and all listed audio files exist in <code>public/data/audio/</code>.
           </AlertDescription>
         </Alert>
       </div>
@@ -136,7 +136,7 @@ export default function AudioLessonsPage() {
         <div className="space-y-12">
           {categoriesToDisplay.map((category) => {
             const filesInCategory = groupedAudioFiles[category] || [];
-            if (filesInCategory.length === 0) return null;
+            // if (filesInCategory.length === 0) return null; // Hide category section if no files
 
             const IconComponent = category === CATEGORY_CCNA ? BookOpen : Network;
 
@@ -144,7 +144,7 @@ export default function AudioLessonsPage() {
               <section key={category}>
                 <h2 className="text-2xl font-semibold mb-6 border-b pb-2 flex items-center gap-2">
                   <IconComponent className="h-6 w-6 text-accent" />
-                  {category}
+                  {category} ({filesInCategory.length} {filesInCategory.length === 1 ? 'lesson' : 'lessons'})
                 </h2>
                 {filesInCategory.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
