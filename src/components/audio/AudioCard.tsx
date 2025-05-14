@@ -29,10 +29,8 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         determinedMimeType = 'audio/wav';
         break;
       case 'mp3':
+      case 'mpg': // Treat .mpg as audio/mpeg for audio files
         determinedMimeType = 'audio/mpeg';
-        break;
-      case 'mpg': 
-        determinedMimeType = 'audio/mpeg'; 
         break;
       case 'ogg':
         determinedMimeType = 'audio/ogg';
@@ -84,7 +82,8 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
           onError={(e) => {
             const audioEl = e.target as HTMLAudioElement;
             let errorDetail = 'Unknown audio error.';
-            if (audioEl.error) {
+
+            if (audioEl && audioEl.error) {
               console.error("Full audio error object:", audioEl.error);
               switch (audioEl.error.code) {
                 case MediaError.MEDIA_ERR_ABORTED: errorDetail = 'Playback aborted by user.'; break;
@@ -96,11 +95,16 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
             } else {
                  errorDetail = 'Audio element error object is null, but onError was triggered.';
             }
+            
+            // Safely access networkState and readyState
+            const networkStateValue = (audioEl && typeof audioEl.networkState !== 'undefined') ? audioEl.networkState : 'N/A';
+            const readyStateValue = (audioEl && typeof audioEl.readyState !== 'undefined') ? audioEl.readyState : 'N/A';
+
             console.error(
               `AudioCard Playback Error for "${audio.filename}" (src: ${audioSrc}, type: ${mimeTypeForSourceTag}): ${errorDetail}\n` +
-              `Network State: ${audioEl.networkState}\n` +
-              `Ready State: ${audioEl.readyState}\n`,
-              e
+              `Network State: ${networkStateValue}\n` +
+              `Ready State: ${readyStateValue}\n`,
+              e // Log the original event object for more context if available
             );
           }}
         >
@@ -114,4 +118,3 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
 };
 
 export default AudioCard;
-
