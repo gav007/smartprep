@@ -57,13 +57,11 @@ function generateRandomValueForCategory(difficulty: number, category: VariableCa
     
     let finalValue = parseFloat(baseMagnitude.toFixed(Math.max(0, numDecimalPlaces)));
 
-    // Introduce specific values like 0.002A more naturally based on category and difficulty
     if (category === 'current' && difficulty >= 4 && difficulty <=7 && Math.random() < 0.25) {
         finalValue = 0.002; // 2mA
     } else if (category === 'current' && difficulty > 7 && Math.random() < 0.2) {
         finalValue = 0.000002; // 2µA
     }
-
 
     const smallestAllowedMultiplier = Math.min(...unitCategories.find(uc => uc.category === category)?.units.map(u => unitMultipliers[u]) || [1]);
     if (Math.abs(finalValue) < smallestAllowedMultiplier / 100 && finalValue !== 0 && smallestAllowedMultiplier >= 1e-9) {
@@ -72,9 +70,8 @@ function generateRandomValueForCategory(difficulty: number, category: VariableCa
         finalValue = parseFloat(finalValue.toPrecision(2));
     }
 
-    return finalValue === 0 && baseMagnitude !== 0 ? parseFloat(baseMagnitude.toPrecision(2)) : finalValue; // Avoid rounding to 0 if original wasn't
+    return finalValue === 0 && baseMagnitude !== 0 ? parseFloat(baseMagnitude.toPrecision(2)) : finalValue;
 }
-
 
 function getRandomUnit(units: Unit[]): Unit {
     return units[Math.floor(Math.random() * units.length)];
@@ -90,102 +87,83 @@ function generateDistractors(
     const correctFormatted = formatResultValue(correctValueInBaseUnits, category, targetUnit);
     const correctDisplayNumericPart = parseFloat(correctFormatted.displayValue);
 
-    const usedDisplayValues = new Set<string>([`${correctDisplayNumericPart.toPrecision(4)}`]);
-    let attempts = 0;
+    const usedDistractorValues = new Set<number>(); // Store numeric values to avoid exact duplicates
 
-    // Factors for prefix errors - more focused
-    const prefixErrorFactors = [1000, 0.001];
-    if (difficulty > 4) prefixErrorFactors.push(1_000_000, 0.000_001);
-    if (difficulty > 7) prefixErrorFactors.push(1_000_000_000, 0.000_000_001);
-
-
-    for (const factor of prefixErrorFactors) {
-        if (distractors.length >= 3) break;
-        const distractorBaseValue = correctValueInBaseUnits * factor;
-        const formattedDistractor = formatResultValue(distractorBaseValue, category, targetUnit);
-        const displayDistractorNumeric = parseFloat(formattedDistractor.displayValue);
-        const distractorKey = `${displayDistractorNumeric.toPrecision(4)}`;
-
-
-        if (!usedDisplayValues.has(distractorKey) && isFinite(displayDistractorNumeric) && displayDistractorNumeric !== 0) {
+    // Helper to add distractor if unique
+    const addDistractor = (valueInBase: number) => {
+        if (distractors.length >= 3) return;
+        const formatted = formatResultValue(valueInBase, category, targetUnit);
+        const numericVal = parseFloat(formatted.displayValue);
+        if (isFinite(numericVal) && Math.abs(numericVal - correctDisplayNumericPart) > 1e-9 && !usedDistractorValues.has(numericVal)) {
             distractors.push({
-                key: '',
-                label: `${formattedDistractor.displayValue} ${targetUnit}`,
-                valueInTargetUnit: displayDistractorNumeric
+                key: '', // Will be assigned later
+                label: `${formatted.displayValue} ${targetUnit}`,
+                valueInTargetUnit: numericVal
             });
-            usedDisplayValues.add(distractorKey);
+            usedDistractorValues.add(numericVal);
         }
-    }
+    };
 
-    // Slightly off values (digit errors or small calculation mistakes)
-    const smallVariationFactors = difficulty < 5 ? [1.1, 0.9, 1.5, 0.5] : [1.01, 0.99, 1.05, 0.95, 1.2, 0.8];
-     for (const factor of smallVariationFactors) {
-         if (distractors.length >= 3) break;
-         let distractorBaseValue = correctValueInBaseUnits * factor;
-         // If correct value is very small, ensure variation is also small but distinct
-         if (Math.abs(correctValueInBaseUnits) < 1e-6 && correctValueInBaseUnits !== 0) {
-            distractorBaseValue = correctValueInBaseUnits + (Math.random() - 0.5) * Math.abs(correctValueInBaseUnits) * 0.5;
-         }
+    // Type 1: Prefix Error (Factor of 1000 or 0.001)
+    addDistractor(correctValueInBaseUnits * 1000);
+    addDistractor(correctValueInBaseUnits * 0.001);
 
-        const formattedDistractor = formatResultValue(distractorBaseValue, category, targetUnit);
-        const displayDistractorNumeric = parseFloat(formattedDistractor.displayValue);
-        const distractorKey = `${displayDistractorNumeric.toPrecision(4)}`;
-
-        if (!usedDisplayValues.has(distractorKey) && isFinite(displayDistractorNumeric) && displayDistractorNumeric !== 0) {
-            distractors.push({
-                key: '',
-                label: `${formattedDistractor.displayValue} ${targetUnit}`,
-                valueInTargetUnit: displayDistractorNumeric
-            });
-            usedDisplayValues.add(distractorKey);
-        }
-    }
-
-    // Fallback: If still not enough, create more varied distractors.
-    while (distractors.length < 3 && attempts < 30) {
-        attempts++;
-        // Generate a distractor that's significantly different to avoid too-close options
-        const randomOrderShift = Math.pow(10, Math.floor(Math.random() * 4) - 2); // 0.01, 0.1, 1, 10
-        let variedBaseValue = correctValueInBaseUnits * randomOrderShift * (Math.random() * 1.8 + 0.1); // further vary
-        
-        // Ensure it's not zero if original isn't
-        if (correctValueInBaseUnits !== 0 && variedBaseValue === 0) {
-            variedBaseValue = correctValueInBaseUnits * (Math.random() > 0.5 ? 100 : 0.01);
-        }
-
-
-        const formattedDistractor = formatResultValue(variedBaseValue, category, targetUnit);
-        const displayDistractorNumeric = parseFloat(formattedDistractor.displayValue);
-        const distractorKey = `${displayDistractorNumeric.toPrecision(4)}`;
-
-
-        if (!usedDisplayValues.has(distractorKey) && isFinite(displayDistractorNumeric)) {
-             if (displayDistractorNumeric === 0 && correctDisplayNumericPart !== 0 && !usedDisplayValues.has("0.000")) { // Don't add zero if correct isn't zero, unless it's a forced option
-                // Skip adding zero unless it's a specific distractor type
-             } else {
-                distractors.push({
-                    key: '',
-                    label: `${formattedDistractor.displayValue} ${targetUnit}`,
-                    valueInTargetUnit: displayDistractorNumeric
-                });
-                usedDisplayValues.add(distractorKey);
-             }
+    // Type 2: Decimal Shift of *correct numeric part* (if not already covered by prefix error)
+    // This is tricky because the `correctDisplayNumericPart` is already in the target unit.
+    // Shifting its decimal means we are creating an error *within the target unit's magnitude*.
+    if (correctDisplayNumericPart !== 0) {
+        addDistractor((correctDisplayNumericPart * 10) * unitMultipliers[targetUnit]); // Convert back to base for formatting
+        addDistractor((correctDisplayNumericPart / 10) * unitMultipliers[targetUnit]);
+        if (difficulty > 4) {
+             addDistractor((correctDisplayNumericPart * 100) * unitMultipliers[targetUnit]);
+             addDistractor((correctDisplayNumericPart / 100) * unitMultipliers[targetUnit]);
         }
     }
     
-    // Ensure we have exactly 3 distractors, even if it means some less ideal ones
-    while (distractors.length < 3) {
-        const emergencyVal = parseFloat((correctDisplayNumericPart * (Math.random()*5 + 2) + (Math.random()*10)).toPrecision(3));
-        const emergencyKey = `${emergencyVal.toPrecision(4)}`;
-        if(!usedDisplayValues.has(emergencyKey) && isFinite(emergencyVal)){
-            distractors.push({key:'', label: `${emergencyVal} ${targetUnit}`, valueInTargetUnit: emergencyVal});
-            usedDisplayValues.add(emergencyKey);
-        } else { // last resort for uniqueness
-             distractors.push({key:'', label: `${(correctDisplayNumericPart + 1234.56 + Math.random()*100).toPrecision(3)} ${targetUnit}`, valueInTargetUnit: (correctDisplayNumericPart + 1234.56 + Math.random()*100) });
-        }
+    // Type 3: Slight numerical variation
+    const variationFactors = difficulty < 5 ? [1.2, 0.8, 1.5, 0.5] : [1.1, 0.9, 1.05, 0.95];
+    for (const factor of variationFactors) {
+        addDistractor(correctValueInBaseUnits * factor);
     }
 
-    return distractors.slice(0, 3);
+    // Fallback: If still not enough, create more varied but plausible distractors
+    let attempts = 0;
+    const baseMagnitudeOrder = correctValueInBaseUnits === 0 ? 0 : Math.floor(Math.log10(Math.abs(correctValueInBaseUnits)));
+    
+    while (distractors.length < 3 && attempts < 20) {
+        attempts++;
+        // Create a value that is often off by one or two orders of magnitude, but not extremely far
+        const randomOrderShiftFactor = Math.pow(10, (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random()*2)+1) ); // *10, *100, /10, /100
+        let variedBaseValue = correctValueInBaseUnits * randomOrderShiftFactor;
+        
+        // Add a small random variation to this shifted value
+        variedBaseValue *= (1 + (Math.random() - 0.5) * 0.2); // +/- 10% variation
+
+        // If correct value is very small, ensure variation is also small but distinct
+        if (Math.abs(correctValueInBaseUnits) < 1e-6 && correctValueInBaseUnits !== 0) {
+            variedBaseValue = correctValueInBaseUnits + (Math.random() - 0.5) * Math.abs(correctValueInBaseUnits);
+        }
+         // Ensure it's not zero if original isn't
+        if (correctValueInBaseUnits !== 0 && Math.abs(variedBaseValue) < 1e-9) { // Check against very small number instead of 0
+            variedBaseValue = correctValueInBaseUnits * (Math.random() > 0.5 ? 10 : 0.1);
+        }
+        addDistractor(variedBaseValue);
+    }
+
+    // If still not enough, use a simpler random generation for any remaining slots
+    while (distractors.length < 3) {
+        const emergencyVal = correctValueInBaseUnits * (Math.random() * 5 + 0.2) * (Math.random() > 0.5 ? -1 : 1);
+        addDistractor(emergencyVal);
+         // If addDistractor failed (e.g. duplicate), add a very random one to fill the slot
+        if (distractors.length < 3 && !usedDistractorValues.has(emergencyVal * 1.000001 * unitMultipliers[targetUnit])) { // Ensure this is unique
+            const finalFallback = (correctDisplayNumericPart + (Math.random()*1000+1)) * (Math.random() > 0.5 ? 10 : 0.1);
+            distractors.push({ key: '', label: `${finalFallback.toPrecision(3)} ${targetUnit}`, valueInTargetUnit: finalFallback });
+            usedDistractorValues.add(finalFallback);
+            if (distractors.length >=3) break;
+        }
+    }
+    
+    return distractors.slice(0, 3); // Ensure exactly 3
 }
 
 
@@ -195,37 +173,35 @@ function generateGameQuestion(round: number): ConverterGameQuestion {
     let originalUnit: Unit;
     let targetUnit: Unit;
 
-    // Focus on V, A, Ohms initially, then expand
     const mainCategories = ['voltage', 'current', 'resistance'] as VariableCategory[];
-    if (difficulty <= 3) { // Basic V, A, Ohm to/from milli/kilo
+    if (difficulty <= 3) { 
         const targetCat = mainCategories[round % 3];
         categoryInfo = unitCategories.find(uc => uc.category === targetCat)!;
-        originalUnit = categoryInfo.baseUnit; // Start from base
+        originalUnit = categoryInfo.baseUnit; 
         const otherUnits = categoryInfo.units.filter(u => u !== originalUnit && (u.startsWith('m') || u.startsWith('k')));
         targetUnit = otherUnits.length > 0 ? getRandomUnit(otherUnits) : categoryInfo.units.filter(u => u !== originalUnit)[0] || originalUnit;
-    } else if (difficulty <= 6) { // Introduce micro and mega, and other categories
+    } else if (difficulty <= 6) { 
         categoryInfo = unitCategories[Math.floor(Math.random() * unitCategories.length)];
         originalUnit = getRandomUnit(categoryInfo.units);
-        const potentialTargets = categoryInfo.units.filter(u => u !== originalUnit && Math.abs(Math.log10(unitMultipliers[u] / unitMultipliers[originalUnit])) <= 6); // Up to 2 prefix jumps
+        const potentialTargets = categoryInfo.units.filter(u => u !== originalUnit && Math.abs(Math.log10(unitMultipliers[u] / unitMultipliers[originalUnit])) <= 6); 
         targetUnit = potentialTargets.length > 0 ? getRandomUnit(potentialTargets) : categoryInfo.units.filter(u => u !== originalUnit)[0] || originalUnit;
-    } else { // Harder: wider range, more complex categories
+    } else { 
         categoryInfo = unitCategories[Math.floor(Math.random() * unitCategories.length)];
         originalUnit = getRandomUnit(categoryInfo.units);
         targetUnit = getRandomUnit(categoryInfo.units.filter(u => u !== originalUnit));
     }
     
-    let attempts = 0; // Prevent infinite loops
+    let attempts = 0; 
     while ((originalUnit === targetUnit || unitMultipliers[originalUnit] === unitMultipliers[targetUnit]) && attempts < 20) {
         attempts++;
         targetUnit = getRandomUnit(categoryInfo.units.filter(u => u !== originalUnit));
-         if (!targetUnit) targetUnit = categoryInfo.units[0]; // Fallback if only one unit exists somehow
+         if (!targetUnit) targetUnit = categoryInfo.units[0]; 
     }
-    // If still the same, force a different unit if possible
+    
     if (originalUnit === targetUnit || unitMultipliers[originalUnit] === unitMultipliers[targetUnit]) {
         const differentUnits = categoryInfo.units.filter(u => u !== originalUnit && unitMultipliers[u] !== unitMultipliers[originalUnit]);
         targetUnit = differentUnits.length > 0 ? differentUnits[0] : categoryInfo.units[(categoryInfo.units.indexOf(originalUnit) + 1) % categoryInfo.units.length];
     }
-
 
     const originalValueInBaseUnits = generateRandomValueForCategory(difficulty, categoryInfo.category);
     
@@ -258,24 +234,22 @@ function generateGameQuestion(round: number): ConverterGameQuestion {
     let fallbackAttempts = 0;
     while(finalOptions.length < 4 && fallbackAttempts < 10) {
         fallbackAttempts++;
-        const fallbackMagnitudeFactor = Math.pow(10, Math.floor(Math.random() * 7) - 3); // 0.001 to 1000
+        const fallbackMagnitudeFactor = Math.pow(10, Math.floor(Math.random() * 7) - 3); 
         const fallbackBaseValue = correctValueInBaseUnits * fallbackMagnitudeFactor * (Math.random() > 0.5 ? 1.2 : 0.8);
         const formattedFallback = formatResultValue(fallbackBaseValue, categoryInfo.category, targetUnit);
         const fallbackNumeric = parseFloat(formattedFallback.displayValue);
         const fallbackKey = `${fallbackNumeric.toPrecision(6)}-${targetUnit}`;
-        if(!uniqueOptionsMap.has(fallbackKey) && isFinite(fallbackNumeric) && fallbackNumeric !== 0) {
+        if(!uniqueOptionsMap.has(fallbackKey) && isFinite(fallbackNumeric) && (fallbackNumeric !== 0 || correctValueInBaseUnits === 0)){
             finalOptions.push({key: '', label: `${formattedFallback.displayValue} ${targetUnit}`, valueInTargetUnit: fallbackNumeric});
             uniqueOptionsMap.set(fallbackKey, finalOptions[finalOptions.length - 1]);
         }
     }
     
-    // Ensure exactly 4 options, even if some are less ideal duplicates numerically but different labels if forced
-    while (finalOptions.length > 4) finalOptions.pop(); // Trim excess
+    while (finalOptions.length > 4) finalOptions.pop(); 
     while (finalOptions.length < 4) {
-        const emergencyVal = parseFloat((correctDisplayNumericPart * (Math.random() * 5 + 2) + (Math.random() * 10 + 1)).toPrecision(3));
+        const emergencyVal = parseFloat((correctDisplayNumericPart * (Math.random() * 5 + 0.11) + (Math.random() * 10 + 0.1)).toPrecision(3));
         finalOptions.push({ key: `emergency-${finalOptions.length}`, label: `${emergencyVal} ${targetUnit}`, valueInTargetUnit: emergencyVal });
     }
-
 
     const shuffledOptions = finalOptions
         .sort(() => Math.random() - 0.5)
@@ -297,7 +271,6 @@ function generateGameQuestion(round: number): ConverterGameQuestion {
         difficulty,
     };
 }
-
 
 export default function ConverterGame() {
   const [currentRound, setCurrentRound] = useState(0);
