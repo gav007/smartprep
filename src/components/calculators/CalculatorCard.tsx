@@ -23,7 +23,7 @@ const CalculatorCard: React.FC<CalculatorCardProps> = ({
     <Card className={cn("w-full", className)}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          {Icon && <Icon size={20} className="text-primary" />}
+          {Icon && <Icon className="text-primary" />} {/* Removed fixed size */}
           {title}
         </CardTitle>
         <CardDescription>{description}</CardDescription>

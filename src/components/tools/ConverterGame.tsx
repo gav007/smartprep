@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertCircle, CheckCircle, XCircle, RotateCw, Trophy, Gem, Loader2 } from 'lucide-react'; // Added Loader2
+import { AlertCircle, CheckCircle, XCircle, RotateCw, Trophy, Gem, Loader2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import type { Unit, VariableCategory } from '@/lib/units';
@@ -17,189 +17,273 @@ import { useToast } from '@/hooks/use-toast';
 
 const TOTAL_ROUNDS = 10;
 
-const unitCategories: { category: VariableCategory, units: Unit[] }[] = [
-    { category: 'voltage', units: voltageUnitOptions },
-    { category: 'current', units: currentUnitOptions },
-    { category: 'resistance', units: resistanceUnitOptions },
-    { category: 'power', units: powerUnitOptions },
-    { category: 'frequency', units: frequencyUnitOptions },
-    { category: 'capacitance', units: capacitanceUnitOptions },
-    { category: 'time', units: timeUnitOptions },
+const unitCategories: { category: VariableCategory, units: Unit[], baseUnit: Unit }[] = [
+    { category: 'voltage', units: voltageUnitOptions, baseUnit: 'V' },
+    { category: 'current', units: currentUnitOptions, baseUnit: 'A' },
+    { category: 'resistance', units: resistanceUnitOptions, baseUnit: 'Ω' },
+    { category: 'power', units: powerUnitOptions, baseUnit: 'W' },
+    { category: 'frequency', units: frequencyUnitOptions, baseUnit: 'Hz' },
+    { category: 'capacitance', units: capacitanceUnitOptions, baseUnit: 'F' },
+    { category: 'time', units: timeUnitOptions, baseUnit: 's' },
 ];
 
-function generateRandomValue(difficulty: number): number {
-    let baseValue: number;
-    let precision: number;
+function generateRandomValueForCategory(difficulty: number, category: VariableCategory): number {
+    let baseMagnitude: number;
+    let numDecimalPlaces: number;
 
-    if (difficulty <= 3) { // Simpler numbers, fewer decimals, powers of 10 more likely
-        baseValue = (Math.floor(Math.random() * 90) + 10) * Math.pow(10, Math.floor(Math.random() * 4) - 2); // e.g. 10*10^-2 to 99*10^1
-        precision = Math.random() > 0.3 ? 0 : 1; // 70% chance of whole number
-    } else if (difficulty <= 7) { // Wider range, more decimals
-        baseValue = Math.random() * 10000;
-        precision = Math.floor(Math.random() * 3); // 0 to 2 decimal places
-    } else { // Very small or very large numbers, specific precisions
-        const orderOfMagnitude = Math.floor(Math.random() * 10) - 5; // 10^-5 to 10^4
-        baseValue = (Math.random() * 9 + 1) * Math.pow(10, orderOfMagnitude); // e.g. 1.23e-4 or 4.56e3
-        precision = Math.floor(Math.random() * 2) + 2; // 2 to 3 decimal places for small/large values
+    switch (category) {
+        case 'voltage':
+            baseMagnitude = (Math.random() * (difficulty < 5 ? 20 : 200) + (difficulty < 3 ? 0.1 : 0.001));
+            numDecimalPlaces = difficulty > 5 ? 3 : (difficulty > 2 ? 2 : 1);
+            if (difficulty > 7 && Math.random() < 0.3) baseMagnitude *= (Math.random() > 0.5 ? 1000 : 0.001);
+            break;
+        case 'current':
+            baseMagnitude = (Math.random() * (difficulty < 5 ? 2 : 5) + (difficulty < 3 ? 0.001 : 0.000001));
+            numDecimalPlaces = difficulty > 5 ? 3 : (difficulty > 2 ? 2 : 1);
+            if (difficulty > 3 && Math.random() < 0.6) baseMagnitude *= (Math.random() > 0.5 ? 0.001 : 0.000001); // mA/µA/nA focus
+            if (difficulty > 7 && Math.random() < 0.3) baseMagnitude *= 0.000000001; // pA focus (rare)
+            break;
+        case 'resistance':
+            baseMagnitude = (Math.random() * (difficulty < 5 ? 1000 : 10000) + (difficulty < 3 ? 1 : 0.1));
+            numDecimalPlaces = difficulty > 5 ? 2 : (difficulty > 2 ? 1 : 0);
+            if (difficulty > 7 && Math.random() < 0.3) baseMagnitude *= 1000; // MΩ
+            break;
+        default:
+            const order = Math.floor(Math.random() * (difficulty / 2 + 3)) - Math.floor(difficulty / 3 + 1);
+            baseMagnitude = (Math.random() * 90 + 10) * Math.pow(10, order);
+            numDecimalPlaces = Math.min(3, Math.floor(difficulty / 3));
+            break;
     }
-    // Ensure value is not extremely small like 1e-15 which might cause display issues
-    if (Math.abs(baseValue) < 1e-9 && baseValue !== 0) {
-       return parseFloat(baseValue.toPrecision(3));
+    
+    let finalValue = parseFloat(baseMagnitude.toFixed(Math.max(0, numDecimalPlaces)));
+
+    // Introduce specific values like 0.002A more naturally based on category and difficulty
+    if (category === 'current' && difficulty >= 4 && difficulty <=7 && Math.random() < 0.25) {
+        finalValue = 0.002; // 2mA
+    } else if (category === 'current' && difficulty > 7 && Math.random() < 0.2) {
+        finalValue = 0.000002; // 2µA
     }
-    return parseFloat(baseValue.toFixed(precision));
+
+
+    const smallestAllowedMultiplier = Math.min(...unitCategories.find(uc => uc.category === category)?.units.map(u => unitMultipliers[u]) || [1]);
+    if (Math.abs(finalValue) < smallestAllowedMultiplier / 100 && finalValue !== 0 && smallestAllowedMultiplier >= 1e-9) {
+       finalValue = parseFloat(finalValue.toPrecision(2)); 
+    } else if (Math.abs(finalValue) < 1e-9 && finalValue !==0) {
+        finalValue = parseFloat(finalValue.toPrecision(2));
+    }
+
+    return finalValue === 0 && baseMagnitude !== 0 ? parseFloat(baseMagnitude.toPrecision(2)) : finalValue; // Avoid rounding to 0 if original wasn't
 }
+
 
 function getRandomUnit(units: Unit[]): Unit {
     return units[Math.floor(Math.random() * units.length)];
 }
 
-function generateDistractors(correctNumericValueInTargetUnit: number, targetUnit: Unit, category: VariableCategory, difficulty: number): GameOption[] {
+function generateDistractors(
+    correctValueInBaseUnits: number,
+    targetUnit: Unit,
+    category: VariableCategory,
+    difficulty: number
+): GameOption[] {
     const distractors: GameOption[] = [];
-    const usedValues = new Set<number>([correctNumericValueInTargetUnit]); // Track used numeric values to ensure uniqueness
+    const correctFormatted = formatResultValue(correctValueInBaseUnits, category, targetUnit);
+    const correctDisplayNumericPart = parseFloat(correctFormatted.displayValue);
+
+    const usedDisplayValues = new Set<string>([`${correctDisplayNumericPart.toPrecision(4)}`]);
     let attempts = 0;
 
-    const generateDistractorValue = (): number => {
-        let distractorValue;
-        const magnitudeChangeFactor = Math.pow(10, Math.floor(Math.random() * 3) + 1); // 10, 100, 1000
-        
-        // Type 1: Shift decimal place
-        if (Math.random() < 0.4) {
-            distractorValue = correctNumericValueInTargetUnit * (Math.random() > 0.5 ? magnitudeChangeFactor : 1 / magnitudeChangeFactor);
-        } 
-        // Type 2: Slight variation of correct value
-        else if (Math.random() < 0.7 && correctNumericValueInTargetUnit !== 0) {
-            const relativeChange = (Math.random() * 0.5 + 0.1) * (Math.random() > 0.5 ? 1 : -1); // 10-50% variation
-            distractorValue = correctNumericValueInTargetUnit * (1 + relativeChange);
-        }
-        // Type 3: Off by one or two in the last significant digit shown by correct answer
-        else if (correctNumericValueInTargetUnit !== 0) {
-            const correctFormatted = formatResultValue(correctNumericValueInTargetUnit * unitMultipliers[targetUnit] , category, targetUnit);
-            const correctDisplayNum = parseFloat(correctFormatted.displayValue);
-            const numStr = correctDisplayNum.toString();
-            const decimalPointIndex = numStr.indexOf('.');
-            let scaleFactor = 1;
-            if (decimalPointIndex !== -1) {
-                const decimalPlaces = numStr.length - decimalPointIndex - 1;
-                scaleFactor = Math.pow(10, -decimalPlaces);
-            }
-            distractorValue = correctDisplayNum + (Math.floor(Math.random()*3) -1) * scaleFactor * (Math.random() > 0.5 ? 1 : 10) ;
-            distractorValue = distractorValue / unitMultipliers[targetUnit]; // convert back to targetUnit base value
-        }
-        // Type 4: Completely different magnitude or a common wrong conversion
-        else {
-             distractorValue = generateRandomValue(difficulty) / unitMultipliers[targetUnit]; // A random value in target unit
-        }
-        // Ensure non-zero for very small values if correct is non-zero
-        if (Math.abs(distractorValue) < 1e-9 && correctNumericValueInTargetUnit !== 0 && distractorValue !== 0) {
-            distractorValue = distractorValue * 1000; // Make it more distinct
-        }
-        return distractorValue;
-    };
+    // Factors for prefix errors - more focused
+    const prefixErrorFactors = [1000, 0.001];
+    if (difficulty > 4) prefixErrorFactors.push(1_000_000, 0.000_001);
+    if (difficulty > 7) prefixErrorFactors.push(1_000_000_000, 0.000_000_001);
 
 
-    while (distractors.length < 3 && attempts < 100) {
-        attempts++;
-        const distractorNumericValue = generateDistractorValue();
+    for (const factor of prefixErrorFactors) {
+        if (distractors.length >= 3) break;
+        const distractorBaseValue = correctValueInBaseUnits * factor;
+        const formattedDistractor = formatResultValue(distractorBaseValue, category, targetUnit);
+        const displayDistractorNumeric = parseFloat(formattedDistractor.displayValue);
+        const distractorKey = `${displayDistractorNumeric.toPrecision(4)}`;
 
-        if (isNaN(distractorNumericValue) || !isFinite(distractorNumericValue) || usedValues.has(distractorNumericValue)) {
-            continue;
-        }
-        
-        // Format the distractor like the correct answer
-        const formattedDistractor = formatResultValue(distractorNumericValue * unitMultipliers[targetUnit], category, targetUnit);
-        const displayDistractorValue = parseFloat(formattedDistractor.displayValue);
 
-        // Final check for uniqueness of the display value
-        if (!usedValues.has(displayDistractorValue)) {
-             distractors.push({
-                key: '', // Will be assigned A, B, C, D later
-                label: `${formattedDistractor.displayValue} ${formattedDistractor.unit}`,
-                valueInTargetUnit: displayDistractorValue 
-            });
-            usedValues.add(displayDistractorValue);
-        }
-    }
-    // Fill with very different values if still not enough unique distractors
-    const fallbackFactors = [0.001, 0.01, 0.1, 10, 100, 1000];
-    while (distractors.length < 3 && fallbackFactors.length > 0) {
-        const factor = fallbackFactors.shift()!;
-        const fallbackValue = correctNumericValueInTargetUnit * factor;
-        const formattedFallback = formatResultValue(fallbackValue * unitMultipliers[targetUnit], category, targetUnit);
-        const displayFallbackValue = parseFloat(formattedFallback.displayValue);
-        if (!usedValues.has(displayFallbackValue)) {
-             distractors.push({
+        if (!usedDisplayValues.has(distractorKey) && isFinite(displayDistractorNumeric) && displayDistractorNumeric !== 0) {
+            distractors.push({
                 key: '',
-                label: `${formattedFallback.displayValue} ${formattedFallback.unit}`,
-                valueInTargetUnit: displayFallbackValue
+                label: `${formattedDistractor.displayValue} ${targetUnit}`,
+                valueInTargetUnit: displayDistractorNumeric
             });
-            usedValues.add(displayFallbackValue);
-        }
-    }
-    // If still not enough (highly unlikely), fill with simple variations like 0 or negative if appropriate
-    while(distractors.length < 3){
-        const randomNum = Math.random() * 10 * (Math.random() > 0.5 ? 1 : -1);
-         const formattedRandom = formatResultValue(randomNum * unitMultipliers[targetUnit], category, targetUnit);
-         const displayRandomVal = parseFloat(formattedRandom.displayValue);
-        if(!usedValues.has(displayRandomVal)){
-             distractors.push({key:'', label: `${formattedRandom.displayValue} ${formattedRandom.unit}`, valueInTargetUnit: displayRandomVal});
-            usedValues.add(displayRandomVal);
-        } else { // ultimate fallback
-            distractors.push({key:'', label: `${(Math.random()*100).toFixed(2)} ${targetUnit}`, valueInTargetUnit: Math.random()*100});
+            usedDisplayValues.add(distractorKey);
         }
     }
 
+    // Slightly off values (digit errors or small calculation mistakes)
+    const smallVariationFactors = difficulty < 5 ? [1.1, 0.9, 1.5, 0.5] : [1.01, 0.99, 1.05, 0.95, 1.2, 0.8];
+     for (const factor of smallVariationFactors) {
+         if (distractors.length >= 3) break;
+         let distractorBaseValue = correctValueInBaseUnits * factor;
+         // If correct value is very small, ensure variation is also small but distinct
+         if (Math.abs(correctValueInBaseUnits) < 1e-6 && correctValueInBaseUnits !== 0) {
+            distractorBaseValue = correctValueInBaseUnits + (Math.random() - 0.5) * Math.abs(correctValueInBaseUnits) * 0.5;
+         }
 
-    return distractors.slice(0,3); // Ensure max 3
+        const formattedDistractor = formatResultValue(distractorBaseValue, category, targetUnit);
+        const displayDistractorNumeric = parseFloat(formattedDistractor.displayValue);
+        const distractorKey = `${displayDistractorNumeric.toPrecision(4)}`;
+
+        if (!usedDisplayValues.has(distractorKey) && isFinite(displayDistractorNumeric) && displayDistractorNumeric !== 0) {
+            distractors.push({
+                key: '',
+                label: `${formattedDistractor.displayValue} ${targetUnit}`,
+                valueInTargetUnit: displayDistractorNumeric
+            });
+            usedDisplayValues.add(distractorKey);
+        }
+    }
+
+    // Fallback: If still not enough, create more varied distractors.
+    while (distractors.length < 3 && attempts < 30) {
+        attempts++;
+        // Generate a distractor that's significantly different to avoid too-close options
+        const randomOrderShift = Math.pow(10, Math.floor(Math.random() * 4) - 2); // 0.01, 0.1, 1, 10
+        let variedBaseValue = correctValueInBaseUnits * randomOrderShift * (Math.random() * 1.8 + 0.1); // further vary
+        
+        // Ensure it's not zero if original isn't
+        if (correctValueInBaseUnits !== 0 && variedBaseValue === 0) {
+            variedBaseValue = correctValueInBaseUnits * (Math.random() > 0.5 ? 100 : 0.01);
+        }
+
+
+        const formattedDistractor = formatResultValue(variedBaseValue, category, targetUnit);
+        const displayDistractorNumeric = parseFloat(formattedDistractor.displayValue);
+        const distractorKey = `${displayDistractorNumeric.toPrecision(4)}`;
+
+
+        if (!usedDisplayValues.has(distractorKey) && isFinite(displayDistractorNumeric)) {
+             if (displayDistractorNumeric === 0 && correctDisplayNumericPart !== 0 && !usedDisplayValues.has("0.000")) { // Don't add zero if correct isn't zero, unless it's a forced option
+                // Skip adding zero unless it's a specific distractor type
+             } else {
+                distractors.push({
+                    key: '',
+                    label: `${formattedDistractor.displayValue} ${targetUnit}`,
+                    valueInTargetUnit: displayDistractorNumeric
+                });
+                usedDisplayValues.add(distractorKey);
+             }
+        }
+    }
+    
+    // Ensure we have exactly 3 distractors, even if it means some less ideal ones
+    while (distractors.length < 3) {
+        const emergencyVal = parseFloat((correctDisplayNumericPart * (Math.random()*5 + 2) + (Math.random()*10)).toPrecision(3));
+        const emergencyKey = `${emergencyVal.toPrecision(4)}`;
+        if(!usedDisplayValues.has(emergencyKey) && isFinite(emergencyVal)){
+            distractors.push({key:'', label: `${emergencyVal} ${targetUnit}`, valueInTargetUnit: emergencyVal});
+            usedDisplayValues.add(emergencyKey);
+        } else { // last resort for uniqueness
+             distractors.push({key:'', label: `${(correctDisplayNumericPart + 1234.56 + Math.random()*100).toPrecision(3)} ${targetUnit}`, valueInTargetUnit: (correctDisplayNumericPart + 1234.56 + Math.random()*100) });
+        }
+    }
+
+    return distractors.slice(0, 3);
 }
 
 
 function generateGameQuestion(round: number): ConverterGameQuestion {
-    const difficulty = Math.min(10, Math.floor(round / 2) + 1); // Slower difficulty ramp
-    const categoryInfo = unitCategories[Math.floor(Math.random() * unitCategories.length)];
-    
+    const difficulty = Math.min(10, Math.floor(round / 2) + 1);
+    let categoryInfo: { category: VariableCategory, units: Unit[], baseUnit: Unit };
     let originalUnit: Unit;
     let targetUnit: Unit;
 
-    do {
+    // Focus on V, A, Ohms initially, then expand
+    const mainCategories = ['voltage', 'current', 'resistance'] as VariableCategory[];
+    if (difficulty <= 3) { // Basic V, A, Ohm to/from milli/kilo
+        const targetCat = mainCategories[round % 3];
+        categoryInfo = unitCategories.find(uc => uc.category === targetCat)!;
+        originalUnit = categoryInfo.baseUnit; // Start from base
+        const otherUnits = categoryInfo.units.filter(u => u !== originalUnit && (u.startsWith('m') || u.startsWith('k')));
+        targetUnit = otherUnits.length > 0 ? getRandomUnit(otherUnits) : categoryInfo.units.filter(u => u !== originalUnit)[0] || originalUnit;
+    } else if (difficulty <= 6) { // Introduce micro and mega, and other categories
+        categoryInfo = unitCategories[Math.floor(Math.random() * unitCategories.length)];
         originalUnit = getRandomUnit(categoryInfo.units);
-        targetUnit = getRandomUnit(categoryInfo.units);
-    } while (
-        originalUnit === targetUnit || 
-        !unitMultipliers[originalUnit] || 
-        !unitMultipliers[targetUnit] ||
-        // Avoid trivial conversions like V to V, or impossible ones for the game
-        unitMultipliers[originalUnit] === unitMultipliers[targetUnit]
-    );
-
-    const originalValueInBaseUnits = generateRandomValue(difficulty); // e.g. 0.0264 Amps
+        const potentialTargets = categoryInfo.units.filter(u => u !== originalUnit && Math.abs(Math.log10(unitMultipliers[u] / unitMultipliers[originalUnit])) <= 6); // Up to 2 prefix jumps
+        targetUnit = potentialTargets.length > 0 ? getRandomUnit(potentialTargets) : categoryInfo.units.filter(u => u !== originalUnit)[0] || originalUnit;
+    } else { // Harder: wider range, more complex categories
+        categoryInfo = unitCategories[Math.floor(Math.random() * unitCategories.length)];
+        originalUnit = getRandomUnit(categoryInfo.units);
+        targetUnit = getRandomUnit(categoryInfo.units.filter(u => u !== originalUnit));
+    }
     
-    // Value to display for the question, in its original unit
-    const displayValueForQuestion = originalValueInBaseUnits / unitMultipliers[originalUnit];
-    const formattedOriginal = formatResultValue(originalValueInBaseUnits, categoryInfo.category, originalUnit);
+    let attempts = 0; // Prevent infinite loops
+    while ((originalUnit === targetUnit || unitMultipliers[originalUnit] === unitMultipliers[targetUnit]) && attempts < 20) {
+        attempts++;
+        targetUnit = getRandomUnit(categoryInfo.units.filter(u => u !== originalUnit));
+         if (!targetUnit) targetUnit = categoryInfo.units[0]; // Fallback if only one unit exists somehow
+    }
+    // If still the same, force a different unit if possible
+    if (originalUnit === targetUnit || unitMultipliers[originalUnit] === unitMultipliers[targetUnit]) {
+        const differentUnits = categoryInfo.units.filter(u => u !== originalUnit && unitMultipliers[u] !== unitMultipliers[originalUnit]);
+        targetUnit = differentUnits.length > 0 ? differentUnits[0] : categoryInfo.units[(categoryInfo.units.indexOf(originalUnit) + 1) % categoryInfo.units.length];
+    }
 
+
+    const originalValueInBaseUnits = generateRandomValueForCategory(difficulty, categoryInfo.category);
+    
+    const formattedOriginal = formatResultValue(originalValueInBaseUnits, categoryInfo.category, originalUnit);
     const promptText = `Convert ${formattedOriginal.displayValue} ${originalUnit} to ${targetUnit}`;
 
-    // Correct answer in target unit's display format
-    const correctValueInTargetUnitBase = originalValueInBaseUnits / unitMultipliers[targetUnit];
     const formattedCorrect = formatResultValue(originalValueInBaseUnits, categoryInfo.category, targetUnit);
     const correctNumericValueForComparison = parseFloat(formattedCorrect.displayValue);
     
     const correctOption: GameOption = {
         key: '', 
-        label: `${formattedCorrect.displayValue} ${targetUnit}`, // Use targetUnit directly for label consistency
+        label: `${formattedCorrect.displayValue} ${targetUnit}`,
         valueInTargetUnit: correctNumericValueForComparison
     };
 
-    const distractorOptions = generateDistractors(correctNumericValueForComparison, targetUnit, categoryInfo.category, difficulty);
+    const distractorOptions = generateDistractors(originalValueInBaseUnits, targetUnit, categoryInfo.category, difficulty);
     
     const allOptionsUnkeyed = [correctOption, ...distractorOptions];
-    const shuffledOptions = allOptionsUnkeyed
+    
+    const uniqueOptionsMap = new Map<string, GameOption>();
+    allOptionsUnkeyed.forEach(opt => {
+        const uniqueKey = `${opt.valueInTargetUnit.toPrecision(6)}-${targetUnit}`;
+        if (!uniqueOptionsMap.has(uniqueKey)) {
+            uniqueOptionsMap.set(uniqueKey, opt);
+        }
+    });
+
+    let finalOptions = Array.from(uniqueOptionsMap.values());
+     
+    let fallbackAttempts = 0;
+    while(finalOptions.length < 4 && fallbackAttempts < 10) {
+        fallbackAttempts++;
+        const fallbackMagnitudeFactor = Math.pow(10, Math.floor(Math.random() * 7) - 3); // 0.001 to 1000
+        const fallbackBaseValue = correctValueInBaseUnits * fallbackMagnitudeFactor * (Math.random() > 0.5 ? 1.2 : 0.8);
+        const formattedFallback = formatResultValue(fallbackBaseValue, categoryInfo.category, targetUnit);
+        const fallbackNumeric = parseFloat(formattedFallback.displayValue);
+        const fallbackKey = `${fallbackNumeric.toPrecision(6)}-${targetUnit}`;
+        if(!uniqueOptionsMap.has(fallbackKey) && isFinite(fallbackNumeric) && fallbackNumeric !== 0) {
+            finalOptions.push({key: '', label: `${formattedFallback.displayValue} ${targetUnit}`, valueInTargetUnit: fallbackNumeric});
+            uniqueOptionsMap.set(fallbackKey, finalOptions[finalOptions.length - 1]);
+        }
+    }
+    
+    // Ensure exactly 4 options, even if some are less ideal duplicates numerically but different labels if forced
+    while (finalOptions.length > 4) finalOptions.pop(); // Trim excess
+    while (finalOptions.length < 4) {
+        const emergencyVal = parseFloat((correctDisplayNumericPart * (Math.random() * 5 + 2) + (Math.random() * 10 + 1)).toPrecision(3));
+        finalOptions.push({ key: `emergency-${finalOptions.length}`, label: `${emergencyVal} ${targetUnit}`, valueInTargetUnit: emergencyVal });
+    }
+
+
+    const shuffledOptions = finalOptions
         .sort(() => Math.random() - 0.5)
         .map((opt, index) => ({ ...opt, key: String.fromCharCode(65 + index) }));
 
     const correctAnswerKey = shuffledOptions.find(
         opt => Math.abs(opt.valueInTargetUnit - correctNumericValueForComparison) < 1e-9 
-    )?.key || 'A';
+    )?.key || 'A'; 
 
     return {
         id: `q-${round}-${Date.now()}`,
@@ -244,11 +328,11 @@ export default function ConverterGame() {
     setSelectedOptionKey(optionKey);
     const isCorrect = optionKey === currentQuestion.correctAnswerKey;
     if (isCorrect) {
-      setScore(s => s + 10 * currentQuestion.difficulty); // Score based on difficulty
+      setScore(s => s + 10 * currentQuestion.difficulty); 
       setFeedback({ message: 'Correct! Nicely done.', type: 'correct' });
       toast({ title: "Correct!", description: `+${10 * currentQuestion.difficulty} points`, className: "bg-green-600 text-white dark:bg-green-700 dark:text-white" });
     } else {
-      setScore(s => Math.max(0, s - (5 * Math.max(1, Math.floor(currentQuestion.difficulty / 2 )) ) ) ); // Penalty also scales
+      setScore(s => Math.max(0, s - (5 * Math.max(1, Math.floor(currentQuestion.difficulty / 2 )) ) ) ); 
       const correctOpt = currentQuestion.options.find(o => o.key === currentQuestion.correctAnswerKey);
       setFeedback({ message: `Incorrect. The right answer was ${correctOpt?.label || 'N/A'}.`, type: 'incorrect' });
       toast({ title: "Incorrect!", description: `-${5 * Math.max(1, Math.floor(currentQuestion.difficulty/2))} points`, variant: "destructive" });
@@ -283,7 +367,7 @@ export default function ConverterGame() {
       <div className="text-center space-y-6 p-4">
         <Trophy className="h-16 w-16 mx-auto text-amber-500" />
         <h2 className="text-2xl font-bold">Game Over!</h2>
-        <p className="text-xl">Your Final Score: <strong className={cn(score > 50 ? "text-primary" : score > 0 ? "text-amber-600" : "text-destructive")}>{score}</strong></p>
+        <p className="text-xl">Your Final Score: <strong className={cn(score > 50 * TOTAL_ROUNDS / 2 ? "text-primary" : score > 0 ? "text-amber-600" : "text-destructive")}>{score}</strong></p>
         <div className="flex gap-4 justify-center">
             <Button onClick={handlePlayAgain} size="lg">
                 <RotateCw className="mr-2 h-5 w-5" /> Play Again
@@ -304,7 +388,7 @@ export default function ConverterGame() {
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-2">
         <p className="text-sm text-muted-foreground">Question: {currentRound + 1} / {TOTAL_ROUNDS} (Difficulty: {currentQuestion.difficulty})</p>
-        <p className="text-lg font-semibold">Score: <span className={cn(score > 50 ? "text-primary" : score > 0 ? "text-amber-600" : "text-foreground")}>{score}</span></p>
+        <p className="text-lg font-semibold">Score: <span className={cn(score > 50 * (currentRound +1) / 2 ? "text-primary" : score > 0 ? "text-amber-600" : "text-foreground")}>{score}</span></p>
       </div>
       <Progress value={((currentRound +1) / TOTAL_ROUNDS) * 100} className="w-full h-2 mb-4" />
 
@@ -327,7 +411,7 @@ export default function ConverterGame() {
             {currentQuestion.options.map((option) => (
               <Label
                 key={option.key}
-                htmlFor={`option-${option.key}-${currentQuestion.id}`} // Ensure unique ID per question
+                htmlFor={`option-${option.key}-${currentQuestion.id}`} 
                 className={cn(
                   "flex items-center space-x-3 p-3.5 border rounded-lg hover:bg-muted/60 transition-all duration-150",
                   "focus-within:ring-2 focus-within:ring-primary focus-within:border-primary",
