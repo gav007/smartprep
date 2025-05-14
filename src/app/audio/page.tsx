@@ -1,4 +1,3 @@
-
 // src/app/audio/page.tsx
 'use client';
 
@@ -35,28 +34,30 @@ export default function AudioLessonsPage() {
         if (!Array.isArray(data)) {
           throw new Error('Invalid audio metadata format: Expected an array.');
         }
+        
+        console.log("AudioLessonsPage: Fetched data from audio.json:", data);
 
         const groups: GroupedAudio = {
           [CATEGORY_APPLIED_NETWORKING]: [],
           [CATEGORY_CCNA]: [],
         };
 
-        data.forEach((audioItem) => {
+        data.forEach((audioItem, index) => {
           // Validate essential fields for an AudioMetadata object
           if (
             !audioItem ||
             typeof audioItem.id !== 'string' ||
             typeof audioItem.title !== 'string' ||
-            // audioItem.description can be undefined as per AudioMetadata type
             typeof audioItem.filename !== 'string' ||
-            audioItem.filename.trim() === ''
-            // category and mimeType are optional in AudioMetadata, but good to have in JSON
+            audioItem.filename.trim() === '' ||
+            (audioItem.category && typeof audioItem.category !== 'string') ||
+            (audioItem.mimeType && typeof audioItem.mimeType !== 'string')
           ) {
-            console.warn('AudioLessonsPage: Skipping invalid audio entry in audio.json:', audioItem);
+            console.warn(`AudioLessonsPage: Skipping invalid audio entry at index ${index} in audio.json:`, audioItem);
             return; // Skip this invalid entry
           }
           
-          const validAudioItem = audioItem as AudioMetadata; // Cast after basic validation
+          const validAudioItem = audioItem as AudioMetadata;
 
           // Primarily use the 'category' field from audio.json
           if (validAudioItem.category === CATEGORY_CCNA) {
@@ -64,17 +65,17 @@ export default function AudioLessonsPage() {
           } else if (validAudioItem.category === CATEGORY_APPLIED_NETWORKING) {
             groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
           } else {
-            // Fallback: If category field is missing or not one of the known ones,
-            // try to infer from filename (less reliable).
-            if (validAudioItem.filename.toLowerCase().includes('ccna')) {
+            // Fallback logic if category is missing or unrecognized (though ideally category should always be present and correct)
+            console.warn(`AudioLessonsPage: Audio item "${validAudioItem.title}" (filename: ${validAudioItem.filename}) has an unrecognized or missing category "${validAudioItem.category}". Attempting to assign based on filename pattern.`);
+            if (validAudioItem.filename.toLowerCase().startsWith('ccna')) {
               groups[CATEGORY_CCNA].push(validAudioItem);
             } else {
               groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
             }
-            console.warn(`Audio item "${validAudioItem.title}" missing or has unrecognized category. Assigned based on filename.`);
           }
         });
         
+        console.log("AudioLessonsPage: Grouped audio files:", groups);
         setGroupedAudioFiles(groups);
 
       } catch (err) {
@@ -104,7 +105,7 @@ export default function AudioLessonsPage() {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Error Loading Audio</AlertTitle>
           <AlertDescription>
-            {error} Please try again later or check the console for more details.
+            {error} Please try again later or check the console for more details. Ensure <code>public/data/audio.json</code> is correctly formatted and accessible.
           </AlertDescription>
         </Alert>
       </div>
@@ -145,11 +146,15 @@ export default function AudioLessonsPage() {
                   <IconComponent className="h-6 w-6 text-accent" />
                   {category}
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filesInCategory.map((audio) => (
-                    <AudioCard key={audio.id} audio={audio} />
-                  ))}
-                </div>
+                {filesInCategory.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filesInCategory.map((audio) => (
+                      <AudioCard key={audio.id} audio={audio} />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground italic">No audio lessons in this category yet.</p>
+                )}
               </section>
             );
           })}
