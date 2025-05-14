@@ -24,19 +24,19 @@ export default function AudioLessonsPage() {
     async function fetchAudioMetadata() {
       setLoading(true);
       setError(null);
+      console.log("AudioLessonsPage: Starting to fetch audio metadata...");
       try {
         const response = await fetch('/data/audio.json');
         if (!response.ok) {
-          throw new Error(`Failed to fetch audio metadata: ${response.statusText} (status: ${response.status})`);
+          throw new Error(`Failed to fetch audio metadata from /data/audio.json: ${response.statusText} (status: ${response.status})`);
         }
         const data: any[] = await response.json();
+        console.log("AudioLessonsPage: Successfully fetched /data/audio.json. Raw data length:", data?.length);
 
         if (!Array.isArray(data)) {
           throw new Error('Invalid audio metadata format: Expected an array from audio.json.');
         }
         
-        console.log("AudioLessonsPage: Fetched data from audio.json:", data); // Log fetched data
-
         const groups: GroupedAudio = {
           [CATEGORY_APPLIED_NETWORKING]: [],
           [CATEGORY_CCNA]: [],
@@ -44,29 +44,30 @@ export default function AudioLessonsPage() {
 
         data.forEach((audioItem, index) => {
           // Validate essential fields for an AudioMetadata object
+          const itemTitle = audioItem?.title || `(No Title at index ${index})`;
+          const itemFilename = audioItem?.filename;
+
           if (
             !audioItem ||
             typeof audioItem.id !== 'string' ||
             typeof audioItem.title !== 'string' ||
-            typeof audioItem.filename !== 'string' ||
-            audioItem.filename.trim() === '' || // Ensure filename is not empty
+            typeof itemFilename !== 'string' ||
+            itemFilename.trim() === '' ||
             (audioItem.category && typeof audioItem.category !== 'string') ||
-            (audioItem.mimeType && typeof audioItem.mimeType !== 'string') // Check mimeType type
+            (audioItem.mimeType && typeof audioItem.mimeType !== 'string')
           ) {
-            console.warn(`AudioLessonsPage: Skipping invalid audio entry at index ${index} in audio.json due to missing or invalid fields:`, audioItem);
+            console.warn(`AudioLessonsPage: Skipping invalid audio entry at index ${index}. Title: "${itemTitle}", Filename: "${itemFilename || 'MISSING'}". Reason: Missing/invalid essential fields. Item:`, audioItem);
             return; // Skip this invalid entry
           }
           
-          const validAudioItem = audioItem as AudioMetadata; // Cast after validation
+          const validAudioItem = audioItem as AudioMetadata;
 
-          // Primarily use the 'category' field from audio.json
           if (validAudioItem.category === CATEGORY_CCNA) {
             groups[CATEGORY_CCNA].push(validAudioItem);
           } else if (validAudioItem.category === CATEGORY_APPLIED_NETWORKING) {
             groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
           } else {
-             // Log if category is missing or unrecognized, then attempt fallback
-            console.warn(`AudioLessonsPage: Audio item "${validAudioItem.title}" (filename: ${validAudioItem.filename}) has an unrecognized or missing category: "${validAudioItem.category || 'undefined'}". Assigning based on filename pattern or to Applied Networking.`);
+            console.warn(`AudioLessonsPage: Audio item "${validAudioItem.title}" (filename: ${validAudioItem.filename}) has an unrecognized or missing category: "${validAudioItem.category || 'undefined'}". Attempting fallback.`);
             if (validAudioItem.filename.toLowerCase().includes('ccna')) {
               groups[CATEGORY_CCNA].push(validAudioItem);
             } else {
@@ -75,14 +76,15 @@ export default function AudioLessonsPage() {
           }
         });
         
-        console.log("AudioLessonsPage: Processed and grouped audio files:", groups);
+        console.log(`AudioLessonsPage: Processed and grouped audio files. Applied: ${groups[CATEGORY_APPLIED_NETWORKING].length}, CCNA: ${groups[CATEGORY_CCNA].length}`);
         setGroupedAudioFiles(groups);
 
       } catch (err) {
-        console.error("Error in fetchAudioMetadata of AudioLessonsPage:", err);
+        console.error("AudioLessonsPage: Error in fetchAudioMetadata:", err);
         setError(err instanceof Error ? err.message : 'An unknown error occurred while loading audio metadata.');
       } finally {
         setLoading(false);
+         console.log("AudioLessonsPage: Finished fetching and processing audio metadata.");
       }
     }
 
@@ -136,8 +138,6 @@ export default function AudioLessonsPage() {
         <div className="space-y-12">
           {categoriesToDisplay.map((category) => {
             const filesInCategory = groupedAudioFiles[category] || [];
-            // if (filesInCategory.length === 0) return null; // Hide category section if no files
-
             const IconComponent = category === CATEGORY_CCNA ? BookOpen : Network;
 
             return (
@@ -153,7 +153,7 @@ export default function AudioLessonsPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-muted-foreground italic">No audio lessons in this category yet.</p>
+                  <p className="text-muted-foreground italic">No audio lessons found for the &quot;{category}&quot; category in <code>audio.json</code> or they failed validation.</p>
                 )}
               </section>
             );

@@ -13,15 +13,15 @@ interface AudioCardProps {
 const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
   // Helper function to determine MIME type
   const getMimeType = (filename?: string, providedMimeType?: string): string => {
-    // 1. Prioritize explicitly provided MIME type from audio.json
-    if (providedMimeType && providedMimeType.trim() !== '') {
+    // 1. Prioritize explicitly provided MIME type from audio.json if it's a non-empty string
+    if (providedMimeType && providedMimeType.trim() !== '' && providedMimeType.includes('/')) {
       console.log(`AudioCard: Using provided MIME type "${providedMimeType}" for "${filename || 'unknown file'}".`);
       return providedMimeType;
     }
 
-    // 2. If no providedMimeType, derive from filename
+    // 2. If no valid providedMimeType, derive from filename
     if (!filename) {
-      console.warn("AudioCard: getMimeType called with no filename and no providedMimeType. Defaulting to audio/mpeg.");
+      console.warn("AudioCard: getMimeType called with no filename and no valid providedMimeType. Defaulting to audio/mpeg for safety.");
       return 'audio/mpeg'; // Default fallback
     }
 
@@ -33,8 +33,13 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         determinedMimeType = 'audio/wav';
         break;
       case 'mp3':
-      case 'mpg': // Handling .mpg as audio/mpeg as per previous requests
-        determinedMimeType = 'audio/mpeg';
+        determinedMimeType = 'audio/mpeg'; // Standard for MP3
+        break;
+      case 'mpg': 
+        // MPG can be video or audio. Assuming audio/mpeg for SmartPrep context, but this can be risky.
+        // It's better if audio.json explicitly provides 'audio/mpeg' for these if they are audio.
+        determinedMimeType = 'audio/mpeg'; 
+        console.log(`AudioCard: File "${filename}" has .mpg extension. Assuming 'audio/mpeg'. Explicit mimeType in JSON is preferred for .mpg.`);
         break;
       case 'ogg':
         determinedMimeType = 'audio/ogg';
@@ -42,13 +47,12 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
       case 'aac':
         determinedMimeType = 'audio/aac';
         break;
-      // Add more cases as needed for other audio formats
       default:
-        console.warn(`AudioCard: Unknown audio extension ".${extension}" for file "${filename}". Defaulting to "audio/mpeg".`);
+        console.warn(`AudioCard: Unknown audio extension ".${extension}" for file "${filename}". Provided MIME type was "${providedMimeType || 'empty/missing'}". Defaulting to "audio/mpeg".`);
         // Keep default 'audio/mpeg'
         break;
     }
-    console.log(`AudioCard: Determined MIME type "${determinedMimeType}" for extension ".${extension}" of file "${filename}" (as providedMimeType was empty).`);
+    console.log(`AudioCard: Determined MIME type "${determinedMimeType}" for extension ".${extension}" of file "${filename}" (as providedMimeType was invalid or missing).`);
     return determinedMimeType;
   };
 
@@ -62,7 +66,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
           <div className="flex-1">
             <CardTitle className="text-destructive text-sm font-semibold">Audio Error</CardTitle>
             <CardDescription className="text-destructive/80 text-xs">
-              Invalid audio data provided. Filename is missing.
+              Invalid audio data: Filename is missing.
             </CardDescription>
           </div>
         </CardHeader>
@@ -75,7 +79,15 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
   const mimeTypeForSourceTag = getMimeType(audio.filename, audio.mimeType);
 
   // Detailed console log for debugging what's being passed to the <audio> element
-  console.log(`AudioCard rendering: Title: "${audio.title}", File: "${audio.filename}", Src Path: "${audioSrc}", Final MIME Type for <source>: "${mimeTypeForSourceTag}" (Original from JSON: "${audio.mimeType || 'Not provided'}")`);
+  console.log(
+    `AudioCard Rendering: 
+    Title: "${audio.title}", 
+    Filename: "${audio.filename}", 
+    Category: "${audio.category || 'N/A'}",
+    Constructed Src Path: "${audioSrc}", 
+    MIME Type from JSON: "${audio.mimeType || 'Not provided'}",
+    Final MIME Type for <source> tag: "${mimeTypeForSourceTag}"`
+  );
 
   return (
     <Card className="w-full overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl bg-card border border-border/50 rounded-xl">
@@ -91,9 +103,24 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <audio controls className="w-full" preload="metadata">
+        <audio controls className="w-full" preload="metadata"
+          onError={(e) => {
+            const audioEl = e.target as HTMLAudioElement;
+            let errorDetail = '';
+            if (audioEl.error) {
+              switch (audioEl.error.code) {
+                case MediaError.MEDIA_ERR_ABORTED: errorDetail = 'Playback aborted by user.'; break;
+                case MediaError.MEDIA_ERR_NETWORK: errorDetail = 'Network error caused download to fail.'; break;
+                case MediaError.MEDIA_ERR_DECODE: errorDetail = 'Media decoding error (corrupted or unsupported format).'; break;
+                case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED: errorDetail = 'Audio source not supported (check format/MIME, or file path).'; break;
+                default: errorDetail = 'Unknown audio error.';
+              }
+            }
+            console.error(`AudioCard Playback Error for "${audio.filename}" (src: ${audioSrc}, type: ${mimeTypeForSourceTag}): ${errorDetail}`, e);
+          }}
+        >
           <source src={audioSrc} type={mimeTypeForSourceTag} />
-          Your browser does not support the audio element. Try updating your browser or using a different one.
+          Your browser does not support the audio element. Try updating or using a different browser.
           Audio file: <a href={audioSrc} download>{audio.filename}</a>
         </audio>
       </CardContent>
