@@ -61,7 +61,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     );
   }
 
-  const audioSrc = `/data/audio/${audio.filename}`;
+  const audioSrc = `/data/${audio.filename}`; // The filename should now include 'audio2/' prefix if applicable
   const mimeTypeForSourceTag = getMimeType(audio.filename, audio.mimeType);
 
   return (
@@ -73,44 +73,61 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         <div>
           <CardTitle className="text-lg font-semibold">{audio.title}</CardTitle>
           <CardDescription className="text-sm text-muted-foreground mt-1 line-clamp-2">
-            {audio.description || `Audio file: ${audio.filename}`}
+            {audio.description || `Audio file: ${audio.filename.replace(/^audio2\//, '')}`}
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent className="p-4">
         <audio controls className="w-full" preload="metadata"
           onError={(e) => {
-            const audioEl = e.target as HTMLAudioElement;
+            const targetEl = e.target as HTMLAudioElement | HTMLSourceElement;
             let errorDetail = 'Unknown audio error.';
+            let networkStateInfo = 'N/A';
+            let readyStateInfo = 'N/A';
+            let currentSrcInfo = 'N/A';
+            let targetNodeName = targetEl?.nodeName || 'Unknown Target';
 
-            if (audioEl && audioEl.error) {
-              console.error("Full audio error object:", audioEl.error);
-              switch (audioEl.error.code) {
+            // Attempt to get error from the <audio> element itself, which is e.currentTarget
+            const audioTag = e.currentTarget as HTMLAudioElement;
+
+            if (audioTag && audioTag.error) {
+              const mediaError = audioTag.error as MediaError;
+              console.error("Full audio error object on <audio> tag:", mediaError);
+              switch (mediaError.code) {
                 case MediaError.MEDIA_ERR_ABORTED: errorDetail = 'Playback aborted by user.'; break;
                 case MediaError.MEDIA_ERR_NETWORK: errorDetail = 'Network error caused download to fail.'; break;
                 case MediaError.MEDIA_ERR_DECODE: errorDetail = 'Media decoding error (corrupted or unsupported format).'; break;
-                case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED: errorDetail = 'Audio source not supported (check format/MIME, or file path).'; break;
-                default: errorDetail = `Unknown error code: ${audioEl.error.code}. Message: ${audioEl.error.message}`;
+                case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED: errorDetail = 'Audio source not supported (check format/MIME, or file path). This often means the file was not found (404) or the server refused the connection.'; break;
+                default: errorDetail = `Unknown error code on <audio> tag: ${mediaError.code}. Message: ${mediaError.message || 'No message'}`;
               }
+            } else if (targetEl && targetEl.nodeName === 'SOURCE' && (targetEl as HTMLSourceElement).msMatchesSelector !== undefined ) { // Heuristic for source element if audio.error is null
+                 errorDetail = 'Error on <source> element. The browser likely could not load or understand this specific source.';
             } else {
-                 errorDetail = 'Audio element error object is null, but onError was triggered.';
+                 errorDetail = 'MediaError object is null on <audio> tag, but onError was triggered. Source likely not found, inaccessible, or of an unsupported type for all provided sources.';
             }
             
-            // Safely access networkState and readyState
-            const networkStateValue = (audioEl && typeof audioEl.networkState !== 'undefined') ? audioEl.networkState : 'N/A';
-            const readyStateValue = (audioEl && typeof audioEl.readyState !== 'undefined') ? audioEl.readyState : 'N/A';
-
+            if (audioTag) {
+              networkStateInfo = String(audioTag.networkState);
+              readyStateInfo = String(audioTag.readyState);
+              currentSrcInfo = audioTag.currentSrc || 'N/A'; // What the browser is actually trying to play
+            }
+            
             console.error(
-              `AudioCard Playback Error for "${audio.filename}" (src: ${audioSrc}, type: ${mimeTypeForSourceTag}): ${errorDetail}\n` +
-              `Network State: ${networkStateValue}\n` +
-              `Ready State: ${readyStateValue}\n`,
-              e // Log the original event object for more context if available
+              `AudioCard Playback Error for "${audio.filename}"\n` +
+              `  Attempted Src (constructed by AudioCard): ${audioSrc}\n` +
+              `  MIME Type (for <source>): ${mimeTypeForSourceTag}\n` +
+              `  Browser's currentSrc: ${currentSrcInfo}\n` +
+              `  Error Detail: ${errorDetail}\n` +
+              `  Event Target Node: ${targetNodeName}\n`+
+              `  Network State (Audio Element): ${networkStateInfo}\n` +
+              `  Ready State (Audio Element): ${readyStateInfo}`,
+              e // Log the original event object
             );
           }}
         >
           <source src={audioSrc} type={mimeTypeForSourceTag} />
           Your browser does not support the audio element. Try updating or using a different browser.
-          Audio file: <a href={audioSrc} download>{audio.filename}</a>
+          Audio file: <a href={audioSrc} download>{audio.filename.replace(/^audio2\//, '')}</a>
         </audio>
       </CardContent>
     </Card>

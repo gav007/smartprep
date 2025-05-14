@@ -30,49 +30,76 @@ export default function AudioLessonsPage() {
         if (!response.ok) {
           throw new Error(`Failed to fetch audio metadata from /data/audio.json: ${response.statusText} (status: ${response.status})`);
         }
-        const data: any[] = await response.json();
-        console.log("AudioLessonsPage: Successfully fetched /data/audio.json. Raw data length:", data?.length);
+        const rawAudioData: any[] = await response.json();
+        console.log("AudioLessonsPage: Successfully fetched /data/audio.json. Raw data length:", rawAudioData?.length);
 
-        if (!Array.isArray(data)) {
+        if (!Array.isArray(rawAudioData)) {
           throw new Error('Invalid audio metadata format: Expected an array from audio.json.');
         }
         
+        const validatedAndProcessedAudio = rawAudioData.map((item: any, index: number): AudioMetadata | null => {
+          const itemTitle = item?.title || `(No Title at index ${index})`;
+          const itemFilename = item?.filename;
+
+          if (
+            !item ||
+            typeof item.id !== 'string' ||
+            typeof item.title !== 'string' ||
+            typeof itemFilename !== 'string' ||
+            itemFilename.trim() === '' ||
+            (item.category && typeof item.category !== 'string') || // Category is optional, but if present, must be string
+            (item.mimeType && typeof item.mimeType !== 'string')
+          ) {
+            console.warn(`AudioLessonsPage: Skipping invalid audio entry at index ${index}. Title: "${itemTitle}", Filename: "${itemFilename || 'MISSING'}". Reason: Missing/invalid essential fields. Item:`, item);
+            return null;
+          }
+
+          let finalFilename = item.filename;
+          let finalCategory = item.category;
+
+          // Determine category if not explicitly provided or if it's ambiguous
+          if (!finalCategory && item.filename) {
+            if (item.filename.toLowerCase().startsWith('ccna')) {
+              finalCategory = CATEGORY_CCNA;
+            } else {
+              finalCategory = CATEGORY_APPLIED_NETWORKING; // Default fallback
+            }
+          } else if (finalCategory !== CATEGORY_CCNA && finalCategory !== CATEGORY_APPLIED_NETWORKING && item.filename) {
+             // If category is something else but filename indicates CCNA
+            if (item.filename.toLowerCase().startsWith('ccna')) {
+                finalCategory = CATEGORY_CCNA;
+            }
+            // Otherwise, keep the provided category if it's not one of the two main ones but let it fall into applied or default
+          }
+
+
+          // Prepend 'audio2/' to filename if it's a CCNA track and not already prefixed
+          if (finalCategory === CATEGORY_CCNA && finalFilename && !finalFilename.startsWith('audio2/')) {
+            finalFilename = `audio2/${finalFilename}`;
+            console.log(`AudioLessonsPage: Prefixed CCNA file: ${item.filename} -> ${finalFilename}`);
+          }
+          
+          return {
+            id: item.id,
+            title: item.title,
+            description: item.description || '', // Ensure description is always a string
+            filename: finalFilename,
+            category: finalCategory || CATEGORY_APPLIED_NETWORKING, // Default to Applied if category couldn't be determined
+            mimeType: item.mimeType,
+          };
+        }).filter((item): item is AudioMetadata => item !== null);
+
+
         const groups: GroupedAudio = {
           [CATEGORY_APPLIED_NETWORKING]: [],
           [CATEGORY_CCNA]: [],
         };
 
-        data.forEach((audioItem, index) => {
-          // Validate essential fields for an AudioMetadata object
-          const itemTitle = audioItem?.title || `(No Title at index ${index})`;
-          const itemFilename = audioItem?.filename;
-
-          if (
-            !audioItem ||
-            typeof audioItem.id !== 'string' ||
-            typeof audioItem.title !== 'string' ||
-            typeof itemFilename !== 'string' ||
-            itemFilename.trim() === '' ||
-            (audioItem.category && typeof audioItem.category !== 'string') ||
-            (audioItem.mimeType && typeof audioItem.mimeType !== 'string')
-          ) {
-            console.warn(`AudioLessonsPage: Skipping invalid audio entry at index ${index}. Title: "${itemTitle}", Filename: "${itemFilename || 'MISSING'}". Reason: Missing/invalid essential fields. Item:`, audioItem);
-            return; // Skip this invalid entry
-          }
-          
-          const validAudioItem = audioItem as AudioMetadata;
-
-          if (validAudioItem.category === CATEGORY_CCNA) {
-            groups[CATEGORY_CCNA].push(validAudioItem);
-          } else if (validAudioItem.category === CATEGORY_APPLIED_NETWORKING) {
-            groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem);
-          } else {
-            console.warn(`AudioLessonsPage: Audio item "${validAudioItem.title}" (filename: ${validAudioItem.filename}) has an unrecognized or missing category: "${validAudioItem.category || 'undefined'}". Attempting fallback.`);
-            if (validAudioItem.filename.toLowerCase().includes('ccna')) {
-              groups[CATEGORY_CCNA].push(validAudioItem);
-            } else {
-              groups[CATEGORY_APPLIED_NETWORKING].push(validAudioItem); // Default fallback
-            }
+        validatedAndProcessedAudio.forEach(audioItem => {
+          if (audioItem.category === CATEGORY_CCNA) {
+            groups[CATEGORY_CCNA].push(audioItem);
+          } else { // Everything else, including explicitly Applied Networking or default/fallback
+            groups[CATEGORY_APPLIED_NETWORKING].push(audioItem);
           }
         });
         
@@ -107,7 +134,7 @@ export default function AudioLessonsPage() {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Error Loading Audio</AlertTitle>
           <AlertDescription>
-            {error} Please try again later or check the console for more details. Ensure <code>public/data/audio.json</code> is correctly formatted and accessible, and all listed audio files exist in <code>public/data/audio/</code>.
+            {error} Please try again later or check the console for more details. Ensure <code>public/data/audio.json</code> is correctly formatted and accessible, and all listed audio files exist in their correct subdirectories (<code>public/data/audio/</code> or <code>public/data/audio2/</code>).
           </AlertDescription>
         </Alert>
       </div>
@@ -132,7 +159,7 @@ export default function AudioLessonsPage() {
          <div className="text-center py-10">
             <AlertTriangle className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-xl text-muted-foreground">No audio lessons available at the moment.</p>
-            <p className="text-sm text-muted-foreground/80">Please check back later or ensure audio files are correctly configured in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio.json</code> and present in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio/</code>.</p>
+            <p className="text-sm text-muted-foreground/80">Please check back later or ensure audio files are correctly configured in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio.json</code> and present in their respective folders: <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio/</code> for Applied Networking and <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio2/</code> for CCNA.</p>
         </div>
       ) : (
         <div className="space-y-12">
