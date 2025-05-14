@@ -4,23 +4,23 @@
     "id": "wifi-fundamentals",
     "title": "Wi-Fi Fundamentals",
     "description": "Understanding the basics of Wi-Fi technology, including standards and security.",
-    "filename": "WiFi_Fundamentals.mp3",
+    "filename": "Wifi.wav",
     "category": "Applied Networking",
-    "mimeType": "audio/mpeg"
+    "mimeType": "audio/wav"
   },
   {
     "id": "cable-shielding",
     "title": "Cable Shielding",
     "description": "The importance of shielding in network cables to prevent interference.",
-    "filename": "Cable_Shielding.mp3",
+    "filename": "cableSheilding.wav",
     "category": "Applied Networking",
-    "mimeType": "audio/mpeg"
+    "mimeType": "audio/wav"
   },
   {
     "id": "modulation-techniques",
     "title": "Modulation Techniques",
     "description": "How data is encoded onto carrier waves for transmission.",
-    "filename": "Modulation_Techniques.wav",
+    "filename": "modulation.wav",
     "category": "Applied Networking",
     "mimeType": "audio/wav"
   },
@@ -36,31 +36,31 @@
     "id": "ccna-osi-model",
     "title": "OSI Model Deep Dive",
     "description": "Exploring the seven layers of the OSI model in detail for CCNA preparation.",
-    "filename": "CCNA1_OSI_Model_Deep_Dive.mp3",
+    "filename": "CCNA1_The Invisible Networks Powering Everything.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
     "id": "ccna-subnetting-intro",
-    "title": "Introduction to Subnetting",
+    "title": "Your Hands-On Guide to Getting Started",
     "description": "CCNA basics of IP addressing and subnetting.",
-    "filename": "CCNA2_Introduction_to_Subnetting.mp3",
+    "filename": "CCNA2_Your Hands-On Guide to Getting Started.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
     "id": "ccna-vlans-switching",
-    "title": "VLANs and Switching",
+    "title": "How Your Devices Secretly Talk Online",
     "description": "Understanding Virtual LANs and Layer 2 switching concepts for CCNA.",
-    "filename": "CCNA3_VLANs_and_Switching.mp3",
+    "filename": "CCNA3_How Your Devices Secretly Talk Online.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
     "id": "ccna-routing-protocols",
-    "title": "Routing Protocols Overview",
+    "title": "The Hidden Foundation of Your Digital Life",
     "description": "An overview of common routing protocols like OSPF and EIGRP for CCNA.",
-    "filename": "CCNA4_Routing_Protocols_Overview.mp3",
+    "filename": "CCNA4_The Hidden Foundation of Your Digital Life.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
@@ -90,7 +90,7 @@
   },
   {
     "id": "ccna-ipv6-next-gen",
-    "title": "Unlimited Addresses, Next-Gen Internet (IPv6)",
+    "title": "Unlimited Addresses, Next-Gen Internet",
     "description": "CCNA: Exploring the features and benefits of IPv6, the next-generation internet protocol.",
     "filename": "CCNA8_Unlimited_Addresses_Next_Gen_Internet.mp3",
     "category": "CCNA Audio",
