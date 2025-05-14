@@ -39,7 +39,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
       case 'wav':
         return 'audio/wav';
       case 'mp3':
-      case 'mpg': // Keep supporting .mpg as per user's files, assuming they are MPEG audio
+      case 'mpg': // Ensure .mpg is handled as audio/mpeg
         return 'audio/mpeg';
       case 'ogg':
         return 'audio/ogg';
