@@ -1,3 +1,4 @@
+
 // src/app/audio/page.tsx
 'use client';
 
@@ -24,7 +25,7 @@ export default function AudioLessonsPage() {
     async function fetchAudioMetadata() {
       setLoading(true);
       setError(null);
-      console.log("AudioLessonsPage: Starting to fetch audio metadata...");
+      console.log("AudioLessonsPage: Starting to fetch audio metadata from /data/audio.json...");
       try {
         const response = await fetch('/data/audio.json');
         if (!response.ok) {
@@ -47,44 +48,48 @@ export default function AudioLessonsPage() {
             typeof item.title !== 'string' ||
             typeof itemFilename !== 'string' ||
             itemFilename.trim() === '' ||
-            (item.category && typeof item.category !== 'string') || // Category is optional, but if present, must be string
+            (item.category && typeof item.category !== 'string') ||
             (item.mimeType && typeof item.mimeType !== 'string')
           ) {
             console.warn(`AudioLessonsPage: Skipping invalid audio entry at index ${index}. Title: "${itemTitle}", Filename: "${itemFilename || 'MISSING'}". Reason: Missing/invalid essential fields. Item:`, item);
             return null;
           }
 
-          let finalFilename = item.filename;
+          // CRITICAL: Ensure filename is just the base filename.
+          // audio.json should store "MyFile.mp3", not "audio/MyFile.mp3" or "./MyFile.mp3"
+          // The AudioCard component will prepend "/data/audio/".
+          const bareFilename = item.filename.split('/').pop();
+          
+          console.log(`AudioLessonsPage: Processing item #${index} - Original JSON filename: "${item.filename}", Computed bareFilename for AudioCard: "${bareFilename}"`);
+
+
           let finalCategory = item.category;
 
-          // Determine category if not explicitly provided or if it's ambiguous
-          if (!finalCategory && item.filename) {
-            if (item.filename.toLowerCase().startsWith('ccna')) {
+          if (!finalCategory && bareFilename) {
+            if (bareFilename.toLowerCase().startsWith('ccna')) {
               finalCategory = CATEGORY_CCNA;
             } else {
-              finalCategory = CATEGORY_APPLIED_NETWORKING; // Default fallback
+              finalCategory = CATEGORY_APPLIED_NETWORKING; 
             }
-          } else if (finalCategory !== CATEGORY_CCNA && finalCategory !== CATEGORY_APPLIED_NETWORKING && item.filename) {
-             // If category is something else but filename indicates CCNA
-            if (item.filename.toLowerCase().startsWith('ccna')) {
+          } else if (bareFilename && item.category && item.category !== CATEGORY_CCNA && item.category !== CATEGORY_APPLIED_NETWORKING) {
+            if (bareFilename.toLowerCase().startsWith('ccna')) {
                 finalCategory = CATEGORY_CCNA;
             }
-            // Otherwise, keep the provided category if it's not one of the two main ones but let it fall into applied or default
-          }
-
-
-          // Prepend 'audio2/' to filename if it's a CCNA track and not already prefixed
-          if (finalCategory === CATEGORY_CCNA && finalFilename && !finalFilename.startsWith('audio2/')) {
-            finalFilename = `audio2/${finalFilename}`;
-            console.log(`AudioLessonsPage: Prefixed CCNA file: ${item.filename} -> ${finalFilename}`);
+            // If category is something else but filename does not indicate CCNA, default to Applied Networking.
+            // Or, if you have other valid categories, extend this logic.
+            else if (item.category !== CATEGORY_APPLIED_NETWORKING) { 
+               finalCategory = CATEGORY_APPLIED_NETWORKING;
+            }
+          } else if (!finalCategory) { // Fallback if category is completely missing and couldn't be derived
+            finalCategory = CATEGORY_APPLIED_NETWORKING;
           }
           
           return {
             id: item.id,
             title: item.title,
-            description: item.description || '', // Ensure description is always a string
-            filename: finalFilename,
-            category: finalCategory || CATEGORY_APPLIED_NETWORKING, // Default to Applied if category couldn't be determined
+            description: item.description || '', 
+            filename: bareFilename, // CRITICAL: Pass only the bare filename
+            category: finalCategory, 
             mimeType: item.mimeType,
           };
         }).filter((item): item is AudioMetadata => item !== null);
@@ -98,7 +103,7 @@ export default function AudioLessonsPage() {
         validatedAndProcessedAudio.forEach(audioItem => {
           if (audioItem.category === CATEGORY_CCNA) {
             groups[CATEGORY_CCNA].push(audioItem);
-          } else { // Everything else, including explicitly Applied Networking or default/fallback
+          } else { 
             groups[CATEGORY_APPLIED_NETWORKING].push(audioItem);
           }
         });
@@ -134,7 +139,7 @@ export default function AudioLessonsPage() {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Error Loading Audio</AlertTitle>
           <AlertDescription>
-            {error} Please try again later or check the console for more details. Ensure <code>public/data/audio.json</code> is correctly formatted and accessible, and all listed audio files exist in their correct subdirectories (<code>public/data/audio/</code> or <code>public/data/audio2/</code>).
+            {error} Please try again later or check the console for more details. Ensure <code>public/data/audio.json</code> is correctly formatted and accessible, and all listed audio files exist in <code>public/data/audio/</code>.
           </AlertDescription>
         </Alert>
       </div>
@@ -159,13 +164,18 @@ export default function AudioLessonsPage() {
          <div className="text-center py-10">
             <AlertTriangle className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-xl text-muted-foreground">No audio lessons available at the moment.</p>
-            <p className="text-sm text-muted-foreground/80">Please check back later or ensure audio files are correctly configured in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio.json</code> and present in their respective folders: <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio/</code> for Applied Networking and <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio2/</code> for CCNA.</p>
+            <p className="text-sm text-muted-foreground/80">Please check back later or ensure audio files are correctly configured in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio.json</code> and present in <code className="bg-muted px-1 py-0.5 rounded-sm">public/data/audio/</code>.</p>
         </div>
       ) : (
         <div className="space-y-12">
           {categoriesToDisplay.map((category) => {
             const filesInCategory = groupedAudioFiles[category] || [];
             const IconComponent = category === CATEGORY_CCNA ? BookOpen : Network;
+
+            // Only render the section if there are files for it or if it's a primary category we always want to show
+            if (filesInCategory.length === 0 && (category !== CATEGORY_APPLIED_NETWORKING && category !== CATEGORY_CCNA)) {
+                return null;
+            }
 
             return (
               <section key={category}>
