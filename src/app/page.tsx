@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Hash, Gem } from 'lucide-react'; // Added Gem
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -83,7 +83,7 @@ const featuredTools = [
    {
     title: "Converter Game",
     description: "Test your unit conversion skills. Convert values to engineering notation.",
-    icon: Gem, // Using Gem icon
+    icon: Gem,
     link: "/tools/converter-game",
     aiHint: "units conversion game engineering notation practice",
     ctaText: "Play Game"
@@ -155,9 +155,9 @@ export default function HomePage() {
                 <div className="p-3 bg-accent/10 text-accent rounded-full mb-4 inline-block ring-1 ring-accent/20">
                   <span className="text-5xl font-bold text-accent">π</span>
                 </div>
-                <CardTitle className="text-3xl md:text-4xl font-bold text-foreground">Plenty of π</CardTitle>
+                <CardTitle className="text-3xl md:text-4xl font-bold text-foreground">Unlock the World of Numbers & Code</CardTitle>
                 <CardDescription className="text-muted-foreground text-lg mt-2 max-w-md mx-auto">
-                  Dive into the fascinating world of Pi, its history, and its endless applications in mathematics and science.
+                  Plenty of π offers interactive tools and engaging lessons to make learning math and computer science fun and accessible for everyone.
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-center pb-8">
@@ -233,3 +233,4 @@ export default function HomePage() {
     </div>
   );
 }
+
