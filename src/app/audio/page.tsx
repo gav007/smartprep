@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import AudioCard from '@/components/audio/AudioCard';
 import type { AudioMetadata } from '@/types/audio';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertTriangle, Podcast, Network, BookOpen } from 'lucide-react';
+import { Loader2, AlertTriangle, Podcast, Network, BookOpen, Database } from 'lucide-react'; // Added Database icon
 
 interface GroupedAudio {
   [category: string]: AudioMetadata[];
@@ -15,6 +15,8 @@ interface GroupedAudio {
 // Define constants for category names to avoid typos
 const CATEGORY_APPLIED_NETWORKING = "Applied Networking";
 const CATEGORY_CCNA = "CCNA";
+const CATEGORY_DATABASE_AUDIO = "Databases and Data Analysis"; // Display name for the new section
+const JSON_CATEGORY_DATABASE = "Database Audio"; // Category key as in audio.json
 
 export default function AudioLessonsPage() {
   const [groupedAudioFiles, setGroupedAudioFiles] = useState<GroupedAudio>({});
@@ -55,41 +57,40 @@ export default function AudioLessonsPage() {
             return null;
           }
 
-          // CRITICAL: Ensure filename is just the base filename.
-          // audio.json should store "MyFile.mp3", not "audio/MyFile.mp3" or "./MyFile.mp3"
-          // The AudioCard component will prepend "/data/audio/".
           const bareFilename = item.filename.split('/').pop();
           
           console.log(`AudioLessonsPage: Processing item #${index} - Original JSON filename: "${item.filename}", Computed bareFilename for AudioCard: "${bareFilename}"`);
 
-
           let finalCategory = item.category;
 
-          if (!finalCategory && bareFilename) {
+          // Explicitly handle known categories from JSON first
+          if (item.category === CATEGORY_CCNA) {
+            finalCategory = CATEGORY_CCNA;
+          } else if (item.category === JSON_CATEGORY_DATABASE) {
+            finalCategory = JSON_CATEGORY_DATABASE; // Use the key from JSON for internal grouping
+          } else if (item.category === CATEGORY_APPLIED_NETWORKING) {
+            finalCategory = CATEGORY_APPLIED_NETWORKING;
+          }
+          // Fallback derivation if category is missing or not one of the explicit ones above
+          else if (!finalCategory && bareFilename) {
             if (bareFilename.toLowerCase().startsWith('ccna')) {
               finalCategory = CATEGORY_CCNA;
+            } else if (bareFilename.toLowerCase().includes('database')) {
+              finalCategory = JSON_CATEGORY_DATABASE;
             } else {
               finalCategory = CATEGORY_APPLIED_NETWORKING; 
             }
-          } else if (bareFilename && item.category && item.category !== CATEGORY_CCNA && item.category !== CATEGORY_APPLIED_NETWORKING) {
-            if (bareFilename.toLowerCase().startsWith('ccna')) {
-                finalCategory = CATEGORY_CCNA;
-            }
-            // If category is something else but filename does not indicate CCNA, default to Applied Networking.
-            // Or, if you have other valid categories, extend this logic.
-            else if (item.category !== CATEGORY_APPLIED_NETWORKING) { 
-               finalCategory = CATEGORY_APPLIED_NETWORKING;
-            }
-          } else if (!finalCategory) { // Fallback if category is completely missing and couldn't be derived
+          } else if (!finalCategory) { // Absolute fallback if category is completely missing
             finalCategory = CATEGORY_APPLIED_NETWORKING;
           }
+          // If item.category was something else unknown, it defaults to finalCategory (which might be Applied Networking if not caught above)
           
           return {
             id: item.id,
             title: item.title,
             description: item.description || '', 
-            filename: bareFilename, // CRITICAL: Pass only the bare filename
-            category: finalCategory, 
+            filename: bareFilename, 
+            category: finalCategory, // This will be used for grouping
             mimeType: item.mimeType,
           };
         }).filter((item): item is AudioMetadata => item !== null);
@@ -98,17 +99,21 @@ export default function AudioLessonsPage() {
         const groups: GroupedAudio = {
           [CATEGORY_APPLIED_NETWORKING]: [],
           [CATEGORY_CCNA]: [],
+          [CATEGORY_DATABASE_AUDIO]: [], // Initialize the new group for display
         };
 
         validatedAndProcessedAudio.forEach(audioItem => {
           if (audioItem.category === CATEGORY_CCNA) {
             groups[CATEGORY_CCNA].push(audioItem);
+          } else if (audioItem.category === JSON_CATEGORY_DATABASE) {
+            groups[CATEGORY_DATABASE_AUDIO].push(audioItem); // Group into the new display category
           } else { 
+            // All others, including CATEGORY_APPLIED_NETWORKING and any unknown, go to Applied Networking
             groups[CATEGORY_APPLIED_NETWORKING].push(audioItem);
           }
         });
         
-        console.log(`AudioLessonsPage: Processed and grouped audio files. Applied: ${groups[CATEGORY_APPLIED_NETWORKING].length}, CCNA: ${groups[CATEGORY_CCNA].length}`);
+        console.log(`AudioLessonsPage: Processed and grouped audio files. Applied: ${groups[CATEGORY_APPLIED_NETWORKING].length}, CCNA: ${groups[CATEGORY_CCNA].length}, Databases: ${groups[CATEGORY_DATABASE_AUDIO].length}`);
         setGroupedAudioFiles(groups);
 
       } catch (err) {
@@ -146,7 +151,7 @@ export default function AudioLessonsPage() {
     );
   }
   
-  const categoriesToDisplay = [CATEGORY_APPLIED_NETWORKING, CATEGORY_CCNA];
+  const categoriesToDisplay = [CATEGORY_APPLIED_NETWORKING, CATEGORY_CCNA, CATEGORY_DATABASE_AUDIO];
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -156,7 +161,7 @@ export default function AudioLessonsPage() {
           Audio Lessons
         </h1>
         <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-          Listen to educational audio clips on networking and electronics topics, grouped by category.
+          Listen to educational audio clips on networking, electronics, and database topics, grouped by category.
         </p>
       </header>
 
@@ -170,10 +175,10 @@ export default function AudioLessonsPage() {
         <div className="space-y-12">
           {categoriesToDisplay.map((category) => {
             const filesInCategory = groupedAudioFiles[category] || [];
-            const IconComponent = category === CATEGORY_CCNA ? BookOpen : Network;
+            const IconComponent = category === CATEGORY_CCNA ? BookOpen :
+                                  category === CATEGORY_DATABASE_AUDIO ? Database : Network; // Assign Database icon
 
-            // Only render the section if there are files for it or if it's a primary category we always want to show
-            if (filesInCategory.length === 0 && (category !== CATEGORY_APPLIED_NETWORKING && category !== CATEGORY_CCNA)) {
+            if (filesInCategory.length === 0) { // Only skip if no files AND it's not a primary category we always want to show
                 return null;
             }
 
@@ -200,3 +205,4 @@ export default function AudioLessonsPage() {
     </div>
   );
 }
+
