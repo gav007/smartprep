@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem } from 'lucide-react'; // Added Gem for Converter Game
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem, Database } from 'lucide-react'; // Added Database
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -27,6 +27,7 @@ const navItems = [
     items: [
       { href: "/flashcards/applied", label: "Applied Networking", icon: Network },
       { href: "/flashcards/ccna", label: "CCNA Concepts", icon: BookOpen },
+      { href: "/flashcards/database", label: "Databases & Statistics", icon: Database }, // New Flashcard Set
     ]
   },
   {
@@ -37,7 +38,7 @@ const navItems = [
       { href: "/tools/truth-table", label: "Truth Table", icon: TableIcon },
       { href: "/tools/resistor", label: "Resistor", icon: Palette },
       { href: "/tools/base-converter", label: "Base Converter", icon: Binary },
-      { href: "/tools/converter-game", label: "Converter Game", icon: Gem }, // Added Converter Game
+      { href: "/tools/converter-game", label: "Converter Game", icon: Gem },
       { href: "/tools/packet-flow", label: "Packet Flow", icon: GitBranchPlus },
       { href: "/tools/voltage-divider", label: "Voltage Divider", icon: Sigma },
       { href: "/tools/waveform", label: "Waveform Viewer", icon: Waves },
@@ -85,7 +86,7 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
                    <ChevronDown size={12} className="opacity-70 ml-0.5" /> {/* Compacted */}
                  </Button>
                </DropdownMenuTrigger>
-               <DropdownMenuContent align="start" className="w-52"> {/* Compacted width */}
+               <DropdownMenuContent align="start" className="w-56"> {/* Adjusted width for longer item */}
                  {item.items.map(subItem => (
                    <DropdownMenuItem key={subItem.href} asChild>
                      <Link
@@ -150,7 +151,7 @@ export default function Header() {
       <div className="container mx-auto flex h-14 max-w-7xl items-center justify-between px-4"> {/* Reduced height h-14 */}
         <Link href="/" className="flex items-center gap-1.5 text-lg md:text-xl font-bold tracking-tight text-primary transition-opacity hover:opacity-80" onClick={() => setIsMobileMenuOpen(false)}>
            <Network size={24} className="shrink-0"/> {/* Slightly smaller logo icon */}
-           <span className="font-semibold">SmartPrep</span> {/* Removed TU 716 for brevity */}
+           <span className="font-semibold">SmartPrep</span>
         </Link>
 
         <nav className="hidden md:flex flex-wrap items-center space-x-2 lg:space-x-3"> {/* Reduced spacing */}

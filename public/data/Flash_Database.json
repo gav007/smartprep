@@ -1,0 +1,502 @@
+[
+  {
+    "id": 1,
+    "front": "What is Normalization?",
+    "back": "Normalization is organizing database tables to reduce redundancy and improve data integrity (# arranging data to avoid duplicates and errors)."
+  },
+  {
+    "id": 2,
+    "front": "What is a Relational Database?",
+    "back": "A database that stores data in tables with relationships (# data organized in tables linked by keys)."
+  },
+  {
+    "id": 3,
+    "front": "What is Simple Random Sampling?",
+    "back": "A sampling method where each data point has an equal chance of being selected (# picking samples fairly and randomly)."
+  },
+  {
+    "id": 4,
+    "front": "What is a Confidence Interval?",
+    "back": "A range estimated to contain a population parameter with a certain level of confidence (# range where the true value likely lies)."
+  },
+  {
+    "id": 5,
+    "front": "What is an Index in a database?",
+    "back": "A data structure that speeds up data retrieval (# like a book’s index for quick lookup)."
+  },
+  {
+    "id": 6,
+    "front": "What is Standard Deviation?",
+    "back": "A measure of data spread around the mean (# shows how spread out values are)."
+  },
+  {
+    "id": 7,
+    "front": "What is Interquartile Range (IQR)?",
+    "back": "The range between the first and third quartiles (# middle 50% spread of data)."
+  },
+  {
+    "id": 8,
+    "front": "What is GDPR?",
+    "back": "General Data Protection Regulation; EU law protecting personal data privacy (# rules on how personal info must be handled)."
+  },
+  {
+    "id": 9,
+    "front": "What are Data Quality Dimensions?",
+    "back": "Characteristics like completeness, timeliness, and accuracy (# measures of how good and reliable data is)."
+  },
+  {
+    "id": 10,
+    "front": "What is a Primary Key?",
+    "back": "A unique identifier for each database record (# ID that uniquely identifies rows)."
+  },
+  {
+    "id": 11,
+    "front": "What is a Foreign Key?",
+    "back": "A field in one table that refers to a primary key in another (# links tables together)."
+  },
+  {
+    "id": 12,
+    "front": "What are CRUD Operations?",
+    "back": "Create, Read, Update, Delete (# basic actions to manage data)."
+  },
+  {
+    "id": 13,
+    "front": "What is a Histogram?",
+    "back": "A graph showing frequency distribution of continuous data (# bar chart grouping data ranges)."
+  },
+  {
+    "id": 14,
+    "front": "What is a Scatter Plot?",
+    "back": "A graph to show the relationship between two variables (# dots showing how two data sets relate)."
+  },
+  {
+    "id": 15,
+    "front": "What is Data Wrangling?",
+    "back": "Cleaning and transforming raw data for analysis (# prepping messy data)."
+  },
+  {
+    "id": 16,
+    "front": "What is Mean Time Between Failures (MTBF)?",
+    "back": "The average operating time before failure (# how long a system runs before breaking)."
+  },
+  {
+    "id": 17,
+    "front": "What is Mean Time To Repair (MTTR)?",
+    "back": "The average time to fix a failure (# how long it takes to repair)."
+  },
+  {
+    "id": 18,
+    "front": "What is Data Modeling?",
+    "back": "Designing the structure and relationships of data (# planning how data is organized)."
+  },
+  {
+    "id": 19,
+    "front": "What is Data Storage?",
+    "back": "Saving data physically or digitally (# keeping data safe for use)."
+  },
+  {
+    "id": 20,
+    "front": "What is Timeliness in data quality?",
+    "back": "How up-to-date and available data is (# data freshness and relevance)."
+  },
+  {
+    "id": 21,
+    "front": "What is Data Normalization?",
+    "back": "The process of organizing data to minimize redundancy and dependency (# making data clean and efficient)."
+  },
+  {
+    "id": 22,
+    "front": "What is a Non-relational Database?",
+    "back": "A database that stores data in formats other than tables, like documents or key-value pairs (# flexible data storage for unstructured data)."
+  },
+  {
+    "id": 23,
+    "front": "What is a Confidence Level?",
+    "back": "The probability that a confidence interval contains the true population parameter (# how sure we are about our estimate)."
+  },
+  {
+    "id": 24,
+    "front": "What is Indexing in databases?",
+    "back": "Creating a data structure to speed up data retrieval (# like a shortcut to find data faster)."
+  },
+  {
+    "id": 25,
+    "front": "What is Data Completeness?",
+    "back": "The extent to which all required data is present (# having no missing parts in data)."
+  },
+  {
+    "id": 26,
+    "front": "What is a Primary Key?",
+    "back": "A unique identifier for each record in a table (# the 'ID card' of data rows)."
+  },
+  {
+    "id": 27,
+    "front": "What is the Freedom of Information Act?",
+    "back": "A law allowing public access to information held by public bodies (# the right to know what data the government holds)."
+  },
+  {
+    "id": 28,
+    "front": "What is the purpose of Data Modelling?",
+    "back": "To design how data is stored and related in a database (# planning the database’s blueprint)."
+  },
+  {
+    "id": 29,
+    "front": "What is Standard Deviation?",
+    "back": "A measure of how spread out numbers are around the average (# how much variation exists in data)."
+  },
+  {
+    "id": 30,
+    "front": "What does GDPR regulate?",
+    "back": "Rules about protecting personal data and privacy in the EU (# how personal info must be handled and protected)."
+  },
+  {
+    "id": 31,
+    "front": "What is Data Accuracy?",
+    "back": "How correct and precise data is (# data without errors or mistakes)."
+  },
+  {
+    "id": 32,
+    "front": "What is a Foreign Key?",
+    "back": "A field in one table that links to the primary key of another table (# connecting different tables)."
+  },
+  {
+    "id": 33,
+    "front": "What is Interquartile Range (IQR)?",
+    "back": "The range between the 25th and 75th percentile (# the middle 50% of data values)."
+  },
+  {
+    "id": 34,
+    "front": "What is a Histogram?",
+    "back": "A chart showing how data is distributed across intervals (# bars showing frequency of data ranges)."
+  },
+  {
+    "id": 35,
+    "front": "What is Mean Time To Repair (MTTR)?",
+    "back": "The average time it takes to fix a broken system (# downtime length before recovery)."
+  },
+  {
+    "id": 36,
+    "front": "What is Data Timeliness?",
+    "back": "How up-to-date and available data is when needed (# data that arrives in time to be useful)."
+  },
+  {
+    "id": 37,
+    "front": "What is Simple Random Sampling?",
+    "back": "A sampling method where every data point has an equal chance of selection (# fair random selection from the data)."
+  },
+  {
+    "id": 38,
+    "front": "What is the purpose of CRUD operations?",
+    "back": "To create, read, update, and delete data (# the basic functions to manage data)."
+  },
+  {
+    "id": 39,
+    "front": "What is Data Wrangling?",
+    "back": "The process of cleaning and preparing raw data for analysis (# turning messy data into usable form)."
+  },
+  {
+    "id": 40,
+    "front": "What is a Scatter Plot?",
+    "back": "A graph that shows relationship between two variables (# dots plotting data pairs to find trends)."
+  },
+  {
+    "id": 41,
+    "front": "What is Data Redundancy?",
+    "back": "Unnecessary duplication of data in a database (# repeated data causing inefficiency)."
+  },
+  {
+    "id": 42,
+    "front": "What is a NoSQL Database?",
+    "back": "A non-relational database designed for flexible, scalable data storage (# stores data as documents, key-values, graphs, etc.)."
+  },
+  {
+    "id": 43,
+    "front": "What is a Null Value in a dataset?",
+    "back": "A missing or undefined data point (# no data recorded for that entry)."
+  },
+  {
+    "id": 44,
+    "front": "What is Data Integrity?",
+    "back": "The accuracy and consistency of data over its lifecycle (# data that remains correct and reliable)."
+  },
+  {
+    "id": 45,
+    "front": "What is a Query in databases?",
+    "back": "A request for data or information from a database (# asking the database for specific info)."
+  },
+  {
+    "id": 46,
+    "front": "What is Data Encryption?",
+    "back": "Converting data into a secure code to prevent unauthorized access (# protecting data privacy)."
+  },
+  {
+    "id": 47,
+    "front": "What is a Data Warehouse?",
+    "back": "A large store of data collected from multiple sources for analysis (# centralized storage for reporting)."
+  },
+  {
+    "id": 48,
+    "front": "What is the Purpose of the Data Protection Act?",
+    "back": "To regulate how personal data is used and protected (# legal framework to safeguard personal info)."
+  },
+  {
+    "id": 49,
+    "front": "What is the Mean?",
+    "back": "The average of a set of numbers (# sum of values divided by number of values)."
+  },
+  {
+    "id": 50,
+    "front": "What is the Median?",
+    "back": "The middle value in a sorted dataset (# the value separating the higher half from the lower half)."
+  },
+  {
+    "id": 51,
+    "front": "What is Data Sampling?",
+    "back": "Selecting a subset of data to represent the whole (# using a smaller part to study the entire dataset)."
+  },
+  {
+    "id": 52,
+    "front": "What is Data Visualization?",
+    "back": "The graphical representation of data (# charts and graphs that make data easier to understand)."
+  },
+  {
+    "id": 53,
+    "front": "What is Data Mining?",
+    "back": "The process of discovering patterns and knowledge from large datasets (# extracting useful info from data)."
+  },
+  {
+    "id": 54,
+    "front": "What is an Attribute in a database?",
+    "back": "A column or field in a table that holds data about an entity (# characteristics or properties of data)."
+  },
+  {
+    "id": 55,
+    "front": "What is Data Transformation?",
+    "back": "Changing data format or structure to make it usable (# converting data to suit analysis needs)."
+  },
+  {
+    "id": 56,
+    "front": "What is the purpose of a Foreign Key?",
+    "back": "To link records between two database tables (# referencing a primary key from another table)."
+  },
+  {
+    "id": 57,
+    "front": "What is a Data Model?",
+    "back": "A conceptual representation of data structures and relationships (# blueprint for organizing data)."
+  },
+  {
+    "id": 58,
+    "front": "What is Data Profiling?",
+    "back": "Analyzing data for quality and structure (# examining data to understand it better)."
+  },
+  {
+    "id": 59,
+    "front": "What is Data Cleansing?",
+    "back": "Correcting or removing inaccurate data (# making data accurate and consistent)."
+  },
+  {
+    "id": 60,
+    "front": "What is Data Retention?",
+    "back": "Policies about how long data is stored (# deciding when to keep or delete data)."
+  },
+  {
+    "id": 61,
+    "front": "What is a Data Dictionary?",
+    "back": "A collection of descriptions of data objects and their relationships (# a guidebook explaining data elements)."
+  },
+  {
+    "id": 62,
+    "front": "What is Data Governance?",
+    "back": "The framework for managing data availability, usability, integrity, and security (# rules and processes for handling data)."
+  },
+  {
+    "id": 63,
+    "front": "What is Data Latency?",
+    "back": "The delay between data generation and its availability for use (# how quickly data can be accessed)."
+  },
+  {
+    "id": 64,
+    "front": "What is a Composite Key?",
+    "back": "A primary key made of multiple fields to uniquely identify a record (# combining columns to form a unique ID)."
+  },
+  {
+    "id": 65,
+    "front": "What is Data Extraction?",
+    "back": "The process of retrieving data from various sources (# pulling data out for processing or analysis)."
+  },
+  {
+    "id": 66,
+    "front": "What is the Freedom of Information Act?",
+    "back": "A law that gives public access to data held by government bodies (# allows citizens to request official info)."
+  },
+  {
+    "id": 67,
+    "front": "What is a Query Language?",
+    "back": "A language used to request data from a database (# SQL is a common example)."
+  },
+  {
+    "id": 68,
+    "front": "What is Data Lineage?",
+    "back": "Tracking the origin and movement of data through its lifecycle (# knowing where data came from and how it changed)."
+  },
+  {
+    "id": 69,
+    "front": "What is Referential Integrity?",
+    "back": "Ensuring relationships between tables remain consistent (# foreign keys correctly match primary keys)."
+  },
+  {
+    "id": 70,
+    "front": "What is Data Archiving?",
+    "back": "Moving inactive data to long-term storage (# keeping data safe but not in active use)."
+  },
+  {
+    "id": 71,
+    "front": "What is a View in a database?",
+    "back": "A virtual table based on the result of a query (# a saved query that looks like a table)."
+  },
+  {
+    "id": 72,
+    "front": "What is the purpose of a Backup?",
+    "back": "Creating a copy of data to restore in case of loss (# data safety net)."
+  },
+  {
+    "id": 73,
+    "front": "What is Data Mining?",
+    "back": "Extracting useful patterns and knowledge from large datasets (# finding hidden insights)."
+  },
+  {
+    "id": 74,
+    "front": "What is a Data Mart?",
+    "back": "A smaller, focused subset of a data warehouse (# specialized storage for specific business areas)."
+  },
+  {
+    "id": 75,
+    "front": "What is an Entity in data modeling?",
+    "back": "An object or thing about which data is stored (# like a person, product, or event)."
+  },
+  {
+    "id": 76,
+    "front": "What is Metadata?",
+    "back": "Data about data (# information describing data attributes)."
+  },
+  {
+    "id": 77,
+    "front": "What is Data Transformation?",
+    "back": "Changing data format or structure for compatibility or analysis (# converting data into usable form)."
+  },
+  {
+    "id": 78,
+    "front": "What is a Transaction in databases?",
+    "back": "A sequence of operations treated as a single unit (# all succeed or all fail together)."
+  },
+  {
+    "id": 79,
+    "front": "What is Data Profiling?",
+    "back": "Assessing data quality and structure (# analyzing data to identify issues)."
+  },
+  {
+    "id": 80,
+    "front": "What is a Key Performance Indicator (KPI)?",
+    "back": "A measurable value to track performance against goals (# metrics showing success or failure)."
+  },
+  {
+    "id": 81,
+    "front": "What is Data Cleansing?",
+    "back": "The process of detecting and correcting inaccurate or corrupt data (# cleaning up data errors)."
+  },
+  {
+    "id": 82,
+    "front": "What is Data Migration?",
+    "back": "Moving data from one system or format to another (# transferring data safely)."
+  },
+  {
+    "id": 83,
+    "front": "What is Data Aggregation?",
+    "back": "Combining multiple data points into a summary (# grouping data for overview)."
+  },
+  {
+    "id": 84,
+    "front": "What is a Data Model Diagram?",
+    "back": "A visual representation of data entities and relationships (# diagram showing database structure)."
+  },
+  {
+    "id": 85,
+    "front": "What is Data Retention Policy?",
+    "back": "Rules defining how long data should be kept (# deciding when to keep or delete data)."
+  },
+  {
+    "id": 86,
+    "front": "What is a Schema in databases?",
+    "back": "The structure defining tables, fields, and relationships (# blueprint of a database)."
+  },
+  {
+    "id": 87,
+    "front": "What is a Tuple in databases?",
+    "back": "A single row or record in a table (# one set of data in a table)."
+  },
+  {
+    "id": 88,
+    "front": "What is Data Consistency?",
+    "back": "Ensuring data is the same across all systems (# no conflicting or mismatched data)."
+  },
+  {
+    "id": 89,
+    "front": "What is an ER Diagram?",
+    "back": "Entity-Relationship diagram representing data entities and their relationships (# visual map of database design)."
+  },
+  {
+    "id": 90,
+    "front": "What is a Surrogate Key?",
+    "back": "An artificial unique identifier in a database (# system-generated ID instead of natural data)."
+  },
+  {
+    "id": 91,
+    "front": "What is a Join in SQL?",
+    "back": "A command to combine rows from two or more tables based on related columns (# linking tables in queries)."
+  },
+  {
+    "id": 92,
+    "front": "What is Data Scalability?",
+    "back": "Ability to handle increasing data volume efficiently (# system growing with more data)."
+  },
+  {
+    "id": 93,
+    "front": "What is Referential Integrity?",
+    "back": "Ensuring foreign keys correctly reference primary keys (# maintaining valid links between tables)."
+  },
+  {
+    "id": 94,
+    "front": "What is a Data Lake?",
+    "back": "A centralized repository for storing raw data in its native format (# big storage for all data types)."
+  },
+  {
+    "id": 95,
+    "front": "What is a Key in database terms?",
+    "back": "An attribute or set of attributes that uniquely identifies a record (# ID fields in tables)."
+  },
+  {
+    "id": 96,
+    "front": "What is an Update anomaly?",
+    "back": "A problem where data inconsistency occurs after updates (# errors caused by poor database design)."
+  },
+  {
+    "id": 97,
+    "front": "What is Data Mining?",
+    "back": "Extracting patterns and knowledge from large data sets (# discovering useful information)."
+  },
+  {
+    "id": 98,
+    "front": "What is a Stored Procedure?",
+    "back": "A set of SQL statements saved in the database for reuse (# reusable database commands)."
+  },
+  {
+    "id": 99,
+    "front": "What is Data Validation?",
+    "back": "Checking data for correctness and completeness (# ensuring data quality before use)."
+  },
+  {
+    "id": 100,
+    "front": "What is Data Redundancy?",
+    "back": "The unnecessary duplication of data in a database (# repeating the same data multiple times)."
+  }
+]

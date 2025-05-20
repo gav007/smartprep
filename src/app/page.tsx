@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem } from 'lucide-react';
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem, Database } from 'lucide-react'; // Added Database
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -30,6 +30,14 @@ const featuredTools = [
     icon: BookOpen, 
     link: "/flashcards/ccna",
     aiHint: "flashcards ccna cisco study",
+    ctaText: "Start Studying"
+  },
+  {
+    title: "📊 Flash Cards: Databases & Stats",
+    description: "Test your knowledge on database fundamentals and statistical concepts.",
+    icon: Database, 
+    link: "/flashcards/database",
+    aiHint: "flashcards database statistics data study",
     ctaText: "Start Studying"
   },
   {
@@ -233,4 +241,3 @@ export default function HomePage() {
     </div>
   );
 }
-

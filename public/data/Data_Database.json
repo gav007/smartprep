@@ -1,0 +1,1718 @@
+[
+  {
+    "type": "MC",
+    "question": "Which of the following is a characteristic of Ratio data?",
+    "options": {
+      "A": "It has a natural zero point",
+      "B": "It consists only of categories with no order",
+      "C": "It only measures frequencies",
+      "D": "It has equal intervals but no true zero"
+    },
+    "answer": "A",
+    "feedback": "Ratio data has a meaningful zero point, allowing for meaningful ratios between values."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main difference between interpolation and imputation in data handling?",
+    "options": {
+      "A": "Interpolation estimates missing values between known data points, imputation fills missing data using statistical techniques",
+      "B": "Interpolation removes outliers, imputation fills missing data",
+      "C": "Interpolation is only used for categorical data, imputation is used for numerical data",
+      "D": "Interpolation fills missing data with zeros, imputation replaces missing data with means"
+    },
+    "answer": "A",
+    "feedback": "Interpolation estimates missing values based on nearby data, while imputation fills gaps using statistical methods."
+  },
+  {
+    "type": "MC",
+    "question": "In the context of the 'bathtub curve', which phase is characterized by high initial failure rates?",
+    "options": {
+      "A": "Random failure period",
+      "B": "Wear-out period",
+      "C": "Infant mortality period",
+      "D": "Steady state period"
+    },
+    "answer": "C",
+    "feedback": "Infant mortality refers to early failures that occur soon after deployment."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT part of the 3 V’s of Big Data?",
+    "options": {
+      "A": "Volume",
+      "B": "Velocity",
+      "C": "Validity",
+      "D": "Variety"
+    },
+    "answer": "C",
+    "feedback": "The 3 V’s are Volume, Velocity, and Variety; Validity is not one of them."
+  },
+  {
+    "type": "MC",
+    "question": "What is the correct interpretation of a correlation coefficient of -1?",
+    "options": {
+      "A": "No correlation",
+      "B": "Perfect positive correlation",
+      "C": "Perfect negative correlation",
+      "D": "Random correlation"
+    },
+    "answer": "C",
+    "feedback": "A correlation coefficient of -1 indicates a perfect negative linear relationship."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these file formats is commonly used for data interchange and supports nested objects?",
+    "options": {
+      "A": "CSV",
+      "B": "XML",
+      "C": "JSON",
+      "D": "TXT"
+    },
+    "answer": "C",
+    "feedback": "JSON supports nested objects and is widely used for data interchange."
+  },
+  {
+    "type": "MC",
+    "question": "In database terminology, what is a foreign key?",
+    "options": {
+      "A": "A unique identifier for each record in a table",
+      "B": "A key that links to the primary key in another table",
+      "C": "A column that stores encrypted data",
+      "D": "A key used to unlock database access"
+    },
+    "answer": "B",
+    "feedback": "A foreign key references a primary key in another table to establish relationships."
+  },
+  {
+    "type": "MC",
+    "question": "Mean Time To Repair (MTTR) affects system availability by:",
+    "options": {
+      "A": "Increasing MTTR decreases availability",
+      "B": "Increasing MTTR increases availability",
+      "C": "MTTR does not affect availability",
+      "D": "MTTR only affects repair costs"
+    },
+    "answer": "A",
+    "feedback": "Higher MTTR means longer repair times, reducing system availability."
+  },
+    {
+    "type": "MC",
+    "question": "Which of the following is a characteristic of Ratio data?",
+    "options": {
+      "A": "It has a natural zero point",
+      "B": "It consists only of categories with no order",
+      "C": "It only measures frequencies",
+      "D": "It has equal intervals but no true zero"
+    },
+    "answer": "A",
+    "feedback": "Ratio data has a meaningful zero point, allowing for meaningful ratios between values."
+  },
+  {
+    "type": "MC",
+    "question": "In the context of frequency distributions, what is an advantage of using a relative frequency y-axis over a frequency y-axis?",
+    "options": {
+      "A": "It shows raw counts of data points",
+      "B": "It allows comparison across datasets of different sizes",
+      "C": "It hides variability in the data",
+      "D": "It exaggerates differences in data"
+    },
+    "answer": "B",
+    "feedback": "Relative frequency normalizes counts, enabling comparisons between datasets of different sizes."
+  },
+  {
+    "type": "MC",
+    "question": "What does a correlation coefficient of -1 indicate?",
+    "options": {
+      "A": "No correlation",
+      "B": "Perfect positive correlation",
+      "C": "Perfect negative correlation",
+      "D": "Random correlation"
+    },
+    "answer": "C",
+    "feedback": "A correlation coefficient of -1 means a perfect negative linear relationship between variables."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is a valid method to reduce early failures during the 'infant mortality' phase of the bathtub curve?",
+    "options": {
+      "A": "Use of redundant systems",
+      "B": "Burn-in testing",
+      "C": "Regular maintenance",
+      "D": "Increasing MTTR"
+    },
+    "answer": "B",
+    "feedback": "Burn-in testing helps identify and eliminate early failures before deployment."
+  },
+  {
+    "type": "MC",
+    "question": "What is 'data veracity' in big data contexts?",
+    "options": {
+      "A": "Volume of data",
+      "B": "Speed of data generation",
+      "C": "Trustworthiness and quality of data",
+      "D": "Variety of data types"
+    },
+    "answer": "C",
+    "feedback": "Data veracity refers to the accuracy and reliability of data."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is an example of data often confused for a null value?",
+    "options": {
+      "A": "Empty string",
+      "B": "Zero",
+      "C": "Space character",
+      "D": "All of the above"
+    },
+    "answer": "D",
+    "feedback": "Empty strings, zeroes, and spaces can sometimes be mistaken for null or missing values."
+  },
+  {
+    "type": "MC",
+    "question": "What is interpolation in data analysis?",
+    "options": {
+      "A": "Filling missing data using surrounding known values",
+      "B": "Removing outliers",
+      "C": "Calculating mean values",
+      "D": "Encrypting data"
+    },
+    "answer": "A",
+    "feedback": "Interpolation estimates missing data points using known neighboring data."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of a data controller under GDPR?",
+    "options": {
+      "A": "To process data only with consent",
+      "B": "To decide how and why personal data is processed",
+      "C": "To store data securely",
+      "D": "To audit data usage"
+    },
+    "answer": "B",
+    "feedback": "The data controller determines the purpose and means of processing personal data."
+  },
+  {
+    "type": "MC",
+    "question": "In a database, what is a primary key?",
+    "options": {
+      "A": "A unique identifier for each record",
+      "B": "A link to another table",
+      "C": "A type of encryption",
+      "D": "A data input form"
+    },
+    "answer": "A",
+    "feedback": "A primary key uniquely identifies each record in a database table."
+  },
+  {
+    "type": "MC",
+    "question": "Which is an example of a foreign key?",
+    "options": {
+      "A": "A column in one table that refers to the primary key of another",
+      "B": "A unique row identifier",
+      "C": "An encrypted field",
+      "D": "A stored procedure"
+    },
+    "answer": "A",
+    "feedback": "Foreign keys link tables by referencing primary keys in related tables."
+  },
+  {
+    "type": "MC",
+    "question": "Which file format supports nested objects and is widely used for data interchange?",
+    "options": {
+      "A": "CSV",
+      "B": "JSON",
+      "C": "TXT",
+      "D": "XLS"
+    },
+    "answer": "B",
+    "feedback": "JSON supports nested objects and is common in modern data exchange."
+  },
+  {
+    "type": "MC",
+    "question": "What does MTTR stand for in system availability?",
+    "options": {
+      "A": "Mean Time To Repair",
+      "B": "Mean Time To Respond",
+      "C": "Maximum Time To Recover",
+      "D": "Mean Time To Replace"
+    },
+    "answer": "A",
+    "feedback": "MTTR is the average time taken to repair a system failure."
+  },
+  {
+    "type": "MC",
+    "question": "How does increasing MTTR affect system availability?",
+    "options": {
+      "A": "Increases availability",
+      "B": "Decreases availability",
+      "C": "Has no effect",
+      "D": "Improves system performance"
+    },
+    "answer": "B",
+    "feedback": "Higher MTTR means longer downtimes, reducing availability."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is NOT an operation in CRUD?",
+    "options": {
+      "A": "Create",
+      "B": "Retrieve",
+      "C": "Update",
+      "D": "Destroy"
+    },
+    "answer": "D",
+    "feedback": "CRUD stands for Create, Read, Update, Delete; Destroy is not used."
+  },
+  {
+    "type": "MC",
+    "question": "Which graph is best to visualize the distribution of a numerical data set?",
+    "options": {
+      "A": "Pie chart",
+      "B": "Histogram",
+      "C": "Scatter plot",
+      "D": "Bar chart"
+    },
+    "answer": "B",
+    "feedback": "Histograms show frequency distributions for continuous data."
+  },
+  {
+    "type": "MC",
+    "question": "What is a major limitation of pie charts?",
+    "options": {
+      "A": "They cannot compare parts between different datasets easily",
+      "B": "They cannot show parts of a whole",
+      "C": "They are not colorful",
+      "D": "They are only used for time series data"
+    },
+    "answer": "A",
+    "feedback": "Pie charts do not facilitate easy comparison across multiple groups."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main purpose of a scatter plot?",
+    "options": {
+      "A": "To show parts of a whole",
+      "B": "To compare categories",
+      "C": "To show correlation between two variables",
+      "D": "To display trends over time"
+    },
+    "answer": "C",
+    "feedback": "Scatter plots reveal relationships between two continuous variables."
+  },
+  {
+    "type": "MC",
+    "question": "What is the function of a Z-score in statistics?",
+    "options": {
+      "A": "Measures data frequency",
+      "B": "Standardizes data points relative to the mean",
+      "C": "Counts missing data",
+      "D": "Measures correlation"
+    },
+    "answer": "B",
+    "feedback": "Z-scores express how many standard deviations a data point is from the mean."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is an example of descriptive analytics?",
+    "options": {
+      "A": "Predicting sales next quarter",
+      "B": "Summarizing past sales data",
+      "C": "Recommending marketing strategies",
+      "D": "Optimizing supply chain routes"
+    },
+    "answer": "B",
+    "feedback": "Descriptive analytics summarize historical data to understand what happened."
+  },
+  {
+    "type": "MC",
+    "question": "Which type of data is represented by a Likert Scale?",
+    "options": {
+      "A": "Nominal",
+      "B": "Ordinal",
+      "C": "Interval",
+      "D": "Ratio"
+    },
+    "answer": "B",
+    "feedback": "Likert scales represent ordinal data, where responses have a meaningful order."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main advantage of using a histogram over a bar chart?",
+    "options": {
+      "A": "Shows categorical data",
+      "B": "Displays frequency distributions for continuous data",
+      "C": "Compares groups",
+      "D": "Displays relationships between variables"
+    },
+    "answer": "B",
+    "feedback": "Histograms are suited for showing the frequency distribution of continuous data."
+  },
+  {
+    "type": "MC",
+    "question": "What is the approximate number of intervals recommended for plotting a histogram with 900 data points?",
+    "options": {
+      "A": "10",
+      "B": "30",
+      "C": "50",
+      "D": "90"
+    },
+    "answer": "B",
+    "feedback": "Using the square root rule, √900 = 30 intervals is appropriate."
+  },
+  {
+    "type": "MC",
+    "question": "What does MTTR stand for in system reliability?",
+    "options": {
+      "A": "Mean Time To Respond",
+      "B": "Mean Time To Repair",
+      "C": "Maximum Time To Recovery",
+      "D": "Minimum Time To Repair"
+    },
+    "answer": "B",
+    "feedback": "MTTR is the average time taken to repair a system failure."
+  },
+  {
+    "type": "MC",
+    "question": "Which one of these is NOT considered a data processing operation?",
+    "options": {
+      "A": "Sorting",
+      "B": "Filtering",
+      "C": "Storage",
+      "D": "Analysis"
+    },
+    "answer": "C",
+    "feedback": "Storage is a data management task, not a processing operation."
+  },
+  {
+    "type": "MC",
+    "question": "What is the primary purpose of JSON compared to CSV?",
+    "options": {
+      "A": "Easier human readability",
+      "B": "Supports nested objects and arrays",
+      "C": "Uses less storage space",
+      "D": "Faster to parse"
+    },
+    "answer": "B",
+    "feedback": "JSON supports nested data structures unlike the flat CSV format."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these data types does NOT have a natural zero point?",
+    "options": {
+      "A": "Nominal",
+      "B": "Ordinal",
+      "C": "Interval",
+      "D": "Ratio"
+    },
+    "answer": "C",
+    "feedback": "Interval data have equal spacing but no true zero point."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following best describes descriptive analytics?",
+    "options": {
+      "A": "Predicting future outcomes",
+      "B": "Summarizing historical data",
+      "C": "Recommending decisions",
+      "D": "Optimizing processes"
+    },
+    "answer": "B",
+    "feedback": "Descriptive analytics focuses on summarizing past data."
+  },
+  {
+    "type": "MC",
+    "question": "Which tool would you use to plot data distribution?",
+    "options": {
+      "A": "Scatter plot",
+      "B": "Histogram",
+      "C": "Line chart",
+      "D": "Pie chart"
+    },
+    "answer": "B",
+    "feedback": "Histograms show the distribution of continuous data."
+  },
+  {
+    "type": "MC",
+    "question": "What does CRUD stand for in database operations?",
+    "options": {
+      "A": "Create, Read, Update, Delete",
+      "B": "Calculate, Run, Undo, Delete",
+      "C": "Copy, Remove, Update, Duplicate",
+      "D": "Create, Replace, Update, Deliver"
+    },
+    "answer": "A",
+    "feedback": "CRUD represents the four basic database operations."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT a common non-printing character?",
+    "options": {
+      "A": "Tab",
+      "B": "Space",
+      "C": "Carriage return",
+      "D": "Period"
+    },
+    "answer": "D",
+    "feedback": "Period is a printable character, not a non-printing one."
+  },
+  {
+    "type": "MC",
+    "question": "Which phase of the bathtub curve corresponds to constant failure rate?",
+    "options": {
+      "A": "Infant mortality",
+      "B": "Random failure period",
+      "C": "Wear-out period",
+      "D": "Failure-free period"
+    },
+    "answer": "B",
+    "feedback": "The random failure period is the steady middle phase with constant failure rate."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is NOT a characteristic of Big Data's '3 Vs'?",
+    "options": {
+      "A": "Volume",
+      "B": "Velocity",
+      "C": "Variety",
+      "D": "Validity"
+    },
+    "answer": "D",
+    "feedback": "The original 3 Vs are Volume, Velocity, and Variety."
+  },
+  {
+    "type": "MC",
+    "question": "Which data cleaning method replaces missing values based on other data?",
+    "options": {
+      "A": "Deletion",
+      "B": "Imputation",
+      "C": "Aggregation",
+      "D": "Normalization"
+    },
+    "answer": "B",
+    "feedback": "Imputation fills missing data using statistical or predictive methods."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is a primary key?",
+    "options": {
+      "A": "A key that uniquely identifies a record in a table",
+      "B": "A key used to encrypt data",
+      "C": "A key linking to another table",
+      "D": "A password to access the database"
+    },
+    "answer": "A",
+    "feedback": "Primary keys uniquely identify each record in a table."
+  },
+  {
+    "type": "MC",
+    "question": "What is the purpose of metadata in a database?",
+    "options": {
+      "A": "Data about data",
+      "B": "Encrypted data",
+      "C": "Data storage",
+      "D": "Data retrieval"
+    },
+    "answer": "A",
+    "feedback": "Metadata describes the structure and properties of data."
+  },
+  {
+    "type": "MC",
+    "question": "Which measure is least affected by outliers?",
+    "options": {
+      "A": "Mean",
+      "B": "Median",
+      "C": "Mode",
+      "D": "Variance"
+    },
+    "answer": "B",
+    "feedback": "Median is resistant to extreme values in data."
+  },
+  {
+    "type": "MC",
+    "question": "What is an advantage of using relative frequency instead of absolute frequency?",
+    "options": {
+      "A": "Shows raw counts",
+      "B": "Allows comparison between different sample sizes",
+      "C": "Obscures data variability",
+      "D": "Simplifies data storage"
+    },
+    "answer": "B",
+    "feedback": "Relative frequency normalizes counts for comparability."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is an example of interval data?",
+    "options": {
+      "A": "Temperature in Celsius",
+      "B": "Number of students",
+      "C": "Gender categories",
+      "D": "Satisfaction ratings"
+    },
+    "answer": "A",
+    "feedback": "Temperature in Celsius has equal intervals but no true zero."
+  },
+  {
+    "type": "MC",
+    "question": "Which method can be used to identify outliers in a dataset?",
+    "options": {
+      "A": "Histogram",
+      "B": "Boxplot",
+      "C": "Scatter plot",
+      "D": "Pie chart"
+    },
+    "answer": "B",
+    "feedback": "Boxplots visualize outliers based on quartiles and fences."
+  },
+    {
+    "type": "MC",
+    "question": "What is the purpose of a frequency distribution in data analysis?",
+    "options": {
+      "A": "To display the raw data values",
+      "B": "To organize data into classes and show frequency counts",
+      "C": "To calculate the mean",
+      "D": "To normalize the data"
+    },
+    "answer": "B",
+    "feedback": "Frequency distributions organize data into classes to summarize how often values occur."
+  },
+  {
+    "type": "MC",
+    "question": "Which type of chart is most suitable to compare proportions of a whole?",
+    "options": {
+      "A": "Histogram",
+      "B": "Scatter plot",
+      "C": "Pie chart",
+      "D": "Line graph"
+    },
+    "answer": "C",
+    "feedback": "Pie charts display proportions of categories as parts of a whole."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is a limitation of pie charts?",
+    "options": {
+      "A": "Cannot show parts of a whole",
+      "B": "Difficult to compare more than a few categories",
+      "C": "Only used for numerical data",
+      "D": "Do not display percentages"
+    },
+    "answer": "B",
+    "feedback": "Pie charts become cluttered and hard to interpret with many categories."
+  },
+  {
+    "type": "MC",
+    "question": "What does a perfect negative correlation mean in terms of data relationship?",
+    "options": {
+      "A": "Variables increase together",
+      "B": "No relationship exists",
+      "C": "One variable increases as the other decreases perfectly",
+      "D": "Variables are unrelated"
+    },
+    "answer": "C",
+    "feedback": "A perfect negative correlation means variables move in exactly opposite directions."
+  },
+  {
+    "type": "MC",
+    "question": "What is variability in a dataset?",
+    "options": {
+      "A": "The mean value",
+      "B": "How spread out the data points are",
+      "C": "The total number of data points",
+      "D": "The maximum data value"
+    },
+    "answer": "B",
+    "feedback": "Variability measures how much data values differ from each other."
+  },
+  {
+    "type": "MC",
+    "question": "What is the formula for system availability (A)?",
+    "options": {
+      "A": "MTTR / (MTBF + MTTR)",
+      "B": "MTBF / (MTBF + MTTR)",
+      "C": "MTTR + MTBF",
+      "D": "MTBF - MTTR"
+    },
+    "answer": "B",
+    "feedback": "Availability = Mean Time Between Failures / (MTBF + Mean Time To Repair)."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of metadata in databases?",
+    "options": {
+      "A": "Storing the actual data",
+      "B": "Data about data structure and properties",
+      "C": "Encrypting sensitive data",
+      "D": "Backing up the database"
+    },
+    "answer": "B",
+    "feedback": "Metadata describes how data is structured and managed."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following best describes imputation?",
+    "options": {
+      "A": "Removing missing data points",
+      "B": "Replacing missing data with estimated values",
+      "C": "Ignoring missing data in analysis",
+      "D": "Collecting more data"
+    },
+    "answer": "B",
+    "feedback": "Imputation replaces missing data using statistical estimates."
+  },
+  {
+    "type": "MC",
+    "question": "What are three common data processing operations?",
+    "options": {
+      "A": "Storage, retrieval, backup",
+      "B": "Sorting, filtering, aggregating",
+      "C": "Encryption, decryption, compression",
+      "D": "Networking, printing, displaying"
+    },
+    "answer": "B",
+    "feedback": "Data processing includes operations like sorting, filtering, and aggregating."
+  },
+  {
+    "type": "MC",
+    "question": "Which file format is commonly used for flat data interchange and does not support nested objects?",
+    "options": {
+      "A": "CSV",
+      "B": "JSON",
+      "C": "XML",
+      "D": "YAML"
+    },
+    "answer": "A",
+    "feedback": "CSV is a simple flat-file format without support for nested structures."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is a permitted calculator for the COMP2190 exams?",
+    "options": {
+      "A": "Casio fx-991es",
+      "B": "HP 12C",
+      "C": "Texas Instruments TI-83",
+      "D": "Casio fx-5800P"
+    },
+    "answer": "A",
+    "feedback": "The Casio fx-991es series is approved for use in the exams."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is NOT an example of a non-printing character?",
+    "options": {
+      "A": "Tab",
+      "B": "Space",
+      "C": "Newline",
+      "D": "Period"
+    },
+    "answer": "D",
+    "feedback": "Period is a printable character."
+  },
+  {
+    "type": "MC",
+    "question": "What is the primary use of a histogram in data analysis?",
+    "options": {
+      "A": "To show trends over time",
+      "B": "To display frequency distributions",
+      "C": "To compare categories",
+      "D": "To show correlations"
+    },
+    "answer": "B",
+    "feedback": "Histograms show the distribution of data frequencies."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following best defines descriptive analytics?",
+    "options": {
+      "A": "Forecasting future events",
+      "B": "Describing past data",
+      "C": "Recommending actions",
+      "D": "Optimizing processes"
+    },
+    "answer": "B",
+    "feedback": "Descriptive analytics summarizes historical data."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is a feature of interval data?",
+    "options": {
+      "A": "Has a meaningful zero point",
+      "B": "Represents categories only",
+      "C": "Has equal intervals but no true zero",
+      "D": "Is nominal data"
+    },
+    "answer": "C",
+    "feedback": "Interval data has equal spacing but no natural zero."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT one of the '3 Vs' of Big Data?",
+    "options": {
+      "A": "Volume",
+      "B": "Variety",
+      "C": "Velocity",
+      "D": "Validity"
+    },
+    "answer": "D",
+    "feedback": "'Validity' is not one of the original '3 Vs' (Volume, Variety, Velocity)."
+  },
+  {
+    "type": "MC",
+    "question": "What does CRUD stand for?",
+    "options": {
+      "A": "Create, Read, Update, Delete",
+      "B": "Calculate, Remove, Use, Download",
+      "C": "Copy, Rename, Upload, Delete",
+      "D": "Check, Run, Update, Deploy"
+    },
+    "answer": "A",
+    "feedback": "CRUD stands for Create, Read, Update, Delete."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is an example of descriptive metadata?",
+    "options": {
+      "A": "File size",
+      "B": "Author name",
+      "C": "File format",
+      "D": "Checksum value"
+    },
+    "answer": "B",
+    "feedback": "Author name describes the content and is descriptive metadata."
+  },
+  {
+    "type": "MC",
+    "question": "Why is median preferred over mean for skewed data?",
+    "options": {
+      "A": "Median is easier to calculate",
+      "B": "Median is less affected by extreme values",
+      "C": "Mean is always lower than median",
+      "D": "Median shows total data sum"
+    },
+    "answer": "B",
+    "feedback": "Median is more robust against outliers and skewed distributions."
+  },
+  {
+    "type": "MC",
+    "question": "What is a histogram interval?",
+    "options": {
+      "A": "The width of each bin or class",
+      "B": "The total number of data points",
+      "C": "The height of each bar",
+      "D": "The color of each bar"
+    },
+    "answer": "A",
+    "feedback": "Interval refers to the range each bin covers in a histogram."
+  },
+  {
+    "type": "MC",
+    "question": "What is the purpose of data normalization?",
+    "options": {
+      "A": "To reduce redundancy and improve data integrity",
+      "B": "To encrypt data for security",
+      "C": "To backup data",
+      "D": "To increase data storage size"
+    },
+    "answer": "A",
+    "feedback": "Normalization organizes data to reduce duplication and maintain consistency."
+  },
+  {
+    "type": "MC",
+    "question": "What does the term 'missing data' mean?",
+    "options": {
+      "A": "Data that has been deleted intentionally",
+      "B": "Data that was never recorded or lost",
+      "C": "Data that is encrypted",
+      "D": "Data stored in an incorrect format"
+    },
+    "answer": "B",
+    "feedback": "Missing data refers to absent or uncollected information."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following describes a 'foreign key'?",
+    "options": {
+      "A": "Primary key in the same table",
+      "B": "Attribute that uniquely identifies a record",
+      "C": "Key that links to primary key in another table",
+      "D": "Password for database access"
+    },
+    "answer": "C",
+    "feedback": "Foreign keys link tables by referring to primary keys in related tables."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT a measure of central tendency?",
+    "options": {
+      "A": "Mean",
+      "B": "Median",
+      "C": "Mode",
+      "D": "Variance"
+    },
+    "answer": "D",
+    "feedback": "Variance measures spread, not central tendency."
+  },
+  {
+    "type": "MC",
+    "question": "What type of data does a boxplot visualize?",
+    "options": {
+      "A": "Categorical data",
+      "B": "Continuous data distribution and outliers",
+      "C": "Time series data",
+      "D": "Geographical data"
+    },
+    "answer": "B",
+    "feedback": "Boxplots show distribution and highlight outliers in continuous data."
+  },
+  {
+    "type": "MC",
+    "question": "What is a null value in a dataset?",
+    "options": {
+      "A": "A zero value",
+      "B": "An empty or missing data point",
+      "C": "A negative number",
+      "D": "A placeholder character"
+    },
+    "answer": "B",
+    "feedback": "Null indicates absence of a value."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT an example of interval data?",
+    "options": {
+      "A": "Temperature in Celsius",
+      "B": "Time of day on a 12-hour clock",
+      "C": "Age in years",
+      "D": "IQ scores"
+    },
+    "answer": "C",
+    "feedback": "Age is ratio data since it has a true zero."
+  },
+  {
+    "type": "MC",
+    "question": "Which is NOT a valid step in data cleaning?",
+    "options": {
+      "A": "Removing duplicates",
+      "B": "Filling missing values",
+      "C": "Randomly deleting rows",
+      "D": "Correcting invalid entries"
+    },
+    "answer": "C",
+    "feedback": "Random deletion may bias data and is not a recommended cleaning step."
+  },
+  {
+    "type": "MC",
+    "question": "Which type of graph is used to display the relationship between two numerical variables?",
+    "options": {
+      "A": "Pie chart",
+      "B": "Histogram",
+      "C": "Scatter plot",
+      "D": "Bar chart"
+    },
+    "answer": "C",
+    "feedback": "Scatter plots visualize relationships between two numeric variables."
+  },
+  {
+    "type": "MC",
+    "question": "What does the acronym GDPR stand for?",
+    "options": {
+      "A": "General Data Protection Regulation",
+      "B": "Global Data Privacy Rules",
+      "C": "General Database Processing Rights",
+      "D": "Global Data Protection Rights"
+    },
+    "answer": "A",
+    "feedback": "GDPR regulates personal data protection in the EU."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is NOT an objective of data governance?",
+    "options": {
+      "A": "Data quality management",
+      "B": "Data security and privacy",
+      "C": "Data storage optimization",
+      "D": "Data ownership and accountability"
+    },
+    "answer": "C",
+    "feedback": "While storage is important, governance focuses on policies, quality, and security."
+  },
+  {
+    "type": "MC",
+    "question": "In which type of chart are categories shown as parts of a whole?",
+    "options": {
+      "A": "Line graph",
+      "B": "Pie chart",
+      "C": "Histogram",
+      "D": "Scatter plot"
+    },
+    "answer": "B",
+    "feedback": "Pie charts show category proportions of a whole."
+  },
+  {
+    "type": "MC",
+    "question": "What is meant by 'data wrangling'?",
+    "options": {
+      "A": "Collecting raw data",
+      "B": "Cleaning and transforming data for analysis",
+      "C": "Visualizing data",
+      "D": "Deleting obsolete data"
+    },
+    "answer": "B",
+    "feedback": "Data wrangling is preparing raw data for analysis."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following best defines an outlier?",
+    "options": {
+      "A": "A value far from other observations",
+      "B": "The average value",
+      "C": "A missing data point",
+      "D": "The most common value"
+    },
+    "answer": "A",
+    "feedback": "Outliers differ significantly from other data points."
+  },
+  {
+    "type": "MC",
+    "question": "Which key in a relational database uniquely identifies a record?",
+    "options": {
+      "A": "Foreign key",
+      "B": "Composite key",
+      "C": "Primary key",
+      "D": "Secondary key"
+    },
+    "answer": "C",
+    "feedback": "Primary keys uniquely identify table records."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main reason for data encryption?",
+    "options": {
+      "A": "To compress data",
+      "B": "To prevent unauthorized access",
+      "C": "To speed up data transfer",
+      "D": "To format data"
+    },
+    "answer": "B",
+    "feedback": "Encryption protects data confidentiality."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is NOT a valid data visualization tool?",
+    "options": {
+      "A": "Tableau",
+      "B": "Power BI",
+      "C": "Excel",
+      "D": "Photoshop"
+    },
+    "answer": "D",
+    "feedback": "Photoshop is an image editor, not a data viz tool."
+  },
+  {
+    "type": "MC",
+    "question": "What does a negative covariance indicate?",
+    "options": {
+      "A": "Variables increase together",
+      "B": "Variables decrease together",
+      "C": "Variables move inversely",
+      "D": "No relationship"
+    },
+    "answer": "C",
+    "feedback": "Negative covariance shows variables move in opposite directions."
+  },
+  {
+    "type": "MC",
+    "question": "What is the use of a primary key in a database?",
+    "options": {
+      "A": "To encrypt the data",
+      "B": "To uniquely identify records",
+      "C": "To link tables",
+      "D": "To sort records"
+    },
+    "answer": "B",
+    "feedback": "Primary keys uniquely identify each database record."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is a method to handle missing data?",
+    "options": {
+      "A": "Imputation",
+      "B": "Replication",
+      "C": "Encryption",
+      "D": "Sorting"
+    },
+    "answer": "A",
+    "feedback": "Imputation replaces missing values with estimated data."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following best describes the 'Mean Time Between Failures' (MTBF)?",
+    "options": {
+      "A": "Average time to repair a failure",
+      "B": "Average operational time between failures",
+      "C": "Total downtime due to failures",
+      "D": "Maximum time before failure"
+    },
+    "answer": "B",
+    "feedback": "MTBF measures average time a system operates before failing."
+  },
+  {
+    "type": "MC",
+    "question": "What is an advantage of using JSON over XML for data interchange?",
+    "options": {
+      "A": "More verbose",
+      "B": "Easier to read and write",
+      "C": "Supports namespaces",
+      "D": "Requires schema"
+    },
+    "answer": "B",
+    "feedback": "JSON is lighter and easier for humans and machines to parse."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following data types has a natural zero and allows ratio comparisons?",
+    "options": {
+      "A": "Nominal",
+      "B": "Ordinal",
+      "C": "Interval",
+      "D": "Ratio"
+    },
+    "answer": "D",
+    "feedback": "Ratio data have a true zero, enabling meaningful ratios."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT a common step in data cleaning?",
+    "options": {
+      "A": "Removing duplicates",
+      "B": "Handling missing values",
+      "C": "Encrypting sensitive data",
+      "D": "Correcting inconsistent data"
+    },
+    "answer": "C",
+    "feedback": "Encryption is a security step, not part of cleaning."
+  },
+  {
+    "type": "MC",
+    "question": "What is the key difference between interval and ordinal data?",
+    "options": {
+      "A": "Interval data has ordered categories without meaningful differences",
+      "B": "Ordinal data has ordered categories without equal spacing",
+      "C": "Interval data is categorical, ordinal is numeric",
+      "D": "No difference"
+    },
+    "answer": "B",
+    "feedback": "Ordinal data shows order but not equal intervals; interval data has equal spacing."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following best defines the term 'data wrangling'?",
+    "options": {
+      "A": "Collecting raw data",
+      "B": "Cleaning and transforming raw data",
+      "C": "Visualizing data",
+      "D": "Storing data in databases"
+    },
+    "answer": "B",
+    "feedback": "Data wrangling prepares raw data for analysis by cleaning and formatting."
+  },
+  {
+    "type": "MC",
+    "question": "In data visualization, which chart type is best for showing proportions?",
+    "options": {
+      "A": "Bar chart",
+      "B": "Histogram",
+      "C": "Pie chart",
+      "D": "Scatter plot"
+    },
+    "answer": "C",
+    "feedback": "Pie charts show parts of a whole as proportional slices."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is a type of structured data?",
+    "options": {
+      "A": "Text documents",
+      "B": "Images",
+      "C": "Databases",
+      "D": "Videos"
+    },
+    "answer": "C",
+    "feedback": "Databases store structured, organized data."
+  },
+  {
+    "type": "MC",
+    "question": "What is the primary function of a primary key in a relational database?",
+    "options": {
+      "A": "To uniquely identify records",
+      "B": "To link tables",
+      "C": "To index data",
+      "D": "To encrypt data"
+    },
+    "answer": "A",
+    "feedback": "Primary keys uniquely identify each record in a table."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT a data visualization tool?",
+    "options": {
+      "A": "Tableau",
+      "B": "Power BI",
+      "C": "Microsoft Word",
+      "D": "Excel"
+    },
+    "answer": "C",
+    "feedback": "Microsoft Word is a word processor, not a data viz tool."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of imputation in handling missing data?",
+    "options": {
+      "A": "To remove missing data points",
+      "B": "To fill missing data with estimated values",
+      "C": "To ignore missing data",
+      "D": "To encrypt missing data"
+    },
+    "answer": "B",
+    "feedback": "Imputation estimates and fills missing values to avoid data loss."
+  },
+  {
+    "type": "MC",
+    "question": "Which is an example of categorical data?",
+    "options": {
+      "A": "Temperature",
+      "B": "Gender",
+      "C": "Weight",
+      "D": "Height"
+    },
+    "answer": "B",
+    "feedback": "Gender is categorical data representing categories."
+  },
+  {
+    "type": "MC",
+    "question": "What does GDPR regulate?",
+    "options": {
+      "A": "Data protection and privacy in the EU",
+      "B": "Data storage in databases",
+      "C": "Software licensing",
+      "D": "Network protocols"
+    },
+    "answer": "A",
+    "feedback": "GDPR governs personal data protection and privacy."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is NOT an example of an analytics type?",
+    "options": {
+      "A": "Descriptive",
+      "B": "Predictive",
+      "C": "Prescriptive",
+      "D": "Diagnostic encryption"
+    },
+    "answer": "D",
+    "feedback": "Diagnostic encryption is not an analytics type."
+  },
+  {
+    "type": "MC",
+    "question": "What is the best measure of central tendency for skewed data?",
+    "options": {
+      "A": "Mean",
+      "B": "Median",
+      "C": "Mode",
+      "D": "Range"
+    },
+    "answer": "B",
+    "feedback": "Median is robust to skewness and outliers."
+  },
+  {
+    "type": "MC",
+    "question": "Which is NOT a common data quality issue?",
+    "options": {
+      "A": "Missing data",
+      "B": "Duplicate data",
+      "C": "Incorrect data",
+      "D": "Encrypted data"
+    },
+    "answer": "D",
+    "feedback": "Encrypted data is a security measure, not a data quality issue."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following does NOT belong to the '3 Vs' of Big Data?",
+    "options": {
+      "A": "Volume",
+      "B": "Velocity",
+      "C": "Variety",
+      "D": "Value"
+    },
+    "answer": "D",
+    "feedback": "'Value' is important but not part of the original '3 Vs'."
+  },
+  {
+    "type": "MC",
+    "question": "What is a valid use of a scatter plot?",
+    "options": {
+      "A": "Showing distribution of a single variable",
+      "B": "Comparing proportions",
+      "C": "Showing relationship between two variables",
+      "D": "Representing hierarchical data"
+    },
+    "answer": "C",
+    "feedback": "Scatter plots visualize correlations between two numeric variables."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT true about metadata?",
+    "options": {
+      "A": "It is data about data",
+      "B": "It describes data context",
+      "C": "It encrypts data",
+      "D": "It helps with data organization"
+    },
+    "answer": "C",
+    "feedback": "Metadata describes data but does not encrypt it."
+  },
+  {
+    "type": "MC",
+    "question": "Which data type is best represented by bar charts?",
+    "options": {
+      "A": "Categorical data",
+      "B": "Continuous data",
+      "C": "Time series data",
+      "D": "Hierarchical data"
+    },
+    "answer": "A",
+    "feedback": "Bar charts compare categories or discrete groups."
+  },
+  {
+    "type": "MC",
+    "question": "What does a 95% confidence interval represent?",
+    "options": {
+      "A": "The range in which 95% of data points lie",
+      "B": "The interval where the true population parameter lies with 95% certainty",
+      "C": "The top 95% of data values",
+      "D": "The probability of a correct hypothesis"
+    },
+    "answer": "B",
+    "feedback": "A 95% confidence interval estimates the range containing the true parameter with 95% confidence."
+  },
+  {
+    "type": "MC",
+    "question": "What is the null hypothesis in hypothesis testing?",
+    "options": {
+      "A": "The hypothesis that there is an effect or difference",
+      "B": "The hypothesis that there is no effect or difference",
+      "C": "The conclusion drawn after testing",
+      "D": "The alternative hypothesis"
+    },
+    "answer": "B",
+    "feedback": "The null hypothesis assumes no effect or difference, serving as the default claim."
+  },
+  {
+    "type": "MC",
+    "question": "What does a p-value less than 0.05 typically indicate?",
+    "options": {
+      "A": "Strong evidence against the null hypothesis",
+      "B": "The null hypothesis is true",
+      "C": "The data is invalid",
+      "D": "The test should be repeated"
+    },
+    "answer": "A",
+    "feedback": "A p-value < 0.05 suggests the observed result is statistically significant."
+  },
+  {
+    "type": "MC",
+    "question": "In linear regression, what does the coefficient represent?",
+    "options": {
+      "A": "The intercept point on the y-axis",
+      "B": "The strength of correlation",
+      "C": "The expected change in dependent variable per unit change in independent variable",
+      "D": "The error term"
+    },
+    "answer": "C",
+    "feedback": "The coefficient estimates the effect size of the independent variable."
+  },
+  {
+    "type": "MC",
+    "question": "What is supervised learning?",
+    "options": {
+      "A": "Learning from unlabeled data",
+      "B": "Learning from labeled data with known outputs",
+      "C": "Clustering data without labels",
+      "D": "Random data sampling"
+    },
+    "answer": "B",
+    "feedback": "Supervised learning uses labeled datasets to train models."
+  },
+  {
+    "type": "MC",
+    "question": "Which algorithm is commonly used for clustering?",
+    "options": {
+      "A": "K-Means",
+      "B": "Linear regression",
+      "C": "Decision trees",
+      "D": "Support Vector Machines"
+    },
+    "answer": "A",
+    "feedback": "K-Means is a popular clustering algorithm for grouping data."
+  },
+  {
+    "type": "MC",
+    "question": "What differentiates classification from clustering?",
+    "options": {
+      "A": "Classification predicts categories, clustering finds groups without labels",
+      "B": "Classification uses unlabeled data",
+      "C": "Clustering predicts future data",
+      "D": "They are the same"
+    },
+    "answer": "A",
+    "feedback": "Classification assigns labels, clustering groups data without predefined labels."
+  },
+  {
+    "type": "MC",
+    "question": "What is hashing used for in databases?",
+    "options": {
+      "A": "Data encryption",
+      "B": "Quick data retrieval via a computed key",
+      "C": "Sorting data",
+      "D": "Data visualization"
+    },
+    "answer": "B",
+    "feedback": "Hashing computes a key to quickly locate data."
+  },
+  {
+    "type": "MC",
+    "question": "What is query optimization in databases?",
+    "options": {
+      "A": "Changing data structure",
+      "B": "Improving query efficiency to reduce execution time",
+      "C": "Encrypting queries",
+      "D": "Deleting slow queries"
+    },
+    "answer": "B",
+    "feedback": "Query optimization improves performance by rewriting queries or using indexes."
+  },
+  {
+    "type": "MC",
+    "question": "Under GDPR, what rights do individuals have regarding their personal data?",
+    "options": {
+      "A": "Right to access and correct data",
+      "B": "Right to data deletion",
+      "C": "Right to data portability",
+      "D": "All of the above"
+    },
+    "answer": "D",
+    "feedback": "GDPR grants individuals multiple rights including access, correction, deletion, and portability."
+  },
+  {
+    "type": "MC",
+    "question": "Which principle requires organizations to minimize data collected to only what is necessary?",
+    "options": {
+      "A": "Data minimization",
+      "B": "Data retention",
+      "C": "Data encryption",
+      "D": "Data auditing"
+    },
+    "answer": "A",
+    "feedback": "Data minimization limits data collection to essential information."
+  },
+  {
+    "type": "MC",
+    "question": "Which SQL statement is used to retrieve data from a database?",
+    "options": {
+      "A": "INSERT",
+      "B": "UPDATE",
+      "C": "SELECT",
+      "D": "DELETE"
+    },
+    "answer": "C",
+    "feedback": "SELECT queries data from tables."
+  },
+  {
+    "type": "MC",
+    "question": "What is the goal of database normalization?",
+    "options": {
+      "A": "Increase redundancy",
+      "B": "Reduce data anomalies",
+      "C": "Encrypt data",
+      "D": "Backup data"
+    },
+    "answer": "B",
+    "feedback": "Normalization organizes tables to reduce redundancy and anomalies."
+  },
+  {
+    "type": "MC",
+    "question": "If a dataset has a strong positive correlation coefficient, what does this imply?",
+    "options": {
+      "A": "One variable decreases as the other decreases",
+      "B": "One variable increases as the other increases",
+      "C": "No relationship between variables",
+      "D": "Data is not normally distributed"
+    },
+    "answer": "B",
+    "feedback": "Strong positive correlation means variables increase together."
+  },
+  {
+    "type": "MC",
+    "question": "What is a key difference between SQL and NoSQL databases?",
+    "options": {
+      "A": "SQL databases are non-relational",
+      "B": "NoSQL databases typically allow flexible schemas",
+      "C": "NoSQL databases cannot handle large data volumes",
+      "D": "SQL databases do not support transactions"
+    },
+    "answer": "B",
+    "feedback": "NoSQL databases often support dynamic schemas and unstructured data."
+  },
+  {
+    "type": "MC",
+    "question": "Which chart type is most appropriate for showing trends over time?",
+    "options": {
+      "A": "Bar chart",
+      "B": "Line chart",
+      "C": "Pie chart",
+      "D": "Histogram"
+    },
+    "answer": "B",
+    "feedback": "Line charts are ideal for visualizing trends over time."
+  },
+  {
+    "type": "MC",
+    "question": "What is an important consideration when creating data visualizations?",
+    "options": {
+      "A": "Using as many colors as possible",
+      "B": "Choosing charts that accurately represent data relationships",
+      "C": "Ignoring data context",
+      "D": "Maximizing chart complexity"
+    },
+    "answer": "B",
+    "feedback": "Selecting appropriate charts ensures accurate data interpretation."
+  },
+    {
+    "type": "MC",
+    "question": "What does 'Normalization' refer to in database systems?",
+    "options": {
+      "A": "The process of encrypting data",
+      "B": "Organizing data to reduce redundancy and improve integrity",
+      "C": "Backing up data",
+      "D": "Increasing data duplication"
+    },
+    "answer": "B",
+    "feedback": "Normalization organizes tables to minimize redundancy and data anomalies."
+  },
+  {
+    "type": "MC",
+    "question": "What is a 'Relational Database'?",
+    "options": {
+      "A": "A database that stores data in key-value pairs",
+      "B": "A database that stores data in tables with relationships",
+      "C": "A database designed only for IoT devices",
+      "D": "A database that does not support queries"
+    },
+    "answer": "B",
+    "feedback": "Relational databases organize data into tables with defined relationships."
+  },
+  {
+    "type": "MC",
+    "question": "What is 'Simple Random Sampling'?",
+    "options": {
+      "A": "Selecting data points based on convenience",
+      "B": "Selecting every nth data point",
+      "C": "Selecting data points where each has an equal chance of selection",
+      "D": "Selecting data points from only one category"
+    },
+    "answer": "C",
+    "feedback": "Simple random sampling ensures equal probability for all data points."
+  },
+  {
+    "type": "MC",
+    "question": "What does 'Confidence Interval' represent in statistics?",
+    "options": {
+      "A": "The range where the population parameter lies with a certain confidence",
+      "B": "The highest and lowest data points",
+      "C": "The exact value of the mean",
+      "D": "The number of samples collected"
+    },
+    "answer": "A",
+    "feedback": "Confidence intervals estimate where the true parameter likely lies."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is NOT a database type?",
+    "options": {
+      "A": "Relational",
+      "B": "Non-relational",
+      "C": "Hierarchical",
+      "D": "Randomized"
+    },
+    "answer": "D",
+    "feedback": "'Randomized' is not a recognized database type."
+  },
+  {
+    "type": "MC",
+    "question": "What is an 'Index' in a database?",
+    "options": {
+      "A": "A backup file",
+      "B": "A structure that speeds up data retrieval",
+      "C": "A type of query",
+      "D": "A data encryption method"
+    },
+    "answer": "B",
+    "feedback": "Indexes improve query performance by providing quick data access paths."
+  },
+  {
+    "type": "MC",
+    "question": "Which term describes the 'completeness, timeliness, and accuracy' of data?",
+    "options": {
+      "A": "Data modeling",
+      "B": "Data quality dimensions",
+      "C": "Data storage",
+      "D": "Data normalization"
+    },
+    "answer": "B",
+    "feedback": "These are key dimensions to evaluate data quality."
+  },
+  {
+    "type": "MC",
+    "question": "What is the primary purpose of the General Data Protection Regulation (GDPR)?",
+    "options": {
+      "A": "To regulate network traffic",
+      "B": "To protect personal data privacy",
+      "C": "To manage database backups",
+      "D": "To optimize query performance"
+    },
+    "answer": "B",
+    "feedback": "GDPR protects individuals’ personal data privacy in the EU."
+  },
+  {
+    "type": "MC",
+    "question": "What does 'Data Modelling' involve?",
+    "options": {
+      "A": "Designing database structure and relationships",
+      "B": "Encrypting data",
+      "C": "Deleting unnecessary data",
+      "D": "Creating data backups"
+    },
+    "answer": "A",
+    "feedback": "Data modelling defines how data is structured and related."
+  },
+  {
+    "type": "MC",
+    "question": "What is 'Standard Deviation' a measure of?",
+    "options": {
+      "A": "The average value",
+      "B": "The spread or dispersion of data",
+      "C": "The maximum data point",
+      "D": "The minimum data point"
+    },
+    "answer": "B",
+    "feedback": "Standard deviation measures how much data varies from the mean."
+  },
+  {
+    "type": "MC",
+    "question": "What is 'Interquartile Range' (IQR)?",
+    "options": {
+      "A": "Difference between the highest and lowest values",
+      "B": "Difference between the third and first quartiles",
+      "C": "The median value",
+      "D": "Average of all data points"
+    },
+    "answer": "B",
+    "feedback": "IQR measures the middle 50% spread of data."
+  },
+  {
+    "type": "MC",
+    "question": "Which Act governs access to information held by public bodies in Ireland?",
+    "options": {
+      "A": "Data Protection Act",
+      "B": "Freedom of Information Act",
+      "C": "Computer Misuse Act",
+      "D": "Privacy Act"
+    },
+    "answer": "B",
+    "feedback": "Freedom of Information Act regulates public access to information."
+  },
+  {
+    "type": "MC",
+    "question": "What does 'Data Storage' refer to?",
+    "options": {
+      "A": "The process of collecting data",
+      "B": "Saving data in physical or digital formats",
+      "C": "Cleaning data",
+      "D": "Analyzing data"
+    },
+    "answer": "B",
+    "feedback": "Data storage involves saving data for later use."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is a common graph type used to display trends over time?",
+    "options": {
+      "A": "Pie chart",
+      "B": "Line graph",
+      "C": "Histogram",
+      "D": "Scatter plot"
+    },
+    "answer": "B",
+    "feedback": "Line graphs effectively show data trends over time."
+  },
+  {
+    "type": "MC",
+    "question": "What is 'Timeliness' in data quality?",
+    "options": {
+      "A": "How up-to-date the data is",
+      "B": "How complete the data is",
+      "C": "How accurate the data is",
+      "D": "How secure the data is"
+    },
+    "answer": "A",
+    "feedback": "Timeliness measures if data is current and relevant."
+  },
+  {
+    "type": "MC",
+    "question": "What role do 'Indexes' play in query performance?",
+    "options": {
+      "A": "They slow down queries",
+      "B": "They speed up data retrieval",
+      "C": "They delete redundant data",
+      "D": "They encrypt queries"
+    },
+    "answer": "B",
+    "feedback": "Indexes improve query speed by enabling faster lookups."
+  },
+  {
+    "type": "MC",
+    "question": "What does 'Data Protection Act' primarily focus on?",
+    "options": {
+      "A": "Regulating internet speeds",
+      "B": "Protecting personal data privacy",
+      "C": "Database design standards",
+      "D": "Data storage efficiency"
+    },
+    "answer": "B",
+    "feedback": "Data Protection Act safeguards personal data."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following best defines 'Data Collection'?",
+    "options": {
+      "A": "Storing data",
+      "B": "Gathering data from various sources",
+      "C": "Analyzing data",
+      "D": "Visualizing data"
+    },
+    "answer": "B",
+    "feedback": "Data collection is the initial step of acquiring raw data."
+  },
+  {
+    "type": "MC",
+    "question": "What is 'Basic Syntax' in the context of database queries?",
+    "options": {
+      "A": "The rules for writing valid commands",
+      "B": "A type of data storage",
+      "C": "Data encryption technique",
+      "D": "Data visualization tool"
+    },
+    "answer": "A",
+    "feedback": "Basic syntax defines how to correctly write query statements."
+  }
+]

@@ -11,7 +11,7 @@ import ScoreReview from '@/components/quiz/ScoreReview';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, AlertTriangle, BookOpen, Network, ListChecks, BrainCircuit } from 'lucide-react'; // Added BrainCircuit
+import { Loader2, AlertTriangle, BookOpen, Network, ListChecks, BrainCircuit, Database } from 'lucide-react'; // Added Database
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -32,6 +32,7 @@ const quizOptions: QuizOption[] = [
   { key: 'applied', label: 'Applied Networking Quiz', filename: 'applied.json', icon: Network, description: 'Practical networking applications and scenarios.' },
   { key: 'network', label: 'Networking Fundamentals Quiz', filename: 'network_quiz.json', icon: BookOpen, description: 'Core concepts of computer networking.' },
   { key: 'electronics', label: 'Electronics Fundamentals Quiz', filename: 'electronics.json', icon: BrainCircuit, description: 'Basic principles and components of electronics.' },
+  { key: 'database', label: 'Databases & Statistics Quiz', filename: 'Data_Database.json', icon: Database, description: 'Fundamental concepts of databases and statistics.' },
 ];
 
 const questionCountOptions = [5, 10, 20]; // Define available question counts
@@ -142,7 +143,7 @@ export default function QuizPage() {
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+      setCurrentQuestionIndex(prevIndex => prevIndex - 1); // Corrected to decrement
     }
   };
 
@@ -154,8 +155,9 @@ export default function QuizPage() {
         description: `You have ${unanswered} unanswered question${unanswered > 1 ? 's' : ''}. Please review before submitting.`,
         variant: "destructive",
       });
+    } else { // Only proceed to review if all questions are answered, or add a confirmation dialog
+        setQuizState('review');
     }
-    setQuizState('review');
   };
 
   const handleRestart = () => {
@@ -165,6 +167,8 @@ export default function QuizPage() {
   };
 
   const handleGoHome = () => {
+    router.push('/'); // Navigate to home page
+    // Resetting state might be redundant if page reloads, but good for SPA feel
     setQuizState('selecting');
     setSelectedQuiz(null);
     setQuestions([]);
@@ -176,7 +180,7 @@ export default function QuizPage() {
     (answer) => answer.questionId === currentQuestion?.id
   )?.selectedOption ?? null;
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
-  const canSubmit = isLastQuestion;
+  const canSubmit = questions.length > 0 && userAnswers.every(a => a.selectedOption !== null);
 
 
   // Render based on state
@@ -199,7 +203,7 @@ export default function QuizPage() {
             {error || 'An unexpected error occurred.'}
           </AlertDescription>
         </Alert>
-        <Button onClick={handleGoHome} variant="outline" className="mt-6">
+        <Button onClick={handleRestart} variant="outline" className="mt-6">
           Back to Selection
         </Button>
       </div>
@@ -247,7 +251,7 @@ export default function QuizPage() {
                  </CardHeader>
                  <CardContent>
                     <Select
-                        value={String(Math.min(selectedQuestionCount, maxQuestions))}
+                        value={String(Math.min(selectedQuestionCount, maxQuestions > 0 ? maxQuestions : selectedQuestionCount))} // Ensure value is valid
                         onValueChange={(value) => setSelectedQuestionCount(parseInt(value))}
                         >
                         <SelectTrigger>
@@ -255,7 +259,7 @@ export default function QuizPage() {
                         </SelectTrigger>
                         <SelectContent>
                             {questionCountOptions.map((count) => (
-                                (count <= maxQuestions) && 
+                                (count <= maxQuestions || maxQuestions === 0) && // Allow if maxQuestions not loaded or count is valid
                                 <SelectItem key={count} value={String(count)}>
                                     {count} Questions
                                 </SelectItem>
@@ -274,7 +278,7 @@ export default function QuizPage() {
          <Button
            size="lg"
            onClick={() => selectedQuiz && startQuiz(selectedQuiz, selectedQuestionCount)}
-           disabled={!selectedQuiz}
+           disabled={!selectedQuiz || availableQuizzes.find(q => q.key === selectedQuiz.key)?.totalQuestions === 0}
          >
            Start Quiz Now
          </Button>
@@ -320,7 +324,7 @@ export default function QuizPage() {
       ) : (
           <div className="text-center p-8">
             <p className="text-lg text-muted-foreground">No questions available for this quiz.</p>
-             <Button onClick={handleGoHome} variant="outline" className="mt-6">
+             <Button onClick={handleRestart} variant="outline" className="mt-6">
                Back to Selection
              </Button>
           </div>
@@ -328,5 +332,3 @@ export default function QuizPage() {
     </div>
   );
 }
-
-

@@ -9,7 +9,7 @@ import { AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-const availableFlashcardSets = ['applied', 'ccna']; // Define available sets
+const availableFlashcardSets = ['applied', 'ccna', 'database']; // Added 'database'
 
 export default function FlashcardPage() {
   const params = useParams();
@@ -45,6 +45,9 @@ export default function FlashcardPage() {
   } else if (quizName === 'ccna') {
     jsonFilename = 'flash_CCNA.json';
     pageTitle = 'CCNA Concepts Flashcards';
+  } else if (quizName === 'database') { // New entry for database flashcards
+    jsonFilename = 'Flash_Database.json';
+    pageTitle = 'Databases & Statistics Flashcards';
   }
   // No need for an else here because the check above ensures quizName is valid.
 
