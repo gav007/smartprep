@@ -10,7 +10,7 @@ import { AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-const availableFlashcardSets = ['applied', 'ccna', 'database', 'cprogramming', 'operatingsystems']; // Added 'operatingsystems'
+const availableFlashcardSets = ['applied', 'ccna', 'database', 'cprogramming', 'operatingsystems', 'pythonnetworking'];
 
 export default function FlashcardPage() {
   const params = useParams();
@@ -55,8 +55,12 @@ export default function FlashcardPage() {
   } else if (quizName === 'operatingsystems') {
     jsonFilename = 'Operating_S_Flash.json';
     pageTitle = 'Operating Systems Flashcards';
+  } else if (quizName === 'pythonnetworking') {
+    jsonFilename = 'python_flash.json';
+    pageTitle = 'Python & Networking Flashcards';
   }
   // No need for an else here because the check above ensures quizName is valid.
 
   return <FlashcardPlayer quizFilename={jsonFilename} quizTitle={pageTitle} />;
 }
+

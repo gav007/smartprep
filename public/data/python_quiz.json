@@ -1,0 +1,1204 @@
+[
+  {
+    "type": "MC",
+    "question": "What is meant by a 'dynamic typed language' in Python?",
+    "options": {
+      "A": "Variable types are fixed and cannot change",
+      "B": "Variable types are checked at compile time",
+      "C": "Variable types are determined at runtime and can change",
+      "D": "Variables have no type"
+    },
+    "answer": "C",
+    "feedback": "Python determines variable types at runtime, allowing flexibility."
+  },
+  {
+    "type": "MC",
+    "question": "What is an iterable object in Python?",
+    "options": {
+      "A": "An object that can be converted to a string",
+      "B": "An object capable of returning its members one at a time",
+      "C": "An object that can be modified",
+      "D": "An object that cannot be used in loops"
+    },
+    "answer": "B",
+    "feedback": "Iterables can be looped over, returning one element at a time."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of: print('AC', 'DC', end='!', sep='\\\\')?",
+    "options": {
+      "A": "AC DC!",
+      "B": "AC\\DC!",
+      "C": "AC DC\\!",
+      "D": "AC!DC"
+    },
+    "answer": "B",
+    "feedback": "Separator '\\\\' is inserted between strings; end='!' appends an exclamation mark."
+  },
+  {
+    "type": "MC",
+    "question": "Which Python statement creates a list ['a', 'b', 'a', 'b'] when given lst = ['a', 'b']?",
+    "options": {
+      "A": "lst + lst",
+      "B": "lst * 2",
+      "C": "lst.append(lst)",
+      "D": "lst * 3"
+    },
+    "answer": "B",
+    "feedback": "List multiplied by 2 duplicates its contents."
+  },
+  {
+    "type": "MC",
+    "question": "How do you write a for loop that iterates over the tuple ('x', 'y', 'z') and prints each element?",
+    "options": {
+      "A": "for i in range(len(t)): print(t[i])",
+      "B": "for element in t: print(element)",
+      "C": "while i < len(t): print(t[i]); i += 1",
+      "D": "All of the above"
+    },
+    "answer": "D",
+    "feedback": "All options correctly iterate and print tuple elements."
+  },
+  {
+    "type": "MC",
+    "question": "How do you define a function named average that takes three parameters x, y, z and returns their average?",
+    "options": {
+      "A": "def average(x, y, z): return (x + y + z)/3",
+      "B": "def average(x, y, z): return x + y + z / 3",
+      "C": "def average(x, y, z): print((x + y + z)/3)",
+      "D": "def average(x, y, z): return x * y * z"
+    },
+    "answer": "A",
+    "feedback": "The correct function calculates the sum divided by 3."
+  },
+  {
+    "type": "MC",
+    "question": "What is the difference between a dictionary and a set in Python?",
+    "options": {
+      "A": "Dictionaries are mutable, sets are not",
+      "B": "Dictionaries have key-value pairs, sets are unordered collections of unique elements",
+      "C": "Sets allow duplicate elements, dictionaries do not",
+      "D": "Dictionaries are ordered, sets are not"
+    },
+    "answer": "B",
+    "feedback": "Dictionaries map keys to values; sets store unique items."
+  },
+  {
+    "type": "MC",
+    "question": "What is the expected output of this Python code?\n\nnumbers = [10, 10, 11, 5]\nprint(max(numbers))",
+    "options": {
+      "A": "10",
+      "B": "11",
+      "C": "5",
+      "D": "Error"
+    },
+    "answer": "B",
+    "feedback": "max() returns the highest value in the list."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is true about list comprehensions in Python?",
+    "options": {
+      "A": "They provide a concise way to create lists",
+      "B": "They are slower than for-loops",
+      "C": "They cannot include conditions",
+      "D": "They are deprecated"
+    },
+    "answer": "A",
+    "feedback": "List comprehensions simplify list creation syntax."
+  },
+  {
+    "type": "MC",
+    "question": "What is encapsulation in Object Oriented Programming?",
+    "options": {
+      "A": "Hiding internal details of objects and exposing only necessary parts",
+      "B": "Creating multiple classes",
+      "C": "Inheritance of classes",
+      "D": "Writing procedural code"
+    },
+    "answer": "A",
+    "feedback": "Encapsulation protects object data and hides complexity."
+  },
+  {
+    "type": "MC",
+    "question": "Which keyword is used to handle exceptions in Python?",
+    "options": {
+      "A": "try",
+      "B": "catch",
+      "C": "except",
+      "D": "handle"
+    },
+    "answer": "C",
+    "feedback": "The 'except' block handles exceptions raised in the 'try' block."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'len()' function do in Python?",
+    "options": {
+      "A": "Returns the length of an object",
+      "B": "Calculates the sum of elements",
+      "C": "Counts only numeric elements",
+      "D": "Returns the maximum element"
+    },
+    "answer": "A",
+    "feedback": "len() returns the number of items in an iterable."
+  },
+  {
+    "type": "MC",
+    "question": "How do you create a tuple in Python?",
+    "options": {
+      "A": "Using parentheses, e.g. (1, 2, 3)",
+      "B": "Using square brackets, e.g. [1, 2, 3]",
+      "C": "Using curly braces, e.g. {1, 2, 3}",
+      "D": "Using angle brackets, e.g. <1, 2, 3>"
+    },
+    "answer": "A",
+    "feedback": "Tuples use parentheses and are immutable."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'continue' statement do inside a loop?",
+    "options": {
+      "A": "Exits the loop",
+      "B": "Skips the rest of the current iteration and continues with the next",
+      "C": "Restarts the loop from the beginning",
+      "D": "Pauses the loop"
+    },
+    "answer": "B",
+    "feedback": "continue skips remaining code in current iteration."
+  },
+  {
+    "type": "MC",
+    "question": "What does 'import' do in Python?",
+    "options": {
+      "A": "Defines a new function",
+      "B": "Loads modules and their functions",
+      "C": "Creates variables",
+      "D": "Starts program execution"
+    },
+    "answer": "B",
+    "feedback": "import loads external modules to use their functionality."
+  },
+  {
+    "type": "MC",
+    "question": "What is a class in Python?",
+    "options": {
+      "A": "A template for creating objects",
+      "B": "A function",
+      "C": "A data type like int or string",
+      "D": "A module"
+    },
+    "answer": "A",
+    "feedback": "Classes define attributes and methods for objects."
+  },
+  {
+    "type": "MC",
+    "question": "Which statement correctly creates an object of class 'Dog'?",
+    "options": {
+      "A": "dog = Dog()",
+      "B": "class dog = Dog",
+      "C": "dog: Dog",
+      "D": "Dog = new dog()"
+    },
+    "answer": "A",
+    "feedback": "dog = Dog() instantiates a new Dog object."
+  },
+  {
+    "type": "MC",
+    "question": "What is inheritance in OOP?",
+    "options": {
+      "A": "Objects creating other objects",
+      "B": "One class acquiring properties and methods from another",
+      "C": "Writing functions inside classes",
+      "D": "Encapsulating data"
+    },
+    "answer": "B",
+    "feedback": "Inheritance enables reuse and extension of classes."
+  },
+  {
+    "type": "MC",
+    "question": "Which method is the constructor in a Python class?",
+    "options": {
+      "A": "__init__",
+      "B": "__start__",
+      "C": "__create__",
+      "D": "__new__"
+    },
+    "answer": "A",
+    "feedback": "__init__ initializes new objects."
+  },
+  {
+    "type": "MC",
+    "question": "What is the use of the 'self' parameter in class methods?",
+    "options": {
+      "A": "It refers to the current instance of the class",
+      "B": "It is a keyword to define static methods",
+      "C": "It is optional",
+      "D": "It refers to the parent class"
+    },
+    "answer": "A",
+    "feedback": "self allows methods to access instance variables."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of this code?\n\nx = [1, 2, 3]\nprint(x[1])",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "Error"
+    },
+    "answer": "B",
+    "feedback": "List indexing starts at 0; x[1] is the second element."
+  },
+  {
+    "type": "MC",
+    "question": "How do you add an element 'a' to a list named my_list?",
+    "options": {
+      "A": "my_list.add('a')",
+      "B": "my_list.append('a')",
+      "C": "my_list.insert('a')",
+      "D": "my_list.push('a')"
+    },
+    "answer": "B",
+    "feedback": "append() adds an element at the end of the list."
+  },
+  {
+    "type": "MC",
+    "question": "What will be the output?\n\nprint(type({'a':1, 'b':2}))",
+    "options": {
+      "A": "<class 'list'>",
+      "B": "<class 'dict'>",
+      "C": "<class 'tuple'>",
+      "D": "<class 'set'>"
+    },
+    "answer": "B",
+    "feedback": "The literal {} with key:value pairs is a dictionary."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT a valid Python data type?",
+    "options": {
+      "A": "int",
+      "B": "float",
+      "C": "char",
+      "D": "list"
+    },
+    "answer": "C",
+    "feedback": "Python does not have a separate char type; characters are strings of length 1."
+  },
+  {
+    "type": "MC",
+    "question": "What keyword is used to define a function in Python?",
+    "options": {
+      "A": "function",
+      "B": "def",
+      "C": "func",
+      "D": "define"
+    },
+    "answer": "B",
+    "feedback": "'def' is the correct keyword for function definition."
+  },
+  {
+    "type": "MC",
+    "question": "Which statement will correctly import the math module?",
+    "options": {
+      "A": "import math",
+      "B": "include math",
+      "C": "using math",
+      "D": "require math"
+    },
+    "answer": "A",
+    "feedback": "'import' is used to bring modules into the current namespace."
+  },
+  {
+    "type": "MC",
+    "question": "What is a Python lambda function?",
+    "options": {
+      "A": "A named function",
+      "B": "An anonymous, inline function",
+      "C": "A recursive function",
+      "D": "A function in a class"
+    },
+    "answer": "B",
+    "feedback": "Lambda functions are anonymous and often used for short operations."
+  },
+  {
+    "type": "MC",
+    "question": "What does the following list comprehension do?\n\n[ x**2 for x in range(3) ]",
+    "options": {
+      "A": "Creates a list of numbers 0 to 2",
+      "B": "Creates a list of squares of numbers 0 to 2",
+      "C": "Creates a range object",
+      "D": "Generates numbers one by one"
+    },
+    "answer": "B",
+    "feedback": "Squares of 0, 1, 2 are generated in a list."
+  },
+  {
+    "type": "MC",
+    "question": "Which method removes and returns the last element from a list?",
+    "options": {
+      "A": "pop()",
+      "B": "remove()",
+      "C": "delete()",
+      "D": "clear()"
+    },
+    "answer": "A",
+    "feedback": "pop() removes and returns the last item by default."
+  },
+  {
+    "type": "MC",
+    "question": "How can you check if a key exists in a Python dictionary?",
+    "options": {
+      "A": "if key in dict:",
+      "B": "if dict.contains(key):",
+      "C": "if key.exists(dict):",
+      "D": "if dict.has_key(key):"
+    },
+    "answer": "A",
+    "feedback": "'in' keyword checks for key presence."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'strip()' method do on a Python string?",
+    "options": {
+      "A": "Removes leading and trailing whitespace",
+      "B": "Converts string to uppercase",
+      "C": "Splits string into a list",
+      "D": "Reverses the string"
+    },
+    "answer": "A",
+    "feedback": "strip() removes whitespace from the start and end."
+  },
+  {
+    "type": "MC",
+    "question": "Which Python statement opens a file named 'data.txt' for reading?",
+    "options": {
+      "A": "open('data.txt', 'r')",
+      "B": "open('data.txt', 'w')",
+      "C": "read('data.txt')",
+      "D": "file('data.txt')"
+    },
+    "answer": "A",
+    "feedback": "'r' mode opens a file for reading."
+  },
+  {
+    "type": "MC",
+    "question": "How do you handle exceptions in Python?",
+    "options": {
+      "A": "try-except blocks",
+      "B": "if-else blocks",
+      "C": "while loop",
+      "D": "for loop"
+    },
+    "answer": "A",
+    "feedback": "try-except is used for exception handling."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of:\n\nprint(type(3.14))",
+    "options": {
+      "A": "<class 'int'>",
+      "B": "<class 'float'>",
+      "C": "<class 'str'>",
+      "D": "<class 'double'>"
+    },
+    "answer": "B",
+    "feedback": "3.14 is a floating-point number."
+  },
+  {
+    "type": "MC",
+    "question": "Which Python keyword is used to create a generator function?",
+    "options": {
+      "A": "yield",
+      "B": "return",
+      "C": "generate",
+      "D": "create"
+    },
+    "answer": "A",
+    "feedback": "yield produces a sequence of values lazily."
+  },
+  {
+    "type": "MC",
+    "question": "What is the difference between 'is' and '==' in Python?",
+    "options": {
+      "A": "'is' checks value equality; '==' checks identity",
+      "B": "'is' checks object identity; '==' checks value equality",
+      "C": "Both are the same",
+      "D": "Both check object type"
+    },
+    "answer": "B",
+    "feedback": "'is' checks if two variables point to the same object."
+  },
+  {
+    "type": "MC",
+    "question": "How do you convert a string '123' to an integer in Python?",
+    "options": {
+      "A": "int('123')",
+      "B": "str(123)",
+      "C": "float('123')",
+      "D": "convert('123')"
+    },
+    "answer": "A",
+    "feedback": "int() converts strings to integers."
+  },
+  {
+    "type": "MC",
+    "question": "Which function is used to get user input from the console in Python 3?",
+    "options": {
+      "A": "input()",
+      "B": "raw_input()",
+      "C": "read()",
+      "D": "scan()"
+    },
+    "answer": "A",
+    "feedback": "input() reads a line from input as a string."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of:\n\nprint([1, 2, 3] + [4, 5])",
+    "options": {
+      "A": "[1, 2, 3, 4, 5]",
+      "B": "[5, 7, 8]",
+      "C": "Error",
+      "D": "[1, 2, 3]"
+    },
+    "answer": "A",
+    "feedback": "Lists concatenate with + operator."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'pass' statement do in Python?",
+    "options": {
+      "A": "Skips the current loop iteration",
+      "B": "Acts as a placeholder and does nothing",
+      "C": "Exits the function",
+      "D": "Raises an exception"
+    },
+    "answer": "B",
+    "feedback": "pass is used when a statement is syntactically required but no action is needed."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'range(5)' function return in Python?",
+    "options": {
+      "A": "A list of numbers from 0 to 5",
+      "B": "A list of numbers from 1 to 5",
+      "C": "A sequence of numbers from 0 up to but not including 5",
+      "D": "A list of five zeroes"
+    },
+    "answer": "C",
+    "feedback": "range(5) generates numbers 0,1,2,3,4."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is the correct syntax to define a Python dictionary?",
+    "options": {
+      "A": "dict = {'key1': 'value1', 'key2': 'value2'}",
+      "B": "dict = ['key1' = 'value1', 'key2' = 'value2']",
+      "C": "dict = ('key1', 'value1', 'key2', 'value2')",
+      "D": "dict = {'key1', 'value1', 'key2', 'value2'}"
+    },
+    "answer": "A",
+    "feedback": "Dictionaries use curly braces with key:value pairs."
+  },
+  {
+    "type": "MC",
+    "question": "How do you comment a single line in Python?",
+    "options": {
+      "A": "// This is a comment",
+      "B": "# This is a comment",
+      "C": "/* This is a comment */",
+      "D": "<!-- This is a comment -->"
+    },
+    "answer": "B",
+    "feedback": "The '#' symbol is used for single-line comments."
+  },
+  {
+    "type": "MC",
+    "question": "What will this code print?\n\nprint('Hello' * 3)",
+    "options": {
+      "A": "HelloHelloHello",
+      "B": "Hello 3",
+      "C": "Hello Hello Hello",
+      "D": "Error"
+    },
+    "answer": "A",
+    "feedback": "String multiplication repeats the string."
+  },
+  {
+    "type": "MC",
+    "question": "What is the correct way to import only the 'sqrt' function from the math module?",
+    "options": {
+      "A": "from math import sqrt",
+      "B": "import math.sqrt",
+      "C": "import sqrt from math",
+      "D": "include sqrt from math"
+    },
+    "answer": "A",
+    "feedback": "from math import sqrt imports only sqrt."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of:\n\nprint(type([1, 2, 3]))",
+    "options": {
+      "A": "<class 'list'>",
+      "B": "<class 'tuple'>",
+      "C": "<class 'dict'>",
+      "D": "<class 'set'>"
+    },
+    "answer": "A",
+    "feedback": "Square brackets define a list."
+  },
+  {
+    "type": "MC",
+    "question": "What is the result of this code?\n\nx = 5\nx += 3\nprint(x)",
+    "options": {
+      "A": "8",
+      "B": "53",
+      "C": "5",
+      "D": "Error"
+    },
+    "answer": "A",
+    "feedback": "x += 3 increments x by 3."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is immutable in Python?",
+    "options": {
+      "A": "List",
+      "B": "Dictionary",
+      "C": "Tuple",
+      "D": "Set"
+    },
+    "answer": "C",
+    "feedback": "Tuples cannot be modified after creation."
+  },
+  {
+    "type": "MC",
+    "question": "What will this code output?\n\nprint(bool(0))",
+    "options": {
+      "A": "True",
+      "B": "False",
+      "C": "0",
+      "D": "Error"
+    },
+    "answer": "B",
+    "feedback": "0 is treated as False in boolean context."
+  },
+  {
+    "type": "MC",
+    "question": "What is the difference between a list and a tuple?",
+    "options": {
+      "A": "Lists are mutable; tuples are immutable",
+      "B": "Lists are immutable; tuples are mutable",
+      "C": "Lists use parentheses; tuples use brackets",
+      "D": "No difference"
+    },
+    "answer": "A",
+    "feedback": "Lists can be changed; tuples cannot."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'break' statement do inside a loop?",
+    "options": {
+      "A": "Skips the rest of the current iteration",
+      "B": "Exits the loop immediately",
+      "C": "Restarts the loop",
+      "D": "Does nothing"
+    },
+    "answer": "B",
+    "feedback": "'break' stops loop execution immediately."
+  },
+  {
+    "type": "MC",
+    "question": "How do you define a Python function that accepts any number of positional arguments?",
+    "options": {
+      "A": "def func(*args):",
+      "B": "def func(args):",
+      "C": "def func(**args):",
+      "D": "def func(*):"
+    },
+    "answer": "A",
+    "feedback": "*args collects arbitrary positional arguments."
+  },
+  {
+    "type": "MC",
+    "question": "Which method converts a string '123' to an integer?",
+    "options": {
+      "A": "int('123')",
+      "B": "str(123)",
+      "C": "float('123')",
+      "D": "convert('123')"
+    },
+    "answer": "A",
+    "feedback": "int() converts strings to integers."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of:\n\nprint('Python'[-1])",
+    "options": {
+      "A": "P",
+      "B": "n",
+      "C": "o",
+      "D": "Error"
+    },
+    "answer": "B",
+    "feedback": "Negative index -1 accesses last character."
+  },
+  {
+    "type": "MC",
+    "question": "How do you comment multiple lines in Python?",
+    "options": {
+      "A": "Using # on each line",
+      "B": "Using /* */",
+      "C": "Using ''' ''' or \"\"\" \"\"\"",
+      "D": "Using //"
+    },
+    "answer": "C",
+    "feedback": "Triple quotes can be used for multi-line comments."
+  },
+  {
+    "type": "MC",
+    "question": "What is the difference between a list and a set in Python?",
+    "options": {
+      "A": "Lists allow duplicates; sets store unique items",
+      "B": "Sets are ordered; lists are not",
+      "C": "Lists are immutable; sets are mutable",
+      "D": "No difference"
+    },
+    "answer": "A",
+    "feedback": "Sets automatically remove duplicates."
+  },
+  {
+    "type": "MC",
+    "question": "Which operator checks for equality in Python?",
+    "options": {
+      "A": "=",
+      "B": "==",
+      "C": "!=",
+      "D": ":="
+    },
+    "answer": "B",
+    "feedback": "'==' compares values for equality."
+  },
+  {
+    "type": "MC",
+    "question": "What is the purpose of the 'pass' statement?",
+    "options": {
+      "A": "To skip current iteration",
+      "B": "To indicate an empty code block",
+      "C": "To raise an exception",
+      "D": "To stop execution"
+    },
+    "answer": "B",
+    "feedback": "pass acts as a placeholder where code is syntactically required."
+  },
+  {
+    "type": "MC",
+    "question": "How do you concatenate two strings in Python?",
+    "options": {
+      "A": "str1 + str2",
+      "B": "str1 & str2",
+      "C": "concat(str1, str2)",
+      "D": "str1 . str2"
+    },
+    "answer": "A",
+    "feedback": "The '+' operator joins strings."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'def' keyword do?",
+    "options": {
+      "A": "Defines a variable",
+      "B": "Defines a function",
+      "C": "Defines a class",
+      "D": "Defines a module"
+    },
+    "answer": "B",
+    "feedback": "'def' is used to create functions."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of this code?\n\nprint('Hello, World!'[7:12])",
+    "options": {
+      "A": "World",
+      "B": "World!",
+      "C": "Hello",
+      "D": "Error"
+    },
+    "answer": "A",
+    "feedback": "String slicing extracts characters from index 7 to 11."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following correctly creates an empty set?",
+    "options": {
+      "A": "{}",
+      "B": "set()",
+      "C": "[]",
+      "D": "emptyset()"
+    },
+    "answer": "B",
+    "feedback": "{} creates an empty dictionary, set() creates an empty set."
+  },
+  {
+    "type": "MC",
+    "question": "How do you check the data type of a variable 'x'?",
+    "options": {
+      "A": "typeof(x)",
+      "B": "type(x)",
+      "C": "datatype(x)",
+      "D": "x.type()"
+    },
+    "answer": "B",
+    "feedback": "type() returns the data type of the object."
+  },
+  {
+    "type": "MC",
+    "question": "Which built-in function can convert a string '3.14' to a float?",
+    "options": {
+      "A": "int('3.14')",
+      "B": "float('3.14')",
+      "C": "str('3.14')",
+      "D": "convert('3.14')"
+    },
+    "answer": "B",
+    "feedback": "float() converts string to floating-point number."
+  },
+  {
+    "type": "MC",
+    "question": "What is the result of 'Hello'.lower()?",
+    "options": {
+      "A": "HELLO",
+      "B": "hello",
+      "C": "Hello",
+      "D": "Error"
+    },
+    "answer": "B",
+    "feedback": "lower() converts all characters to lowercase."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'append()' method do in Python lists?",
+    "options": {
+      "A": "Adds an element to the end of the list",
+      "B": "Removes an element",
+      "C": "Inserts an element at the start",
+      "D": "Returns the last element"
+    },
+    "answer": "A",
+    "feedback": "append() adds a single item at the list's end."
+  },
+  {
+    "type": "MC",
+    "question": "Which symbol is used to denote comments in Python?",
+    "options": {
+      "A": "//",
+      "B": "#",
+      "C": "/* */",
+      "D": "<!-- -->"
+    },
+    "answer": "B",
+    "feedback": "# is used for single-line comments."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of len('network')?",
+    "options": {
+      "A": "6",
+      "B": "7",
+      "C": "8",
+      "D": "Error"
+    },
+    "answer": "B",
+    "feedback": "'network' has 7 characters."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of:\n\nprint(bool(''))",
+    "options": {
+      "A": "True",
+      "B": "False",
+      "C": "Error",
+      "D": "None"
+    },
+    "answer": "B",
+    "feedback": "Empty string is False in boolean context."
+  },
+  {
+    "type": "MC",
+    "question": "Which statement is true about Python dictionaries?",
+    "options": {
+      "A": "They store ordered key-value pairs",
+      "B": "They store unordered key-value pairs",
+      "C": "They store only unique values",
+      "D": "They allow duplicate keys"
+    },
+    "answer": "B",
+    "feedback": "Dictionaries are unordered collections of key-value pairs."
+  },
+  {
+    "type": "MC",
+    "question": "Which keyword is used to define a class in Python?",
+    "options": {
+      "A": "function",
+      "B": "class",
+      "C": "def",
+      "D": "object"
+    },
+    "answer": "B",
+    "feedback": "'class' defines a new class in Python."
+  },
+  {
+    "type": "MC",
+    "question": "What is inheritance in Object-Oriented Programming?",
+    "options": {
+      "A": "Creating instances of a class",
+      "B": "One class acquiring properties and methods of another",
+      "C": "Hiding data",
+      "D": "Encapsulation"
+    },
+    "answer": "B",
+    "feedback": "Inheritance allows code reuse by subclassing."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of this code?\n\nclass A:\n    def __init__(self):\n        print('A')\n\nclass B(A):\n    def __init__(self):\n        super().__init__()\n        print('B')\n\nb = B()",
+    "options": {
+      "A": "A B",
+      "B": "B A",
+      "C": "A",
+      "D": "B"
+    },
+    "answer": "A",
+    "feedback": "super().__init__() calls the parent constructor first."
+  },
+  {
+    "type": "MC",
+    "question": "Which method is the constructor in a Python class?",
+    "options": {
+      "A": "__init__",
+      "B": "__start__",
+      "C": "__new__",
+      "D": "__create__"
+    },
+    "answer": "A",
+    "feedback": "__init__ initializes a new object."
+  },
+  {
+    "type": "MC",
+    "question": "What does encapsulation mean in OOP?",
+    "options": {
+      "A": "Exposing all data to other objects",
+      "B": "Hiding internal object details and exposing only what is necessary",
+      "C": "Creating multiple classes",
+      "D": "Inheritance"
+    },
+    "answer": "B",
+    "feedback": "Encapsulation protects data by restricting access."
+  },
+  {
+    "type": "MC",
+    "question": "How do you define a method inside a Python class?",
+    "options": {
+      "A": "def method_name(self):",
+      "B": "method method_name():",
+      "C": "function method_name():",
+      "D": "def method_name():"
+    },
+    "answer": "A",
+    "feedback": "Methods inside classes require self as first parameter."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following correctly creates an object of class Dog?",
+    "options": {
+      "A": "dog = Dog()",
+      "B": "dog = new Dog()",
+      "C": "Dog dog = new Dog()",
+      "D": "dog := Dog()"
+    },
+    "answer": "A",
+    "feedback": "dog = Dog() instantiates a new object."
+  },
+  {
+    "type": "MC",
+    "question": "What is polymorphism in OOP?",
+    "options": {
+      "A": "Ability to take multiple forms",
+      "B": "Data hiding",
+      "C": "Inheritance",
+      "D": "Creating objects"
+    },
+    "answer": "A",
+    "feedback": "Polymorphism allows methods to behave differently based on object."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of this code?\n\nprint(isinstance(5, int))",
+    "options": {
+      "A": "True",
+      "B": "False",
+      "C": "Error",
+      "D": "None"
+    },
+    "answer": "A",
+    "feedback": "5 is an instance of int, so it returns True."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'self' parameter represent in class methods?",
+    "options": {
+      "A": "The class itself",
+      "B": "The instance of the class",
+      "C": "A global variable",
+      "D": "A static method"
+    },
+    "answer": "B",
+    "feedback": "self refers to the current instance of the class."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'super()' function do in Python classes?",
+    "options": {
+      "A": "Calls the parent class method",
+      "B": "Creates a new class",
+      "C": "Deletes an object",
+      "D": "Overrides a method"
+    },
+    "answer": "A",
+    "feedback": "super() is used to call methods from the parent class."
+  },
+  {
+    "type": "MC",
+    "question": "Which statement about Python modules is correct?",
+    "options": {
+      "A": "Modules can only contain functions",
+      "B": "Modules are files containing Python code",
+      "C": "Modules cannot be imported",
+      "D": "Modules and classes are the same"
+    },
+    "answer": "B",
+    "feedback": "Modules are Python files containing definitions and statements."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'import' statement do?",
+    "options": {
+      "A": "Defines a new function",
+      "B": "Loads external code into the current script",
+      "C": "Executes code without loading",
+      "D": "Compiles Python code"
+    },
+    "answer": "B",
+    "feedback": "import loads modules to use their functions and classes."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of the following code?\n\nx = [1, 2, 3]\ny = x\nx.append(4)\nprint(y)",
+    "options": {
+      "A": "[1, 2, 3]",
+      "B": "[1, 2, 3, 4]",
+      "C": "[4]",
+      "D": "Error"
+    },
+    "answer": "B",
+    "feedback": "y refers to the same list object as x."
+  },
+  {
+    "type": "MC",
+    "question": "How do you create a Python virtual environment?",
+    "options": {
+      "A": "python -m venv env_name",
+      "B": "virtualenv create env_name",
+      "C": "pip install venv",
+      "D": "python create env_name"
+    },
+    "answer": "A",
+    "feedback": "python -m venv creates a new virtual environment."
+  },
+  {
+    "type": "MC",
+    "question": "Which method removes an element from a list by value?",
+    "options": {
+      "A": "remove()",
+      "B": "pop()",
+      "C": "del",
+      "D": "discard()"
+    },
+    "answer": "A",
+    "feedback": "remove() deletes the first matching value."
+  },
+  {
+    "type": "MC",
+    "question": "What is the output of:\n\nprint(list(range(2, 10, 2)))",
+    "options": {
+      "A": "[2, 4, 6, 8]",
+      "B": "[2, 3, 4, 5, 6, 7, 8, 9]",
+      "C": "[0, 2, 4, 6, 8]",
+      "D": "[2, 4, 6, 8, 10]"
+    },
+    "answer": "A",
+    "feedback": "range(2,10,2) generates numbers from 2 to 8 stepping by 2."
+  },
+  {
+    "type": "MC",
+    "question": "How do you convert a list ['1', '2', '3'] into integers?",
+    "options": {
+      "A": "list(map(int, ['1', '2', '3']))",
+      "B": "int(['1', '2', '3'])",
+      "C": "list(int(['1', '2', '3']))",
+      "D": "convert(['1', '2', '3'])"
+    },
+    "answer": "A",
+    "feedback": "map(int, ...) applies int() to each element."
+  },
+  {
+    "type": "MC",
+    "question": "Which method returns the number of items in a list?",
+    "options": {
+      "A": "count()",
+      "B": "len()",
+      "C": "size()",
+      "D": "length()"
+    },
+    "answer": "B",
+    "feedback": "len() returns the length of a collection."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'with' statement do in Python file handling?",
+    "options": {
+      "A": "Handles exceptions",
+      "B": "Opens and automatically closes files",
+      "C": "Reads entire file",
+      "D": "Writes to a file"
+    },
+    "answer": "B",
+    "feedback": "'with' ensures files are closed properly."
+  },
+  {
+    "type": "MC",
+    "question": "Which Python library is commonly used for network programming?",
+    "options": {
+      "A": "socket",
+      "B": "math",
+      "C": "os",
+      "D": "json"
+    },
+    "answer": "A",
+    "feedback": "The socket module provides low-level networking interfaces."
+  },
+  {
+    "type": "MC",
+    "question": "What does the Python socket method 'bind()' do?",
+    "options": {
+      "A": "Connects to a remote socket",
+      "B": "Associates the socket with a local IP address and port",
+      "C": "Sends data over a socket",
+      "D": "Closes the socket"
+    },
+    "answer": "B",
+    "feedback": "bind() assigns the socket to a specific address and port."
+  },
+  {
+    "type": "MC",
+    "question": "What is a TCP socket?",
+    "options": {
+      "A": "A connectionless socket",
+      "B": "A connection-oriented socket ensuring reliable data transfer",
+      "C": "A socket only for UDP",
+      "D": "A socket that cannot be closed"
+    },
+    "answer": "B",
+    "feedback": "TCP sockets provide reliable, ordered communication."
+  },
+  {
+    "type": "MC",
+    "question": "Which Python method is used to listen for incoming TCP connections?",
+    "options": {
+      "A": "socket.listen()",
+      "B": "socket.send()",
+      "C": "socket.accept()",
+      "D": "socket.connect()"
+    },
+    "answer": "A",
+    "feedback": "listen() sets up the socket to accept connections."
+  },
+  {
+    "type": "MC",
+    "question": "What Python method receives data from a socket?",
+    "options": {
+      "A": "send()",
+      "B": "recv()",
+      "C": "receive()",
+      "D": "get()"
+    },
+    "answer": "B",
+    "feedback": "recv() reads incoming data from the socket."
+  },
+  {
+    "type": "MC",
+    "question": "In networking, what does IP stand for?",
+    "options": {
+      "A": "Internet Protocol",
+      "B": "Internal Process",
+      "C": "Internet Port",
+      "D": "Integrated Program"
+    },
+    "answer": "A",
+    "feedback": "IP stands for Internet Protocol."
+  },
+  {
+    "type": "MC",
+    "question": "What is the purpose of a subnet mask?",
+    "options": {
+      "A": "To encrypt network traffic",
+      "B": "To divide IP addresses into network and host parts",
+      "C": "To assign MAC addresses",
+      "D": "To identify default gateway"
+    },
+    "answer": "B",
+    "feedback": "Subnet masks split IP addresses into network and host segments."
+  },
+  {
+    "type": "MC",
+    "question": "What Python data structure is suitable for storing IP addresses and their corresponding hostnames?",
+    "options": {
+      "A": "List",
+      "B": "Tuple",
+      "C": "Dictionary",
+      "D": "Set"
+    },
+    "answer": "C",
+    "feedback": "Dictionaries store key-value pairs, ideal for IP-hostname mapping."
+  },
+  {
+    "type": "MC",
+    "question": "What does the 'socket.close()' method do?",
+    "options": {
+      "A": "Closes the socket connection",
+      "B": "Sends data",
+      "C": "Starts listening",
+      "D": "Binds to an address"
+    },
+    "answer": "A",
+    "feedback": "close() terminates the socket connection."
+  },
+  {
+    "type": "MC",
+    "question": "Which layer of the OSI model is responsible for routing?",
+    "options": {
+      "A": "Application",
+      "B": "Transport",
+      "C": "Network",
+      "D": "Data Link"
+    },
+    "answer": "C",
+    "feedback": "The Network layer handles routing between nodes."
+  }
+]
+
+

@@ -11,7 +11,7 @@ import ScoreReview from '@/components/quiz/ScoreReview';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, AlertTriangle, BookOpen, Network, ListChecks, BrainCircuit, Database, FileCode, Laptop } from 'lucide-react'; // Added Laptop
+import { Loader2, AlertTriangle, BookOpen, Network, ListChecks, BrainCircuit, Database, FileCode, Laptop } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -35,6 +35,7 @@ const quizOptions: QuizOption[] = [
   { key: 'database', label: 'Databases & Statistics Quiz', filename: 'Data_Database.json', icon: Database, description: 'Fundamental concepts of databases and statistics.' },
   { key: 'cprogramming', label: 'C Programming Language Quiz', filename: 'C_quiz.json', icon: FileCode, description: 'Test your knowledge of C programming fundamentals.' },
   { key: 'operatingsystems', label: 'Operating Systems Quiz', filename: 'Operating_S_quiz.json', icon: Laptop, description: 'Explore core OS concepts, processes, and memory management.' },
+  { key: 'pythonnetworking', label: 'Python & Networking Quiz', filename: 'python_quiz.json', icon: FileCode, description: 'Concepts of using Python for networking tasks.' },
 ];
 
 const questionCountOptions = [5, 10, 20]; // Define available question counts
@@ -334,3 +335,4 @@ export default function QuizPage() {
     </div>
   );
 }
+

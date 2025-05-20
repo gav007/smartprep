@@ -3,9 +3,9 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem, Database, FileCode, Laptop } from 'lucide-react'; // Added Laptop
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem, Database, FileCode, Laptop, ListChecks } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet"; // Added SheetTrigger
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,6 +30,7 @@ const navItems = [
       { href: "/flashcards/database", label: "Databases & Statistics", icon: Database },
       { href: "/flashcards/cprogramming", label: "C Programming", icon: FileCode },
       { href: "/flashcards/operatingsystems", label: "Operating Systems", icon: Laptop },
+      { href: "/flashcards/pythonnetworking", label: "Python & Networking", icon: FileCode },
     ]
   },
   {
@@ -46,7 +47,7 @@ const navItems = [
       { href: "/tools/waveform", label: "Waveform Viewer", icon: Waves },
     ],
   },
-   ...(process.env.NODE_ENV === 'development' ? [{ href: "/diagnostics", label: "Diagnostics", icon: Info }] : []),
+   ...(process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_SHOW_DIAGNOSTICS === 'true' ? [{ href: "/diagnostics", label: "Diagnostics", icon: Info }] : []),
 ];
 
 const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobile: boolean = false) => {
@@ -187,3 +188,4 @@ export default function Header() {
     </header>
   );
 }
+

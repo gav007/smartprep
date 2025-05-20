@@ -1,0 +1,1102 @@
+[
+  {
+    "id": 1,
+    "front": "What is a socket in Python?",
+    "back": "An endpoint for sending or receiving data across a network."
+  },
+  {
+    "id": 2,
+    "front": "What does the socket method 'bind()' do?",
+    "back": "Associates the socket with a specific local IP address and port."
+  },
+  {
+    "id": 3,
+    "front": "What is TCP?",
+    "back": "Transmission Control Protocol; a reliable, connection-oriented protocol."
+  },
+  {
+    "id": 4,
+    "front": "What is the purpose of a subnet mask?",
+    "back": "To divide an IP address into network and host portions."
+  },
+  {
+    "id": 5,
+    "front": "What Python data structure is ideal for mapping IP addresses to hostnames?",
+    "back": "A dictionary, because it stores key-value pairs."
+  },
+  {
+    "id": 6,
+    "front": "What does the 'recv()' method do in Python sockets?",
+    "back": "Receives data sent to the socket."
+  },
+  {
+    "id": 7,
+    "front": "What is the role of the Network layer in the OSI model?",
+    "back": "Routing packets between devices across networks."
+  },
+  {
+    "id": 8,
+    "front": "What does the 'close()' method do on a Python socket?",
+    "back": "Terminates the socket connection cleanly."
+  },
+  {
+    "id": 9,
+    "front": "What is an IP address?",
+    "back": "A unique identifier assigned to a device on a network."
+  },
+  {
+    "id": 10,
+    "front": "What is encapsulation in networking?",
+    "back": "Wrapping data with protocol information at each OSI layer."
+  },
+  {
+    "id": 1,
+    "front": "What is a dynamic typed language?",
+    "back": "A language where variable types are determined at runtime and can change."
+  },
+  {
+    "id": 2,
+    "front": "What is an iterable object?",
+    "back": "An object that can return its elements one at a time, allowing iteration."
+  },
+  {
+    "id": 3,
+    "front": "What is floor division in Python?",
+    "back": "Division that returns the largest integer less than or equal to the division result."
+  },
+  {
+    "id": 4,
+    "front": "What is garbage collection?",
+    "back": "Automatic memory management that frees memory no longer in use."
+  },
+  {
+    "id": 5,
+    "front": "What is list comprehension?",
+    "back": "A concise way to create lists using a single line of code with loops and conditions."
+  },
+  {
+    "id": 6,
+    "front": "What does the print statement print for: print(\"AC\", \"DC\", end = '!', sep = '\\\\')?",
+    "back": "AC\\DC!"
+  },
+  {
+    "id": 7,
+    "front": "What output does this code produce? lst = ['a','b'] print(lst * 2)",
+    "back": "['a', 'b', 'a', 'b']"
+  },
+  {
+    "id": 8,
+    "front": "How do you iterate over a tuple and print each element in Python?",
+    "back": "Use a for loop: for element in tuple: print(element)"
+  },
+  {
+    "id": 9,
+    "front": "What is a dictionary in Python?",
+    "back": "A collection of key-value pairs where keys are unique."
+  },
+  {
+    "id": 10,
+    "front": "How does a set differ from a dictionary in Python?",
+    "back": "A set is an unordered collection of unique elements without key-value pairs."
+  },
+  {
+    "id": 11,
+    "front": "What is encapsulation in OOP?",
+    "back": "Hiding internal details of objects and exposing only necessary parts."
+  },
+  {
+    "id": 12,
+    "front": "How is the constructor defined in a Python class?",
+    "back": "Using the __init__ method."
+  },
+  {
+    "id": 13,
+    "front": "What is the purpose of the self parameter in class methods?",
+    "back": "It refers to the instance of the class invoking the method."
+  },
+  {
+    "id": 14,
+    "front": "What is the difference between class variables and instance variables?",
+    "back": "Class variables are shared across all instances; instance variables are unique to each object."
+  },
+  {
+    "id": 15,
+    "front": "What does the 'append()' method do for lists in Python?",
+    "back": "Adds an element to the end of the list."
+  },
+  {
+    "id": 16,
+    "front": "What is the use of the 'try-except' block?",
+    "back": "To handle exceptions and errors gracefully during program execution."
+  },
+  {
+    "id": 17,
+    "front": "What is the output of print(2 ** 3)?",
+    "back": "8, since ** is the exponentiation operator."
+  },
+  {
+    "id": 18,
+    "front": "What is the difference between '/' and '//' operators in Python?",
+    "back": "'/' performs floating-point division; '//' performs floor division."
+  },
+  {
+    "id": 19,
+    "front": "How do you check if an object is an instance of a particular class in Python?",
+    "back": "Using isinstance(object, ClassName)."
+  },
+  {
+    "id": 20,
+    "front": "What is the default value of an optional argument in a Python function?",
+    "back": "The value specified in the function definition; if not provided, this default is used."
+  },
+  {
+    "id": 21,
+    "front": "What is a lambda function in Python?",
+    "back": "An anonymous, inline function defined with the 'lambda' keyword."
+  },
+  {
+    "id": 22,
+    "front": "What is the difference between a list and a tuple?",
+    "back": "Lists are mutable and can be changed; tuples are immutable."
+  },
+  {
+    "id": 23,
+    "front": "How do you handle multiple exceptions in Python?",
+    "back": "Using multiple except blocks or a tuple of exceptions in one except."
+  },
+  {
+    "id": 24,
+    "front": "What is the purpose of the 'with' statement when working with files?",
+    "back": "It ensures proper acquisition and release of resources, automatically closing the file."
+  },
+  {
+    "id": 25,
+    "front": "How do you concatenate two strings in Python?",
+    "back": "Using the '+' operator."
+  },
+  {
+    "id": 26,
+    "front": "What does the 'range()' function do?",
+    "back": "Generates a sequence of numbers within a specified range."
+  },
+  {
+    "id": 27,
+    "front": "What is the output of print(list(range(2, 8, 2)))?",
+    "back": "[2, 4, 6]"
+  },
+  {
+    "id": 28,
+    "front": "How can you convert a string to an integer in Python?",
+    "back": "Using the int() function."
+  },
+  {
+    "id": 29,
+    "front": "What is the purpose of the 'del' statement?",
+    "back": "To delete variables or elements from lists or dictionaries."
+  },
+  {
+    "id": 30,
+    "front": "How do you create a virtual environment in Python?",
+    "back": "Using 'python -m venv env_name' to create an isolated environment."
+  },
+   {
+    "id": 31,
+    "front": "What is the difference between '==' and 'is' in Python?",
+    "back": "'==' checks for value equality; 'is' checks if two variables refer to the same object."
+  },
+  {
+    "id": 32,
+    "front": "What is the output of print(type({'a': 1, 'b': 2}))?",
+    "back": "<class 'dict'>, indicating a dictionary data type."
+  },
+  {
+    "id": 33,
+    "front": "What does the 'pop()' method do on a list?",
+    "back": "Removes and returns the last item from the list by default."
+  },
+  {
+    "id": 34,
+    "front": "How do you check if a key exists in a dictionary?",
+    "back": "Using the 'in' keyword, e.g., 'key in dict'."
+  },
+  {
+    "id": 35,
+    "front": "What is the purpose of the '__str__' method in a class?",
+    "back": "Defines the string representation of an object for printing."
+  },
+  {
+    "id": 36,
+    "front": "What is exception handling in Python?",
+    "back": "A mechanism to catch and handle errors during program execution."
+  },
+  {
+    "id": 37,
+    "front": "What keyword is used to create a generator function?",
+    "back": "'yield' is used to produce values lazily one at a time."
+  },
+  {
+    "id": 38,
+    "front": "What does the 'continue' statement do in a loop?",
+    "back": "Skips the current iteration and continues with the next one."
+  },
+  {
+    "id": 39,
+    "front": "What is a decorator in Python?",
+    "back": "A function that modifies the behavior of another function or method."
+  },
+  {
+    "id": 40,
+    "front": "How do you import a specific function from a module?",
+    "back": "Using 'from module import function'."
+  },
+  {
+    "id": 41,
+    "front": "What is the Global Interpreter Lock (GIL) in Python?",
+    "back": "A mutex that protects access to Python objects, preventing multiple native threads from executing Python bytecodes simultaneously."
+  },
+  {
+    "id": 42,
+    "front": "What does the 'zip()' function do in Python?",
+    "back": "Combines elements from multiple iterables into tuples."
+  },
+  {
+    "id": 43,
+    "front": "What is list slicing?",
+    "back": "Extracting a portion of a list using the syntax list[start:end]."
+  },
+  {
+    "id": 44,
+    "front": "How can you make a Python function return multiple values?",
+    "back": "By returning a tuple containing all the values."
+  },
+  {
+    "id": 45,
+    "front": "What is a Python module?",
+    "back": "A file containing Python definitions and statements intended for use in other Python programs."
+  },
+  {
+    "id": 46,
+    "front": "How do you handle file exceptions in Python?",
+    "back": "Using try-except blocks around file operations."
+  },
+  {
+    "id": 47,
+    "front": "What is the difference between 'append()' and 'extend()' on lists?",
+    "back": "append() adds a single element; extend() adds elements from another iterable."
+  },
+  {
+    "id": 48,
+    "front": "What does the 'map()' function do?",
+    "back": "Applies a function to all items in an iterable and returns a map object."
+  },
+  {
+    "id": 49,
+    "front": "What is recursion?",
+    "back": "A function calling itself to solve smaller instances of a problem."
+  },
+  {
+    "id": 50,
+    "front": "What is a Python package?",
+    "back": "A collection of Python modules organized in directories."
+  },
+  {
+    "id": 51,
+    "front": "What is the difference between 'remove()' and 'pop()' methods in lists?",
+    "back": "remove() deletes the first matching value; pop() removes an element at a given index (default last)."
+  },
+  {
+    "id": 52,
+    "front": "How do you create a virtual environment in Python?",
+    "back": "Using the command 'python -m venv env_name'."
+  },
+  {
+    "id": 53,
+    "front": "What is the use of the 'assert' statement?",
+    "back": "To test if a condition is true, raising an AssertionError if not."
+  },
+  {
+    "id": 54,
+    "front": "What does the 'finally' block do in exception handling?",
+    "back": "Executes code regardless of whether an exception occurred or not."
+  },
+  {
+    "id": 55,
+    "front": "What is the purpose of the 'global' keyword?",
+    "back": "To declare that a variable inside a function is global (not local)."
+  },
+  {
+    "id": 56,
+    "front": "What is list unpacking?",
+    "back": "Assigning elements of a list to variables in a single statement."
+  },
+  {
+    "id": 57,
+    "front": "What does the 'isinstance()' function check?",
+    "back": "Whether an object is an instance of a specified class or tuple of classes."
+  },
+  {
+    "id": 58,
+    "front": "What is the difference between shallow and deep copy?",
+    "back": "Shallow copy copies references; deep copy copies nested objects recursively."
+  },
+  {
+    "id": 59,
+    "front": "How do you open a file for appending text?",
+    "back": "Using open(filename, 'a') mode."
+  },
+  {
+    "id": 60,
+    "front": "What is a generator in Python?",
+    "back": "A function that yields values one at a time, maintaining state between calls."
+  },
+  {
+    "id": 61,
+    "front": "What is the 'with' statement used for in file handling?",
+    "back": "To automatically close a file when the block is exited."
+  },
+  {
+    "id": 62,
+    "front": "What is the output of 'bool([])' in Python?",
+    "back": "False, since empty collections are considered False."
+  },
+  {
+    "id": 63,
+    "front": "What does the 'del' keyword do?",
+    "back": "Deletes a variable or an item from a list or dictionary."
+  },
+  {
+    "id": 64,
+    "front": "How do you import all contents of a module?",
+    "back": "Using 'from module import *'."
+  },
+  {
+    "id": 65,
+    "front": "What does the 'enumerate()' function do?",
+    "back": "Returns an iterator yielding pairs of index and value from an iterable."
+  },
+  {
+    "id": 66,
+    "front": "What is the purpose of docstrings?",
+    "back": "To document modules, classes, methods, and functions."
+  },
+  {
+    "id": 67,
+    "front": "What is the difference between a method and a function?",
+    "back": "Methods are functions bound to objects; functions are independent."
+  },
+  {
+    "id": 68,
+    "front": "What is duck typing in Python?",
+    "back": "Concept where the suitability of an object is determined by presence of methods, not its type."
+  },
+  {
+    "id": 69,
+    "front": "How do you check the length of a string?",
+    "back": "Using the len() function."
+  },
+  {
+    "id": 70,
+    "front": "What is the purpose of the 'pass' statement?",
+    "back": "Acts as a placeholder in code blocks where no action is needed."
+  },
+  {
+    "id": 71,
+    "front": "What is Git?",
+    "back": "A distributed version control system to track changes in source code."
+  },
+  {
+    "id": 72,
+    "front": "What does 'git init' do?",
+    "back": "Initializes a new Git repository in the current directory."
+  },
+  {
+    "id": 73,
+    "front": "How do you check the current status of your Git repo?",
+    "back": "Using the command 'git status'."
+  },
+  {
+    "id": 74,
+    "front": "What is a Git commit?",
+    "back": "A snapshot of changes saved to the repository with a message."
+  },
+  {
+    "id": 75,
+    "front": "How do you stage files for commit in Git?",
+    "back": "Using 'git add <filename>' or 'git add .' for all changes."
+  },
+  {
+    "id": 76,
+    "front": "What does 'git push' do?",
+    "back": "Uploads local commits to a remote repository."
+  },
+  {
+    "id": 77,
+    "front": "How do you create a new branch in Git?",
+    "back": "Using 'git branch <branchname>'."
+  },
+  {
+    "id": 78,
+    "front": "How do you switch branches in Git?",
+    "back": "Using 'git checkout <branchname>' or 'git switch <branchname>'."
+  },
+  {
+    "id": 79,
+    "front": "What is the difference between 'git pull' and 'git fetch'?",
+    "back": "'git fetch' downloads changes; 'git pull' downloads and merges changes."
+  },
+  {
+    "id": 80,
+    "front": "What is the purpose of a .gitignore file?",
+    "back": "To specify files and directories that Git should ignore."
+  },
+  {
+    "id": 81,
+    "front": "What Python command creates a virtual environment named 'env'?",
+    "back": "'python -m venv env'"
+  },
+  {
+    "id": 82,
+    "front": "How do you activate a virtual environment on Windows?",
+    "back": "By running 'env\\Scripts\\activate'."
+  },
+  {
+    "id": 83,
+    "front": "How do you install a package with pip?",
+    "back": "Using 'pip install package_name'."
+  },
+  {
+    "id": 84,
+    "front": "What file lists dependencies for a Python project?",
+    "back": "'requirements.txt'"
+  },
+  {
+    "id": 85,
+    "front": "How do you list installed packages in a virtual environment?",
+    "back": "Using 'pip list'."
+  },
+  {
+    "id": 86,
+    "front": "What is a Python module?",
+    "back": "A file containing Python code, functions, and classes."
+  },
+  {
+    "id": 87,
+    "front": "How do you import a module in Python?",
+    "back": "Using 'import module_name'."
+  },
+  {
+    "id": 88,
+    "front": "What does 'git clone' do?",
+    "back": "Copies a remote repository to your local machine."
+  },
+  {
+    "id": 89,
+    "front": "What is the purpose of 'git merge'?",
+    "back": "To combine changes from one branch into another."
+  },
+  {
+    "id": 90,
+    "front": "How do you check your commit history?",
+    "back": "Using 'git log'."
+  },
+  {
+    "id": 91,
+    "front": "What command stages all changed files in Git?",
+    "back": "'git add .' stages all changes in the current directory."
+  },
+  {
+    "id": 92,
+    "front": "How do you write a commit message in Git?",
+    "back": "Use 'git commit -m \"Your message\"'."
+  },
+  {
+    "id": 93,
+    "front": "What is the difference between 'git reset' and 'git revert'?",
+    "back": "'git reset' moves the HEAD pointer; 'git revert' creates a new commit that undoes changes."
+  },
+  {
+    "id": 94,
+    "front": "How can you see the differences between staged and unstaged changes?",
+    "back": "'git diff' shows unstaged changes; 'git diff --staged' shows staged changes."
+  },
+  {
+    "id": 95,
+    "front": "What does the 'pip freeze' command do?",
+    "back": "Outputs installed packages in requirements.txt format."
+  },
+  {
+    "id": 96,
+    "front": "How do you deactivate a Python virtual environment?",
+    "back": "Run the 'deactivate' command in the terminal."
+  },
+  {
+    "id": 97,
+    "front": "What does the 'git status' command show?",
+    "back": "Current branch, staged files, unstaged files, and untracked files."
+  },
+  {
+    "id": 98,
+    "front": "How do you discard changes in a file before committing?",
+    "back": "'git checkout -- filename' restores file to last committed state."
+  },
+  {
+    "id": 99,
+    "front": "What is the difference between 'pip install' and 'pip install --upgrade'?",
+    "back": "'pip install' installs a package; '--upgrade' updates it if installed."
+  },
+  {
+    "id": 100,
+    "front": "How do you create a new Python file and add it to Git?",
+    "back": "Create the file, then 'git add filename' to stage it for commit."
+  },
+  {
+    "id": 101,
+    "front": "What is a Git repository?",
+    "back": "A storage space that holds your project’s files and revision history."
+  },
+  {
+    "id": 102,
+    "front": "What command shows all branches in a Git repository?",
+    "back": "'git branch' lists all local branches."
+  },
+  {
+    "id": 103,
+    "front": "How do you rename a Git branch?",
+    "back": "Use 'git branch -m old_name new_name'."
+  },
+  {
+    "id": 104,
+    "front": "What does 'git stash' do?",
+    "back": "Temporarily saves changes that are not yet ready to commit."
+  },
+  {
+    "id": 105,
+    "front": "How do you apply stashed changes?",
+    "back": "Use 'git stash apply' to restore the latest stash."
+  },
+  {
+    "id": 106,
+    "front": "What command shows commit differences between two branches?",
+    "back": "'git diff branch1..branch2' shows differences."
+  },
+  {
+    "id": 107,
+    "front": "How do you discard the latest local commit but keep changes staged?",
+    "back": "'git reset --soft HEAD~1'."
+  },
+  {
+    "id": 108,
+    "front": "What is a Python package manager?",
+    "back": "A tool like pip that installs, updates, and manages Python packages."
+  },
+  {
+    "id": 109,
+    "front": "How do you check the Python version installed?",
+    "back": "Run 'python --version' or 'python3 --version'."
+  },
+  {
+    "id": 110,
+    "front": "What command uploads a local branch to a remote repository?",
+    "back": "'git push origin branch_name'."
+  },
+  {
+    "id": 111,
+    "front": "What is a class in Python?",
+    "back": "A blueprint for creating objects, defining attributes and methods."
+  },
+  {
+    "id": 112,
+    "front": "What is an object?",
+    "back": "An instance of a class containing data and behavior defined by the class."
+  },
+  {
+    "id": 113,
+    "front": "How do you define a class in Python?",
+    "back": "Using the 'class' keyword followed by the class name and a colon."
+  },
+  {
+    "id": 114,
+    "front": "What is the purpose of the '__init__' method?",
+    "back": "It initializes new objects when a class instance is created."
+  },
+  {
+    "id": 115,
+    "front": "What is 'self' in Python class methods?",
+    "back": "A reference to the current instance of the class."
+  },
+  {
+    "id": 116,
+    "front": "How do you create an object of a class?",
+    "back": "By calling the class name followed by parentheses, e.g., obj = ClassName()."
+  },
+  {
+    "id": 117,
+    "front": "Can Python classes have methods?",
+    "back": "Yes, methods are functions defined inside a class."
+  },
+  {
+    "id": 118,
+    "front": "What is an attribute in a class?",
+    "back": "A variable that belongs to an object or class."
+  },
+  {
+    "id": 119,
+    "front": "How do you access an object's attribute?",
+    "back": "Using dot notation, e.g., obj.attribute."
+  },
+  {
+    "id": 120,
+    "front": "What is method overloading in Python?",
+    "back": "Python does not support method overloading natively; methods can be defined once per name."
+  },
+  {
+    "id": 121,
+    "front": "What is inheritance in Python classes?",
+    "back": "A mechanism where a new class derives properties and methods from an existing class."
+  },
+  {
+    "id": 122,
+    "front": "What is a subclass?",
+    "back": "A class that inherits from another class (superclass)."
+  },
+  {
+    "id": 123,
+    "front": "How do you call a parent class constructor in a subclass?",
+    "back": "Using 'super().__init__()' inside the subclass constructor."
+  },
+  {
+    "id": 124,
+    "front": "What is method overriding?",
+    "back": "When a subclass provides a new implementation of a method defined in its superclass."
+  },
+  {
+    "id": 125,
+    "front": "What is an instance method?",
+    "back": "A method that operates on an instance of the class and has 'self' as the first parameter."
+  },
+  {
+    "id": 126,
+    "front": "What is a class method?",
+    "back": "A method bound to the class rather than its object, using '@classmethod' decorator and 'cls' parameter."
+  },
+  {
+    "id": 127,
+    "front": "What is a static method?",
+    "back": "A method that does not access instance or class data, decorated with '@staticmethod'."
+  },
+  {
+    "id": 128,
+    "front": "How do you define a class attribute?",
+    "back": "By assigning a variable directly inside the class but outside methods."
+  },
+  {
+    "id": 129,
+    "front": "What is encapsulation?",
+    "back": "Hiding internal state of an object and requiring all interaction through methods."
+  },
+  {
+    "id": 130,
+    "front": "How do you make an attribute private?",
+    "back": "Prefix the attribute name with double underscores '__'."
+  },
+  {
+    "id": 131,
+    "front": "What is the difference between an instance attribute and a class attribute?",
+    "back": "Instance attributes belong to objects; class attributes are shared by all instances."
+  },
+  {
+    "id": 132,
+    "front": "How do you delete an attribute from an object?",
+    "back": "Using the 'del' keyword, e.g., del obj.attribute."
+  },
+  {
+    "id": 133,
+    "front": "What is the purpose of the '__str__' method?",
+    "back": "To provide a human-readable string representation of an object."
+  },
+  {
+    "id": 134,
+    "front": "What is the difference between '__str__' and '__repr__' methods?",
+    "back": "'__str__' is for readable output; '__repr__' is for unambiguous representation useful for debugging."
+  },
+  {
+    "id": 135,
+    "front": "Can Python classes have multiple inheritance?",
+    "back": "Yes, Python supports inheriting from multiple classes."
+  },
+  {
+    "id": 136,
+    "front": "What is the MRO (Method Resolution Order)?",
+    "back": "The order Python follows to look up methods and attributes in multiple inheritance."
+  },
+  {
+    "id": 137,
+    "front": "How do you define a property in Python?",
+    "back": "Using the '@property' decorator to define getter methods."
+  },
+  {
+    "id": 138,
+    "front": "What is the purpose of the 'del' method in a class?",
+    "back": "The '__del__' method is a destructor called when an object is about to be destroyed."
+  },
+  {
+    "id": 139,
+    "front": "How do you check if an object has a certain attribute?",
+    "back": "Using the 'hasattr(object, 'attribute')' function."
+  },
+  {
+    "id": 140,
+    "front": "What is composition in object-oriented programming?",
+    "back": "A way to build classes that contain objects of other classes as attributes."
+  },
+  {
+    "id": 141,
+    "front": "What is a list in Python?",
+    "back": "An ordered, mutable collection of items."
+  },
+  {
+    "id": 142,
+    "front": "How do you create an empty list?",
+    "back": "Using square brackets [], or list() function."
+  },
+  {
+    "id": 143,
+    "front": "How do you add an element to the end of a list?",
+    "back": "Using the append() method."
+  },
+  {
+    "id": 144,
+    "front": "How do you insert an element at a specific position?",
+    "back": "Using the insert(index, element) method."
+  },
+  {
+    "id": 145,
+    "front": "How do you remove an element by value?",
+    "back": "Using the remove(element) method."
+  },
+  {
+    "id": 146,
+    "front": "How do you remove and return the last element?",
+    "back": "Using the pop() method."
+  },
+  {
+    "id": 147,
+    "front": "How do you get the length of a list?",
+    "back": "Using the len() function."
+  },
+  {
+    "id": 148,
+    "front": "What does list slicing do?",
+    "back": "Extracts a subset of the list using [start:end] notation."
+  },
+  {
+    "id": 149,
+    "front": "How do you concatenate two lists?",
+    "back": "Using the + operator."
+  },
+  {
+    "id": 150,
+    "front": "How do you repeat a list multiple times?",
+    "back": "Using the * operator with an integer."
+  },
+  {
+    "id": 151,
+    "front": "What is list unpacking in Python?",
+    "back": "Assigning elements of a list to individual variables in a single statement."
+  },
+  {
+    "id": 152,
+    "front": "How do you unpack a list of three elements into variables a, b, c?",
+    "back": "a, b, c = [1, 2, 3]"
+  },
+  {
+    "id": 153,
+    "front": "What happens if the number of variables does not match the number of list elements during unpacking?",
+    "back": "Python raises a ValueError."
+  },
+  {
+    "id": 154,
+    "front": "How can you unpack a list while ignoring some elements?",
+    "back": "Use the underscore (_) as a placeholder for unwanted elements."
+  },
+  {
+    "id": 155,
+    "front": "How do you use starred expression to unpack remaining elements?",
+    "back": "a, *b, c = [1, 2, 3, 4, 5] assigns 1 to a, [2,3,4] to b, and 5 to c."
+  },
+  {
+    "id": 156,
+    "front": "Can unpacking be used with other iterables besides lists?",
+    "back": "Yes, tuples, strings, sets, and more can be unpacked."
+  },
+  {
+    "id": 157,
+    "front": "What is the advantage of using unpacking in function arguments?",
+    "back": "It allows passing multiple values from lists or tuples easily using *args."
+  },
+  {
+    "id": 158,
+    "front": "What does the double asterisk (**) unpacking operator do?",
+    "back": "Unpacks a dictionary into keyword arguments."
+  },
+  {
+    "id": 159,
+    "front": "How do you swap two variables using unpacking?",
+    "back": "a, b = b, a"
+  },
+  {
+    "id": 160,
+    "front": "What happens if you unpack with too few variables but starred expression is not used?",
+    "back": "Python raises a ValueError due to mismatch."
+  },
+  {
+    "id": 161,
+    "front": "What is the correct way to write a comment in Python?",
+    "back": "Using the '#' symbol before the comment text."
+  },
+  {
+    "id": 162,
+    "front": "How do you start an if statement in Python?",
+    "back": "Using 'if' followed by a condition and a colon (:)."
+  },
+  {
+    "id": 163,
+    "front": "What indicates a block of code in Python?",
+    "back": "Indentation (usually 4 spaces) defines code blocks."
+  },
+  {
+    "id": 164,
+    "front": "How do you write an else statement?",
+    "back": "Using 'else:' aligned with the corresponding if."
+  },
+  {
+    "id": 165,
+    "front": "How do you define a function in Python?",
+    "back": "Using 'def function_name(parameters):' followed by indented code."
+  },
+  {
+    "id": 166,
+    "front": "What is the purpose of the colon (:) in Python syntax?",
+    "back": "To indicate the start of an indented code block."
+  },
+  {
+    "id": 167,
+    "front": "How do you write a for loop iterating over a list named 'items'?",
+    "back": "for item in items:"
+  },
+  {
+    "id": 168,
+    "front": "How do you write a while loop in Python?",
+    "back": "while condition:"
+  },
+  {
+    "id": 169,
+    "front": "How do you raise an exception in Python?",
+    "back": "Using the 'raise' keyword followed by an exception type."
+  },
+  {
+    "id": 170,
+    "front": "How do you import a module named 'math'?",
+    "back": "Using 'import math'."
+  },
+  {
+    "id": 171,
+    "front": "How do you write an elif statement?",
+    "back": "Using 'elif condition:' after an if block."
+  },
+  {
+    "id": 172,
+    "front": "What is the difference between '==' and '=' in Python?",
+    "back": "'==' tests equality; '=' assigns values."
+  },
+  {
+    "id": 173,
+    "front": "How do you create a multi-line string?",
+    "back": "Using triple quotes ''' or \"\"\"."
+  },
+  {
+    "id": 174,
+    "front": "How do you check if a variable 'x' is equal to 10?",
+    "back": "Using 'if x == 10:'."
+  },
+  {
+    "id": 175,
+    "front": "How do you write a try-except block?",
+    "back": "try: [code]\nexcept ExceptionType: [handler code]"
+  },
+  {
+    "id": 176,
+    "front": "How do you define a default parameter value in a function?",
+    "back": "def func(param=default):"
+  },
+  {
+    "id": 177,
+    "front": "How do you write a list comprehension that squares numbers 1 to 5?",
+    "back": "[x**2 for x in range(1,6)]"
+  },
+  {
+    "id": 178,
+    "front": "How do you check for membership in a list?",
+    "back": "'item in list' returns True if item is present."
+  },
+  {
+    "id": 179,
+    "front": "How do you concatenate strings 'a' and 'b'?",
+    "back": "Using the '+' operator: 'a' + 'b'"
+  },
+  {
+    "id": 180,
+    "front": "What symbol is used to denote a keyword argument in function calls?",
+    "back": "Using 'param=value' syntax."
+  },
+  {
+    "id": 181,
+    "front": "How do you write a function that takes variable numbers of arguments?",
+    "back": "Use *args in the function definition, e.g., def func(*args):"
+  },
+  {
+    "id": 182,
+    "front": "What is the purpose of the 'pass' statement?",
+    "back": "Acts as a placeholder in code where a statement is required but no action is performed."
+  },
+  {
+    "id": 183,
+    "front": "How do you write a lambda function that adds two numbers?",
+    "back": "lambda x, y: x + y"
+  },
+  {
+    "id": 184,
+    "front": "How do you handle multiple exceptions in one except block?",
+    "back": "Use a tuple of exception types: except (TypeError, ValueError):"
+  },
+  {
+    "id": 185,
+    "front": "What does the 'del' statement do?",
+    "back": "Deletes a variable or an element from a list or dictionary."
+  },
+  {
+    "id": 186,
+    "front": "How do you check if a key exists in a dictionary?",
+    "back": "Using 'key in dict'."
+  },
+  {
+    "id": 187,
+    "front": "What does the 'zip()' function do?",
+    "back": "Combines elements from multiple iterables into tuples."
+  },
+  {
+    "id": 188,
+    "front": "How do you open a file for writing?",
+    "back": "Using open(filename, 'w')."
+  },
+  {
+    "id": 189,
+    "front": "What is the syntax for a Python class?",
+    "back": "class ClassName:\n    def __init__(self):\n        pass"
+  },
+  {
+    "id": 190,
+    "front": "How do you comment multiple lines in Python?",
+    "back": "Using triple quotes ''' or \"\"\" for multi-line comments or docstrings."
+  },
+  {
+    "id": 191,
+    "front": "How is Python used for web development?",
+    "back": "Frameworks like Django and Flask build web applications efficiently."
+  },
+  {
+    "id": 192,
+    "front": "How is Python used in data analysis?",
+    "back": "Libraries like Pandas and NumPy enable data manipulation and analysis."
+  },
+  {
+    "id": 193,
+    "front": "How is Python used for automation?",
+    "back": "Scripts automate repetitive tasks like file handling and web scraping."
+  },
+  {
+    "id": 194,
+    "front": "What is Python’s role in machine learning?",
+    "back": "Libraries like scikit-learn and TensorFlow support building ML models."
+  },
+  {
+    "id": 195,
+    "front": "How can Python interact with databases?",
+    "back": "Using libraries like SQLite3, SQLAlchemy to query and manipulate databases."
+  },
+  {
+    "id": 196,
+    "front": "How is Python used in networking?",
+    "back": "Python scripts automate network configuration and monitoring using modules like socket and paramiko."
+  },
+  {
+    "id": 197,
+    "front": "How does Python support API development?",
+    "back": "Frameworks like Flask and FastAPI help create RESTful APIs."
+  },
+  {
+    "id": 198,
+    "front": "How is Python useful for file handling?",
+    "back": "It reads, writes, and manipulates files using built-in functions."
+  },
+  {
+    "id": 199,
+    "front": "How does Python support testing?",
+    "back": "With frameworks like unittest and pytest for automated testing."
+  },
+  {
+    "id": 200,
+    "front": "How is Python used for GUI development?",
+    "back": "Libraries like Tkinter and PyQt help build graphical user interfaces."
+  },
+  {
+    "id": 201,
+    "front": "How is Python used in cybersecurity?",
+    "back": "For scripting penetration tests, automating security tasks, and analyzing malware."
+  },
+  {
+    "id": 202,
+    "front": "How can Python be used for web scraping?",
+    "back": "Libraries like BeautifulSoup and Scrapy extract data from websites."
+  },
+  {
+    "id": 203,
+    "front": "What role does Python play in DevOps?",
+    "back": "Automating infrastructure, deployments, and monitoring using scripts and tools."
+  },
+  {
+    "id": 204,
+    "front": "How is Python used in IoT?",
+    "back": "To program microcontrollers and handle data from sensors."
+  },
+  {
+    "id": 205,
+    "front": "How does Python assist in scientific computing?",
+    "back": "With libraries like SciPy and Matplotlib for calculations and visualizations."
+  },
+  {
+    "id": 206,
+    "front": "What is Python’s role in artificial intelligence?",
+    "back": "Used extensively with frameworks like Keras and PyTorch for AI model development."
+  },
+  {
+    "id": 207,
+    "front": "How can Python be used to manipulate Excel files?",
+    "back": "Using libraries like openpyxl and pandas to read and write Excel data."
+  },
+  {
+    "id": 208,
+    "front": "How is Python used in game development?",
+    "back": "With libraries like Pygame to create simple games and prototypes."
+  },
+  {
+    "id": 209,
+    "front": "How does Python help with text processing?",
+    "back": "Using regular expressions and libraries like NLTK for natural language tasks."
+  },
+  {
+    "id": 210,
+    "front": "What is the use of Python in image processing?",
+    "back": "Libraries like PIL and OpenCV handle image manipulation and analysis."
+  }
+]

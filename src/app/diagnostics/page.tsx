@@ -26,6 +26,7 @@ interface ModuleStatus {
 
 // Define recent updates here
 const recentUpdates = [
+  { date: '2024-07-29', description: 'Added "Python & Networking" Quiz and Flashcard sets.' },
   { date: '2024-07-28', description: 'Added "Operating Systems" Quiz and Flashcard sets.' },
   { date: '2024-07-27', description: 'Integrated "C Programming Language" Quiz and Flashcards.' },
   { date: '2024-07-26', description: 'Added "Databases & Statistics" Quiz and Flashcards.' },
@@ -50,6 +51,7 @@ export default function DiagnosticsPage() {
         { name: 'Databases & Statistics', path: '/data/Data_Database.json'},
         { name: 'C Programming Language', path: '/data/C_quiz.json'},
         { name: 'Operating Systems', path: '/data/Operating_S_quiz.json'},
+        { name: 'Python & Networking', path: '/data/python_quiz.json'},
       ];
       const statusPromises = quizzes.map(async (quiz) => {
         try {
@@ -215,3 +217,4 @@ export default function DiagnosticsPage() {
     </div>
   );
 }
+

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem, Database, FileCode, Laptop, ListChecks } from 'lucide-react'; // Added ListChecks for new card
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem, Database, FileCode, Laptop, ListChecks } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -57,6 +57,14 @@ const featuredTools = [
     ctaText: "Start Studying"
   },
   {
+    title: "🐍 Flash Cards: Python & Networking",
+    description: "Explore Python for network automation, scripting, and socket programming.",
+    icon: FileCode,
+    link: "/flashcards/pythonnetworking",
+    aiHint: "flashcards python networking scripting study code",
+    ctaText: "Start Studying"
+  },
+  {
     title: "Subnet Calculator",
     description: "Visualize IPv4 subnets, calculate ranges, masks, and binary representations.",
     icon: Network,
@@ -81,7 +89,7 @@ const featuredTools = [
     ctaText: "Open Tool"
   },
    {
-    title: "Ohm's & Power Calc",
+    title: "Ohm's &amp; Power Calc",
     description: "Solve for Voltage (V), Current (I), Resistance (R), or Power (P) using Ohm's Law.",
     icon: Zap,
     link: "/calculator#power", // Links to specific section in calculator page
@@ -281,3 +289,4 @@ export default function HomePage() {
     </div>
   );
 }
+
