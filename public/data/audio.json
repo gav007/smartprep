@@ -4,7 +4,7 @@
     "id": "CCNA1-Overview",
     "title": "CCNA 1 Overview",
     "description": "Introduction to the CCNA 1 course covering networking fundamentals and basic concepts.",
-    "filename": "CCNA1.mpg",
+    "filename": "CCNA1.mp3",
     "category": "Networking Fundamentals",
     "mimeType": "audio/mpeg"
   },
@@ -125,14 +125,6 @@
     "title": "Building a Small Network",
     "description": "Hands-on approach to designing and configuring a small scale network.",
     "filename": "CCNA17.mp3",
-    "category": "CCNA Audio",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "Ping-Traceroute-ICMP",
-    "title": "Decoding Ping, Traceroute, and the Vital Role of ICMP",
-    "description": "Understanding how Ping and Traceroute work using ICMP.",
-    "filename": "CCNA9.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },

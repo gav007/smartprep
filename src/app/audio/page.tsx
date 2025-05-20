@@ -19,7 +19,6 @@ const CATEGORY_CCNA = "CCNA Audio"; // Display name for CCNA section
 const CATEGORY_DATABASE_AUDIO = "Databases and Data Analysis";
 const CATEGORY_PYTHON_BASICS = "Python Programming Fundamentals";
 
-
 // Keys as they might appear in audio.json
 const JSON_KEY_CATEGORY_APPLIED = "Applied Networking";
 const JSON_KEY_CATEGORY_NETWORKING_FUNDAMENTALS = "Networking Fundamentals";
@@ -102,14 +101,19 @@ export default function AudioLessonsPage() {
             finalCategory = CATEGORY_PYTHON_BASICS;
           } else if (audioItem.category === JSON_KEY_CATEGORY_NETWORKING_FUNDAMENTALS) {
             finalCategory = CATEGORY_NETWORKING_FUNDAMENTALS;
-          } else if (audioItem.category === JSON_KEY_CATEGORY_APPLIED || !audioItem.category) {
+          } else if (audioItem.category === JSON_KEY_CATEGORY_APPLIED || !audioItem.category) { // Default to Applied if category matches or is missing
             finalCategory = CATEGORY_APPLIED_NETWORKING;
+          } else {
+             console.warn(`AudioLessonsPage: Item with unhandled or new category "${audioItem.category}", defaulting to Applied Networking. Item:`, audioItem);
+             groups[CATEGORY_APPLIED_NETWORKING].push(audioItem); 
+             return; // Explicitly return after pushing to default
           }
 
           if (groups[finalCategory]) {
             groups[finalCategory].push(audioItem);
           } else {
-             console.warn(`AudioLessonsPage: Item with unhandled or new category "${audioItem.category}", defaulting to Applied Networking. Item:`, audioItem);
+             // This case should ideally not be reached if all categories are pre-defined in `groups`
+             console.warn(`AudioLessonsPage: Item with unhandled category "${finalCategory}" (derived from "${audioItem.category}"), defaulting to Applied Networking. Item:`, audioItem);
              groups[CATEGORY_APPLIED_NETWORKING].push(audioItem); 
           }
         });
@@ -189,8 +193,8 @@ export default function AudioLessonsPage() {
                 categoryName === CATEGORY_CCNA ? BookOpen :
                 categoryName === CATEGORY_DATABASE_AUDIO ? Database :
                 categoryName === CATEGORY_PYTHON_BASICS ? FileCode : 
-                categoryName === CATEGORY_NETWORKING_FUNDAMENTALS ? BookOpen : // Could be Network or other
-                Network; // Default for Applied Networking
+                categoryName === CATEGORY_NETWORKING_FUNDAMENTALS ? BookOpen : 
+                Network; // Default for Applied Networking and any other uncategorized
 
             return (
               <section key={categoryName}>
