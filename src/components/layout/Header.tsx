@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem, Database } from 'lucide-react'; // Added Database
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem, Database, FileCode } from 'lucide-react'; // Added FileCode
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -27,12 +27,13 @@ const navItems = [
     items: [
       { href: "/flashcards/applied", label: "Applied Networking", icon: Network },
       { href: "/flashcards/ccna", label: "CCNA Concepts", icon: BookOpen },
-      { href: "/flashcards/database", label: "Databases & Statistics", icon: Database }, // New Flashcard Set
+      { href: "/flashcards/database", label: "Databases & Statistics", icon: Database },
+      { href: "/flashcards/cprogramming", label: "C Programming", icon: FileCode },
     ]
   },
   {
     group: "Tools",
-    icon: Cpu, 
+    icon: Cpu,
     items: [
       { href: "/tools/subnet", label: "Subnet", icon: Network },
       { href: "/tools/truth-table", label: "Truth Table", icon: TableIcon },
@@ -164,7 +165,7 @@ export default function Header() {
                 <Menu className="h-5 w-5" /> {/* Smaller burger */}
              </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
+          <SheetContent side="right" className="w-full max-w-xs bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden">
              <SheetHeader className="flex flex-row h-14 items-center justify-between border-b px-4">
                  <Link href="/" className="flex items-center gap-2 text-lg font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
                     <Network size={20} />

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem, Database } from 'lucide-react'; // Added Database
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem, Database, FileCode } from 'lucide-react'; // Added FileCode
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -19,7 +19,7 @@ const featuredTools = [
   {
     title: "⚡ Flash Cards: Applied Networking",
     description: "Reinforce practical networking knowledge with interactive flash cards.",
-    icon: Layers, 
+    icon: Layers,
     link: "/flashcards/applied",
     aiHint: "flashcards networking applied study",
     ctaText: "Start Studying"
@@ -27,7 +27,7 @@ const featuredTools = [
   {
     title: "📚 Flash Cards: CCNA",
     description: "Review key CCNA concepts and terminologies with flash cards.",
-    icon: BookOpen, 
+    icon: BookOpen,
     link: "/flashcards/ccna",
     aiHint: "flashcards ccna cisco study",
     ctaText: "Start Studying"
@@ -35,9 +35,17 @@ const featuredTools = [
   {
     title: "📊 Flash Cards: Databases & Stats",
     description: "Test your knowledge on database fundamentals and statistical concepts.",
-    icon: Database, 
+    icon: Database,
     link: "/flashcards/database",
     aiHint: "flashcards database statistics data study",
+    ctaText: "Start Studying"
+  },
+  {
+    title: "💻 Flash Cards: C Programming",
+    description: "Master C language fundamentals, syntax, and core concepts.",
+    icon: FileCode,
+    link: "/flashcards/cprogramming",
+    aiHint: "flashcards c language programming study code",
     ctaText: "Start Studying"
   },
   {
@@ -67,16 +75,16 @@ const featuredTools = [
    {
     title: "Ohm's & Power Calc",
     description: "Solve for Voltage (V), Current (I), Resistance (R), or Power (P) using Ohm's Law.",
-    icon: Zap, 
-    link: "/calculator#power", 
+    icon: Zap,
+    link: "/calculator#power",
     aiHint: "ohms law power triangle formula",
     ctaText: "Open Tool"
   },
    {
     title: "BJT Solver",
     description: "Analyze fixed-bias common-emitter BJT circuits: find IB, IC, VCE, and saturation points.",
-    icon: CircuitBoard, 
-    link: "/calculator#bjt", 
+    icon: CircuitBoard,
+    link: "/calculator#bjt",
     aiHint: "bjt transistor circuit diagram",
     ctaText: "Open Tool"
   },
@@ -143,13 +151,13 @@ export default function HomePage() {
             </div>
             <div className="flex justify-center items-center">
                 <Image
-                  src="/images/network.jpg" 
+                  src="/images/network.jpg"
                   alt="Networking equipment and server rack"
                   width={600}
                   height={400}
-                  className="rounded-xl shadow-2xl object-cover aspect-[4/3]" 
-                  data-ai-hint="network server rack data center ethernet cables switch" 
-                  priority 
+                  className="rounded-xl shadow-2xl object-cover aspect-[4/3]"
+                  data-ai-hint="network server rack data center ethernet cables switch"
+                  priority
                 />
             </div>
           </div>
@@ -213,13 +221,13 @@ export default function HomePage() {
           <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
             <div className="flex justify-center items-center md:order-2">
                  <Image
-                  src="/images/networking_2.jpg" 
+                  src="/images/networking_2.jpg"
                   alt="Closeup of network cables and switch ports"
                   width={500}
                   height={350}
-                  className="rounded-xl shadow-xl object-cover aspect-[4/3]" 
+                  className="rounded-xl shadow-xl object-cover aspect-[4/3]"
                   data-ai-hint="network cables switch ports"
-                  loading="lazy" 
+                  loading="lazy"
                 />
             </div>
              <div className="space-y-5 md:order-1 text-center md:text-left">

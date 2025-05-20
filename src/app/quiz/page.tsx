@@ -11,7 +11,7 @@ import ScoreReview from '@/components/quiz/ScoreReview';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, AlertTriangle, BookOpen, Network, ListChecks, BrainCircuit, Database } from 'lucide-react'; // Added Database
+import { Loader2, AlertTriangle, BookOpen, Network, ListChecks, BrainCircuit, Database, FileCode } from 'lucide-react'; // Added FileCode
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -33,6 +33,7 @@ const quizOptions: QuizOption[] = [
   { key: 'network', label: 'Networking Fundamentals Quiz', filename: 'network_quiz.json', icon: BookOpen, description: 'Core concepts of computer networking.' },
   { key: 'electronics', label: 'Electronics Fundamentals Quiz', filename: 'electronics.json', icon: BrainCircuit, description: 'Basic principles and components of electronics.' },
   { key: 'database', label: 'Databases & Statistics Quiz', filename: 'Data_Database.json', icon: Database, description: 'Fundamental concepts of databases and statistics.' },
+  { key: 'cprogramming', label: 'C Programming Language Quiz', filename: 'C_quiz.json', icon: FileCode, description: 'Test your knowledge of C programming fundamentals.' },
 ];
 
 const questionCountOptions = [5, 10, 20]; // Define available question counts
@@ -264,7 +265,7 @@ export default function QuizPage() {
                                     {count} Questions
                                 </SelectItem>
                             ))}
-                             {maxQuestions > 0 && ( 
+                             {maxQuestions > 0 && (
                                 <SelectItem key="all" value={String(maxQuestions)}>
                                      All ({maxQuestions}) Questions
                                 </SelectItem>

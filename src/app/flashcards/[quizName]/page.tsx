@@ -1,3 +1,4 @@
+
 // src/app/flashcards/[quizName]/page.tsx
 'use client';
 
@@ -9,7 +10,7 @@ import { AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-const availableFlashcardSets = ['applied', 'ccna', 'database']; // Added 'database'
+const availableFlashcardSets = ['applied', 'ccna', 'database', 'cprogramming']; // Added 'cprogramming'
 
 export default function FlashcardPage() {
   const params = useParams();
@@ -45,9 +46,12 @@ export default function FlashcardPage() {
   } else if (quizName === 'ccna') {
     jsonFilename = 'flash_CCNA.json';
     pageTitle = 'CCNA Concepts Flashcards';
-  } else if (quizName === 'database') { // New entry for database flashcards
+  } else if (quizName === 'database') {
     jsonFilename = 'Flash_Database.json';
     pageTitle = 'Databases & Statistics Flashcards';
+  } else if (quizName === 'cprogramming') {
+    jsonFilename = 'C_flash.json';
+    pageTitle = 'C Programming Language Flashcards';
   }
   // No need for an else here because the check above ensures quizName is valid.
 

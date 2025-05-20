@@ -1,0 +1,402 @@
+[
+  {
+    "id": 1,
+    "front": "What is a pointer in C?",
+    "back": "A variable that stores the memory address of another variable."
+  },
+  {
+    "id": 2,
+    "front": "How do you declare an integer pointer named p?",
+    "back": "int *p;"
+  },
+  {
+    "id": 3,
+    "front": "What is the purpose of the malloc function?",
+    "back": "To dynamically allocate memory during program execution."
+  },
+  {
+    "id": 4,
+    "front": "Which operator accesses members of a structure variable?",
+    "back": "The dot operator (.)"
+  },
+  {
+    "id": 5,
+    "front": "What does the '->' operator do in C?",
+    "back": "Accesses a member of a structure through a pointer."
+  },
+  {
+    "id": 6,
+    "front": "What does the free function do?",
+    "back": "Deallocates memory previously allocated by malloc."
+  },
+  {
+    "id": 7,
+    "front": "How do you open a file for reading in C?",
+    "back": "Using fopen with mode \"r\", e.g. fopen(\"file.txt\", \"r\");"
+  },
+  {
+    "id": 8,
+    "front": "What is the difference between pre-increment (++x) and post-increment (x++)?",
+    "back": "Pre-increment increments before use; post-increment uses value then increments."
+  },
+  {
+    "id": 9,
+    "front": "What happens if you forget to call free() on allocated memory?",
+    "back": "A memory leak occurs, which wastes resources."
+  },
+  {
+    "id": 10,
+    "front": "What kind of loop executes its body at least once before checking the condition?",
+    "back": "The do-while loop."
+  },
+  {
+    "id": 11,
+    "front": "What is the purpose of the return statement in a function?",
+    "back": "It ends the function execution and optionally returns a value to the caller."
+  },
+  {
+    "id": 12,
+    "front": "How do you declare a constant in C?",
+    "back": "Using the const keyword, e.g. const int MAX = 100;"
+  },
+  {
+    "id": 13,
+    "front": "Which header file is required to use printf in C?",
+    "back": "stdio.h"
+  },
+  {
+    "id": 14,
+    "front": "What is the correct way to declare an array of 10 integers?",
+    "back": "int arr[10];"
+  },
+  {
+    "id": 15,
+    "front": "What does the && operator do?",
+    "back": "It performs a logical AND operation between two boolean expressions."
+  },
+  {
+    "id": 16,
+    "front": "What is a structure in C?",
+    "back": "A user-defined data type that groups related variables under one name."
+  },
+  {
+    "id": 17,
+    "front": "How do you access a member of a structure using a pointer?",
+    "back": "Using the arrow operator ->, e.g. ptr->member;"
+  },
+  {
+    "id": 18,
+    "front": "What is the scope of a variable declared inside a function?",
+    "back": "It is local to that function and not accessible outside."
+  },
+  {
+    "id": 19,
+    "front": "What does the sizeof operator do?",
+    "back": "It returns the size in bytes of a data type or variable."
+  },
+  {
+    "id": 20,
+    "front": "What is the difference between while and do-while loops?",
+    "back": "while checks the condition before executing the loop body; do-while executes first then checks."
+  },
+  {
+    "id": 21,
+    "front": "What is the use of the malloc function?",
+    "back": "To allocate a specified amount of memory dynamically during program execution."
+  },
+  {
+    "id": 22,
+    "front": "What is the difference between a variable and a constant?",
+    "back": "A variable can change value during execution; a constant cannot."
+  },
+  {
+    "id": 23,
+    "front": "How do you correctly free dynamically allocated memory?",
+    "back": "By using the free() function with the pointer to the allocated memory."
+  },
+  {
+    "id": 24,
+    "front": "What is the purpose of the break statement?",
+    "back": "To exit a loop or switch statement prematurely."
+  },
+  {
+    "id": 25,
+    "front": "What is the difference between pass-by-value and pass-by-reference?",
+    "back": "Pass-by-value sends a copy of the variable; pass-by-reference sends the actual memory address."
+  },
+  {
+    "id": 26,
+    "front": "What is a file pointer?",
+    "back": "A pointer that refers to a file stream for reading or writing files."
+  },
+  {
+    "id": 27,
+    "front": "What does fopen() return if the file cannot be opened?",
+    "back": "It returns NULL."
+  },
+  {
+    "id": 28,
+    "front": "What does the continue statement do inside a loop?",
+    "back": "It skips the rest of the current iteration and starts the next iteration."
+  },
+  {
+    "id": 29,
+    "front": "What is an array?",
+    "back": "A collection of elements of the same type stored in contiguous memory locations."
+  },
+  {
+    "id": 30,
+    "front": "What is the main function’s return value signify?",
+    "back": "It indicates the program’s exit status to the operating system."
+  },
+  {
+    "id": 31,
+    "front": "How do you declare an integer variable named count?",
+    "back": "int count;"
+  },
+  {
+    "id": 32,
+    "front": "How do you write a single-line comment in C?",
+    "back": "Using // before the comment text."
+  },
+  {
+    "id": 33,
+    "front": "How do you write a multi-line comment in C?",
+    "back": "Enclose the comment between /* and */."
+  },
+  {
+    "id": 34,
+    "front": "What is the correct syntax to print a string with printf?",
+    "back": "printf(\"%s\", string_variable);"
+  },
+  {
+    "id": 35,
+    "front": "How do you write an if statement checking if x equals 5?",
+    "back": "if (x == 5) { /* code */ }"
+  },
+  {
+    "id": 36,
+    "front": "How do you declare a function named add that returns an int and takes two int parameters?",
+    "back": "int add(int a, int b);"
+  },
+  {
+    "id": 37,
+    "front": "How do you open a file for writing using fopen?",
+    "back": "FILE *f = fopen(\"filename.txt\", \"w\");"
+  },
+  {
+    "id": 38,
+    "front": "How do you increment an integer variable x by 1?",
+    "back": "x++;"
+  },
+  {
+    "id": 39,
+    "front": "What is the correct syntax for a for loop counting from 0 to 9?",
+    "back": "for (int i = 0; i < 10; i++) { /* code */ }"
+  },
+  {
+    "id": 40,
+    "front": "How do you declare an array of 5 floats named scores?",
+    "back": "float scores[5];"
+  },
+  {
+    "id": 41,
+    "front": "How do you declare a character variable named letter?",
+    "back": "char letter;"
+  },
+  {
+    "id": 42,
+    "front": "How do you assign the value 10 to an integer variable x?",
+    "back": "x = 10;"
+  },
+  {
+    "id": 43,
+    "front": "How do you write a while loop that runs while x is less than 5?",
+    "back": "while (x < 5) { /* code */ }"
+  },
+  {
+    "id": 44,
+    "front": "What does the == operator do?",
+    "back": "Checks if two values are equal."
+  },
+  {
+    "id": 45,
+    "front": "How do you declare a float variable named price?",
+    "back": "float price;"
+  },
+  {
+    "id": 46,
+    "front": "What is the syntax to read a character from input using scanf?",
+    "back": "scanf(\" %c\", &variable);"
+  },
+  {
+    "id": 47,
+    "front": "How do you define a function called greet that returns nothing and takes no parameters?",
+    "back": "void greet(void) { /* code */ }"
+  },
+  {
+    "id": 48,
+    "front": "What is the syntax for an else-if statement checking if x is greater than 10?",
+    "back": "else if (x > 10) { /* code */ }"
+  },
+  {
+    "id": 49,
+    "front": "How do you declare a pointer to an integer named ptr?",
+    "back": "int *ptr;"
+  },
+  {
+    "id": 50,
+    "front": "How do you access the third element of an array arr?",
+    "back": "arr[2];"
+  },
+  {
+    "id": 51,
+    "front": "How do you declare an integer variable named count in C?",
+    "back": "int count;"
+  },
+  {
+    "id": 52,
+    "front": "What is the correct syntax for an if statement checking if x equals 10?",
+    "back": "if (x == 10) { /* code */ }"
+  },
+  {
+    "id": 53,
+    "front": "What is the difference between '=' and '==' operators?",
+    "back": "'=' assigns a value; '==' compares values."
+  },
+  {
+    "id": 54,
+    "front": "How do you write a for loop that counts from 0 to 4?",
+    "back": "for (int i = 0; i < 5; i++) { /* code */ }"
+  },
+  {
+    "id": 55,
+    "front": "What is the purpose of the return statement in a function?",
+    "back": "It ends the function and optionally returns a value."
+  },
+  {
+    "id": 56,
+    "front": "How do you declare a function named add that takes two ints and returns an int?",
+    "back": "int add(int a, int b);"
+  },
+  {
+    "id": 57,
+    "front": "What header file is needed for printf and scanf?",
+    "back": "stdio.h"
+  },
+  {
+    "id": 58,
+    "front": "What does the 'while' loop do?",
+    "back": "Repeats code while a condition is true."
+  },
+  {
+    "id": 59,
+    "front": "What is the syntax for a single-line comment in C?",
+    "back": "// comment text"
+  },
+  {
+    "id": 60,
+    "front": "What is the use of 'break' inside a loop?",
+    "back": "Exits the loop immediately."
+  },
+  {
+    "id": 61,
+    "front": "What is a pointer in C?",
+    "back": "A variable that stores the memory address of another variable."
+  },
+  {
+    "id": 62,
+    "front": "How do you declare a pointer to an integer named p?",
+    "back": "int *p;"
+  },
+  {
+    "id": 63,
+    "front": "What does the * operator do when used with a pointer?",
+    "back": "Dereferences the pointer to access the value at the address."
+  },
+  {
+    "id": 64,
+    "front": "How do you assign the address of variable x to pointer p?",
+    "back": "p = &x;"
+  },
+  {
+    "id": 65,
+    "front": "How do you declare an array of 5 integers?",
+    "back": "int arr[5];"
+  },
+  {
+    "id": 66,
+    "front": "How do you access the third element of an array named arr?",
+    "back": "arr[2];"
+  },
+  {
+    "id": 67,
+    "front": "How are arrays and pointers related in C?",
+    "back": "The name of an array acts as a pointer to its first element."
+  },
+  {
+    "id": 68,
+    "front": "What is the difference between an array and a pointer?",
+    "back": "An array is a fixed block of memory; a pointer can point anywhere."
+  },
+  {
+    "id": 69,
+    "front": "How do you pass an array to a function?",
+    "back": "By passing the array name (which acts as a pointer)."
+  },
+  {
+    "id": 70,
+    "front": "What is a null pointer?",
+    "back": "A pointer that does not point to any valid memory location."
+  },
+  {
+    "id": 71,
+    "front": "What function is used to allocate memory dynamically in C?",
+    "back": "malloc()"
+  },
+  {
+    "id": 72,
+    "front": "What function releases memory allocated by malloc?",
+    "back": "free()"
+  },
+  {
+    "id": 73,
+    "front": "What happens if dynamically allocated memory is not freed?",
+    "back": "Memory leak occurs, wasting resources."
+  },
+  {
+    "id": 74,
+    "front": "What header file must be included to use malloc and free?",
+    "back": "stdlib.h"
+  },
+  {
+    "id": 75,
+    "front": "How do you open a file for reading in C?",
+    "back": "Using fopen() with mode \"r\""
+  },
+  {
+    "id": 76,
+    "front": "How do you open a file for writing in C?",
+    "back": "Using fopen() with mode \"w\""
+  },
+  {
+    "id": 77,
+    "front": "What does fopen() return if the file cannot be opened?",
+    "back": "NULL"
+  },
+  {
+    "id": 78,
+    "front": "How do you close a file in C?",
+    "back": "Using fclose()"
+  },
+  {
+    "id": 79,
+    "front": "What is the purpose of fseek()?",
+    "back": "To move the file pointer to a specific location in a file."
+  },
+  {
+    "id": 80,
+    "front": "How do you read a line of text from a file in C?",
+    "back": "Using fgets()"
+  }
+]
