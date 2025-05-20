@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem, Database, FileCode, Laptop } from 'lucide-react'; // Added Laptop
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem, Database, FileCode, Laptop, ListChecks } from 'lucide-react'; // Added ListChecks for new card
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -84,7 +84,7 @@ const featuredTools = [
     title: "Ohm's & Power Calc",
     description: "Solve for Voltage (V), Current (I), Resistance (R), or Power (P) using Ohm's Law.",
     icon: Zap,
-    link: "/calculator#power",
+    link: "/calculator#power", // Links to specific section in calculator page
     aiHint: "ohms law power triangle formula",
     ctaText: "Open Tool"
   },
@@ -92,7 +92,7 @@ const featuredTools = [
     title: "BJT Solver",
     description: "Analyze fixed-bias common-emitter BJT circuits: find IB, IC, VCE, and saturation points.",
     icon: CircuitBoard,
-    link: "/calculator#bjt",
+    link: "/calculator#bjt", // Links to specific section in calculator page
     aiHint: "bjt transistor circuit diagram",
     ctaText: "Open Tool"
   },
@@ -223,18 +223,42 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        
+        {/* Recent Updates & Diagnostics Card Section */}
+        <section className="py-16 md:py-20 bg-secondary/20 dark:bg-secondary/30">
+          <div className="container mx-auto px-4">
+            <Card className="max-w-2xl mx-auto bg-card border border-border/60 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] dark:border-border/40">
+              <CardHeader className="items-center text-center pt-8 pb-4">
+                <div className="p-3 bg-primary/10 text-primary rounded-full mb-4 inline-block ring-1 ring-primary/20">
+                  <ListChecks size={32} />
+                </div>
+                <CardTitle className="text-3xl md:text-4xl font-bold text-foreground">Latest Updates & Diagnostics</CardTitle>
+                <CardDescription className="text-muted-foreground text-lg mt-2 max-w-md mx-auto">
+                  Stay informed about new features, improvements, and the overall system status of SmartPrep.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="text-center pb-8">
+                <Button asChild size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
+                  <Link href="/diagnostics">
+                    View Diagnostics & Updates <Info className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
         {/* About Section - Updated Design */}
-        <section className="py-16 md:py-24 bg-secondary/30">
+        <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
             <div className="flex justify-center items-center md:order-2">
                  <Image
-                  src="/images/networking_2.jpg"
-                  alt="Closeup of network cables and switch ports"
+                  src="/images/hero-electronics.jpg"
+                  alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform"
                   width={500}
                   height={350}
                   className="rounded-xl shadow-xl object-cover aspect-[4/3]"
-                  data-ai-hint="network cables switch ports"
+                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter"
                   loading="lazy"
                 />
             </div>
