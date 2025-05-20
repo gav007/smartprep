@@ -17,15 +17,15 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
       return providedMimeType;
     }
 
-    if (!filename) return 'audio/mpeg'; // Default if no filename
+    if (!filename) return 'audio/mpeg'; 
 
     const extension = filename.split('.').pop()?.toLowerCase();
-    let determinedMimeType = 'audio/mpeg'; // Default to mpeg if extension is unknown
+    let determinedMimeType = 'audio/mpeg'; 
 
     switch (extension) {
       case 'wav': determinedMimeType = 'audio/wav'; break;
       case 'mp3': determinedMimeType = 'audio/mpeg'; break;
-      case 'mpg': determinedMimeType = 'audio/mpeg'; break; // Treat .mpg as audio/mpeg for audio players
+      case 'mpg': determinedMimeType = 'video/mpeg'; break; // More accurate for .mpg container
       case 'ogg': determinedMimeType = 'audio/ogg'; break;
       case 'aac': determinedMimeType = 'audio/aac'; break;
       default:
@@ -43,7 +43,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
           <div className="flex-1">
             <CardTitle className="text-destructive text-sm font-semibold">Audio Error</CardTitle>
             <CardDescription className="text-destructive/80 text-xs">
-              Invalid audio data for title: "{audio?.title || 'Unknown'}". Filename missing or invalid in audio.json.
+              Invalid audio data. Filename missing/invalid for title: "{audio?.title || 'Unknown'}". Check audio.json.
             </CardDescription>
           </div>
         </CardHeader>
@@ -51,9 +51,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     );
   }
 
-  // Use encodeURIComponent for the filename part of the URL for robustness
-  const encodedFilenamePart = encodeURIComponent(audio.filename);
-  const audioSrc = `/data/audio/${encodedFilenamePart}`;
+  const audioSrc = `/data/audio/${encodeURIComponent(audio.filename)}`;
   const mimeTypeForSourceTag = getMimeType(audio.filename, audio.mimeType);
 
   const handleError = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
@@ -62,7 +60,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     
     const networkStateValue = (audioEl && typeof audioEl.networkState !== 'undefined') ? audioEl.networkState : 'N/A';
     const readyStateValue = (audioEl && typeof audioEl.readyState !== 'undefined') ? audioEl.readyState : 'N/A';
-    const currentSrcInfo = (audioEl && audioEl.currentSrc) ? audioEl.currentSrc : 'N/A (or path not resolved by browser)';
+    const browserCurrentSrc = (audioEl && audioEl.currentSrc) ? audioEl.currentSrc : 'N/A (or path not resolved by browser)';
 
     if (audioEl && audioEl.error) {
       const mediaError = audioEl.error as MediaError; 
@@ -81,14 +79,14 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     
     console.error(
       `AUDIO_CARD_DEBUG: Playback Error Encountered\n` +
-      `  > Filename Prop (from audio.json via AudioLessonsPage): "${audio.filename}"\n` + // This is the bare filename expected from audio.json
-      `  > Constructed <source src> (URL requested by browser): "${audioSrc}"\n` + // This is the URL the browser attempts to load
+      `  > Filename Prop (from audio.json via AudioLessonsPage): "${audio.filename}"\n` +
+      `  > Constructed <source src> (URL requested by browser): "${audioSrc}"\n` +
       `  > Intended MIME Type for <source>: "${mimeTypeForSourceTag}"\n` +
-      `  > Browser's Resolved currentSrc (what it actually tried to load): "${currentSrcInfo}"\n` +
+      `  > Browser's Resolved currentSrc (what it actually tried to load): "${browserCurrentSrc}"\n` +
       `  > HTMLAudioElement Network State: ${networkStateValue}\n` +
       `  > HTMLAudioElement Ready State: ${readyStateValue}\n` +
       `  > Error Detail: ${errorDetail}`,
-      e // Log the original event object
+      e 
     );
   };
 
@@ -106,6 +104,11 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         </div>
       </CardHeader>
       <CardContent className="p-4">
+        {(mimeTypeForSourceTag === 'video/mpeg' || audio.filename.toLowerCase().endsWith('.mpg')) && (
+          <p className="text-xs text-amber-600 dark:text-amber-400 mb-2">
+            Note: This is an MPG file. Audio playback depends on your browser's support. Consider converting to MP3 for best compatibility.
+          </p>
+        )}
         <audio controls className="w-full" preload="metadata" onError={handleError}>
           <source src={audioSrc} type={mimeTypeForSourceTag} />
           Your browser does not support the audio element. Try updating or using a different browser.
@@ -117,4 +120,3 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
 };
 
 export default AudioCard;
-
