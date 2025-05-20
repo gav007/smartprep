@@ -14,16 +14,16 @@ export default function Footer() {
         </p>
         <div className="flex justify-center space-x-4 text-sm">
           {/* Using target="_blank" and rel="noopener noreferrer" for external links */}
-          <Link href="https://github.com/your-github-repo" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1">
+          <Link href="https://github.com/gav007" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-1">
             <Github size={16} /> GitHub
-          </Link>
-           {/* Replace # with actual links */}
-          <Link href="/privacy" className="hover:text-primary transition-colors">
+ </Link>
+          <a href="https://www.citizensinformation.ie/en/government-in-ireland/data-protection/overview-of-general-data-protection-regulation" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
             Privacy Policy
-          </Link>
-           <Link href="mailto:support@smartprep.example.com" className="hover:text-primary transition-colors">
+          </a>
+           <a href="mailto:gav.s.may.business@gmail.com" className="hover:text-primary transition-colors">
             Contact
-          </Link>
+          </a>
+
            {/* Optional: Link to NetAcad or other resources */}
           {/* <Link href="#" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
             NetAcad

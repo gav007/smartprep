@@ -240,15 +240,15 @@ export default function HomePage() {
                 <div className="p-3 bg-primary/10 text-primary rounded-full mb-4 inline-block ring-1 ring-primary/20">
                   <ListChecks size={32} />
                 </div>
-                <CardTitle className="text-3xl md:text-4xl font-bold text-foreground">Latest Updates & Diagnostics</CardTitle>
+                <CardTitle className="text-3xl md:text-4xl font-bold text-foreground">Latest Updates</CardTitle>
                 <CardDescription className="text-muted-foreground text-lg mt-2 max-w-md mx-auto">
-                  Stay informed about new features, improvements, and the overall system status of SmartPrep.
+                  Stay informed about new features and improvements.
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-center pb-8">
                 <Button asChild size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
                   <Link href="/diagnostics">
-                    View Diagnostics & Updates <Info className="ml-2 h-5 w-5" />
+                    View Updates <Info className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
               </CardContent>
@@ -259,17 +259,6 @@ export default function HomePage() {
         {/* About Section - Updated Design */}
         <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
-            <div className="flex justify-center items-center md:order-2">
-                 <Image
-                  src="/images/hero-electronics.jpg"
-                  alt="Engineer's desk with electronics components, PCB, and oscilloscope waveform"
-                  width={500}
-                  height={350}
-                  className="rounded-xl shadow-xl object-cover aspect-[4/3]"
-                  data-ai-hint="engineer desk electronics pcb oscilloscope waveform breadboard multimeter"
-                  loading="lazy"
-                />
-            </div>
              <div className="space-y-5 md:order-1 text-center md:text-left">
               <h2 className="text-3xl md:text-4xl font-bold">What is SmartPrep?</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
