@@ -1,0 +1,1202 @@
+[
+  {
+    "type": "MC",
+    "question": "What is the difference between a process and a thread?",
+    "options": {
+      "A": "A process is a program in execution; a thread is a lightweight process within a process.",
+      "B": "A thread is a program in execution; a process is a lightweight thread.",
+      "C": "Processes share memory, threads do not.",
+      "D": "Threads run independently of processes."
+    },
+    "answer": "A",
+    "feedback": "Processes have their own memory; threads share memory within a process."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT a valid state transition in process lifecycle?",
+    "options": {
+      "A": "Ready to Running",
+      "B": "Waiting to Running",
+      "C": "Running to Waiting",
+      "D": "New to Waiting"
+    },
+    "answer": "D",
+    "feedback": "'New' state typically transitions to 'Ready', not 'Waiting'."
+  },
+  {
+    "type": "MC",
+    "question": "What information is stored in a Process Control Block (PCB)?",
+    "options": {
+      "A": "Process state, program counter, CPU registers, memory limits",
+      "B": "File contents, user data, stack data",
+      "C": "Network settings, file descriptors",
+      "D": "None of the above"
+    },
+    "answer": "A",
+    "feedback": "PCB contains essential info for process management."
+  },
+  {
+    "type": "MC",
+    "question": "What is a zombie process?",
+    "options": {
+      "A": "A process that has completed but still has an entry in the process table.",
+      "B": "A process stuck in a loop.",
+      "C": "A process waiting for I/O.",
+      "D": "A suspended process."
+    },
+    "answer": "A",
+    "feedback": "Zombie processes have terminated but not yet been cleaned up."
+  },
+  {
+    "type": "MC",
+    "question": "Which scheduler is responsible for moving processes from Ready to Running state?",
+    "options": {
+      "A": "Long-term scheduler",
+      "B": "Short-term scheduler",
+      "C": "Medium-term scheduler",
+      "D": "None of the above"
+    },
+    "answer": "B",
+    "feedback": "Short-term scheduler selects process to run next."
+  },
+  {
+    "type": "MC",
+    "question": "In Round Robin scheduling with time quantum 2, which process will run first given arrival times: A(0), B(2), C(4)?",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "Depends on service time"
+    },
+    "answer": "A",
+    "feedback": "Process A arrives first and starts running."
+  },
+  {
+    "type": "MC",
+    "question": "What is the formula for Turnaround Time?",
+    "options": {
+      "A": "Completion Time - Arrival Time",
+      "B": "Arrival Time - Completion Time",
+      "C": "Service Time + Waiting Time",
+      "D": "Completion Time + Arrival Time"
+    },
+    "answer": "A",
+    "feedback": "Turnaround Time measures total time in system."
+  },
+  {
+    "type": "MC",
+    "question": "What physical address corresponds to virtual address 5000 if page size = 1KB and page table maps page 4 to frame 10?",
+    "options": {
+      "A": "10276",
+      "B": "4096",
+      "C": "5124",
+      "D": "Not enough information"
+    },
+    "answer": "A",
+    "feedback": "Physical address = Frame Number * Page Size + Offset."
+  },
+  {
+    "type": "MC",
+    "question": "Which disk scheduling algorithm selects the pending request closest to the current head position?",
+    "options": {
+      "A": "First Come First Serve (FCFS)",
+      "B": "Shortest Seek Time First (SSTF)",
+      "C": "SCAN",
+      "D": "LOOK"
+    },
+    "answer": "B",
+    "feedback": "SSTF minimizes seek time by selecting nearest request."
+  },
+  {
+    "type": "MC",
+    "question": "What are the four necessary conditions for deadlock?",
+    "options": {
+      "A": "Mutual exclusion, hold and wait, no preemption, circular wait",
+      "B": "Resource allocation, concurrency, preemption, mutual exclusion",
+      "C": "Deadlock, starvation, livelock, race condition",
+      "D": "None of the above"
+    },
+    "answer": "A",
+    "feedback": "These conditions must all hold for deadlock to occur."
+  }, 
+  {
+    "type": "MC",
+    "question": "What is the purpose of a page table in virtual memory systems?",
+    "options": {
+      "A": "To map virtual addresses to physical addresses",
+      "B": "To store all running processes",
+      "C": "To manage CPU scheduling",
+      "D": "To hold user input data"
+    },
+    "answer": "A",
+    "feedback": "Page tables translate virtual to physical memory addresses."
+  },
+  {
+    "type": "MC",
+    "question": "Which condition describes a race condition?",
+    "options": {
+      "A": "Multiple processes waiting indefinitely",
+      "B": "Processes competing for resources leading to inconsistent results",
+      "C": "Processes running in sequence",
+      "D": "Processes sharing the CPU fairly"
+    },
+    "answer": "B",
+    "feedback": "Race conditions cause unpredictable behavior due to timing issues."
+  },
+  {
+    "type": "MC",
+    "question": "What synchronization tool is used to avoid race conditions?",
+    "options": {
+      "A": "Mutex",
+      "B": "Semaphore",
+      "C": "Lock",
+      "D": "All of the above"
+    },
+    "answer": "D",
+    "feedback": "Mutexes, semaphores, and locks help manage concurrent access."
+  },
+  {
+    "type": "MC",
+    "question": "What is thrashing in virtual memory systems?",
+    "options": {
+      "A": "CPU is idle waiting for I/O",
+      "B": "Excessive paging leading to low CPU utilization",
+      "C": "Disk failure",
+      "D": "Memory fragmentation"
+    },
+    "answer": "B",
+    "feedback": "Thrashing occurs when too much paging slows the system."
+  },
+  {
+    "type": "MC",
+    "question": "Which file system structure stores metadata about files?",
+    "options": {
+      "A": "Data blocks",
+      "B": "Inodes",
+      "C": "Directories",
+      "D": "File descriptors"
+    },
+    "answer": "B",
+    "feedback": "Inodes store file metadata like permissions and location."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of a kernel in an operating system?",
+    "options": {
+      "A": "Manages hardware and system resources",
+      "B": "Runs user applications",
+      "C": "Stores user data",
+      "D": "Compiles programs"
+    },
+    "answer": "A",
+    "feedback": "The kernel handles resource management and hardware interaction."
+  },
+  {
+    "type": "MC",
+    "question": "What scheduling algorithm is considered fair because it allocates equal time slices?",
+    "options": {
+      "A": "First Come First Serve",
+      "B": "Shortest Job First",
+      "C": "Round Robin",
+      "D": "Priority Scheduling"
+    },
+    "answer": "C",
+    "feedback": "Round Robin distributes CPU time equally."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main purpose of a semaphore?",
+    "options": {
+      "A": "To manage access to shared resources",
+      "B": "To allocate memory",
+      "C": "To schedule CPU time",
+      "D": "To manage files"
+    },
+    "answer": "A",
+    "feedback": "Semaphores control resource access to prevent conflicts."
+  },
+  {
+    "type": "MC",
+    "question": "In paging, what does page fault mean?",
+    "options": {
+      "A": "Page successfully accessed",
+      "B": "Page requested is not in physical memory",
+      "C": "Page is corrupted",
+      "D": "Page is locked"
+    },
+    "answer": "B",
+    "feedback": "Page fault occurs when data must be fetched from secondary storage."
+  },
+  {
+    "type": "MC",
+    "question": "Which memory allocation strategy splits memory into fixed-size blocks?",
+    "options": {
+      "A": "Paging",
+      "B": "Segmentation",
+      "C": "Heap allocation",
+      "D": "Stack allocation"
+    },
+    "answer": "A",
+    "feedback": "Paging divides memory into fixed-size pages."
+  },
+  {
+    "type": "MC",
+    "question": "What is the function of the medium-term scheduler?",
+    "options": {
+      "A": "Moves processes from New to Ready state",
+      "B": "Temporarily removes processes from memory to reduce load",
+      "C": "Decides which process runs next on the CPU",
+      "D": "Terminates processes"
+    },
+    "answer": "B",
+    "feedback": "Medium-term scheduler manages swapping processes in/out of memory."
+  },
+  {
+    "type": "MC",
+    "question": "What does context switching involve?",
+    "options": {
+      "A": "Saving and loading process states to switch CPU execution",
+      "B": "Allocating new memory",
+      "C": "Creating new processes",
+      "D": "Scheduling disk I/O"
+    },
+    "answer": "A",
+    "feedback": "Context switch saves and restores process states."
+  },
+  {
+    "type": "MC",
+    "question": "Which disk scheduling algorithm moves the head in one direction and services requests until it reaches the end?",
+    "options": {
+      "A": "FCFS",
+      "B": "SSTF",
+      "C": "SCAN",
+      "D": "C-SCAN"
+    },
+    "answer": "C",
+    "feedback": "SCAN moves head back and forth across the disk."
+  },
+  {
+    "type": "MC",
+    "question": "What is starvation in CPU scheduling?",
+    "options": {
+      "A": "Process waits indefinitely for CPU due to priority issues",
+      "B": "Process is executed too soon",
+      "C": "Process is terminated prematurely",
+      "D": "Process runs without interruption"
+    },
+    "answer": "A",
+    "feedback": "Starvation is when a process waits endlessly because others have higher priority."
+  },
+  {
+    "type": "MC",
+    "question": "In paging, what is an advantage of using larger page sizes?",
+    "options": {
+      "A": "Less internal fragmentation",
+      "B": "More page table entries needed",
+      "C": "Less overhead in managing page tables",
+      "D": "Increased page faults"
+    },
+    "answer": "C",
+    "feedback": "Larger pages reduce number of page table entries and overhead."
+  },
+  {
+    "type": "MC",
+    "question": "What does the term 'thrashing' refer to in an operating system?",
+    "options": {
+      "A": "Excessive paging causing low CPU utilization",
+      "B": "System crash due to memory overflow",
+      "C": "High CPU usage with no paging",
+      "D": "Disk failure"
+    },
+    "answer": "A",
+    "feedback": "Thrashing occurs when the OS spends more time swapping pages than executing processes."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main role of the file system?",
+    "options": {
+      "A": "Manage storage and retrieval of data on disks",
+      "B": "Schedule CPU processes",
+      "C": "Manage virtual memory",
+      "D": "Control network traffic"
+    },
+    "answer": "A",
+    "feedback": "File systems organize and manage data storage."
+  },
+  {
+    "type": "MC",
+    "question": "What is the difference between segmentation and paging?",
+    "options": {
+      "A": "Segmentation divides memory by logical units, paging by fixed-size blocks",
+      "B": "Paging is faster than segmentation",
+      "C": "Segmentation is hardware managed, paging is software managed",
+      "D": "No difference"
+    },
+    "answer": "A",
+    "feedback": "Segmentation deals with variable-sized segments, paging with fixed-size pages."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is an example of a non-preemptive scheduling algorithm?",
+    "options": {
+      "A": "Round Robin",
+      "B": "Shortest Job First",
+      "C": "Priority Scheduling",
+      "D": "FCFS"
+    },
+    "answer": "D",
+    "feedback": "FCFS runs processes to completion without preemption."
+  },
+  {
+    "type": "MC",
+    "question": "What happens when a process changes state from Running to Waiting?",
+    "options": {
+      "A": "It is waiting for CPU time",
+      "B": "It is waiting for I/O or an event",
+      "C": "It has finished execution",
+      "D": "It is ready to run"
+    },
+    "answer": "B",
+    "feedback": "Waiting state means process waits for some event or I/O."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of the long-term scheduler?",
+    "options": {
+      "A": "Selects processes from the ready queue",
+      "B": "Controls the degree of multiprogramming by admitting processes",
+      "C": "Moves processes from waiting to ready state",
+      "D": "Terminates processes"
+    },
+    "answer": "B",
+    "feedback": "The long-term scheduler controls how many processes enter the system."
+  },
+  {
+    "type": "MC",
+    "question": "Which memory allocation technique divides memory into variable-sized segments?",
+    "options": {
+      "A": "Paging",
+      "B": "Segmentation",
+      "C": "Heap allocation",
+      "D": "Stack allocation"
+    },
+    "answer": "B",
+    "feedback": "Segmentation divides memory by logical segments."
+  },
+  {
+    "type": "MC",
+    "question": "In deadlock prevention, what is the 'no preemption' condition?",
+    "options": {
+      "A": "Processes cannot forcibly take resources from each other",
+      "B": "Resources can be preempted at any time",
+      "C": "Processes release resources voluntarily",
+      "D": "Processes never wait"
+    },
+    "answer": "A",
+    "feedback": "No preemption means resources cannot be taken forcibly."
+  },
+  {
+    "type": "MC",
+    "question": "Which algorithm selects the request with the shortest seek time next?",
+    "options": {
+      "A": "FCFS",
+      "B": "SCAN",
+      "C": "SSTF",
+      "D": "C-SCAN"
+    },
+    "answer": "C",
+    "feedback": "SSTF selects the closest request to the current head position."
+  },
+  {
+    "type": "MC",
+    "question": "What is the key difference between FCFS and Round Robin scheduling?",
+    "options": {
+      "A": "FCFS is preemptive; Round Robin is non-preemptive",
+      "B": "Round Robin gives each process a fixed time slice; FCFS runs processes until completion",
+      "C": "FCFS uses priority; Round Robin does not",
+      "D": "They are identical"
+    },
+    "answer": "B",
+    "feedback": "Round Robin preempts processes after a quantum; FCFS runs to completion."
+  },
+  {
+    "type": "MC",
+    "question": "What is the size of a page in a paging system if the offset field is 12 bits?",
+    "options": {
+      "A": "1 KB",
+      "B": "2 KB",
+      "C": "4 KB",
+      "D": "8 KB"
+    },
+    "answer": "C",
+    "feedback": "Page size = 2^offset bits = 2^12 = 4 KB."
+  },
+  {
+    "type": "MC",
+    "question": "What is the function of the swap space in an OS?",
+    "options": {
+      "A": "Temporary storage for files",
+      "B": "Additional virtual memory space on disk",
+      "C": "Stores executable files",
+      "D": "Caches frequently accessed data"
+    },
+    "answer": "B",
+    "feedback": "Swap space extends physical memory using disk."
+  },
+  {
+    "type": "MC",
+    "question": "What is the purpose of a semaphore in concurrent programming?",
+    "options": {
+      "A": "To manage access to shared resources",
+      "B": "To allocate memory",
+      "C": "To perform I/O",
+      "D": "To schedule processes"
+    },
+    "answer": "A",
+    "feedback": "Semaphores help prevent race conditions."
+  },
+  {
+    "type": "MC",
+    "question": "What is the difference between internal and external fragmentation?",
+    "options": {
+      "A": "Internal fragmentation is wasted space inside allocated blocks; external fragmentation is free memory scattered.",
+      "B": "External fragmentation is wasted space inside blocks; internal fragmentation is scattered free memory.",
+      "C": "Both mean the same thing.",
+      "D": "Fragmentation does not occur in memory management."
+    },
+    "answer": "A",
+    "feedback": "Internal fragmentation wastes space inside allocated memory; external fragmentation is unusable free space."
+  },
+  {
+    "type": "MC",
+    "question": "Which condition is NOT necessary for deadlock to occur?",
+    "options": {
+      "A": "Mutual exclusion",
+      "B": "Hold and wait",
+      "C": "Preemption allowed",
+      "D": "Circular wait"
+    },
+    "answer": "C",
+    "feedback": "Deadlock requires no preemption."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these best describes a critical section?",
+    "options": {
+      "A": "A portion of code that accesses shared resources",
+      "B": "A function that runs infinitely",
+      "C": "A piece of hardware interrupt handler",
+      "D": "Code that never accesses shared data"
+    },
+    "answer": "A",
+    "feedback": "Critical sections access shared resources requiring synchronization."
+  },
+  {
+    "type": "MC",
+    "question": "What does a mutex do?",
+    "options": {
+      "A": "Allows multiple threads to enter critical section simultaneously",
+      "B": "Provides exclusive access to a resource",
+      "C": "Creates a new thread",
+      "D": "Terminates a process"
+    },
+    "answer": "B",
+    "feedback": "Mutex ensures mutual exclusion."
+  },
+  {
+    "type": "MC",
+    "question": "What is the difference between user-level and kernel-level threads?",
+    "options": {
+      "A": "User-level threads are managed by the OS; kernel-level threads are managed by user libraries",
+      "B": "User-level threads are managed by user libraries; kernel-level threads are managed by the OS",
+      "C": "No difference",
+      "D": "User-level threads can access kernel memory"
+    },
+    "answer": "B",
+    "feedback": "User-level threads are managed in user space; kernel-level by OS."
+  },
+  {
+    "type": "MC",
+    "question": "Which algorithm avoids starvation by aging priorities?",
+    "options": {
+      "A": "FCFS",
+      "B": "Priority Scheduling with aging",
+      "C": "Round Robin",
+      "D": "SJF"
+    },
+    "answer": "B",
+    "feedback": "Aging gradually increases priority to prevent starvation."
+  },
+  {
+    "type": "MC",
+    "question": "What is a page table entry?",
+    "options": {
+      "A": "Mapping between virtual page and physical frame",
+      "B": "Memory address",
+      "C": "Process ID",
+      "D": "File descriptor"
+    },
+    "answer": "A",
+    "feedback": "Page table entries map virtual to physical memory."
+  },
+  {
+    "type": "MC",
+    "question": "What happens when a process requests a resource held by another process?",
+    "options": {
+      "A": "Preemption",
+      "B": "Waiting",
+      "C": "Termination",
+      "D": "Priority increase"
+    },
+    "answer": "B",
+    "feedback": "Process waits until resource becomes available."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main purpose of deadlock avoidance algorithms?",
+    "options": {
+      "A": "Prevent deadlocks by careful resource allocation",
+      "B": "Detect deadlocks after they occur",
+      "C": "Ignore deadlocks",
+      "D": "Restart the system"
+    },
+    "answer": "A",
+    "feedback": "Avoidance algorithms prevent unsafe states."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is a benefit of virtual memory?",
+    "options": {
+      "A": "Allows programs to use more memory than physically available",
+      "B": "Eliminates all page faults",
+      "C": "Simplifies disk scheduling",
+      "D": "Removes the need for paging"
+    },
+    "answer": "A",
+    "feedback": "Virtual memory uses disk space to extend RAM."
+  },
+  {
+    "type": "MC",
+    "question": "What does the LOOK disk scheduling algorithm do?",
+    "options": {
+      "A": "Services requests only in one direction",
+      "B": "Moves the head towards the nearest request, then reverses",
+      "C": "Services requests randomly",
+      "D": "Services all requests at once"
+    },
+    "answer": "B",
+    "feedback": "LOOK moves head back and forth based on requests."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of an inode in a UNIX file system?",
+    "options": {
+      "A": "Stores file data",
+      "B": "Stores file metadata like permissions and pointers",
+      "C": "Manages disk scheduling",
+      "D": "Manages virtual memory"
+    },
+    "answer": "B",
+    "feedback": "Inodes store metadata and pointers to file data."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main function of an operating system?",
+    "options": {
+      "A": "Manage hardware and provide services to software",
+      "B": "Compile programs",
+      "C": "Store files permanently",
+      "D": "Connect to the internet"
+    },
+    "answer": "A",
+    "feedback": "Operating systems manage hardware and software resources."
+  },
+  {
+    "type": "MC",
+    "question": "Which memory management scheme divides memory into fixed-size blocks?",
+    "options": {
+      "A": "Segmentation",
+      "B": "Paging",
+      "C": "Heap allocation",
+      "D": "Stack allocation"
+    },
+    "answer": "B",
+    "feedback": "Paging divides memory into fixed-size pages."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of the short-term scheduler?",
+    "options": {
+      "A": "Decides which process runs next on the CPU",
+      "B": "Loads programs into memory",
+      "C": "Terminates processes",
+      "D": "Allocates disk space"
+    },
+    "answer": "A",
+    "feedback": "Short-term scheduler selects processes to execute on CPU."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is a preemptive scheduling algorithm?",
+    "options": {
+      "A": "First Come First Serve",
+      "B": "Round Robin",
+      "C": "Shortest Job First (non-preemptive)",
+      "D": "None"
+    },
+    "answer": "B",
+    "feedback": "Round Robin allows preemption after a time quantum."
+  },
+  {
+    "type": "MC",
+    "question": "What is thrashing in operating systems?",
+    "options": {
+      "A": "Excessive paging causing low CPU utilization",
+      "B": "Process running continuously",
+      "C": "CPU idle time",
+      "D": "Disk failure"
+    },
+    "answer": "A",
+    "feedback": "Thrashing happens when system spends most time paging."
+  },
+  {
+    "type": "MC",
+    "question": "What does mutual exclusion prevent?",
+    "options": {
+      "A": "Concurrent access to shared resources",
+      "B": "Deadlock",
+      "C": "Starvation",
+      "D": "Race conditions"
+    },
+    "answer": "D",
+    "feedback": "Mutual exclusion avoids race conditions on shared data."
+  },
+  {
+    "type": "MC",
+    "question": "What is the effect of aging in scheduling?",
+    "options": {
+      "A": "Increases priority of waiting processes to prevent starvation",
+      "B": "Decreases priority of new processes",
+      "C": "Terminates long-waiting processes",
+      "D": "No effect"
+    },
+    "answer": "A",
+    "feedback": "Aging increases priority over time to avoid starvation."
+  },
+  {
+    "type": "MC",
+    "question": "What is a key characteristic of a zombie process?",
+    "options": {
+      "A": "Has terminated but still occupies an entry in process table",
+      "B": "Is running multiple threads",
+      "C": "Is waiting for CPU",
+      "D": "Is suspended"
+    },
+    "answer": "A",
+    "feedback": "Zombie processes have finished but not cleaned up."
+  },
+  {
+    "type": "MC",
+    "question": "What is the purpose of swap space?",
+    "options": {
+      "A": "Stores temporary files",
+      "B": "Extends physical memory by using disk space",
+      "C": "Caches frequently used data",
+      "D": "Holds system logs"
+    },
+    "answer": "B",
+    "feedback": "Swap space acts as overflow for RAM."
+  },
+  {
+    "type": "MC",
+    "question": "Which disk scheduling algorithm is also known as the elevator algorithm?",
+    "options": {
+      "A": "FCFS",
+      "B": "SSTF",
+      "C": "SCAN",
+      "D": "LOOK"
+    },
+    "answer": "C",
+    "feedback": "SCAN moves disk arm back and forth servicing requests."
+  },
+  {
+    "type": "MC",
+    "question": "What does the term 'context switch' mean in operating systems?",
+    "options": {
+      "A": "Changing the CPU from one process to another",
+      "B": "Saving a file",
+      "C": "Starting a new process",
+      "D": "Terminating a process"
+    },
+    "answer": "A",
+    "feedback": "Context switch saves state of one process and loads another."
+  },
+  {
+    "type": "MC",
+    "question": "Which of these is NOT a necessary condition for deadlock?",
+    "options": {
+      "A": "Mutual exclusion",
+      "B": "Hold and wait",
+      "C": "No preemption",
+      "D": "Priority scheduling"
+    },
+    "answer": "D",
+    "feedback": "Priority scheduling is not one of the deadlock conditions."
+  },
+  {
+    "type": "MC",
+    "question": "What is a semaphore used for in operating systems?",
+    "options": {
+      "A": "Managing access to shared resources",
+      "B": "Allocating memory",
+      "C": "Scheduling CPU time",
+      "D": "Reading files"
+    },
+    "answer": "A",
+    "feedback": "Semaphores synchronize processes to prevent conflicts."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main purpose of virtual memory?",
+    "options": {
+      "A": "To allow programs to use more memory than physically available",
+      "B": "To speed up disk access",
+      "C": "To manage user permissions",
+      "D": "To store permanent files"
+    },
+    "answer": "A",
+    "feedback": "Virtual memory uses disk to extend RAM capacity."
+  },
+  {
+    "type": "MC",
+    "question": "Which file system structure stores metadata about a file?",
+    "options": {
+      "A": "Data blocks",
+      "B": "Inodes",
+      "C": "Directories",
+      "D": "File pointers"
+    },
+    "answer": "B",
+    "feedback": "Inodes contain metadata like permissions and locations."
+  },
+  {
+    "type": "MC",
+    "question": "What is the principle behind the Round Robin scheduling algorithm?",
+    "options": {
+      "A": "Shortest job runs first",
+      "B": "Processes get equal time slices in cyclic order",
+      "C": "Processes with highest priority run first",
+      "D": "Processes run to completion"
+    },
+    "answer": "B",
+    "feedback": "Round Robin shares CPU time equally using time slices."
+  },
+  {
+    "type": "MC",
+    "question": "What is the purpose of the 'wait()' system call in process management?",
+    "options": {
+      "A": "To delay process execution",
+      "B": "To suspend a process until its child terminates",
+      "C": "To create a new process",
+      "D": "To terminate a process"
+    },
+    "answer": "B",
+    "feedback": "wait() blocks parent until child finishes."
+  },
+  {
+    "type": "MC",
+    "question": "In memory management, what is external fragmentation?",
+    "options": {
+      "A": "Unused memory within allocated blocks",
+      "B": "Unused memory outside allocated blocks scattered across memory",
+      "C": "Memory leaks",
+      "D": "Fragmented disk sectors"
+    },
+    "answer": "B",
+    "feedback": "External fragmentation refers to scattered free memory chunks."
+  },
+  {
+    "type": "MC",
+    "question": "What does the term 'thrashing' indicate about a system's performance?",
+    "options": {
+      "A": "High CPU usage",
+      "B": "Excessive paging causing low CPU utilization",
+      "C": "Normal operation",
+      "D": "Network congestion"
+    },
+    "answer": "B",
+    "feedback": "Thrashing happens when system spends too much time swapping."
+  },
+  {
+    "type": "MC",
+    "question": "Which scheduling algorithm can lead to starvation of low priority processes?",
+    "options": {
+      "A": "Round Robin",
+      "B": "Priority Scheduling",
+      "C": "FCFS",
+      "D": "SJF"
+    },
+    "answer": "B",
+    "feedback": "Priority scheduling can indefinitely delay low priority processes."
+  },
+  {
+    "type": "MC",
+    "question": "What is one key function of an operating system as a bridge between users and hardware?",
+    "options": {
+      "A": "Directly execute user programs",
+      "B": "Manage hardware resources and provide an interface for users",
+      "C": "Write all software code",
+      "D": "Store user files permanently"
+    },
+    "answer": "B",
+    "feedback": "The OS manages hardware and provides user interfaces."
+  },
+  {
+    "type": "MC",
+    "question": "What does the fork() function do in an operating system?",
+    "options": {
+      "A": "Terminates a process",
+      "B": "Creates a new process by duplicating the calling process",
+      "C": "Schedules a process to run",
+      "D": "Opens a file"
+    },
+    "answer": "B",
+    "feedback": "fork() creates a child process identical to the parent."
+  },
+  {
+    "type": "MC",
+    "question": "How many times will 'Hello World' print in a C program with a single fork() call?",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "4"
+    },
+    "answer": "B",
+    "feedback": "fork() creates a child, so code runs twice."
+  },
+  {
+    "type": "MC",
+    "question": "Which are the five states in the process life cycle?",
+    "options": {
+      "A": "New, Ready, Running, Waiting, Terminated",
+      "B": "Created, Scheduled, Executing, Paused, Ended",
+      "C": "Start, Execute, Wait, End, Cleanup",
+      "D": "Ready, Running, Blocked, Suspended, Completed"
+    },
+    "answer": "A",
+    "feedback": "Standard process states include New, Ready, Running, Waiting, and Terminated."
+  },
+  {
+    "type": "MC",
+    "question": "What is a zombie process?",
+    "options": {
+      "A": "A process actively running",
+      "B": "A terminated process that still occupies an entry in the process table",
+      "C": "A suspended process",
+      "D": "A process waiting for input"
+    },
+    "answer": "B",
+    "feedback": "Zombie processes have ended but are not yet cleaned up."
+  },
+  {
+    "type": "MC",
+    "question": "What is the difference between a process and a thread?",
+    "options": {
+      "A": "Processes share memory, threads do not",
+      "B": "A process is a program in execution; a thread is a smaller execution unit within a process",
+      "C": "Threads can run independently of processes",
+      "D": "There is no difference"
+    },
+    "answer": "B",
+    "feedback": "Threads run inside processes sharing resources."
+  },
+  {
+    "type": "MC",
+    "question": "What are the advantages of using threads?",
+    "options": {
+      "A": "Simpler process management",
+      "B": "Efficient CPU utilization and responsiveness",
+      "C": "Increased memory consumption",
+      "D": "Slower execution"
+    },
+    "answer": "B",
+    "feedback": "Threads allow concurrency and faster context switches."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of the long-term scheduler?",
+    "options": {
+      "A": "Decides which process runs next on CPU",
+      "B": "Controls process admission to the system",
+      "C": "Handles I/O requests",
+      "D": "Terminates processes"
+    },
+    "answer": "B",
+    "feedback": "Long-term scheduler controls degree of multiprogramming."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of the short-term scheduler?",
+    "options": {
+      "A": "Controls process admission",
+      "B": "Selects which process runs on the CPU next",
+      "C": "Moves processes to waiting state",
+      "D": "Allocates memory"
+    },
+    "answer": "B",
+    "feedback": "Short-term scheduler picks processes for CPU execution."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main goal of CPU scheduling?",
+    "options": {
+      "A": "Maximize CPU utilization and throughput, minimize waiting time",
+      "B": "Minimize memory usage",
+      "C": "Increase I/O operations",
+      "D": "Maximize disk usage"
+    },
+    "answer": "A",
+    "feedback": "Good scheduling maximizes CPU usage and minimizes delays."
+  },
+  {
+    "type": "MC",
+    "question": "In CPU scheduling, what does the term 'preemptive' mean?",
+    "options": {
+      "A": "A process runs until it finishes",
+      "B": "A process can be interrupted and moved back to the ready queue",
+      "C": "Processes run in the order they arrive",
+      "D": "CPU never switches processes"
+    },
+    "answer": "B",
+    "feedback": "Preemptive scheduling allows interrupting processes."
+  },
+  {
+    "type": "MC",
+    "question": "Which scheduling algorithm assigns CPU based on the shortest next CPU burst time?",
+    "options": {
+      "A": "First Come First Serve",
+      "B": "Round Robin",
+      "C": "Shortest Job First",
+      "D": "Priority Scheduling"
+    },
+    "answer": "C",
+    "feedback": "SJF schedules the process with the shortest burst next."
+  },
+  {
+    "type": "MC",
+    "question": "What is the main disadvantage of the FCFS scheduling algorithm?",
+    "options": {
+      "A": "It can cause starvation",
+      "B": "It is complex to implement",
+      "C": "It can lead to long waiting times (convoy effect)",
+      "D": "It favors short processes"
+    },
+    "answer": "C",
+    "feedback": "FCFS can cause long wait if a long process runs first."
+  },
+  {
+    "type": "MC",
+    "question": "Which disk scheduling algorithm provides a fairer access by servicing requests in one direction then reversing?",
+    "options": {
+      "A": "FCFS",
+      "B": "SSTF",
+      "C": "SCAN",
+      "D": "LOOK"
+    },
+    "answer": "C",
+    "feedback": "SCAN moves the disk arm back and forth like an elevator."
+  },
+  {
+    "type": "MC",
+    "question": "What is the purpose of a page table in memory management?",
+    "options": {
+      "A": "To allocate physical memory",
+      "B": "To translate virtual addresses to physical addresses",
+      "C": "To store processes",
+      "D": "To swap data"
+    },
+    "answer": "B",
+    "feedback": "Page tables map virtual to physical addresses."
+  },
+  {
+    "type": "MC",
+    "question": "What is external fragmentation?",
+    "options": {
+      "A": "Wasted space inside allocated memory blocks",
+      "B": "Free memory scattered in small blocks unusable for allocation",
+      "C": "Memory leaks",
+      "D": "Overlapping memory areas"
+    },
+    "answer": "B",
+    "feedback": "External fragmentation is scattered free space."
+  },
+  {
+    "type": "MC",
+    "question": "Which condition is NOT one of the four necessary conditions for deadlock?",
+    "options": {
+      "A": "Mutual exclusion",
+      "B": "Hold and wait",
+      "C": "Preemption",
+      "D": "Circular wait"
+    },
+    "answer": "C",
+    "feedback": "Deadlock requires no preemption."
+  },
+  {
+    "type": "MC",
+    "question": "What is the purpose of the semaphore wait (P) operation?",
+    "options": {
+      "A": "Increase semaphore value",
+      "B": "Decrease semaphore and wait if zero",
+      "C": "Release resource",
+      "D": "Initialize semaphore"
+    },
+    "answer": "B",
+    "feedback": "Wait (P) decrements semaphore or blocks if zero."
+  },
+  {
+    "type": "MC",
+    "question": "Which of the following is NOT a part of a Process Control Block (PCB)?",
+    "options": {
+      "A": "Process state",
+      "B": "CPU registers",
+      "C": "File contents",
+      "D": "Memory management information"
+    },
+    "answer": "C",
+    "feedback": "PCB stores metadata, not file data."
+  },
+  {
+    "type": "MC",
+    "question": "What is the meaning of CPU burst?",
+    "options": {
+      "A": "The time the CPU spends waiting",
+      "B": "The time the CPU spends executing a process",
+      "C": "The time the process waits for I/O",
+      "D": "The total process execution time"
+    },
+    "answer": "B",
+    "feedback": "CPU burst is active CPU processing time."
+  },
+  {
+    "type": "MC",
+    "question": "What are the five states in the lifecycle of a process?",
+    "options": {
+      "A": "New, Ready, Running, Waiting, Terminated",
+      "B": "Created, Ready, Executing, Suspended, Ended",
+      "C": "Start, Run, Wait, Stop, Exit",
+      "D": "New, Running, Sleeping, Zombie, Exit"
+    },
+    "answer": "A",
+    "feedback": "The five standard process states are New, Ready, Running, Waiting, and Terminated."
+  },
+  {
+    "type": "MC",
+    "question": "What is the role of the wait() system call?",
+    "options": {
+      "A": "Creates a new process",
+      "B": "Terminates a process",
+      "C": "Blocks a parent process until its child finishes",
+      "D": "Schedules a process"
+    },
+    "answer": "C",
+    "feedback": "wait() blocks the parent until its child process terminates."
+  },
+  {
+    "type": "MC",
+    "question": "What value will the parent process print if a global integer is incremented by the child after fork()?",
+    "options": {
+      "A": "The original value",
+      "B": "The incremented value",
+      "C": "Random value",
+      "D": "Undefined"
+    },
+    "answer": "A",
+    "feedback": "Parent and child have separate memory spaces; parent's value is unchanged."
+  },
+  {
+    "type": "MC",
+    "question": "What is a zombie process?",
+    "options": {
+      "A": "An active running process",
+      "B": "A process that completed but still occupies an entry in the process table",
+      "C": "A suspended process",
+      "D": "A process waiting for I/O"
+    },
+    "answer": "B",
+    "feedback": "Zombie processes have terminated but are waiting for parent cleanup."
+  },
+  {
+    "type": "MC",
+    "question": "What is a process control block (PCB)?",
+    "options": {
+      "A": "A data structure holding process information",
+      "B": "A user interface component",
+      "C": "A memory management unit",
+      "D": "An I/O buffer"
+    },
+    "answer": "A",
+    "feedback": "PCB contains process state, registers, memory limits, and other info."
+  },
+  {
+    "type": "MC",
+    "question": "What are the benefits of using threads?",
+    "options": {
+      "A": "Improved application performance and resource sharing",
+      "B": "Increased memory usage",
+      "C": "Simpler code structure",
+      "D": "Avoids synchronization issues"
+    },
+    "answer": "A",
+    "feedback": "Threads allow concurrent execution and resource sharing within a process."
+  },
+  {
+    "type": "MC",
+    "question": "What does the pthread_mutex_lock() function do?",
+    "options": {
+      "A": "Unlocks a mutex",
+      "B": "Locks a mutex, blocking if already locked",
+      "C": "Creates a mutex",
+      "D": "Deletes a mutex"
+    },
+    "answer": "B",
+    "feedback": "pthread_mutex_lock() locks the mutex or blocks until it can."
+  },
+  {
+    "type": "MC",
+    "question": "In Round Robin scheduling with time quantum 4, which process runs first given arrival times: A(0), B(2), C(4)?",
+    "options": {
+      "A": "Process A",
+      "B": "Process B",
+      "C": "Process C",
+      "D": "Depends on service time"
+    },
+    "answer": "A",
+    "feedback": "Process A arrives first and gets CPU first."
+  },
+  {
+    "type": "MC",
+    "question": "How do you calculate turnaround time?",
+    "options": {
+      "A": "Completion time - Arrival time",
+      "B": "Arrival time - Completion time",
+      "C": "Waiting time + CPU time",
+      "D": "CPU time - Waiting time"
+    },
+    "answer": "A",
+    "feedback": "Turnaround time is total time from arrival to completion."
+  },
+  {
+    "type": "MC",
+    "question": "Given a page size of 1KB and the following page table, what physical frame corresponds to page 4?\nPage 0 → Frame 4\nPage 1 → Frame 7\nPage 2 → Frame 8\nPage 3 → Frame 2\nPage 4 → Frame 10\nPage 5 → Frame 0",
+    "options": {
+      "A": "Frame 4",
+      "B": "Frame 7",
+      "C": "Frame 10",
+      "D": "Frame 0"
+    },
+    "answer": "C",
+    "feedback": "Page 4 is mapped to Frame 10."
+  }
+]

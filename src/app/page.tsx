@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem, Database, FileCode } from 'lucide-react'; // Added FileCode
+import { ArrowRight, Calculator, Network, Palette, Sigma, TableIcon, Zap, CircuitBoard, Binary, Podcast, Info, BookOpen, Layers, Waves, Gem, Database, FileCode, Laptop } from 'lucide-react'; // Added Laptop
 import Footer from '@/components/layout/Footer';
 
 // Define featured tools data with updated icons and descriptions
@@ -46,6 +46,14 @@ const featuredTools = [
     icon: FileCode,
     link: "/flashcards/cprogramming",
     aiHint: "flashcards c language programming study code",
+    ctaText: "Start Studying"
+  },
+  {
+    title: "🖥️ Flash Cards: Operating Systems",
+    description: "Explore core OS concepts, process management, memory, and file systems.",
+    icon: Laptop,
+    link: "/flashcards/operatingsystems",
+    aiHint: "flashcards operating systems kernel study",
     ctaText: "Start Studying"
   },
   {

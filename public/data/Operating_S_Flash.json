@@ -1,0 +1,454 @@
+[
+  {
+    "id": 1,
+    "front": "What is a process in an operating system?",
+    "back": "A program in execution with its own state and resources."
+  },
+  {
+    "id": 2,
+    "front": "Name the five common states of a process.",
+    "back": "New, Ready, Running, Waiting, Terminated."
+  },
+  {
+    "id": 3,
+    "front": "What does a Process Control Block (PCB) contain?",
+    "back": "Process state, program counter, CPU registers, memory limits, and I/O status."
+  },
+  {
+    "id": 4,
+    "front": "What is a thread?",
+    "back": "The smallest unit of execution within a process, sharing process resources."
+  },
+  {
+    "id": 5,
+    "front": "What is CPU scheduling?",
+    "back": "The method by which the OS decides which process runs on the CPU next."
+  },
+  {
+    "id": 6,
+    "front": "What is the role of the short-term scheduler?",
+    "back": "To select from ready processes and allocate CPU."
+  },
+  {
+    "id": 7,
+    "front": "Define context switching.",
+    "back": "Saving the state of a running process and loading the state of another."
+  },
+  {
+    "id": 8,
+    "front": "What is a zombie process?",
+    "back": "A terminated process whose PCB still exists to report exit status."
+  },
+  {
+    "id": 9,
+    "front": "What is the difference between preemptive and non-preemptive scheduling?",
+    "back": "Preemptive allows interrupting running processes; non-preemptive does not."
+  },
+  {
+    "id": 10,
+    "front": "What is virtual memory?",
+    "back": "A memory management technique that uses disk storage to extend RAM."
+  },
+  {
+    "id": 11,
+    "front": "What is paging in memory management?",
+    "back": "Dividing memory into fixed-size pages to allow non-contiguous allocation."
+  },
+  {
+    "id": 12,
+    "front": "What is a page fault?",
+    "back": "An event when a program accesses a page not currently in physical memory."
+  },
+  {
+    "id": 13,
+    "front": "What is the purpose of the page table?",
+    "back": "To map virtual pages to physical frames."
+  },
+  {
+    "id": 14,
+    "front": "What does the 'thrashing' phenomenon indicate?",
+    "back": "Excessive paging causing poor CPU utilization and system slowdown."
+  },
+  {
+    "id": 15,
+    "front": "Name the four necessary conditions for deadlock.",
+    "back": "Mutual exclusion, hold and wait, no preemption, circular wait."
+  },
+  {
+    "id": 16,
+    "front": "What is a semaphore?",
+    "back": "A synchronization tool to control access to shared resources."
+  },
+  {
+    "id": 17,
+    "front": "What is the difference between a mutex and a semaphore?",
+    "back": "Mutex allows exclusive access by one thread; semaphore can allow multiple."
+  },
+  {
+    "id": 18,
+    "front": "What is disk scheduling?",
+    "back": "Ordering disk I/O requests to minimize seek time and improve efficiency."
+  },
+  {
+    "id": 19,
+    "front": "Name two disk scheduling algorithms.",
+    "back": "First Come First Serve (FCFS), Shortest Seek Time First (SSTF)."
+  },
+  {
+    "id": 20,
+    "front": "What does the SCAN (elevator) disk scheduling algorithm do?",
+    "back": "Moves the disk head in one direction servicing requests until the end, then reverses."
+  },
+   {
+    "id": 21,
+    "front": "What is the function of the long-term scheduler?",
+    "back": "Controls the admission of processes into the system, managing the degree of multiprogramming."
+  },
+  {
+    "id": 22,
+    "front": "What does the short-term scheduler do?",
+    "back": "Selects which process from the ready queue to execute next on the CPU."
+  },
+  {
+    "id": 23,
+    "front": "What is a critical section in concurrency?",
+    "back": "A section of code accessing shared resources that must not be concurrently executed by multiple threads."
+  },
+  {
+    "id": 24,
+    "front": "How do semaphores help with synchronization?",
+    "back": "They use counters to allow controlled access to shared resources, preventing race conditions."
+  },
+  {
+    "id": 25,
+    "front": "What is the difference between internal and external fragmentation?",
+    "back": "Internal fragmentation is wasted space within allocated memory; external fragmentation is scattered free memory between allocations."
+  },
+  {
+    "id": 26,
+    "front": "What is a context switch overhead?",
+    "back": "The time taken to save and restore process states during switching, reducing CPU efficiency."
+  },
+  {
+    "id": 27,
+    "front": "What does starvation mean in CPU scheduling?",
+    "back": "When a low priority process waits indefinitely because higher priority processes keep executing."
+  },
+  {
+    "id": 28,
+    "front": "What is the difference between preemptive and non-preemptive scheduling?",
+    "back": "Preemptive allows the CPU to be taken away from a running process; non-preemptive runs process to completion."
+  },
+  {
+    "id": 29,
+    "front": "What is the role of the PCB (Process Control Block)?",
+    "back": "Stores all information about a process required by the OS for process management."
+  },
+  {
+    "id": 30,
+    "front": "What is meant by 'degree of multiprogramming'?",
+    "back": "The number of processes kept in memory at the same time."
+  },
+  {
+    "id": 31,
+    "front": "What is the main goal of CPU scheduling?",
+    "back": "Maximize CPU utilization, throughput, and minimize waiting and turnaround times."
+  },
+  {
+    "id": 32,
+    "front": "What is the purpose of the wait() system call?",
+    "back": "To make a parent process wait until its child process terminates."
+  },
+  {
+    "id": 33,
+    "front": "What is the difference between a process and a program?",
+    "back": "A program is a passive set of instructions; a process is an active execution of a program."
+  },
+  {
+    "id": 34,
+    "front": "What is the difference between a user thread and a kernel thread?",
+    "back": "User threads are managed by user libraries; kernel threads are managed by the OS kernel."
+  },
+  {
+    "id": 35,
+    "front": "What is a semaphore’s wait (P) and signal (V) operations?",
+    "back": "P decrements semaphore and may block; V increments semaphore and may unblock waiting processes."
+  },
+  {
+    "id": 36,
+    "front": "What is the effect of aging in CPU scheduling?",
+    "back": "Gradually increases priority of waiting processes to prevent starvation."
+  },
+  {
+    "id": 37,
+    "front": "What is the difference between paging and segmentation?",
+    "back": "Paging divides memory into fixed-size blocks; segmentation divides memory into variable-sized logical units."
+  },
+  {
+    "id": 38,
+    "front": "What does the term 'deadlock' mean?",
+    "back": "A situation where a set of processes are blocked waiting indefinitely for each other."
+  },
+  {
+    "id": 39,
+    "front": "What is the function of the swap space?",
+    "back": "Additional disk space used to temporarily hold pages swapped out from RAM."
+  },
+  {
+    "id": 40,
+    "front": "Which disk scheduling algorithm services requests in the order they arrive?",
+    "back": "First Come First Serve (FCFS)."
+  },
+  {
+    "id": 1,
+    "front": "What is a process in an operating system?",
+    "back": "A program in execution that has its own state and resources."
+  },
+  {
+    "id": 2,
+    "front": "List the five states of a process lifecycle.",
+    "back": "New, Ready, Running, Waiting, Terminated."
+  },
+  {
+    "id": 3,
+    "front": "What is contained in a Process Control Block (PCB)?",
+    "back": "Process state, program counter, CPU registers, memory limits, and I/O info."
+  },
+  {
+    "id": 4,
+    "front": "Define a thread.",
+    "back": "The smallest unit of execution within a process, sharing process resources."
+  },
+  {
+    "id": 5,
+    "front": "What does the wait() system call do?",
+    "back": "Blocks a parent process until its child process terminates."
+  },
+  {
+    "id": 6,
+    "front": "What is a zombie process?",
+    "back": "A terminated process whose PCB still exists awaiting cleanup."
+  },
+  {
+    "id": 7,
+    "front": "What are the benefits of using threads?",
+    "back": "Improved performance and resource sharing within a process."
+  },
+  {
+    "id": 8,
+    "front": "What is the purpose of a mutex in threading?",
+    "back": "To provide mutual exclusion, preventing concurrent access to shared resources."
+  },
+  {
+    "id": 9,
+    "front": "What is the formula for turnaround time?",
+    "back": "Completion time minus arrival time."
+  },
+  {
+    "id": 10,
+    "front": "What is paging in memory management?",
+    "back": "Dividing memory into fixed-size pages for non-contiguous allocation."
+  },
+  {
+    "id": 11,
+    "front": "What is a process?",
+    "back": "A program in execution with its own state and resources."
+  },
+  {
+    "id": 12,
+    "front": "What is a thread?",
+    "back": "The smallest sequence of programmed instructions within a process."
+  },
+  {
+    "id": 13,
+    "front": "What is a Process Control Block (PCB)?",
+    "back": "A data structure storing information about a process, such as state, registers, and memory limits."
+  },
+  {
+    "id": 14,
+    "front": "What is a context switch?",
+    "back": "Saving and loading process states when the CPU switches from one process to another."
+  },
+  {
+    "id": 15,
+    "front": "What is a zombie process?",
+    "back": "A terminated process that still has an entry in the process table."
+  },
+  {
+    "id": 16,
+    "front": "What is mutual exclusion?",
+    "back": "Preventing multiple processes or threads from accessing a resource at the same time."
+  },
+  {
+    "id": 17,
+    "front": "What is a semaphore?",
+    "back": "A synchronization tool that controls access to shared resources using counters."
+  },
+  {
+    "id": 18,
+    "front": "What is a page fault?",
+    "back": "An event occurring when a program tries to access a page not currently in physical memory."
+  },
+  {
+    "id": 19,
+    "front": "What is paging?",
+    "back": "A memory management scheme that divides memory into fixed-size pages."
+  },
+  {
+    "id": 20,
+    "front": "What is deadlock?",
+    "back": "A situation where processes wait indefinitely for resources held by each other."
+  },
+   {
+    "id": 21,
+    "front": "What is a critical section?",
+    "back": "A section of code that accesses shared resources and must not be executed by more than one thread at a time."
+  },
+  {
+    "id": 22,
+    "front": "What is a mutex?",
+    "back": "A locking mechanism used to enforce mutual exclusion in critical sections."
+  },
+  {
+    "id": 23,
+    "front": "What is starvation in CPU scheduling?",
+    "back": "A situation where a process waits indefinitely because higher priority processes keep running."
+  },
+  {
+    "id": 24,
+    "front": "What is aging in scheduling?",
+    "back": "A technique to gradually increase the priority of waiting processes to prevent starvation."
+  },
+  {
+    "id": 25,
+    "front": "What is the difference between preemptive and non-preemptive scheduling?",
+    "back": "Preemptive scheduling allows the CPU to be taken away from a running process; non-preemptive runs processes until they complete."
+  },
+  {
+    "id": 26,
+    "front": "What is a page table?",
+    "back": "A data structure used to map virtual pages to physical memory frames."
+  },
+  {
+    "id": 27,
+    "front": "What is a semaphore’s wait (P) operation?",
+    "back": "An operation that decreases the semaphore count and may block if the count is zero."
+  },
+  {
+    "id": 28,
+    "front": "What is the difference between internal and external fragmentation?",
+    "back": "Internal fragmentation is wasted space within allocated memory blocks; external fragmentation is scattered free space outside allocated blocks."
+  },
+  {
+    "id": 29,
+    "front": "What is thrashing?",
+    "back": "A state where excessive paging operations cause severe system slowdown."
+  },
+  {
+    "id": 30,
+    "front": "What is the purpose of the long-term scheduler?",
+    "back": "To control the degree of multiprogramming by admitting processes into the system."
+  },
+  {
+    "id": 31,
+    "front": "What is a short-term scheduler?",
+    "back": "A component that selects which process will execute next on the CPU."
+  },
+  {
+    "id": 32,
+    "front": "What is a medium-term scheduler?",
+    "back": "A scheduler that swaps processes in and out of memory to manage system load."
+  },
+  {
+    "id": 33,
+    "front": "What is a semaphore’s signal (V) operation?",
+    "back": "An operation that increases the semaphore count and may unblock waiting processes."
+  },
+  {
+    "id": 34,
+    "front": "What is the purpose of the swap space?",
+    "back": "To provide additional virtual memory by using disk space when RAM is full."
+  },
+  {
+    "id": 35,
+    "front": "What is the First Come First Serve (FCFS) scheduling algorithm?",
+    "back": "A scheduling method where the first process to arrive is the first to be executed."
+  },
+  {
+    "id": 36,
+    "front": "What is the Shortest Seek Time First (SSTF) disk scheduling algorithm?",
+    "back": "An algorithm that selects the disk I/O request closest to the current head position."
+  },
+  {
+    "id": 37,
+    "front": "What is the SCAN disk scheduling algorithm?",
+    "back": "An algorithm where the disk arm moves in one direction servicing requests until the end, then reverses direction."
+  },
+  {
+    "id": 38,
+    "front": "What is a semaphore?",
+    "back": "A synchronization tool that uses counters to control access to shared resources."
+  },
+  {
+    "id": 39,
+    "front": "What is the difference between a process and a thread?",
+    "back": "A process is an independent program execution unit with its own memory; a thread is a lightweight unit within a process sharing memory."
+  },
+  {
+    "id": 40,
+    "front": "What is turnaround time in process scheduling?",
+    "back": "The total time taken for a process to complete after submission."
+  },
+  {
+    "id": 41,
+    "front": "What is a race condition?",
+    "back": "A problem that occurs when multiple processes access shared data concurrently, causing unpredictable results."
+  },
+  {
+    "id": 42,
+    "front": "What is mutual exclusion?",
+    "back": "A property that ensures only one process can access a critical section at a time."
+  },
+  {
+    "id": 43,
+    "front": "What is the main function of an operating system kernel?",
+    "back": "To manage hardware resources and provide core services to other parts of the OS."
+  },
+  {
+    "id": 44,
+    "front": "What is the function of the fork() system call?",
+    "back": "To create a new process by duplicating the calling process."
+  },
+  {
+    "id": 45,
+    "front": "What is process synchronization?",
+    "back": "Techniques used to ensure that processes operate without interfering with each other."
+  },
+  {
+    "id": 46,
+    "front": "What is the difference between a blocking and non-blocking system call?",
+    "back": "Blocking calls wait for an operation to complete; non-blocking calls return immediately."
+  },
+  {
+    "id": 47,
+    "front": "What is the difference between internal and external fragmentation?",
+    "back": "Internal fragmentation is wasted space within allocated blocks; external fragmentation is scattered unused memory between allocations."
+  },
+  {
+    "id": 48,
+    "front": "What is a file descriptor?",
+    "back": "An integer that uniquely identifies an open file in a process."
+  },
+  {
+    "id": 49,
+    "front": "What is the role of a device driver?",
+    "back": "To manage communication between the OS and hardware devices."
+  },
+  {
+    "id": 50,
+    "front": "What is the principle of locality in memory management?",
+    "back": "Programs tend to access a relatively small portion of their address space at any given time."
+  }
+]
+
+  

@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem, Database, FileCode } from 'lucide-react'; // Added FileCode
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem, Database, FileCode, Laptop } from 'lucide-react'; // Added Laptop
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -29,6 +29,7 @@ const navItems = [
       { href: "/flashcards/ccna", label: "CCNA Concepts", icon: BookOpen },
       { href: "/flashcards/database", label: "Databases & Statistics", icon: Database },
       { href: "/flashcards/cprogramming", label: "C Programming", icon: FileCode },
+      { href: "/flashcards/operatingsystems", label: "Operating Systems", icon: Laptop },
     ]
   },
   {
