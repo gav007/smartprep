@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import AudioCard from '@/components/audio/AudioCard';
 import type { AudioMetadata } from '@/types/audio';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertTriangle, Podcast, Network, BookOpen, Database } from 'lucide-react'; // Added Database icon
+import { Loader2, AlertTriangle, Podcast, Network, BookOpen, Database } from 'lucide-react';
 
 interface GroupedAudio {
   [category: string]: AudioMetadata[];
@@ -14,9 +14,14 @@ interface GroupedAudio {
 
 // Define constants for category names to avoid typos
 const CATEGORY_APPLIED_NETWORKING = "Applied Networking";
-const CATEGORY_CCNA = "CCNA";
+const CATEGORY_CCNA = "CCNA Audio"; // Display name for CCNA section
 const CATEGORY_DATABASE_AUDIO = "Databases and Data Analysis"; // Display name for the new section
-const JSON_CATEGORY_DATABASE = "Database Audio"; // Category key as in audio.json
+
+// Keys as they might appear in audio.json
+const JSON_KEY_CATEGORY_CCNA = "CCNA Audio";
+const JSON_KEY_CATEGORY_DATABASE = "Database Audio";
+const JSON_KEY_CATEGORY_APPLIED = "Applied Networking";
+
 
 export default function AudioLessonsPage() {
   const [groupedAudioFiles, setGroupedAudioFiles] = useState<GroupedAudio>({});
@@ -50,47 +55,24 @@ export default function AudioLessonsPage() {
             typeof item.title !== 'string' ||
             typeof itemFilename !== 'string' ||
             itemFilename.trim() === '' ||
-            (item.category && typeof item.category !== 'string') ||
-            (item.mimeType && typeof item.mimeType !== 'string')
+            (item.category && typeof item.category !== 'string') || // Category is optional but must be string if present
+            (item.mimeType && typeof item.mimeType !== 'string')  // MimeType is optional but must be string if present
           ) {
             console.warn(`AudioLessonsPage: Skipping invalid audio entry at index ${index}. Title: "${itemTitle}", Filename: "${itemFilename || 'MISSING'}". Reason: Missing/invalid essential fields. Item:`, item);
             return null;
           }
 
+          // Ensure filename passed to AudioCard is just the bare filename
           const bareFilename = item.filename.split('/').pop();
           
           console.log(`AudioLessonsPage: Processing item #${index} - Original JSON filename: "${item.filename}", Computed bareFilename for AudioCard: "${bareFilename}"`);
-
-          let finalCategory = item.category;
-
-          // Explicitly handle known categories from JSON first
-          if (item.category === CATEGORY_CCNA) {
-            finalCategory = CATEGORY_CCNA;
-          } else if (item.category === JSON_CATEGORY_DATABASE) {
-            finalCategory = JSON_CATEGORY_DATABASE; // Use the key from JSON for internal grouping
-          } else if (item.category === CATEGORY_APPLIED_NETWORKING) {
-            finalCategory = CATEGORY_APPLIED_NETWORKING;
-          }
-          // Fallback derivation if category is missing or not one of the explicit ones above
-          else if (!finalCategory && bareFilename) {
-            if (bareFilename.toLowerCase().startsWith('ccna')) {
-              finalCategory = CATEGORY_CCNA;
-            } else if (bareFilename.toLowerCase().includes('database')) {
-              finalCategory = JSON_CATEGORY_DATABASE;
-            } else {
-              finalCategory = CATEGORY_APPLIED_NETWORKING; 
-            }
-          } else if (!finalCategory) { // Absolute fallback if category is completely missing
-            finalCategory = CATEGORY_APPLIED_NETWORKING;
-          }
-          // If item.category was something else unknown, it defaults to finalCategory (which might be Applied Networking if not caught above)
           
           return {
             id: item.id,
             title: item.title,
             description: item.description || '', 
-            filename: bareFilename, 
-            category: finalCategory, // This will be used for grouping
+            filename: bareFilename, // Pass only the bare filename
+            category: item.category, // Pass the category as is from JSON
             mimeType: item.mimeType,
           };
         }).filter((item): item is AudioMetadata => item !== null);
@@ -99,16 +81,26 @@ export default function AudioLessonsPage() {
         const groups: GroupedAudio = {
           [CATEGORY_APPLIED_NETWORKING]: [],
           [CATEGORY_CCNA]: [],
-          [CATEGORY_DATABASE_AUDIO]: [], // Initialize the new group for display
+          [CATEGORY_DATABASE_AUDIO]: [],
         };
 
         validatedAndProcessedAudio.forEach(audioItem => {
-          if (audioItem.category === CATEGORY_CCNA) {
+          // Prioritize explicit category matches
+          if (audioItem.category === JSON_KEY_CATEGORY_CCNA) {
             groups[CATEGORY_CCNA].push(audioItem);
-          } else if (audioItem.category === JSON_CATEGORY_DATABASE) {
-            groups[CATEGORY_DATABASE_AUDIO].push(audioItem); // Group into the new display category
-          } else { 
-            // All others, including CATEGORY_APPLIED_NETWORKING and any unknown, go to Applied Networking
+          } else if (audioItem.category === JSON_KEY_CATEGORY_DATABASE) {
+            groups[CATEGORY_DATABASE_AUDIO].push(audioItem);
+          } else if (audioItem.category === JSON_KEY_CATEGORY_APPLIED) {
+            groups[CATEGORY_APPLIED_NETWORKING].push(audioItem);
+          }
+          // Fallback logic based on filename if category is missing or not one of the explicit ones
+          else if (!audioItem.category && audioItem.filename.toLowerCase().startsWith('ccna')) {
+             groups[CATEGORY_CCNA].push(audioItem);
+          } else if (!audioItem.category && audioItem.filename.toLowerCase().includes('database')) {
+             groups[CATEGORY_DATABASE_AUDIO].push(audioItem);
+          }
+          // Default to Applied Networking for anything else (including if category is undefined or an unknown string)
+          else { 
             groups[CATEGORY_APPLIED_NETWORKING].push(audioItem);
           }
         });
@@ -151,6 +143,7 @@ export default function AudioLessonsPage() {
     );
   }
   
+  // Define the order of categories for display
   const categoriesToDisplay = [CATEGORY_APPLIED_NETWORKING, CATEGORY_CCNA, CATEGORY_DATABASE_AUDIO];
 
   return (
@@ -173,30 +166,28 @@ export default function AudioLessonsPage() {
         </div>
       ) : (
         <div className="space-y-12">
-          {categoriesToDisplay.map((category) => {
-            const filesInCategory = groupedAudioFiles[category] || [];
-            const IconComponent = category === CATEGORY_CCNA ? BookOpen :
-                                  category === CATEGORY_DATABASE_AUDIO ? Database : Network; // Assign Database icon
-
-            if (filesInCategory.length === 0) { // Only skip if no files AND it's not a primary category we always want to show
+          {categoriesToDisplay.map((categoryName) => {
+            const filesInCategory = groupedAudioFiles[categoryName] || [];
+            
+            // Skip rendering the section if there are no files for it.
+            if (filesInCategory.length === 0) {
                 return null;
             }
 
+            const IconComponent = categoryName === CATEGORY_CCNA ? BookOpen :
+                                  categoryName === CATEGORY_DATABASE_AUDIO ? Database : Network;
+
             return (
-              <section key={category}>
+              <section key={categoryName}>
                 <h2 className="text-2xl font-semibold mb-6 border-b pb-2 flex items-center gap-2">
                   <IconComponent className="h-6 w-6 text-accent" />
-                  {category} ({filesInCategory.length} {filesInCategory.length === 1 ? 'lesson' : 'lessons'})
+                  {categoryName} ({filesInCategory.length} {filesInCategory.length === 1 ? 'lesson' : 'lessons'})
                 </h2>
-                {filesInCategory.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filesInCategory.map((audio) => (
-                      <AudioCard key={audio.id} audio={audio} />
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground italic">No audio lessons found for the &quot;{category}&quot; category in <code>audio.json</code> or they failed validation.</p>
-                )}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filesInCategory.map((audio) => (
+                    <AudioCard key={audio.id} audio={audio} />
+                  ))}
+                </div>
               </section>
             );
           })}
@@ -205,4 +196,3 @@ export default function AudioLessonsPage() {
     </div>
   );
 }
-

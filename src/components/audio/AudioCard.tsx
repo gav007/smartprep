@@ -25,11 +25,11 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     switch (extension) {
       case 'wav': determinedMimeType = 'audio/wav'; break;
       case 'mp3': determinedMimeType = 'audio/mpeg'; break;
-      case 'mpg': determinedMimeType = 'audio/mpeg'; break; // Treat .mpg as audio/mpeg for audio files
+      case 'mpg': determinedMimeType = 'audio/mpeg'; break;
       case 'ogg': determinedMimeType = 'audio/ogg'; break;
       case 'aac': determinedMimeType = 'audio/aac'; break;
       default:
-        console.warn(`AudioCard: Unknown audio extension ".${extension}" for file "${filename}". Provided MIME was "${providedMimeType || 'empty'}". Defaulting to "audio/mpeg".`);
+        console.warn(`AUDIO_CARD_DEBUG: Unknown audio extension ".${extension}" for file "${filename}". Provided MIME was "${providedMimeType || 'empty'}". Defaulting to "audio/mpeg".`);
         break;
     }
     return determinedMimeType;
@@ -43,7 +43,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
           <div className="flex-1">
             <CardTitle className="text-destructive text-sm font-semibold">Audio Error</CardTitle>
             <CardDescription className="text-destructive/80 text-xs">
-              Invalid audio data provided to card (e.g., missing filename in audio.json).
+              Invalid audio data (e.g., missing filename in audio.json for title: "{audio?.title || 'Unknown'}").
             </CardDescription>
           </div>
         </CardHeader>
@@ -51,10 +51,6 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     );
   }
 
-  // Path construction assumes audio.filename is the BARE filename (e.g., "MySong.mp3")
-  // and all files are directly in /public/data/audio/
-  // Next.js serves files from the `public` directory at the root of your project.
-  // So, a file at `public/data/audio/MySong.mp3` is accessible via the URL `/data/audio/MySong.mp3`.
   const audioSrc = `/data/audio/${audio.filename}`;
   const mimeTypeForSourceTag = getMimeType(audio.filename, audio.mimeType);
 
@@ -62,14 +58,12 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     const audioEl = e.currentTarget;
     let errorDetail = 'Unknown audio error.';
     
-    // These properties might be undefined or N/A if the error is very early (e.g., 404)
     const networkStateValue = (audioEl && typeof audioEl.networkState !== 'undefined') ? audioEl.networkState : 'N/A';
     const readyStateValue = (audioEl && typeof audioEl.readyState !== 'undefined') ? audioEl.readyState : 'N/A';
     const currentSrcInfo = (audioEl && audioEl.currentSrc) ? audioEl.currentSrc : 'N/A (or path not resolved by browser)';
 
     if (audioEl && audioEl.error) {
       const mediaError = audioEl.error as MediaError;
-      // This block handles specific media errors (decoding, format unsupported by browser *after* successful fetch)
       switch (mediaError.code) {
         case MediaError.MEDIA_ERR_ABORTED: errorDetail = 'Playback aborted by user.'; break;
         case MediaError.MEDIA_ERR_NETWORK: errorDetail = 'Network error after starting to fetch audio. Check server/connection.'; break;
@@ -78,8 +72,6 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         default: errorDetail = `MediaError code ${mediaError.code}. Message: ${mediaError.message || 'No specific message.'}`;
       }
     } else if (audioEl) {
-      // This case (onError triggered, but audioEl.error is null) is VERY OFTEN a 404 Not Found or other resource access issue.
-      // The browser couldn't even begin to process the media if it couldn't fetch it.
       errorDetail = 'Audio element error object is null, but onError was triggered. This typically indicates the file was NOT FOUND (404) at the specified URL, or is inaccessible due to server/permissions issues.';
     }
     
@@ -92,7 +84,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
       `  > HTMLAudioElement Network State: ${networkStateValue} (3 = NETWORK_NO_SOURCE usually means 404 or resource unavailable)\n` +
       `  > HTMLAudioElement Ready State: ${readyStateValue} (0 = HAVE_NOTHING)\n` +
       `  > Error Detail: ${errorDetail}`,
-      e // Log the original event object for full context
+      e 
     );
   };
 
