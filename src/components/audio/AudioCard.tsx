@@ -36,6 +36,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
   };
 
   if (!audio || typeof audio.filename !== 'string' || audio.filename.trim() === '') {
+    // This case should ideally be caught by AudioLessonsPage, but as a fallback:
     return (
       <Card className="w-full overflow-hidden shadow-lg bg-destructive/10 border-destructive/50 rounded-xl">
         <CardHeader className="flex flex-row items-center gap-3 p-3">
@@ -43,7 +44,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
           <div className="flex-1">
             <CardTitle className="text-destructive text-sm font-semibold">Audio Error</CardTitle>
             <CardDescription className="text-destructive/80 text-xs">
-              Invalid audio data (e.g., missing filename in audio.json for title: "{audio?.title || 'Unknown'}").
+              Invalid audio data provided to card (e.g., missing filename in audio.json for title: "{audio?.title || 'Unknown'}").
             </CardDescription>
           </div>
         </CardHeader>
@@ -51,8 +52,10 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     );
   }
 
-  const audioSrc = `/data/audio/${audio.filename}`;
-  const mimeTypeForSourceTag = getMimeType(audio.filename, audio.mimeType);
+  // Ensure the filename is properly encoded for URL, just in case.
+  const encodedFilename = encodeURIComponent(audio.filename);
+  const audioSrc = `/data/audio/${encodedFilename}`;
+  const mimeTypeForSourceTag = getMimeType(audio.filename, audio.mimeType); // Use original filename for MIME type detection
 
   const handleError = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
     const audioEl = e.currentTarget;
@@ -60,10 +63,11 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     
     const networkStateValue = (audioEl && typeof audioEl.networkState !== 'undefined') ? audioEl.networkState : 'N/A';
     const readyStateValue = (audioEl && typeof audioEl.readyState !== 'undefined') ? audioEl.readyState : 'N/A';
+    // currentSrc is important because it shows what the browser *actually* tried to fetch.
     const currentSrcInfo = (audioEl && audioEl.currentSrc) ? audioEl.currentSrc : 'N/A (or path not resolved by browser)';
 
     if (audioEl && audioEl.error) {
-      const mediaError = audioEl.error as MediaError;
+      const mediaError = audioEl.error as MediaError; // Cast to MediaError
       switch (mediaError.code) {
         case MediaError.MEDIA_ERR_ABORTED: errorDetail = 'Playback aborted by user.'; break;
         case MediaError.MEDIA_ERR_NETWORK: errorDetail = 'Network error after starting to fetch audio. Check server/connection.'; break;
@@ -72,19 +76,20 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
         default: errorDetail = `MediaError code ${mediaError.code}. Message: ${mediaError.message || 'No specific message.'}`;
       }
     } else if (audioEl) {
-      errorDetail = 'Audio element error object is null, but onError was triggered. This typically indicates the file was NOT FOUND (404) at the specified URL, or is inaccessible due to server/permissions issues.';
+        // This is the key scenario for 404s where error object is null
+        errorDetail = 'Audio element error object is null, but onError was triggered. This typically indicates the file was NOT FOUND (404) at the specified URL, or is inaccessible due to server/permissions issues.';
     }
     
     console.error(
       `AUDIO_CARD_DEBUG: Playback Error Encountered\n` +
       `  > Filename Prop (from audio.json via AudioLessonsPage): "${audio.filename}"\n` +
-      `  > Constructed <source src> (URL requested by browser): "${audioSrc}"\n` +
+      `  > Constructed <source src> (URL requested by browser): "${audioSrc}"\n` + // Log the encoded src
       `  > Intended MIME Type for <source>: "${mimeTypeForSourceTag}"\n` +
-      `  > Browser's Resolved currentSrc: "${currentSrcInfo}"\n` +
+      `  > Browser's Resolved currentSrc: "${currentSrcInfo}"\n` + // This is critical
       `  > HTMLAudioElement Network State: ${networkStateValue} (3 = NETWORK_NO_SOURCE usually means 404 or resource unavailable)\n` +
       `  > HTMLAudioElement Ready State: ${readyStateValue} (0 = HAVE_NOTHING)\n` +
       `  > Error Detail: ${errorDetail}`,
-      e 
+      e // Log the original event object too for more details if available
     );
   };
 
