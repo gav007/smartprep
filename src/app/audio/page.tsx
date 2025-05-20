@@ -18,6 +18,7 @@ const CATEGORY_NETWORKING_FUNDAMENTALS = "Networking Fundamentals";
 const CATEGORY_CCNA = "CCNA Audio"; // Display name for CCNA section
 const CATEGORY_DATABASE_AUDIO = "Databases and Data Analysis";
 const CATEGORY_PYTHON_BASICS = "Python Programming Fundamentals";
+const CATEGORY_C = "C Programming Basics";
 
 // Keys as they might appear in audio.json
 const JSON_KEY_CATEGORY_APPLIED = "Applied Networking";
@@ -25,6 +26,7 @@ const JSON_KEY_CATEGORY_NETWORKING_FUNDAMENTALS = "Networking Fundamentals";
 const JSON_KEY_CATEGORY_CCNA = "CCNA Audio";
 const JSON_KEY_CATEGORY_DATABASE = "Database Audio";
 const JSON_KEY_CATEGORY_PYTHON = "Python Basics";
+const JSON_KEY_CATEGORY_C = "C Basics";
 
 
 export default function AudioLessonsPage() {
@@ -88,6 +90,7 @@ export default function AudioLessonsPage() {
           [CATEGORY_CCNA]: [],
           [CATEGORY_DATABASE_AUDIO]: [],
           [CATEGORY_PYTHON_BASICS]: [],
+          [CATEGORY_C]: [],
         };
 
         validatedAndProcessedAudio.forEach(audioItem => {
@@ -101,6 +104,8 @@ export default function AudioLessonsPage() {
             finalCategory = CATEGORY_PYTHON_BASICS;
           } else if (audioItem.category === JSON_KEY_CATEGORY_NETWORKING_FUNDAMENTALS) {
             finalCategory = CATEGORY_NETWORKING_FUNDAMENTALS;
+          } else if (audioItem.category === JSON_KEY_CATEGORY_C) {
+            finalCategory = CATEGORY_C;
           } else if (audioItem.category === JSON_KEY_CATEGORY_APPLIED || !audioItem.category) { // Default to Applied if category matches or is missing
             finalCategory = CATEGORY_APPLIED_NETWORKING;
           } else {
@@ -119,7 +124,7 @@ export default function AudioLessonsPage() {
         });
         
         console.log(`AudioLessonsPage: Processed and grouped audio files. Applied: ${groups[CATEGORY_APPLIED_NETWORKING]?.length || 0}, Fundamentals: ${groups[CATEGORY_NETWORKING_FUNDAMENTALS]?.length || 0}, CCNA: ${groups[CATEGORY_CCNA]?.length || 0}, Databases: ${groups[CATEGORY_DATABASE_AUDIO]?.length || 0}, Python: ${groups[CATEGORY_PYTHON_BASICS]?.length || 0}`);
-        setGroupedAudioFiles(groups);
+        setGroupedAudioFiles(groups); // eslint-disable-next-line react-hooks/exhaustive-deps
 
       } catch (err) {
         console.error("AudioLessonsPage: Error in fetchAudioMetadata:", err);
@@ -161,7 +166,8 @@ export default function AudioLessonsPage() {
     CATEGORY_NETWORKING_FUNDAMENTALS,
     CATEGORY_CCNA, 
     CATEGORY_DATABASE_AUDIO,
-    CATEGORY_PYTHON_BASICS
+    CATEGORY_PYTHON_BASICS,
+    CATEGORY_C
   ].filter(catName => groupedAudioFiles[catName] && groupedAudioFiles[catName].length > 0);
 
   return (

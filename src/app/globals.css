@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,41 +9,42 @@ body {
 
 @layer base {
   :root {
-    --background: 210 25% 98%; /* Light Gray #f7fafc */
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 207 70% 54%; /* Calm Blue #3490dc */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 210 25% 98%; /* Light Gray #f7fafc */
-    --secondary-foreground: 0 0% 9%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 174 49% 52%; /* Teal #4dc0b5 */
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 220 15% 10%;  /* Very dark blue/gray */
+    --foreground: 210 40% 98%; /* Light gray/off-white */
+    --card: 220 15% 15%;       /* Slightly lighter dark blue/gray for cards */
+    --card-foreground: 210 40% 98%;
+    --popover: 220 15% 12%;     /* Darker popover */
+    --popover-foreground: 210 40% 98%;
+    --primary: 207 70% 54%;    /* Calm Blue #3490dc - Kept */
+    --primary-foreground: 210 40% 98%; /* Light text on primary */
+    --secondary: 220 15% 20%;   /* Dark secondary */
+    --secondary-foreground: 210 40% 98%;
+    --muted: 220 15% 25%;       /* Muted dark */
+    --muted-foreground: 210 40% 60%; /* Muted foreground, less bright */
+    --accent: 174 49% 52%;     /* Teal #4dc0b5 - Kept */
+    --accent-foreground: 210 40% 98%; /* Light text on accent */
+    --destructive: 0 70% 50%;    /* Slightly desaturated red for dark mode destructive */
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 207 70% 54%; /* Calm Blue #3490dc */
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --border: 220 15% 30%;      /* Dark border */
+    --input: 220 15% 25%;       /* Dark input background */
+    --ring: 207 70% 54%;       /* Primary blue for ring - Kept */
+    --chart-1: 207 70% 60%;    /* Brighter chart colors for dark mode */
+    --chart-2: 174 60% 55%;
+    --chart-3: 30 80% 65%;
+    --chart-4: 280 65% 70%;
+    --chart-5: 340 75% 65%;
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 220 15% 8%; /* Even darker sidebar */
+    --sidebar-foreground: 210 40% 85%; /* Lighter text for sidebar */
+    --sidebar-primary: 207 70% 54%; /* Primary color for sidebar highlights */
+    --sidebar-primary-foreground: 0 0% 98%; /* White text on primary */
+    --sidebar-accent: 220 15% 18%; /* Darker accent for sidebar hover */
+    --sidebar-accent-foreground: 210 40% 95%;
+    --sidebar-border: 220 15% 25%;
+    --sidebar-ring: 207 70% 54%;
   }
-  .dark {
+
+  .dark { /* This existing .dark theme will remain as an alternative */
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;

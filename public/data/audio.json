@@ -1,138 +1,122 @@
 
 [
   {
-    "id": "CCNA1-Overview",
-    "title": "CCNA 1 Overview",
-    "description": "Introduction to the CCNA 1 course covering networking fundamentals and basic concepts.",
+    "id": "CCNA1",
+    "title": "NUMBER 1",
+    "description": "INTRO TO NETWORKS",
     "filename": "CCNA1.mp3",
-    "category": "Networking Fundamentals",
+    "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "OSI-Model-Intro",
-    "title": "OSI Model Deep Dive",
-    "description": "Exploring the 7 layers of the OSI model.",
+    "id": "CCNA2",
+    "title": "NUMBER 2",
+    "description": "CISCO IOS",
     "filename": "CCNA2.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "Subnetting-Basics",
-    "title": "Introduction to Subnetting",
-    "description": "Understanding IP addresses and subnet masks.",
+    "id": "CCNA3",
+    "title": "NUMBER 3",
+    "description": "DATA GETTING AROUND",
     "filename": "CCNA3.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "VLANs-Switching",
-    "title": "VLANs and Switching",
-    "description": "How VLANs work and their role in network segmentation.",
+    "id": "CCNA4",
+    "title": "NUMBER 4",
+    "description": "PHYSICAL LAYER",
     "filename": "CCNA4.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "Binary-Hex-Networking",
-    "title": "Binary, Hex, and the Language of Networks",
-    "description": "Understanding binary and hexadecimal in networking.",
+    "id": "CCNA5",
+    "title": "NUMBER 5",
+    "description": "NUMBERS",
     "filename": "CCNA5.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "IP-Routing-IPv6",
-    "title": "IP Addresses, Routing, and the IPv6 Revolution",
-    "description": "Deep dive into IP addressing, routing principles, and the transition to IPv6.",
+    "id": "CCNA6",
+    "title": "NUMBER 6",
+    "description": "IPV4",
     "filename": "CCNA6.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "Hostname-Security-ShowCommands",
-    "title": "Hostname, Security, IPs and the Vital Show Commands",
-    "description": "Configuring hostnames, basic security, and using essential Cisco 'show' commands.",
+    "id": "CCNA7",
+    "title": "NUMBER 7",
+    "description": "ROUTERS",
     "filename": "CCNA7.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "IPv6-NextGen",
-    "title": "Unlimited Addresses, Next-Gen Internet",
-    "description": "Exploring IPv6 features and its role as the next-generation internet protocol.",
+    "id": "CCNA8",
+    "title": "NUMBER 8",
+    "description": "NETWORK LAYER",
     "filename": "CCNA8.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "CCNA10-Basic-Router-Config",
-    "title": "Basic Router Configuration",
-    "description": "Learn how to configure routers for network connectivity, including interfaces and routing protocols.",
+    "id": "CCNA9",
+    "title": "NUMBER 9",
+    "description": "ICMP",
+    "filename": "CCNA9.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "CCNA10",
+    "title": "NUMBER 10",
+    "description": "ARP",
     "filename": "CCNA10.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "CCNA11-IPv4-Addressing",
-    "title": "IPv4 Addressing",
-    "description": "Understanding IPv4 address classes, subnetting, and address assignment.",
+    "id": "CCNA11",
+    "title": "NUMBER 11",
+    "description": "DATA LINK LAYER.",
     "filename": "CCNA11.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "CCNA12-IPv6-Addressing",
-    "title": "IPv6 Addressing",
-    "description": "Introduction to IPv6 address format, configuration, and transition techniques.",
-    "filename": "CCNA12.mp3",
-    "category": "CCNA Audio",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA13-ICMP",
-    "title": "Internet Control Message Protocol (ICMP)",
-    "description": "How ICMP is used for error reporting and diagnostics in IP networks.",
+    "id": "CCNA12",
+    "title": "NUMBER 12",
+    "description": "TCP, UDP",
     "filename": "CCNA13.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "CCNA14-Transport-Layer",
-    "title": "Transport Layer Protocols",
-    "description": "Explore TCP and UDP protocols and their roles in network communication.",
+    "id": "CCNA13",
+    "title": "NUMBER 13",
+    "description": "IPV6",
     "filename": "CCNA14.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "CCNA15-Application-Layer",
-    "title": "Application Layer Protocols",
-    "description": "Overview of protocols such as HTTP, FTP, DNS, and their functions.",
+    "id": "CCNA14",
+    "title": "NUMBER 14",
+    "description": "PROTOCOLS",
     "filename": "CCNA15.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "CCNA16-Network-Security",
-    "title": "Network Security Fundamentals",
-    "description": "Introduction to network security principles, including firewalls and access control.",
+    "id": "CCNA15",
+    "title": "NUMBER 15",
+    "description": "SWITCHING",
     "filename": "CCNA16.mp3",
-    "category": "CCNA Audio",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA17-Build-Network",
-    "title": "Building a Small Network",
-    "description": "Hands-on approach to designing and configuring a small scale network.",
-    "filename": "CCNA17.mp3",
-    "category": "CCNA Audio",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "Ping-Traceroute-SmallNetwork",
-    "title": "Ping, Traceroute, and the Secrets of Small Network",
-    "description": "Practical uses of Ping and Traceroute in small network troubleshooting.",
-    "filename": "CCNA10_Ping_Traceroute_and_the_Secrets_of_Small_Network.mp3",
     "category": "CCNA Audio",
     "mimeType": "audio/mpeg"
   },
@@ -182,6 +166,14 @@
     "description": "An introduction to the fundamentals of Python programming, covering syntax, data types, and control structures.",
     "filename": "python.mp3",
     "category": "Python Basics",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "C-Foundations",
+    "title": "C HISTORY",
+    "description": "An introduction to the fundamentals of C programming",
+    "filename": "C_LANG.mp3",
+    "category": "C Basics",
     "mimeType": "audio/mpeg"
   },
   {
