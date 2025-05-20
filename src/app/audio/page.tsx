@@ -67,6 +67,9 @@ export default function AudioLessonsPage() {
             return null;
           }
 
+          // IMPORTANT: Ensure filename passed to AudioCard is the BARE filename.
+          // Any path prefixes (like "audio/" or "audio2/") should be stripped if they were in audio.json.
+          // Since audio.json is now assumed to have bare filenames, this logic might be redundant but safe.
           const bareFilename = item.filename.split('/').pop();
           
           console.log(`AudioLessonsPage: Processing item #${index} - Original JSON filename: "${item.filename}", Computed bareFilename for AudioCard: "${bareFilename}"`);
@@ -75,7 +78,7 @@ export default function AudioLessonsPage() {
             id: item.id,
             title: item.title,
             description: item.description || '', 
-            filename: bareFilename, 
+            filename: bareFilename, // Use the bare filename
             category: item.category, 
             mimeType: item.mimeType,
           };
@@ -91,18 +94,25 @@ export default function AudioLessonsPage() {
         };
 
         validatedAndProcessedAudio.forEach(audioItem => {
+          // Determine the final category for grouping based on audioItem.category
+          let finalCategory = CATEGORY_APPLIED_NETWORKING; // Default
           if (audioItem.category === JSON_KEY_CATEGORY_CCNA) {
-            groups[CATEGORY_CCNA].push(audioItem);
+            finalCategory = CATEGORY_CCNA;
           } else if (audioItem.category === JSON_KEY_CATEGORY_DATABASE) {
-            groups[CATEGORY_DATABASE_AUDIO].push(audioItem);
+            finalCategory = CATEGORY_DATABASE_AUDIO;
           } else if (audioItem.category === JSON_KEY_CATEGORY_PYTHON) {
-            groups[CATEGORY_PYTHON_BASICS].push(audioItem);
+            finalCategory = CATEGORY_PYTHON_BASICS;
           } else if (audioItem.category === JSON_KEY_CATEGORY_NETWORKING_FUNDAMENTALS) {
-            groups[CATEGORY_NETWORKING_FUNDAMENTALS].push(audioItem);
+            finalCategory = CATEGORY_NETWORKING_FUNDAMENTALS;
           }
-          // Fallback logic for Applied Networking or undefined categories
-          else { 
-            groups[CATEGORY_APPLIED_NETWORKING].push(audioItem);
+          // No specific check for "Applied Networking" needed if it's the default
+          // or if audioItem.category is "Applied Networking" or undefined/empty.
+
+          if (groups[finalCategory]) {
+            groups[finalCategory].push(audioItem);
+          } else {
+             console.warn(`AudioLessonsPage: Encountered item with unhandled category "${audioItem.category}", defaulting to Applied Networking. Item:`, audioItem);
+             groups[CATEGORY_APPLIED_NETWORKING].push(audioItem); // Fallback for safety
           }
         });
         
@@ -150,7 +160,7 @@ export default function AudioLessonsPage() {
     CATEGORY_CCNA, 
     CATEGORY_DATABASE_AUDIO,
     CATEGORY_PYTHON_BASICS
-  ];
+  ].filter(catName => groupedAudioFiles[catName] && groupedAudioFiles[catName].length > 0); // Only display categories with files
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -164,7 +174,7 @@ export default function AudioLessonsPage() {
         </p>
       </header>
 
-      {categoriesToDisplay.every(cat => !groupedAudioFiles[cat] || groupedAudioFiles[cat].length === 0) && !loading ? (
+      {categoriesToDisplay.length === 0 && !loading ? (
          <div className="text-center py-10">
             <AlertTriangle className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-xl text-muted-foreground">No audio lessons available at the moment.</p>
@@ -175,6 +185,7 @@ export default function AudioLessonsPage() {
           {categoriesToDisplay.map((categoryName) => {
             const filesInCategory = groupedAudioFiles[categoryName] || [];
             
+            // This check is now done by the filter on categoriesToDisplay, but keep for safety
             if (filesInCategory.length === 0) {
                 return null;
             }
@@ -183,7 +194,7 @@ export default function AudioLessonsPage() {
                 categoryName === CATEGORY_CCNA ? BookOpen :
                 categoryName === CATEGORY_DATABASE_AUDIO ? Database :
                 categoryName === CATEGORY_PYTHON_BASICS ? FileCode : 
-                categoryName === CATEGORY_NETWORKING_FUNDAMENTALS ? BookOpen : // Could use a different icon if BookOpen is too repetitive
+                categoryName === CATEGORY_NETWORKING_FUNDAMENTALS ? BookOpen :
                 Network; // Default for Applied Networking
 
             return (

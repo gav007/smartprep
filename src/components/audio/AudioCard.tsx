@@ -25,7 +25,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     switch (extension) {
       case 'wav': determinedMimeType = 'audio/wav'; break;
       case 'mp3': determinedMimeType = 'audio/mpeg'; break;
-      case 'mpg': determinedMimeType = 'audio/mpeg'; break;
+      case 'mpg': determinedMimeType = 'audio/mpeg'; break; // Treat .mpg as audio/mpeg for audio players
       case 'ogg': determinedMimeType = 'audio/ogg'; break;
       case 'aac': determinedMimeType = 'audio/aac'; break;
       default:
@@ -36,7 +36,6 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
   };
 
   if (!audio || typeof audio.filename !== 'string' || audio.filename.trim() === '') {
-    // This case should ideally be caught by AudioLessonsPage, but as a fallback:
     return (
       <Card className="w-full overflow-hidden shadow-lg bg-destructive/10 border-destructive/50 rounded-xl">
         <CardHeader className="flex flex-row items-center gap-3 p-3">
@@ -44,7 +43,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
           <div className="flex-1">
             <CardTitle className="text-destructive text-sm font-semibold">Audio Error</CardTitle>
             <CardDescription className="text-destructive/80 text-xs">
-              Invalid audio data provided to card (e.g., missing filename in audio.json for title: "{audio?.title || 'Unknown'}").
+              Invalid audio data for title: "{audio?.title || 'Unknown'}". Filename missing or invalid in audio.json.
             </CardDescription>
           </div>
         </CardHeader>
@@ -52,10 +51,10 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     );
   }
 
-  // Ensure the filename is properly encoded for URL, just in case.
-  const encodedFilename = encodeURIComponent(audio.filename);
-  const audioSrc = `/data/audio/${encodedFilename}`;
-  const mimeTypeForSourceTag = getMimeType(audio.filename, audio.mimeType); // Use original filename for MIME type detection
+  // Use encodeURIComponent for the filename part of the URL for robustness
+  const encodedFilenamePart = encodeURIComponent(audio.filename);
+  const audioSrc = `/data/audio/${encodedFilenamePart}`;
+  const mimeTypeForSourceTag = getMimeType(audio.filename, audio.mimeType);
 
   const handleError = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
     const audioEl = e.currentTarget;
@@ -63,33 +62,33 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
     
     const networkStateValue = (audioEl && typeof audioEl.networkState !== 'undefined') ? audioEl.networkState : 'N/A';
     const readyStateValue = (audioEl && typeof audioEl.readyState !== 'undefined') ? audioEl.readyState : 'N/A';
-    // currentSrc is important because it shows what the browser *actually* tried to fetch.
     const currentSrcInfo = (audioEl && audioEl.currentSrc) ? audioEl.currentSrc : 'N/A (or path not resolved by browser)';
 
     if (audioEl && audioEl.error) {
-      const mediaError = audioEl.error as MediaError; // Cast to MediaError
+      const mediaError = audioEl.error as MediaError; 
       switch (mediaError.code) {
         case MediaError.MEDIA_ERR_ABORTED: errorDetail = 'Playback aborted by user.'; break;
-        case MediaError.MEDIA_ERR_NETWORK: errorDetail = 'Network error after starting to fetch audio. Check server/connection.'; break;
+        case MediaError.MEDIA_ERR_NETWORK: errorDetail = 'Network error. The browser could not fetch the audio file.'; break;
         case MediaError.MEDIA_ERR_DECODE: errorDetail = 'Decoding error: Audio file may be corrupted or in an unsupported format.'; break;
-        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED: errorDetail = 'Source not supported: The audio format might be incorrect for the `<source>` tag, or the browser cannot play this specific format variation even if the MIME type is generally supported.'; break;
+        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED: errorDetail = 'Source not supported: The audio format might be incorrect, or the browser cannot play this format.'; break;
         default: errorDetail = `MediaError code ${mediaError.code}. Message: ${mediaError.message || 'No specific message.'}`;
       }
-    } else if (audioEl) {
-        // This is the key scenario for 404s where error object is null
-        errorDetail = 'Audio element error object is null, but onError was triggered. This typically indicates the file was NOT FOUND (404) at the specified URL, or is inaccessible due to server/permissions issues.';
+    } else if (networkStateValue === 3 /* HTMLMediaElement.NETWORK_NO_SOURCE */) {
+        errorDetail = 'Audio element error object is null, and networkState is NETWORK_NO_SOURCE (3). This strongly indicates the file was NOT FOUND (404) at the specified URL, or is inaccessible due to server/permissions issues. Please verify the file exists on the server and the path is correct.';
+    } else {
+        errorDetail = 'Audio element error object is null, but onError was triggered. Check browser console for more specific network errors (like 404).';
     }
     
     console.error(
       `AUDIO_CARD_DEBUG: Playback Error Encountered\n` +
-      `  > Filename Prop (from audio.json via AudioLessonsPage): "${audio.filename}"\n` +
-      `  > Constructed <source src> (URL requested by browser): "${audioSrc}"\n` + // Log the encoded src
+      `  > Filename Prop (from audio.json via AudioLessonsPage): "${audio.filename}"\n` + // This is the bare filename expected from audio.json
+      `  > Constructed <source src> (URL requested by browser): "${audioSrc}"\n` + // This is the URL the browser attempts to load
       `  > Intended MIME Type for <source>: "${mimeTypeForSourceTag}"\n` +
-      `  > Browser's Resolved currentSrc: "${currentSrcInfo}"\n` + // This is critical
-      `  > HTMLAudioElement Network State: ${networkStateValue} (3 = NETWORK_NO_SOURCE usually means 404 or resource unavailable)\n` +
-      `  > HTMLAudioElement Ready State: ${readyStateValue} (0 = HAVE_NOTHING)\n` +
+      `  > Browser's Resolved currentSrc (what it actually tried to load): "${currentSrcInfo}"\n` +
+      `  > HTMLAudioElement Network State: ${networkStateValue}\n` +
+      `  > HTMLAudioElement Ready State: ${readyStateValue}\n` +
       `  > Error Detail: ${errorDetail}`,
-      e // Log the original event object too for more details if available
+      e // Log the original event object
     );
   };
 
@@ -118,3 +117,4 @@ const AudioCard: React.FC<AudioCardProps> = ({ audio }) => {
 };
 
 export default AudioCard;
+
