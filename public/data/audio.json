@@ -1,179 +1,155 @@
 
 [
   {
-    "id": "Wifi-Fundamentals",
-    "title": "Wi-Fi Fundamentals: From Router Placement to Transmission",
-    "description": "Learn the basics of Wi-Fi, optimal router placement, and how signals are transmitted.",
+    "id": "OSI-Model-Intro",
+    "title": "OSI Model Deep Dive",
+    "description": "Exploring the 7 layers of the OSI model.",
+    "filename": "CCNA2_OSI_Model_Deep_Dive.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "Subnetting-Basics",
+    "title": "Introduction to Subnetting",
+    "description": "Understanding IP addresses and subnet masks.",
+    "filename": "CCNA3_Introduction_to_Subnetting.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "VLANs-Switching",
+    "title": "VLANs and Switching",
+    "description": "How VLANs work and their role in network segmentation.",
+    "filename": "CCNA4_VLANs_and_Switching.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "Binary-Hex-Networking",
+    "title": "Binary, Hex, and the Language of Networks",
+    "description": "Understanding binary and hexadecimal in networking.",
+    "filename": "CCNA5_Binary_Hex_and_the_Language_of_Networks.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "IP-Routing-IPv6",
+    "title": "IP Addresses, Routing, and the IPv6 Revolution",
+    "description": "Deep dive into IP addressing, routing principles, and the transition to IPv6.",
+    "filename": "CCNA6_IP_Addresses_Routing_and_the_IPv6_Revolution.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "Hostname-Security-ShowCommands",
+    "title": "Hostname, Security, IPs and the Vital Show Commands",
+    "description": "Configuring hostnames, basic security, and using essential Cisco 'show' commands.",
+    "filename": "CCNA7_Hostname_Security_IPs_and_the_Vital_Show_Commands.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "IPv6-NextGen",
+    "title": "Unlimited Addresses, Next-Gen Internet",
+    "description": "Exploring IPv6 features and its role as the next-generation internet protocol.",
+    "filename": "CCNA8_Unlimited_Addresses_Next_Gen_Internet.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "Ping-Traceroute-ICMP",
+    "title": "Decoding Ping, Traceroute, and the Vital Role of ICMP",
+    "description": "Understanding how Ping and Traceroute work using ICMP.",
+    "filename": "CCNA9_Decoding_Ping_Traceroute_and_the_Vital_Role_of_ICMP.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "Ping-Traceroute-SmallNetwork",
+    "title": "Ping, Traceroute, and the Secrets of Small Network",
+    "description": "Practical uses of Ping and Traceroute in small network troubleshooting.",
+    "filename": "CCNA10_Ping_Traceroute_and_the_Secrets_of_Small_Network.mp3",
+    "category": "CCNA Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "wifi-fundamentals",
+    "title": "Wi-Fi Fundamentals",
+    "description": "An overview of Wi-Fi technology and standards.",
     "filename": "Wifi.wav",
     "category": "Applied Networking",
     "mimeType": "audio/wav"
   },
   {
-    "id": "Cable-Shielding",
-    "title": "The Importance of Cable Shielding",
-    "description": "Understand why cable shielding is crucial in networking and how it prevents interference.",
+    "id": "cable-shielding",
+    "title": "Cable Shielding",
+    "description": "The importance of shielding in network cables.",
     "filename": "cableSheilding.wav",
     "category": "Applied Networking",
     "mimeType": "audio/wav"
   },
   {
-    "id": "Modulation-Basics",
-    "title": "Modulation: How Signals are Encoded for Transmission",
-    "description": "Explore the fundamental concepts of modulation and its role in data transmission.",
+    "id": "modulation-techniques",
+    "title": "Modulation Techniques",
+    "description": "Introduction to various signal modulation methods.",
     "filename": "modulation.wav",
     "category": "Applied Networking",
     "mimeType": "audio/wav"
   },
   {
-    "id": "Applied-Networking-Summary",
+    "id": "applied-summary",
     "title": "Applied Networking Summary",
-    "description": "A concise summary of key applied networking concepts.",
+    "description": "A quick recap of key applied networking concepts.",
     "filename": "applied_summary.mp3",
     "category": "Applied Networking",
     "mimeType": "audio/mpeg"
   },
   {
-    "id": "CCNA1-Intro-to-Networking",
-    "title": "CCNA: Introduction to Networking",
-    "description": "An overview of fundamental networking concepts for CCNA.",
-    "filename": "CCNA1_Intro_to_Networking.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA2-OSI-Model-Deep-Dive",
-    "title": "CCNA: OSI Model Deep Dive",
-    "description": "A detailed exploration of the OSI model layers and their functions.",
-    "filename": "CCNA2_OSI_Model_Deep_Dive.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA3-Intro-to-Subnetting",
-    "title": "CCNA: Introduction to Subnetting",
-    "description": "Understanding the basics of IP subnetting and its importance.",
-    "filename": "CCNA3_Intro_to_Subnetting.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA4-VLANs-and-Switching",
-    "title": "CCNA: VLANs and Switching Concepts",
-    "description": "Learn about Virtual LANs and fundamental switching technologies.",
-    "filename": "CCNA4_VLANs_and_Switching.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA5-Binary-Hex-Language",
-    "title": "CCNA: Binary, Hex, and the Language of Networks",
-    "description": "Understanding binary and hexadecimal number systems in networking.",
-    "filename": "CCNA5_Binary_Hex_and_the_Language_of_Networks.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA6-How-Devices-Talk",
-    "title": "CCNA: How Devices Talk - Protocols and Communication",
-    "description": "Exploring the protocols and methods devices use to communicate.",
-    "filename": "CCNA6_How_Devices_Talk_Protocols_and_Communication.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA7-IP-Addresses-Routing-IPv6",
-    "title": "CCNA: IP Addresses, Routing, and the IPv6 Revolution",
-    "description": "Deep dive into IP addressing, routing principles, and IPv6.",
-    "filename": "CCNA7_IP_Addresses_Routing_and_the_IPv6_Revolution.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA8-The-Magic-of-DNS",
-    "title": "CCNA: The Magic of DNS - Resolving Names to Numbers",
-    "description": "Understanding how the Domain Name System (DNS) works.",
-    "filename": "CCNA8_The_Magic_of_DNS_Resolving_Names_to_Numbers.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA9-Securing-Your-Network-Basics",
-    "title": "CCNA: Securing Your Network - Fundamental Concepts",
-    "description": "Introduction to network security principles and common threats.",
-    "filename": "CCNA9_Securing_Your_Network_Fundamental_Concepts.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA10-Troubleshooting-Common-Network-Issues",
-    "title": "CCNA: Troubleshooting Common Network Issues",
-    "description": "Learn techniques for diagnosing and resolving typical network problems.",
-    "filename": "CCNA10_Troubleshooting_Common_Network_Issues.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA11-WAN-Technologies-Explained",
-    "title": "CCNA: WAN Technologies Explained - Connecting the World",
-    "description": "An overview of Wide Area Network (WAN) technologies and their uses.",
-    "filename": "CCNA11_WAN_Technologies_Explained_Connecting_the_World.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA12-Wireless-Networking-Essentials",
-    "title": "CCNA: Wireless Networking Essentials - Wi-Fi and Beyond",
-    "description": "Fundamentals of wireless networking, including Wi-Fi standards and security.",
-    "filename": "CCNA12_Wireless_Networking_Essentials_WiFi_and_Beyond.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA13-Cloud-Networking-and-Virtualization",
-    "title": "CCNA: Cloud Networking and Virtualization Basics",
-    "description": "Introduction to cloud computing concepts and network virtualization.",
-    "filename": "CCNA13_Cloud_Networking_and_Virtualization_Basics.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA14-Network-Automation-and-Programmability",
-    "title": "CCNA: Network Automation and Programmability Intro",
-    "description": "An introduction to the concepts of network automation and programmability.",
-    "filename": "CCNA14_Network_Automation_and_Programmability_Intro.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA15-Decoding-the-Internet-s-Hidden-Language",
-    "title": "CCNA: Decoding the Internet's Hidden Language - Protocols Deep Dive",
-    "description": "A deeper look into key internet protocols and their interactions.",
-    "filename": "CCNA15_Decoding_the_Internets_Hidden_Language_Protocols_Deep_Dive.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA16-Mastering-the-Layers-of-Network-Security",
-    "title": "CCNA: Mastering the Layers of Network Security - A Comprehensive Guide",
-    "description": "A comprehensive guide to understanding and implementing layered network security.",
-    "filename": "CCNA16_Mastering_the_Layers_of_Network_Security_A_Comprehensive_Guide.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "CCNA17-The-Vital-Role-of-ICMP-in-Diagnostics",
-    "title": "CCNA: The Vital Role of ICMP in Diagnostics - Ping, Traceroute, and More",
-    "description": "Understanding ICMP and its use in network diagnostics tools like Ping and Traceroute.",
-    "filename": "CCNA17_The_Vital_Role_of_ICMP_in_Diagnostics_Ping_Traceroute_and_More.mp3",
-    "category": "CCNA",
-    "mimeType": "audio/mpeg"
-  },
-  {
-    "id": "Databases-and-Statistics",
-    "title": "Getting your head around Databases and Statistics",
-    "description": "Database: Foundations of data management and statistical analysis in networking contexts.",
+    "id": "Databases-and-Statisics",
+    "title": "Getting your head around Databases and Statisics",
+    "description": "Database: Foundations",
     "filename": "database.mp3",
     "category": "Database Audio",
     "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "Python-Foundations",
+    "title": "Python Foundations",
+    "description": "An introduction to the fundamentals of Python programming, covering syntax, data types, and control structures.",
+    "filename": "python.mp3",
+    "category": "Python Basics",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "Infrastructure-Cabling",
+    "title": "Infrastructure Cabling",
+    "description": "Overview of infrastructure cabling systems, types of cables, and standards used in networking environments.",
+    "filename": "infrastructureCabling.wav",
+    "category": "Networking Fundamentals",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "Frequencies-Basics",
+    "title": "Frequencies",
+    "description": "Understanding the basics of frequencies and their importance in signal transmission and networking.",
+    "filename": "frequencies.wav",
+    "category": "Applied Networking",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "Fibre-vs-Copper",
+    "title": "Fibre vs Copper",
+    "description": "Comparison of fibre optic and copper cabling, highlighting advantages and use cases in networking.",
+    "filename": "fibreVsCopper.wav",
+    "category": "Networking Fundamentals",
+    "mimeType": "audio/wav"
+  },
+  {
+    "id": "Cable-Certification",
+    "title": "Cable Certification",
+    "description": "Explains the process and standards involved in certifying network cables to ensure performance and reliability.",
+    "filename": "cableCertification.wav",
+    "category": "Networking Fundamentals",
+    "mimeType": "audio/wav"
   }
 ]
