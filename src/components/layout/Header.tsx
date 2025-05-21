@@ -2,8 +2,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem, Database, FileCode, Laptop, ListChecks } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { BookOpen, Calculator, Home as HomeIcon, Network, TableIcon, Menu, X, Cpu, Zap, CircuitBoard, Palette, Binary, GitBranchPlus, Info, BrainCircuit, Podcast, Sigma, ChevronDown, Layers, Waves, Gem, Database, FileCode, Laptop, ListChecks, Moon, Sun } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -148,6 +148,29 @@ const renderNavLinks = (items: typeof navItems, closeSheet?: () => void, isMobil
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light'); // Default to light
+
+  // Effect to load theme from localStorage and apply it
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('smartprep-theme') as 'light' | 'dark' | null;
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
+    setTheme(initialTheme);
+  }, []);
+
+  // Effect to update HTML class and localStorage when theme changes
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('smartprep-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
@@ -157,35 +180,40 @@ export default function Header() {
            <span className="font-semibold">SmartPrep</span>
         </Link>
 
-        <nav className="hidden md:flex flex-wrap items-center space-x-2 lg:space-x-3"> {/* Reduced spacing */}
-             {renderNavLinks(navItems, undefined, false)}
-        </nav>
+        <div className="flex items-center space-x-1"> {/* Container for nav and theme toggle */}
+          <nav className="hidden md:flex flex-wrap items-center space-x-2 lg:space-x-3"> {/* Reduced spacing */}
+               {renderNavLinks(navItems, undefined, false)}
+          </nav>
 
-        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-          <SheetTrigger asChild className="md:hidden">
-             <Button variant="ghost" size="icon" aria-label="Open main menu">
-                <Menu className="h-5 w-5" /> {/* Smaller burger */}
-             </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-full max-w-xs bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden">
-             <SheetHeader className="flex flex-row h-14 items-center justify-between border-b px-4">
-                 <Link href="/" className="flex items-center gap-2 text-lg font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Network size={20} />
-                    SmartPrep
-                 </Link>
-                <SheetClose asChild>
-                     <Button variant="ghost" size="icon" aria-label="Close main menu">
-                        <X className="h-5 w-5" />
-                    </Button>
-                 </SheetClose>
-             </SheetHeader>
-             <nav className="flex flex-col space-y-1 p-3"> {/* Adjusted padding */}
-                 {renderNavLinks(navItems, () => setIsMobileMenuOpen(false), true)}
-             </nav>
-          </SheetContent>
-        </Sheet>
+          <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="ml-2">
+            {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+          </Button>
+
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild className="md:hidden">
+               <Button variant="ghost" size="icon" aria-label="Open main menu">
+                  <Menu className="h-5 w-5" /> {/* Smaller burger */}
+               </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full max-w-xs bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden">
+               <SheetHeader className="flex flex-row h-14 items-center justify-between border-b px-4">
+                   <Link href="/" className="flex items-center gap-2 text-lg font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                      <Network size={20} />
+                      SmartPrep
+                   </Link>
+                  <SheetClose asChild>
+                       <Button variant="ghost" size="icon" aria-label="Close main menu">
+                          <X className="h-5 w-5" />
+                      </Button>
+                   </SheetClose>
+               </SheetHeader>
+               <nav className="flex flex-col space-y-1 p-3"> {/* Adjusted padding */}
+                   {renderNavLinks(navItems, () => setIsMobileMenuOpen(false), true)}
+               </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );
 }
-
