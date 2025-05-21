@@ -6,7 +6,8 @@ import React, { useState, useEffect } from 'react';
 import AudioCard from '@/components/audio/AudioCard';
 import type { AudioMetadata } from '@/types/audio';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertTriangle, Podcast, Network, BookOpen, Database, FileCode } from 'lucide-react';
+import { Loader2, AlertTriangle, Podcast, Network, BookOpen, Database, FileCode, Terminal } from 'lucide-react';
+
 
 interface GroupedAudio {
   [category: string]: AudioMetadata[];
@@ -19,6 +20,7 @@ const CATEGORY_CCNA = "CCNA Audio"; // Display name for CCNA section
 const CATEGORY_DATABASE_AUDIO = "Databases and Data Analysis";
 const CATEGORY_PYTHON_BASICS = "Python Programming Fundamentals";
 const CATEGORY_C = "C Programming Basics";
+const CATEGORY_LINUX_AUDIO = "Linux Audio";
 
 // Keys as they might appear in audio.json
 const JSON_KEY_CATEGORY_APPLIED = "Applied Networking";
@@ -27,6 +29,7 @@ const JSON_KEY_CATEGORY_CCNA = "CCNA Audio";
 const JSON_KEY_CATEGORY_DATABASE = "Database Audio";
 const JSON_KEY_CATEGORY_PYTHON = "Python Basics";
 const JSON_KEY_CATEGORY_C = "C Basics";
+const JSON_KEY_CATEGORY_LINUX = "Linux Audio";
 
 
 export default function AudioLessonsPage() {
@@ -91,6 +94,7 @@ export default function AudioLessonsPage() {
           [CATEGORY_DATABASE_AUDIO]: [],
           [CATEGORY_PYTHON_BASICS]: [],
           [CATEGORY_C]: [],
+          [CATEGORY_LINUX_AUDIO]: [],
         };
 
         validatedAndProcessedAudio.forEach(audioItem => {
@@ -98,6 +102,9 @@ export default function AudioLessonsPage() {
 
           if (audioItem.category === JSON_KEY_CATEGORY_CCNA) {
             finalCategory = CATEGORY_CCNA;
+          } 
+            else if (audioItem.category === JSON_KEY_CATEGORY_LINUX) {
+            finalCategory = CATEGORY_LINUX_AUDIO;
           } else if (audioItem.category === JSON_KEY_CATEGORY_DATABASE) {
             finalCategory = CATEGORY_DATABASE_AUDIO;
           } else if (audioItem.category === JSON_KEY_CATEGORY_PYTHON) {
@@ -167,7 +174,8 @@ export default function AudioLessonsPage() {
     CATEGORY_CCNA, 
     CATEGORY_DATABASE_AUDIO,
     CATEGORY_PYTHON_BASICS,
-    CATEGORY_C
+    CATEGORY_C,
+    CATEGORY_LINUX_AUDIO
   ].filter(catName => groupedAudioFiles[catName] && groupedAudioFiles[catName].length > 0);
 
   return (
@@ -178,7 +186,7 @@ export default function AudioLessonsPage() {
           Audio Lessons
         </h1>
         <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-          Listen to educational audio clips on networking, electronics, database, and programming topics, grouped by category.
+          Listen to educational audio clips on Linux, networking, electronics, database, and programming topics, grouped by category.
         </p>
       </header>
 
@@ -200,6 +208,7 @@ export default function AudioLessonsPage() {
                 categoryName === CATEGORY_DATABASE_AUDIO ? Database :
                 categoryName === CATEGORY_PYTHON_BASICS ? FileCode : 
                 categoryName === CATEGORY_NETWORKING_FUNDAMENTALS ? BookOpen : 
+                categoryName === CATEGORY_LINUX_AUDIO ? Terminal :
                 Network; // Default for Applied Networking and any other uncategorized
 
             return (

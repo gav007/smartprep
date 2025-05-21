@@ -90,9 +90,15 @@ export default function ResistorColorCodeCalculator() {
     const multiplierBandKey: keyof ResistorBands = numBands === 4 ? 'band3' : 'multiplier'; // In 4-band, band3 IS the multiplier
     const toleranceBandKey: keyof ResistorBands = numBands === 4 ? 'multiplier' : 'tolerance'; // In 4-band, multiplier field holds tolerance color
 
+    // Define boolean flags for band roles based on numBands
+    const band3IsMultiplier = numBands === 4;
+    const band4IsMultiplier = numBands === 5 || numBands === 6;
+    const band4IsTolerance = numBands === 4;
+    const band5IsTolerance = numBands === 5 || numBands === 6;
+
     // --- Band to Value Calculation ---
     const bandToValueResult = useMemo<ResistorResult & { error?: string }>(() => {
-        let currentError: string | null = null;
+        let currentError: string | undefined = undefined;
         let result: ResistorResult = { resistance: null, tolerance: null, tempCoefficient: null, resistanceString: 'N/A' };
 
         // Validation: Check if all *required* bands for the selected numBands are set
@@ -344,14 +350,14 @@ export default function ResistorColorCodeCalculator() {
 
                         {/* Resistor Visualization */}
                         <div className="bg-yellow-100/70 dark:bg-yellow-900/30 rounded-md p-4 flex items-center justify-center space-x-1 h-16 relative shadow-inner">
-                            <div className="h-full w-4 bg-gray-300 dark:bg-gray-600 rounded-l-sm"></div> {/* Left Lead */}
-                            <div className="h-full flex-1 bg-yellow-200/80 dark:bg-yellow-800/50 relative flex items-center px-2 space-x-1 md:space-x-2">
-                                <div className="absolute left-2 w-1.5 h-full rounded-sm shadow-md" style={getBandStyle(visBand1Color)}></div>
-                                <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", "left-5 md:left-6")} style={getBandStyle(visBand2Color)}></div>
-                                <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", "left-8 md:left-10")} style={getBandStyle(visBand3Color)}></div>
-                                {numBands >= 4 && <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", numBands === 4 ? "right-7 md:right-8" : "left-11 md:left-14")} style={getBandStyle(visBand4Color)}></div>}
-                                {numBands >= 5 && <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", "right-7 md:right-8")} style={getBandStyle(visBand5Color)}></div>}
-                                {numBands === 6 && <div className="absolute right-4 md:right-5 w-1.5 h-full rounded-sm shadow-md" style={getBandStyle(visTempCoColor)}></div>}
+                            <div className="h-full w-24 bg-gray-300 dark:bg-gray-600 rounded-l-sm"></div> {/* Left Lead */}
+                            <div className="h-full flex-1 bg-yellow-200/80 dark:bg-yellow-800/50 relative flex items-center px-2 space-x-2 md:space-x-4">
+                                <div className="absolute left-2 w-24 h-full rounded-sm shadow-md" style={getBandStyle(visBand1Color)}></div> {/* Band 1 */}
+                                <div className={cn("absolute w-24 h-full rounded-sm shadow-md", "left-12 md:left-14")} style={getBandStyle(visBand2Color)}></div> {/* Band 2 */}
+                                <div className={cn("absolute w-24 h-full rounded-sm shadow-md", "left-22 md:left-26")} style={getBandStyle(visBand3Color)}></div> {/* Band 3 */}
+                                {numBands >= 4 && <div className={cn("absolute w-24 h-full rounded-sm shadow-md", numBands === 4 ? "right-7 md:right-8" : "left-11 md:left-14")} style={getBandStyle(visBand4Color)}></div>}
+                                {numBands >= 5 && <div className={cn("absolute w-24 h-full rounded-sm shadow-md", "right-7 md:right-8")} style={getBandStyle(visBand5Color)}></div>}
+                                {numBands === 6 && <div className="absolute right-4 md:right-5 w-4 h-full rounded-sm shadow-md" style={getBandStyle(visTempCoColor)}></div>}
                             </div>
                             <div className="h-full w-4 bg-gray-300 dark:bg-gray-600 rounded-r-sm"></div> {/* Right Lead */}
                         </div>
@@ -490,14 +496,14 @@ export default function ResistorColorCodeCalculator() {
                                 <h4 className="font-semibold text-lg">Calculated Bands ({valueToBandNumBands}-Band):</h4>
                                 {/* Visualization */}
                                 <div className="bg-yellow-100/70 dark:bg-yellow-900/30 rounded-md p-4 flex items-center justify-center space-x-1 h-16 relative shadow-inner">
-                                    <div className="h-full w-4 bg-gray-300 dark:bg-gray-600 rounded-l-sm"></div>
-                                    <div className="h-full flex-1 bg-yellow-200/80 dark:bg-yellow-800/50 relative flex items-center px-2 space-x-1 md:space-x-2">
-                                        <div className="absolute left-2 w-1.5 h-full rounded-sm shadow-md" style={getBandStyle(calcVisBand1Color)}></div>
-                                        <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", "left-5 md:left-6")} style={getBandStyle(calcVisBand2Color)}></div>
-                                        <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", "left-8 md:left-10")} style={getBandStyle(calcVisBand3Color)}></div>
-                                        {valueToBandNumBands >= 4 && <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", valueToBandNumBands === 4 ? "right-7 md:right-8" : "left-11 md:left-14")} style={getBandStyle(calcVisBand4Color)}></div>}
-                                        {valueToBandNumBands >= 5 && <div className={cn("absolute w-1.5 h-full rounded-sm shadow-md", "right-7 md:right-8")} style={getBandStyle(calcVisBand5Color)}></div>}
-                                        {valueToBandNumBands === 6 && <div className="absolute right-4 md:right-5 w-1.5 h-full rounded-sm shadow-md" style={getBandStyle(calcVisBand6Color)}></div>}
+                                    <div className="h-full w-24 bg-gray-300 dark:bg-gray-600 rounded-l-sm"></div>
+                                    <div className="h-full flex-1 bg-yellow-200/80 dark:bg-yellow-800/50 relative flex items-center px-2 space-x-2 md:space-x-4">
+                                        <div className="absolute left-2 w-24 h-full rounded-sm shadow-md" style={getBandStyle(calcVisBand1Color)}></div>
+                                        <div className={cn("absolute w-24 h-full rounded-sm shadow-md", "left-12 md:left-14")} style={getBandStyle(calcVisBand2Color)}></div>
+                                        <div className={cn("absolute w-24 h-full rounded-sm shadow-md", "left-22 md:left-26")} style={getBandStyle(calcVisBand3Color)}></div>
+                                        {valueToBandNumBands >= 4 && <div className={cn("absolute w-24 h-full rounded-sm shadow-md", valueToBandNumBands === 4 ? "right-7 md:right-8" : "left-11 md:left-14")} style={getBandStyle(calcVisBand4Color)}></div>}
+                                        {valueToBandNumBands >= 5 && <div className={cn("absolute w-24 h-full rounded-sm shadow-md", "right-7 md:right-8")} style={getBandStyle(calcVisBand5Color)}></div>}
+                                        {valueToBandNumBands === 6 && <div className="absolute right-4 md:right-5 w-24 h-full rounded-sm shadow-md" style={getBandStyle(calcVisBand6Color)}></div>}
                                     </div>
                                     <div className="h-full w-4 bg-gray-300 dark:bg-gray-600 rounded-r-sm"></div>
                                 </div>

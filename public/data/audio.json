@@ -207,5 +207,86 @@
     "filename": "cableCertification.wav",
     "category": "Networking Fundamentals",
     "mimeType": "audio/wav"
+  },
+  {
+    "id": "linux_intro",
+    "title": "Linux Introduction",
+    "description": "Overview and Linux basics.",
+    "filename": "linix_intro.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "linux_1",
+    "title": "Getting Started with Linux Basics",
+    "description": "Basic Linux usage and getting started.",
+    "filename": "linux_1.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "linux_2",
+    "title": "Text Manipulation",
+    "description": "Using Linux tools for text processing.",
+    "filename": "linux_2.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "linux_3_4",
+    "title": "Network Analysis and Software Management",
+    "description": "Analyzing networks and managing software in Linux.",
+    "filename": "linux_3_4.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "linux_5_6",
+    "title": "Permissions and Process Management",
+    "description": "Managing file permissions and processes.",
+    "filename": "linux_5_6.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "linux_7_8_9",
+    "title": "Environment Variables, Scripting, and Archiving",
+    "description": "User environment, bash scripting, and file archiving.",
+    "filename": "linux_7_8_9.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "linux_10_11_12",
+    "title": "Filesystem, Logging, and Services",
+    "description": "Managing storage, logs, and Linux services.",
+    "filename": "linux_10_11_12.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "linux_13_14",
+    "title": "Security and Wireless Networking",
+    "description": "Linux security basics and wireless network inspection.",
+    "filename": "linux_13_14.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "linux_15_16",
+    "title": "Kernel Management and Job Scheduling",
+    "description": "Linux kernel modules and automating tasks with scheduling.",
+    "filename": "linux_15_16.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
+  },
+  {
+    "id": "linux_17",
+    "title": "Python Scripting Basics",
+    "description": "Python scripting basics for Linux and hacking.",
+    "filename": "linux_17.mp3",
+    "category": "Linux Audio",
+    "mimeType": "audio/mpeg"
   }
+  
 ]
