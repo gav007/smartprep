@@ -1,5 +1,5 @@
 // src/components/calculators/CalculatorInput.tsx
-import React from 'react';
+import React, { useId } from 'react';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -45,9 +45,11 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
   min,
   step = "any",
 }) => {
+  const generatedId = useId(); // Generate a unique and stable ID
+
   const inputElement = (
     <Input
-      id={id}
+      id={generatedId} // Use the generated ID
       type={type}
       value={value}
       onChange={(e) => onChange(e.target.value)}
@@ -60,7 +62,7 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
       disabled={disabled}
       min={min}
       step={step}
-      aria-invalid={error}
+ aria-invalid={error}
       aria-describedby={tooltip ? `${id}-tooltip-content` : undefined} // Changed to match TooltipContent id
     />
   );
@@ -69,7 +71,7 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
     <div className="grid grid-cols-3 items-end gap-2">
       {/* Label and Tooltip */}
       <div className="col-span-1 flex items-center space-x-1 pt-1"> {/* Adjusted padding for alignment */}
-        <Label htmlFor={id}>{label}</Label>
+        <Label htmlFor={generatedId}>{label}</Label> {/* Use the generated ID for htmlFor */}
         {tooltip && (
           <TooltipProvider delayDuration={100}>
             <Tooltip>
@@ -78,7 +80,7 @@ const CalculatorInput: React.FC<CalculatorInputProps> = ({
                   <HelpCircle size={14} />
                 </button>
               </TooltipTrigger>
-              <TooltipContent id={`${id}-tooltip-content`}> {/* Added id for aria-describedby */}
+ <TooltipContent id={`${generatedId}-tooltip-content`}> {/* Added id for aria-describedby */}
                 <p>{tooltip}</p>
               </TooltipContent>
             </Tooltip>

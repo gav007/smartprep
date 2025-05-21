@@ -9,15 +9,23 @@ import Footer from '@/components/layout/Footer';
 // Define featured tools data with updated icons and descriptions
 const featuredTools = [
   {
-    title: "🎧 Audio Lessons",
+    title: "Waveform Viewer",
+    description: "Visualize Sine, Square, Triangle, and Sawtooth waveforms. Adjust parameters in real-time.",
+    icon: Waves,
+    link: "/tools/waveform",
+    aiHint: "oscilloscope signal waveform electronics",
+    ctaText: "Open Viewer"
+  },
+  {
+    title: "Audio Lessons",
     description: "Listen and learn with focused lessons on networking and electronics.",
     icon: Podcast,
     link: "/audio",
     aiHint: "audio podcast lessons education",
-    ctaText: "▶️ Browse Audio Library"
+    ctaText: "Browse Audio Library"
   },
   {
-    title: "⚡ Flash Cards: Applied Networking",
+    title: "Flash Cards: Applied Networking",
     description: "Reinforce practical networking knowledge with interactive flash cards.",
     icon: Layers,
     link: "/flashcards/applied",
@@ -25,7 +33,7 @@ const featuredTools = [
     ctaText: "Start Studying"
   },
   {
-    title: "📚 Flash Cards: CCNA",
+    title: "Flash Cards: CCNA",
     description: "Review key CCNA concepts and terminologies with flash cards.",
     icon: BookOpen,
     link: "/flashcards/ccna",
@@ -33,7 +41,7 @@ const featuredTools = [
     ctaText: "Start Studying"
   },
   {
-    title: "📊 Flash Cards: Databases & Stats",
+    title: "Flash Cards: Databases & Stats",
     description: "Test your knowledge on database fundamentals and statistical concepts.",
     icon: Database,
     link: "/flashcards/database",
@@ -41,7 +49,7 @@ const featuredTools = [
     ctaText: "Start Studying"
   },
   {
-    title: "💻 Flash Cards: C Programming",
+    title: "Flash Cards: C Programming",
     description: "Master C language fundamentals, syntax, and core concepts.",
     icon: FileCode,
     link: "/flashcards/cprogramming",
@@ -49,7 +57,7 @@ const featuredTools = [
     ctaText: "Start Studying"
   },
   {
-    title: "🖥️ Flash Cards: Operating Systems",
+    title: "Flash Cards: Operating Systems",
     description: "Explore core OS concepts, process management, memory, and file systems.",
     icon: Laptop,
     link: "/flashcards/operatingsystems",
@@ -57,7 +65,7 @@ const featuredTools = [
     ctaText: "Start Studying"
   },
   {
-    title: "🐍 Flash Cards: Python & Networking",
+    title: "Flash Cards: Python & Networking",
     description: "Explore Python for network automation, scripting, and socket programming.",
     icon: FileCode,
     link: "/flashcards/pythonnetworking",
@@ -72,69 +80,13 @@ const featuredTools = [
     aiHint: "network topology diagram routing",
     ctaText: "Open Tool"
   },
-   {
-    title: "Resistor Color Code",
-    description: "Decode 4, 5, or 6 band resistor colors or find bands for a specific value.",
-    icon: Palette,
-    link: "/tools/resistor",
-    aiHint: "resistor color bands circuit",
-    ctaText: "Open Tool"
-  },
   {
-    title: "Logic Truth Table",
-    description: "Generate truth tables for boolean expressions with up to 4 variables (A, B, C, D).",
-    icon: TableIcon,
-    link: "/tools/truth-table",
-    aiHint: "logic gates boolean algebra",
-    ctaText: "Open Tool"
-  },
-   {
-    title: "Ohm's &amp; Power Calc",
-    description: "Solve for Voltage (V), Current (I), Resistance (R), or Power (P) using Ohm's Law.",
-    icon: Zap,
-    link: "/calculator#power", // Links to specific section in calculator page
-    aiHint: "ohms law power triangle formula",
-    ctaText: "Open Tool"
-  },
-   {
-    title: "BJT Solver",
-    description: "Analyze fixed-bias common-emitter BJT circuits: find IB, IC, VCE, and saturation points.",
-    icon: CircuitBoard,
-    link: "/calculator#bjt", // Links to specific section in calculator page
-    aiHint: "bjt transistor circuit diagram",
-    ctaText: "Open Tool"
-  },
-   {
     title: "Base Converter",
     description: "Convert numbers between Binary, Decimal, and Hexadecimal representations.",
     icon: Binary,
     link: "/tools/base-converter",
     aiHint: "binary decimal hexadecimal number system",
     ctaText: "Open Tool"
-   },
-   {
-    title: "Converter Game",
-    description: "Test your unit conversion skills. Convert values to engineering notation.",
-    icon: Gem,
-    link: "/tools/converter-game",
-    aiHint: "units conversion game engineering notation practice",
-    ctaText: "Play Game"
-   },
-   {
-    title: "Voltage Divider Calc",
-    description: "Calculate output voltage for a resistive voltage divider circuit (Vout = Vin * R2 / (R1 + R2)).",
-    icon: Sigma,
-    link: "/tools/voltage-divider",
-    aiHint: "voltage divider resistors circuit",
-    ctaText: "Open Tool"
-  },
-  {
-    title: "Waveform Viewer",
-    description: "Visualize Sine, Square, Triangle, and Sawtooth waveforms. Adjust parameters in real-time.",
-    icon: Waves,
-    link: "/tools/waveform",
-    aiHint: "oscilloscope signal waveform electronics",
-    ctaText: "Open Viewer"
   }
 ];
 
@@ -167,7 +119,7 @@ export default function HomePage() {
             </div>
             <div className="flex justify-center items-center">
                 <Image
-                  src="/images/network.jpg"
+                  src="/images/networking.png"
                   alt="Networking equipment and server rack"
                   width={600}
                   height={400}
@@ -229,30 +181,6 @@ export default function HomePage() {
                 </Card>
               ))}
             </div>
-          </div>
-        </section>
-        
-        {/* Recent Updates & Diagnostics Card Section */}
-        <section className="py-16 md:py-20 bg-secondary/20 dark:bg-secondary/30">
-          <div className="container mx-auto px-4">
-            <Card className="max-w-2xl mx-auto bg-card border border-border/60 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] dark:border-border/40">
-              <CardHeader className="items-center text-center pt-8 pb-4">
-                <div className="p-3 bg-primary/10 text-primary rounded-full mb-4 inline-block ring-1 ring-primary/20">
-                  <ListChecks size={32} />
-                </div>
-                <CardTitle className="text-3xl md:text-4xl font-bold text-foreground">Latest Updates</CardTitle>
-                <CardDescription className="text-muted-foreground text-lg mt-2 max-w-md mx-auto">
-                  Stay informed about new features and improvements.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-center pb-8">
-                <Button asChild size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
-                  <Link href="/diagnostics">
-                    View Updates <Info className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
           </div>
         </section>
 

@@ -11,26 +11,26 @@ import { resistanceUnitOptions, unitMultipliers, defaultUnits, formatResultValue
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const initialResistanceUnit: Unit = defaultUnits.resistance; // Using Ω
-const initialToleranceStr: string = '5'; // Default 5%
+const initialToleranceStr: number = 5; // Default 5%
 
 export default function ResistorToleranceCalculator() {
   const [nominalResistanceStr, setNominalResistanceStr] = useState<string>('');
   const [resistanceUnit, setResistanceUnit] = useState<Unit>(initialResistanceUnit);
-  const [toleranceStr, setToleranceStr] = useState<string>(initialToleranceStr);
+  const [toleranceStr, setToleranceStr] = useState<string>(String(initialToleranceStr));
   const [error, setError] = useState<string | null>(null);
 
   const toleranceRange = useMemo(() => {
     setError(null);
-    const nominalR = parseFloat(nominalResistanceStr);
-    const tolerancePercent = parseFloat(toleranceStr);
-
+    const nominalR = parseFloat(nominalResistanceStr); 
+    const tolerancePercent = parseFloat(String(toleranceStr));
+ 
     if (isNaN(nominalR) || isNaN(tolerancePercent)) {
-      if (nominalResistanceStr || toleranceStr) setError('Enter valid numbers for resistance and tolerance.');
+      if (nominalResistanceStr !== '' && toleranceStr !== '') setError('Enter valid numbers for resistance and tolerance.');
       return { min: null, max: null };
     }
     if (nominalR < 0 || tolerancePercent < 0) {
       setError('Resistance and tolerance percentage must be non-negative.');
-      return { min: null, max: null };
+      return { min: null, max: null }; 
     }
 
     const nominalRInOhms = nominalR * unitMultipliers[resistanceUnit];
@@ -45,7 +45,7 @@ export default function ResistorToleranceCalculator() {
   const handleReset = useCallback(() => {
     setNominalResistanceStr('');
     setResistanceUnit(initialResistanceUnit);
-    setToleranceStr(initialToleranceStr);
+    setToleranceStr(String(initialToleranceStr));
     setError(null);
   }, []);
 
@@ -70,19 +70,25 @@ export default function ResistorToleranceCalculator() {
           placeholder="e.g., 4.7"
           tooltip="The stated resistance value of the component"
           min="0"
-          error={!!error && isNaN(parseFloat(nominalResistanceStr))}
+          error={nominalResistanceStr !== '' && isNaN(parseFloat(nominalResistanceStr))}
         />
         <CalculatorInput
           id="tolerance"
           label="Tolerance"
           value={toleranceStr}
-          onChange={setToleranceStr}
+          onChange={(value) => {
+            // Only allow valid number strings
+            if (!isNaN(parseFloat(value)) || value === '' || value === '.') {
+              setToleranceStr(value);
+            }
+          }}
+
           unit="%" // Tolerance is always % in this calculator
           // No unitOptions needed if unit is fixed
           placeholder="e.g., 5"
           tooltip="The allowable deviation from the nominal value, in percent"
           min="0"
-          error={!!error && isNaN(parseFloat(toleranceStr))}
+          error={toleranceStr !== '' && isNaN(parseFloat(toleranceStr))}
         />
       </div>
 

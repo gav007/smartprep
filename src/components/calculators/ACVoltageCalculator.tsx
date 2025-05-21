@@ -91,7 +91,7 @@ export default function ACVoltageCalculator() {
          {/* Voltage Input with Type Selector */}
          <div className="grid grid-cols-3 items-end gap-2">
             <Label htmlFor="voltage" className="col-span-1 pt-2">Voltage</Label>
-             <div className="col-span-1">
+             <div className="col-span-2">
                 <CalculatorInput
                 id="voltage"
                 label="" // Label handled externally
@@ -100,7 +100,7 @@ export default function ACVoltageCalculator() {
                 placeholder="Enter Voltage"
                 tooltip="Voltage magnitude (Peak or RMS)"
                 />
-             </div>
+</div>
              <div className="col-span-1">
                  <Select value={voltageType} onValueChange={(v) => setVoltageType(v as VoltageType)}>
                     <SelectTrigger className="w-full md:w-[100px]">
